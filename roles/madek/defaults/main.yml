@@ -3,3 +3,6 @@ zhdk_integration: false
 zencoder_enabled: false
 zencoder_test_mode: true
 color_scheme: blue
+reset_data: false
+reset_data_migration: 100
+

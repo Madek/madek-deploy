@@ -1,6 +1,13 @@
 ### specific settings for host madek-test ###################################
 
-madek_git_ref: madek-v3
+madek_git_ref: ts_madek-v3
+
+release: 
+  version_major: 3
+  version_minor: 0
+  version_patch: 0
+  version_pre: development
+  version_build: ¡DELETE!
 
 color_scheme: blue
 custom_color: '#6149c1' # purple

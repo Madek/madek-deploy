@@ -119,6 +119,7 @@
           executable=/bin/bash
   changed_when: False
 
+
 - name: Migrate
   shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
             && rbenv-load 

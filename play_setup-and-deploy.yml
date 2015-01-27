@@ -29,6 +29,8 @@
 
     - role: passenger 
 
+    - role: madek_reset_data
+
     - role: madek
 
     - role: db-backups

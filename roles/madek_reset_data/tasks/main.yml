@@ -1,0 +1,83 @@
+#######################################################################
+
+- name: Stop server
+  service: name=apache2
+           state=stopped
+
+- name: Git clone or update project
+  sudo: True
+  sudo_user: madek
+  git:  repo=https://github.com/zhdk/madek.git
+        dest={{madek_root_dir}}
+        version={{madek_git_ref}}
+        update=yes
+        force=yes
+  register: git_clone_or_update
+  #failed_when: "'Local modifications exist' in git_clone_or_update.msg"
+  #changed_when: git_clone_or_update.before != git_clone_or_update.after
+
+
+- name: Bundle
+  shell: su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
+          && rbenv-load 
+          && cd {{madek_root_dir}}
+          && export RAILS_ENV={{rails_env}} 
+          && export RBENV_VERSION={{mri_ruby_version}} 
+          && bundle install --deployment' madek
+         executable=/bin/bash
+  register: bundle
+  changed_when: bundle.stdout | match(".*Installing.*")
+
+
+- name: Drop db
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
+            && rbenv-load 
+            && cd {{madek_root_dir}}
+            && export RAILS_ENV={{rails_env}} 
+            && export RBENV_VERSION={{mri_ruby_version}} 
+            && bundle exec rake db:drop ' madek
+          executable=/bin/bash
+  ignore_errors: yes
+
+
+- name: Migrate to start
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
+            && rbenv-load 
+            && cd {{madek_root_dir}}
+            && export RAILS_ENV={{rails_env}} 
+            && export RBENV_VERSION={{mri_ruby_version}} 
+            && export VERSION={{reset_data_start_migration}}
+            && bundle exec rake db:create db:migrate' madek
+          executable=/bin/bash
+  register: migrate
+  changed_when: not migrate.stdout | match("")
+
+- debug: var=migrate
+
+- name: Restore data 
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
+            && rbenv-load 
+            && cd {{madek_root_dir}}
+            && export RAILS_ENV={{rails_env}} 
+            && export RBENV_VERSION={{mri_ruby_version}} 
+            && export FILE={{reset_data_file}}
+            && bundle exec rake db:pg:truncate_tables db:pg:data:restore' madek
+          executable=/bin/bash
+  register: restore_data
+  changed_when: not migrate.stdout | match("")
+
+- debug: var=restore_data
+
+- name: Migrate to end
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
+            && rbenv-load 
+            && cd {{madek_root_dir}}
+            && export RAILS_ENV={{rails_env}} 
+            && export RBENV_VERSION={{mri_ruby_version}} 
+            && bundle exec rake db:migrate' madek
+          executable=/bin/bash
+  register: migrate
+  changed_when: not migrate.stdout | match("")
+
+- debug: var=migrate
+

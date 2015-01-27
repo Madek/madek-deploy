@@ -1,13 +1,12 @@
 ### specific settings for a local virtual machine 
 
-madek_git_ref: ts
-
+madek_git_ref: madek-v3
 
 release: 
-  version_major: 10
-  version_minor: 2
+  version_major: 3
+  version_minor: 0
   version_patch: 0
-  version_pre: ¡DELETE!
+  version_pre: development
   version_build: ¡DELETE!
 
 color_scheme: blue
