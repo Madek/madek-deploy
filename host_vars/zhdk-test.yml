@@ -27,7 +27,9 @@ ntp_server: ntp.zhdk.ch
 ssh_keys: 
 - "{{lookup('file', './ssh_keys/drtom')}}"
 - "{{lookup('file', './ssh_keys/mfa')}}"
+- "{{lookup('file', './ssh_keys/nimaai')}}"
 - "{{lookup('file', './ssh_keys/rca')}}"
+
 
 removed_ssh_keys: []
 
