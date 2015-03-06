@@ -1,6 +1,5 @@
 ### specific settings for host madek-test ###################################
 
-madek_git_ref: "{{ lookup('pipe','cd ../../ && git log -n 1 --format=%H') }}"
 
 release: 
   version_major: 3

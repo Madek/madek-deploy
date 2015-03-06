@@ -1,5 +1,7 @@
 
+
 - hosts: all
+
   tasks: 
   - apt:  upgrade=dist
           update_cache=yes 
@@ -32,8 +34,12 @@
     - role: madek_reset_data
       tags: reset-data
       when: reset_data
+      madek_git_ref: "{{ lookup('pipe','cd  ./../../. && git log -n 1 --format=%H') }}"
 
     - role: madek
+      tags: madek
+      madek_git_ref: "{{ lookup('pipe','cd  ./../../. && git log -n 1 --format=%H') }}"
+
 
     - role: db-backups
       tags: [db-backups]

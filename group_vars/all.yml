@@ -1,7 +1,6 @@
 ### global defaults ############################################################
 
 rails_env: production
-madek_git_ref: master
 madek_root_dir: /home/madek/madek_app
 mri_ruby_version: 2.1.5
 zencoder_api_key_file: /etc/madek/zencoder_api_key.txt

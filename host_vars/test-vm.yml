@@ -1,7 +1,5 @@
 ### specific settings for a local virtual machine 
 
-madek_git_ref: madek-v3
-
 release: 
   version_major: 3
   version_minor: 0
