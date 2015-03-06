@@ -1,6 +1,6 @@
 ### specific settings for host madek-test ###################################
 
-madek_git_ref: ts_madek-v3
+madek_git_ref: madek-v3
 
 release: 
   version_major: 3

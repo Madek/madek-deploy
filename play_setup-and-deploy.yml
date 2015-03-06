@@ -30,6 +30,7 @@
     - role: passenger 
 
     - role: madek_reset_data
+      tags: reset-data
 
     - role: madek
 
