@@ -38,9 +38,6 @@ primary_hostname: test.madek.zhdk.ch
 ### Path adjustmens for mounts 
 
 
-
-
-
 ### Backups ###################################################################
 db_backups_enabled: False
 

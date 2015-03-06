@@ -31,6 +31,7 @@
 
     - role: madek_reset_data
       tags: reset-data
+      when: reset_data
 
     - role: madek
 

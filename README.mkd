@@ -33,6 +33,19 @@ of your madek server. If the ip is 10.0.0.1 the line should read:
 Customization and Advanced Topics 
 ---------------------------------
 
+### Resetting the Data from Production `test.madek` 
+
+Resetting the data from the last production dump is conditional and needs to 
+explicitly requested, e.g.: 
+
+    ansible-playbook -i hosts_zhdk-test play_setup-and-deploy.yml -e 'reset_data=True'
+
+Be aware:  
+
+* Running the migrations, and hence the whole deploy, will take more than 2 hours. 
+* Resetting the data is required if migrations are mutated. 
+
+
 ### Configure the Color Scheme
 
 Madek comes with 4 predefined color schemes: green, red, blue and mono. The
