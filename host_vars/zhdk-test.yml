@@ -1,0 +1,51 @@
+### specific settings for host madek-test ###################################
+
+madek_git_ref: madek-v3
+
+release: 
+  version_major: 3
+  version_minor: 0
+  version_patch: 0
+  version_pre: development
+  version_build: ¡DELETE!
+
+color_scheme: blue
+custom_color: '#6149c1' # purple
+
+
+### Zencoder ##################################################################
+
+zencoder_enabled: False
+zencoder_test_mode: True
+
+
+### Zhdk ######################################################################
+
+zhdk_integration: True
+ntp_server: ntp.zhdk.ch
+
+ssh_keys: 
+- "{{lookup('file', './ssh_keys/drtom')}}"
+- "{{lookup('file', './ssh_keys/mfa')}}"
+- "{{lookup('file', './ssh_keys/rca')}}"
+
+removed_ssh_keys: []
+
+primary_hostname: test.madek.zhdk.ch
+
+### Path adjustmens for mounts 
+
+
+
+
+
+### Backups ###################################################################
+db_backups_enabled: False
+
+
+### Passenger #################################################################
+passenger_min_instances: 1
+passenger_max_pool_size: 1
+
+
+
