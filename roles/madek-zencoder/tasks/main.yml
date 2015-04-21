@@ -1,6 +1,6 @@
 - apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
-  with_items: 
-    - whois 
+  with_items:
+    - whois
     - apg
 
 
@@ -10,7 +10,7 @@
 - shell : echo '{{zencoder_api_key}}' > {{zencoder_api_key_file}}
   when: zencoder_api_key is defined
 
-- stat: path={{zencoder_api_key_file}} 
+- stat: path={{zencoder_api_key_file}}
   register: zencoder_api_key_file_stat
 
 - shell : cat {{zencoder_api_key_file}}
@@ -52,12 +52,12 @@
 ### zencoder_inbox user ########################################################
 
 - command: mkpasswd --method=SHA-512 -S '{{zencoder_inbox_salt_task.stdout}}' '{{zencoder_inbox_pw}}'
-  register: zencoder_inbox_password_hash 
+  register: zencoder_inbox_password_hash
   changed_when: False
 
 - user: name=zencoder-import
         remove=true
-        state=absent 
+        state=absent
   ignore_errors: yes
 
 - user: name=zencoder
@@ -79,13 +79,13 @@
         state=directory
         mode=0770
 
-- template: src=zencoder.local.yml 
+- template: src=zencoder.local.yml
             dest={{madek_root_dir}}/config/zencoder.local.yml
             mode=0600
             owner=madek
   register: zencoder_config
 
-- file: src=zencoder.custom.yml 
+- file: src=zencoder.custom.yml
         force=false
         dest={{madek_root_dir}}/config/zencoder.local.yml
         mode=0600

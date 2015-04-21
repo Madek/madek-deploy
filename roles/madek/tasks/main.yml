@@ -73,7 +73,7 @@
 ### http_basic_auth (don't ask) ###############################################
 
 - apt: pkg=python-passlib state=latest update_cache=yes cache_valid_time=3600
-  when: http_basic_auth_enabled 
+  when: http_basic_auth_enabled
         and http_basic_auth_user_name is defined
         and http_basic_auth_user_password is defined
   tags: http_basic_auth
@@ -81,7 +81,7 @@
 - htpasswd: path=/etc/apache2/madek_passwords
             name={{http_basic_auth_user_name}}
             password={{http_basic_auth_user_password}}
-  when: http_basic_auth_enabled 
+  when: http_basic_auth_enabled
         and http_basic_auth_user_name is defined
         and http_basic_auth_user_password is defined
   tags: http_basic_auth
@@ -94,49 +94,49 @@
             dest=/etc/apache2/sites-available/madek.conf
             mode=0755
 
-- name: Enable site 
+- name: Enable site
   file: src=/etc/apache2/sites-available/madek.conf dest=/etc/apache2/sites-enabled/madek.conf state=link
   register: enable_site
 
 - name: Bundle
-  shell: su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
-          && rbenv-load 
+  shell: su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
+          && rbenv-load
           && cd {{madek_root_dir}}
-          && export RAILS_ENV={{rails_env}} 
-          && export RBENV_VERSION={{mri_ruby_version}} 
+          && export RAILS_ENV={{rails_env}}
+          && export RBENV_VERSION={{mri_ruby_version}}
           && bundle install --deployment' madek
          executable=/bin/bash
   register: bundle
   changed_when: bundle.stdout | match(".*Installing.*")
 
 - name: Setup madek dirs
-  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
-            && rbenv-load 
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
+            && rbenv-load
             && cd {{madek_root_dir}}
-            && export RAILS_ENV={{rails_env}} 
-            && export RBENV_VERSION={{mri_ruby_version}} 
+            && export RAILS_ENV={{rails_env}}
+            && export RBENV_VERSION={{mri_ruby_version}}
             && bundle exec rake madek:setup:dirs' madek
           executable=/bin/bash
   changed_when: False
 
 
 - name: Migrate
-  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
-            && rbenv-load 
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
+            && rbenv-load
             && cd {{madek_root_dir}}
-            && export RAILS_ENV={{rails_env}} 
-            && export RBENV_VERSION={{mri_ruby_version}} 
+            && export RAILS_ENV={{rails_env}}
+            && export RBENV_VERSION={{mri_ruby_version}}
             && bundle exec rake db:create db:migrate' madek
           executable=/bin/bash
   register: migrate
   changed_when: not migrate.stdout | match("")
 
-- name: Precompile assets 
-  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh 
-            && rbenv-load 
+- name: Precompile assets
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
+            && rbenv-load
             && cd {{madek_root_dir}}
-            && export RAILS_ENV={{rails_env}} 
-            && export RBENV_VERSION={{mri_ruby_version}} 
+            && export RAILS_ENV={{rails_env}}
+            && export RBENV_VERSION={{mri_ruby_version}}
             && rm -rf public/assets/*"
             && rm -rf tmp/cache/*"
             && bundle exec rake assets:precompile' madek

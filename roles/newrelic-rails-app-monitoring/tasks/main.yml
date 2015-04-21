@@ -6,9 +6,9 @@
 
 - file: path={{newrelic_key_file}}
         mode=0600
-  when: newrelic_key is defined 
+  when: newrelic_key is defined
 
-- stat: path={{newrelic_key_file}} 
+- stat: path={{newrelic_key_file}}
   register: newrelic_key_file_stat
 
 - shell : cat {{newrelic_key_file}}
@@ -30,4 +30,4 @@
 
 
 
-            
+

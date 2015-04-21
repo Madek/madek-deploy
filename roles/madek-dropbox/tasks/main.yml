@@ -1,6 +1,6 @@
 - apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
-  with_items: 
-    - whois 
+  with_items:
+    - whois
     - apg
 
 ### salt for dropbox pw #######################################################
@@ -32,7 +32,7 @@
 ### dropbox user ##############################################################
 
 - command: mkpasswd --method=SHA-512 -S '{{dropbox_salt_task.stdout}}' '{{dropbox_pw}}'
-  register: dropbox_password_hash 
+  register: dropbox_password_hash
   changed_when: False
 
 - user: name=dropbox
@@ -47,7 +47,7 @@
         state=directory
         mode=0710
 
-- template: src=dropbox.yml 
+- template: src=dropbox.yml
             dest={{madek_root_dir}}/config/dropbox.local.yml
             mode=0600
             owner=madek

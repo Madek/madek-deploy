@@ -15,7 +15,7 @@ zencoder_test_mode: True
 zhdk_integration: True
 ntp_server: ntp.zhdk.ch
 
-ssh_keys: 
+ssh_keys:
 - "{{lookup('file', './ssh_keys/drtom')}}"
 - "{{lookup('file', './ssh_keys/mfa')}}"
 - "{{lookup('file', './ssh_keys/nimaai')}}"
@@ -26,7 +26,7 @@ removed_ssh_keys: []
 
 primary_hostname: test.madek.zhdk.ch
 
-### Path adjustmens for mounts 
+### Path adjustmens for mounts
 
 
 ### Backups ###################################################################

@@ -2,15 +2,15 @@
 
 - hosts: all
 
-  tasks: 
+  tasks:
   - apt:  upgrade=dist
-          update_cache=yes 
+          update_cache=yes
           cache_valid_time=3600
 
 
 - hosts: madek
 
-  roles: 
+  roles:
     - role: debuntu-setup
     - role: postgresql
     - role: ftp-server
@@ -19,9 +19,9 @@
     - role: rbenv
       user: madek
 
-    - role: rbenv-ruby 
+    - role: rbenv-ruby
       user: madek
-      ruby: 
+      ruby:
         version: "{{mri_ruby_version}}"
         alias: 2.1
         present: True
@@ -29,7 +29,7 @@
 
     - role: apache-httpd
 
-    - role: passenger 
+    - role: passenger
 
     - role: madek_reset_data
       tags: reset-data
@@ -44,7 +44,7 @@
     - role: db-backups
       tags: [db-backups]
 
-    - role: newrelic-rails-app-monitoring 
+    - role: newrelic-rails-app-monitoring
       newrelic_appname: MAdeK
       new_relic_rails_app_root_path: "{{madek_root_dir}}"
       tags: [newrelic-rails-app-monitoring]

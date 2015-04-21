@@ -1,4 +1,4 @@
-# Ansible managed 
+# Ansible managed
 {{rails_env}}:
   adapter: postgresql
   database: {{database.database}}

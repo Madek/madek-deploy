@@ -6,7 +6,7 @@
 
 - file: >
     path=/etc/cron.daily/madek-db-backup-{{rails_env}}
-    state=absent 
+    state=absent
   when: not db_backups_enabled
 
 - template: >
@@ -17,6 +17,6 @@
 
 - file: >
     path=/etc/cron.daily/madek-db-data-dump-{{rails_env}}
-    state=absent 
+    state=absent
   when: not db_dump_data_enabled
 

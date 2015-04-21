@@ -1,5 +1,5 @@
 
 - hosts: madek
 
-  roles: 
+  roles:
     - role: create-admin

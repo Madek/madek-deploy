@@ -15,7 +15,7 @@ The easiest way is to copy the provided `hosts_example` file:
     cp hosts_example hosts
 
 Adjust the value of the ansible_ssh_host variable therein with the ip
-of your madek server. If the ip is 10.0.0.1 the line should read: 
+of your madek server. If the ip is 10.0.0.1 the line should read:
 
     madek-host ansible_ssh_host=10.0.0.1 ansible_ssh_user=root
 
@@ -24,36 +24,36 @@ of your madek server. If the ip is 10.0.0.1 the line should read:
 
     ansible-playbook  -i hosts play_setup-and-deploy.yml
 
-### Create a Admin User and set the Password 
+### Create a Admin User and set the Password
 
     ansible-playbook -i hosts play_create-admin.yml -e 'admin_password=YOUR-SECRETE-PASSWORD'
 
 
 
-Customization and Advanced Topics 
+Customization and Advanced Topics
 ---------------------------------
 
-### Resetting the Data from Production `test.madek` 
+### Resetting the Data from Production `test.madek`
 
-Resetting the data from the last production dump is conditional and needs to 
-explicitly requested, e.g.: 
+Resetting the data from the last production dump is conditional and needs to
+explicitly requested, e.g.:
 
     ansible-playbook -i hosts_zhdk-test play_setup-and-deploy.yml -e 'reset_data=True'
 
-Be aware:  
+Be aware:
 
-* Running the migrations, and hence the whole deploy, will take more than 2 hours. 
-* Resetting the data is required if migrations are mutated. 
+* Running the migrations, and hence the whole deploy, will take more than 2 hours.
+* Resetting the data is required if migrations are mutated.
 
 
 ### Configure the Color Scheme
 
 Madek comes with 4 predefined color schemes: green, red, blue and mono. The
-color scheme can be configured by setting the `color_scheme` variable. 
-You can also set a `custom_color` variable to a valid CSS color, which will 
+color scheme can be configured by setting the `color_scheme` variable.
+You can also set a `custom_color` variable to a valid CSS color, which will
 override the main color *on top of* the chosen scheme.
 
-This is most conveniently performed in the variables file for your specific host. 
+This is most conveniently performed in the variables file for your specific host.
 See `host_vars/test-vm` for example.
 
 
@@ -76,9 +76,9 @@ setup-and-deploy playbook will be run in the future, to upgrade your
 madek installation e.g.
 
 
-### Configure Newrelic Application Monitoring 
+### Configure Newrelic Application Monitoring
 
-Perform the following once: 
+Perform the following once:
 
     ansible-playbook  -i hosts play_setup-and-deploy.yml -e 'newrelic_key=YOUR-NEWRELIC-KEY'
 

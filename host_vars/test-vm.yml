@@ -1,4 +1,4 @@
-### specific settings for a local virtual machine 
+### specific settings for a local virtual machine
 
 color_scheme: blue
 custom_color: '#6149c1' # purple
@@ -14,7 +14,7 @@ zencoder_test_mode: True
 zhdk_integration: False
 
 
-ssh_keys: 
+ssh_keys:
 - "{{lookup('file', './ssh_keys/drtom')}}"
 
 
