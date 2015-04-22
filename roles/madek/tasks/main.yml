@@ -98,7 +98,7 @@
   file: src=/etc/apache2/sites-available/madek.conf dest=/etc/apache2/sites-enabled/madek.conf state=link
   register: enable_site
 
-- name: Bundle
+- name: bundle install
   shell: su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
           && rbenv-load
           && cd {{madek_root_dir}}
@@ -108,6 +108,13 @@
          executable=/bin/bash
   register: bundle
   changed_when: bundle.stdout | match(".*Installing.*")
+
+- name: npm install
+  shell: su -l -s /bin/bash -c 'cd {{madek_root_dir}}
+          && npm install'
+          madek executable=/bin/bash
+  register: npm
+  changed_when: npm.stdout | match(".*")
 
 - name: Setup madek dirs
   shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
@@ -160,6 +167,3 @@
 - name: Passenger reload app
   file: path={{madek_root_dir}}/tmp/restart.txt
         state=touch
-
-
-
