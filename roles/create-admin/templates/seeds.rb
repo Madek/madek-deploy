@@ -8,4 +8,4 @@ admin_user.update_attributes! \
   email: 'admin@somewhere',
   person: admin_person
 
-AdminUser.find_or_create_by user_id: admin_user.id
+Admin.find_or_create_by user_id: admin_user.id
