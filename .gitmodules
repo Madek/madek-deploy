@@ -13,6 +13,6 @@
 [submodule "roles/apache-httpd"]
 	path = roles/apache-httpd
 	url = https://github.com/DrTom/ansible-role-apache-httpd.git
-[submodule "roles/nodejs-nodesource"]
-	path = roles/nodejs-nodesource
-	url = https://github.com/eins78/ansible-nodejs-role
+[submodule "roles/nodejs"]
+	path = roles/nodejs
+	url = https://github.com/eins78/ansible-role-nodejs.git

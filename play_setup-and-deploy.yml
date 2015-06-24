@@ -12,8 +12,7 @@
 
   roles:
     - role: debuntu-setup
-    - role: nodejs-nodesource # needed for wheezy
-      nodejs_nodesource_pin_priority: 901 # set higher than backports!
+    - role: nodejs
     - role: postgresql
     - role: ftp-server
     - role: madek-user
