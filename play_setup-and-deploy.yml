@@ -21,12 +21,13 @@
 
     - role: madek-user
 
+    - role: madek-configure
+
     - role: madek-datalayer
 
     - role: madek-webapp
 
     - role: server-reverse-proxy
-
 
 #
 #    - role: madek_reset_data

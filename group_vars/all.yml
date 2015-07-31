@@ -1,8 +1,13 @@
 ### global defaults ############################################################
 
+file_storage_dir: "{{madek_root_dir}}/storage/originals"
+thumbnail_storage_dir: "{{madek_root_dir}}/storage/thumbnails"
+download_storage_dir: "{{madek_root_dir}}/tmp/downloads"
+zip_storage_dir: "{{madek_root_dir}}/tmp/zipfiles"
+
 mri_ruby_version: 2.1.5
 
-# can be overridden 
+# can be overridden
 database_password: madek
 
 # database

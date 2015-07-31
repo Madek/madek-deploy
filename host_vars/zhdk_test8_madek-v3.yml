@@ -5,8 +5,6 @@ madek_webapp_context: "/madek-v3"
 host_name: test8.madek.zhdk.ch
 secret_key_base: secret
 
-madek_datalayer_drop_database: true
-
 webapp:
   color_scheme: blue
   custom_color: '#6149c1' # purple

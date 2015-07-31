@@ -1,0 +1,15 @@
+- file:
+    path: "{{item}}"
+    owner: "{{madek_user}}"
+    group: "{{madek_user}}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{file_storage_dir}}"
+    - "{{thumbnail_storage_dir}}"
+    - "{{download_storage_dir}}"
+    - "{{zip_storage_dir}}"
+
+- template:
+    src: settings.local.yml
+    dest: "{{madek_root_dir}}/config/settings.local.yml"
