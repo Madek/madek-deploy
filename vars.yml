@@ -1,0 +1,45 @@
+rubies:
+  jruby:
+    version: jruby-9.0.0.0.rc1
+    alias: jruby-9000
+  mri:
+    version: 2.1.5
+    alias: ruby-2.1
+
+
+madek_host_name: '{{ host_name | default(ansible_default_ipv4.address) }}'
+madek_webapp_context_name: >
+  {{madek_webapp_context |  regex_replace("^\/$","root") | replace("/","_")
+  | lower | regex_replace("[^a-zA-Z0-9]","_") | regex_replace("_+","_")
+  | regex_replace("^_*(.*)_*$","\\1") | truncate(12,True,"") }}
+
+madek_host_name_name: >
+  {{madek_host_name | lower | regex_replace("[^a-zA-Z0-9]","_") | regex_replace("_+","_")
+  | regex_replace("^_*(.*)_*$","\\1")| truncate(12,True,"") }}
+
+madek_webapp_name: 'madek_{{madek_host_name_name}}_{{madek_webapp_context_name}}'
+
+
+madek_configuration_management_url: 'http://localhost:{{madek_webapp_port}}{{madek_webapp_context}}/configuration_management_backdoor/invoke'
+
+madek_user: "{{madek_webapp_name}}"
+madek_user_home: "/home/{{madek_user}}"
+madek_root_dir: '/var/local/{{madek_webapp_name}}'
+madek_webapp_dir: "{{madek_root_dir}}/webapp"
+rails_env: production
+
+### global defaults ############################################################
+
+
+# can be overridden
+database_password: madek
+
+# database
+database:
+  user: "{{madek_user}}"
+  password: "{{database_password}}"
+  hostname: localhost
+  port: 5432
+  name: "{{madek_webapp_name}}_production"
+  pool: 10
+

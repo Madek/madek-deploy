@@ -8,14 +8,14 @@ branches. It is probably wise to check out the madek-v3 in a different location.
 Step by step procedure
 ----------------------
 
-### Create your hosts configugration file
+### Create your hosts configuration file
 
-The easiest way is to copy the provided `hosts_example` file:
+The easiest way is to copy the provided `hosts_demo` file:
 
-    cp hosts_example hosts
+    cp hosts_demo hosts
 
-Adjust the value of the ansible_ssh_host variable therein with the ip
-of your madek server. If the ip is 10.0.0.1 the line should read:
+Adjust the value of the ansible_ssh_host variable therein with the ip of your
+madek server. If the ip is 10.0.0.1 the line should read:
 
     madek-host ansible_ssh_host=10.0.0.1 ansible_ssh_user=root
 

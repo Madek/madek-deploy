@@ -1,20 +1,27 @@
+- apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+    - python-httplib2
 
-- name: Db-seed for admin user
-  template: src=seeds.rb
-            dest={{madek_root_dir}}/db/seeds.rb
-            mode=0755
+- uri:
+    url: "{{madek_configuration_management_url}}"
+    timeout: 300
+    user: system_admin
+    password: "{{secret_key_base}}"
+    force_basic_auth: yes
+    method: POST
+    HEADER_Content-Type: application/ruby
+    register: previous_uri
+    body: |
 
-- name: Seed
-  shell: su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
-          && rbenv-load
-          && cd {{madek_root_dir}}
-          && export RAILS_ENV={{rails_env}}
-          && export RBENV_VERSION={{mri_ruby_version}}
-          && bundle exec rake db:seed' madek
-         executable=/bin/bash
+      admin_person = Person.find_or_create_by pseudonym: 'Admin'
 
-- file: path={{madek_root_dir}}/db/seeds.rb
-        state=absent
+      admin_user = User.find_or_initialize_by login: '{{admin_login}}'
 
+      admin_user.update_attributes! \
+        password: '{{admin_password}}',
+        email: 'admin@somewhere',
+        person: admin_person
+
+      Admin.find_or_create_by user_id: admin_user.id
 
 

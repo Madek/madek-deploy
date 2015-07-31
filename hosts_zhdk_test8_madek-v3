@@ -1,0 +1,2 @@
+[madek]
+zhdk_test8_madek-v3 ansible_ssh_host=test8.madek.zhdk.ch  ansible_ssh_user=root

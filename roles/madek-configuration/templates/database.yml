@@ -4,7 +4,7 @@
   database: {{database.name}}
   encoding: unicode
   port: {{database.port}}
-  pool: {{database.pool}}
-  username: {{database.user}}
-  password: {{database.password}}
-
+  pool: 20
+  host: 127.0.0.1
+  username: '{{database.user}}'
+  password: '{{database.password}}'

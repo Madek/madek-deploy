@@ -1,19 +1,16 @@
 ### global defaults ############################################################
 
-rails_env: production
-madek_root_dir: /home/madek/madek_app
 mri_ruby_version: 2.1.5
-zencoder_api_key_file: /etc/madek/zencoder_api_key.txt
 
-passenger_min_instances: 1
-passenger_max_pool_size: "{{ansible_processor_cores}}"
+# can be overridden 
+database_password: madek
 
 # database
 database:
   username: madek
-  password: madek
+  password: "{{database_password}}"
   hostname: localhost
   port: 5432
-  database: madek_production
-  pool: "{{ 5 + passenger_max_pool_size | int }}"
+  database: madek-v3_production
+  pool: 25
 

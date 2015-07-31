@@ -1,0 +1,5 @@
+use_x_sendfile: true
+
+zhdk_integration: {{zhdk_integration}}
+
+

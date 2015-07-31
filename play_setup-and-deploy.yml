@@ -1,58 +1,55 @@
-
-
-- hosts: all
-
-  tasks:
-  - apt:  upgrade=dist
-          update_cache=yes
-          cache_valid_time=3600
-
-
 - hosts: madek
+
+  vars_files:
+    - vars.yml
 
   roles:
     - role: debuntu-setup
-    - role: nodejs
+
     - role: postgresql
     - role: ftp-server
-    - role: madek-user
-
-    - role: rbenv
-      user: madek
-
-    - role: rbenv-ruby
-      user: madek
-      ruby:
-        version: "{{mri_ruby_version}}"
-        alias: 2.1
-        present: True
-        default: True
 
     - role: apache-httpd
 
-    - role: passenger
+    - role: server-reverse-proxy
+      reverse_proxy_enabled: False
 
-    - role: madek_reset_data
-      tags: reset-data
-      when: reset_data
-      madek_git_ref: "{{ lookup('pipe','cd  ./../../. && git log -n 1 --format=%H') }}"
+    - role: git-checkout
+      git_checkout_target_path: "{{madek_root_dir}}"
+      git_checkout_repo: "https://github.com/Madek/madek.git"
+      git_checkout_version: "{{ lookup('pipe','cd  ./../. && git log -n 1 --format=%H') }}"
 
-    - role: madek
-      tags: madek
-      madek_git_ref: "{{ lookup('pipe','cd  ./../../. && git log -n 1 --format=%H') }}"
+    - role: madek-user
 
+    - role: madek-datalayer
 
-    - role: db-backups
-      tags: [db-backups]
+    - role: madek-webapp
 
-    - role: newrelic-rails-app-monitoring
-      newrelic_appname: MAdeK
-      new_relic_rails_app_root_path: "{{madek_root_dir}}"
-      tags: [newrelic-rails-app-monitoring]
-
-    - role: madek-dropbox
-
-    - role: madek-zencoder
-      tags: [zencoder]
+    - role: server-reverse-proxy
 
 
+#
+#    - role: madek_reset_data
+#      tags: reset-data
+#      when: reset_data
+#      madek_git_ref: "{{ lookup('pipe','cd  ./../../. && git log -n 1 --format=%H') }}"
+#
+#    - role: madek
+#      tags: madek
+#      madek_git_ref: "{{ lookup('pipe','cd  ./../../. && git log -n 1 --format=%H') }}"
+#
+#
+#    - role: db-backups
+#      tags: [db-backups]
+#
+#    - role: newrelic-rails-app-monitoring
+#      newrelic_appname: MAdeK
+#      new_relic_rails_app_root_path: "{{madek_root_dir}}"
+#      tags: [newrelic-rails-app-monitoring]
+#
+#    - role: madek-dropbox
+#
+#    - role: madek-zencoder
+#      tags: [zencoder]
+#
+#

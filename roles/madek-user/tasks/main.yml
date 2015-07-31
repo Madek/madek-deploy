@@ -1,19 +1,46 @@
-- name: Add the group "madek"
-  group:  name=madek
-          system=true
+- name: Add the group
+  group:
+    name: "{{madek_user}}"
+    system: true
 
-- name: Add the user "madek"
-  user: name=madek
-        generate_ssh_key=yes
-        group=madek
-        system=yes
-        shell=/bin/bash
-        uid=1002
+- name: Add the user
+  user:
+    name: "{{madek_user}}"
+    group: "{{madek_user}}"
+    home: "{{madek_user_home}}"
+    system: yes
+    shell: /bin/bash
+
+- debug:
+    var: "{{madek_user}}"
 
 - name: Create or update postgresql user
-  postgresql_user:  name={{database.username}}
-                    password={{database.password}}
-                    role_attr_flags=CREATEDB,SUPERUSER
-                    login_user=root
-                    port={{database.port}}
+  postgresql_user:
+    name: "{{database.user}}"
+    password: "{{database.password}}"
+    role_attr_flags: CREATEDB,SUPERUSER
+    login_user: root
+    port: "{{database.port}}"
+
+- name: change ownership of ѕome dirs to madek
+  file:
+    path: "{{item}}"
+    owner: "{{madek_user}}"
+    group: "{{madek_user}}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{madek_root_dir}}/tmp"
+    - "{{madek_webapp_dir}}/tmp"
+    - "{{madek_webapp_dir}}/log"
+
+
+- name: lock madek home for writing
+  file:
+    path: "~{{madek_user}}"
+    owner: root
+    group: root
+    state: directory
+    recurse: yes
+  tags: ['debug']
 

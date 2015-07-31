@@ -1,0 +1,39 @@
+dependencies:
+
+  - role: install_nodejs
+
+  - role: madek-user
+
+  - role: rbenv-ruby
+    user: "{{madek_user}}"
+    ruby:
+      version: "{{rubies.jruby.version}}"
+      alias: "{{rubies.jruby.alias}}"
+      present: True
+
+  - role: bundle
+    path: "{{madek_webapp_dir}}"
+    user: "{{madek_user}}"
+    ruby_version: "{{rubies.jruby.version}}"
+
+  - role: rbenv
+    user: "{{madek_user}}"
+    rbenv_change_owner_post_setup: root
+
+  - role: rbenv-ruby
+    user: "{{madek_user}}"
+    ruby:
+      version: "{{rubies.mri.version}}"
+      alias: "{{rubies.mri.alias}}"
+      present: True
+      default: True
+
+  - role: bundle
+    path: "{{madek_webapp_dir}}"
+    user: "{{madek_user}}"
+    ruby_version: "{{rubies.mri.version}}"
+
+  - role: madek-configuration
+
+  - role: madek-npm
+

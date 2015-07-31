@@ -1,0 +1,31 @@
+### specific settings for a local virtual machine
+
+madek_webapp_port: 8880
+madek_webapp_context: "/"
+
+secret_key_base: secret
+
+webapp:
+
+  color_scheme: red
+  custom_color: '#6149c1' # purple
+
+  ### Zencoder ##################################################################
+
+zencoder_enabled: False
+zencoder_test_mode: True
+
+
+### Zhdk ######################################################################
+
+zhdk_integration: False
+
+
+ssh_keys:
+- "{{lookup('file', './ssh_keys/drtom')}}"
+
+
+### Passenger #################################################################
+passenger_min_instances: 1
+
+
