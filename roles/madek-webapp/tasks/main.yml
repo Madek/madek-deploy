@@ -32,7 +32,7 @@
     recurse: yes
   with_items:
     - "{{madek_webapp_dir}}/public/assets"
-
+    - "{{madek_webapp_dir}}/tmp"
 
 - name: Precompile assets
   shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
@@ -56,6 +56,7 @@
     recurse: yes
   with_items:
     - "{{madek_webapp_dir}}/public/assets"
+    - "{{madek_webapp_dir}}/tmp"
 
 
 ### logs #######################################################################
