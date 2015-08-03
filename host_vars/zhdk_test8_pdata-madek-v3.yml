@@ -1,8 +1,19 @@
 ### specific settings for host madek-test ###################################
 
-color_scheme: blue
-custom_color: '#6149c1' # purple
+madek_webapp_port: 8881
+madek_webapp_context: "/pdata-madek-v3"
+host_name: test8.madek.zhdk.ch
+secret_key_base: secret
 
+webapp:
+  color_scheme: blue
+  custom_color: '#6149c1' # purple
+
+
+### Storage ###################################################################
+
+file_storage_dir: /opt/madekdata/attachments
+thumbnail_storage_dir: /opt/madekdata/attachments
 
 ### Zencoder ##################################################################
 
@@ -25,6 +36,8 @@ ssh_keys:
 removed_ssh_keys: []
 
 ### Backups ###################################################################
+#
 db_backups_enabled: False
+
 
 

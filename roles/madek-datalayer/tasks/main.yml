@@ -1,5 +1,10 @@
+- service:
+    name: "{{madek_webapp_service_name}}"
+    state: stopped
+  failed_when: false
+
 - file:
-    path: "{{madek_root_dir}}/webapp/db"
+    path: "{{madek_webapp_dir}}/db"
     owner: "{{madek_user}}"
     group: "{{madek_user}}"
     state: directory
@@ -8,18 +13,45 @@
 - name: Drop DB
   shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
             && rbenv-load
-            && cd {{madek_root_dir}}/webapp/
+            && cd {{madek_webapp_dir}}
             && export RAILS_ENV={{rails_env}}
             && export RBENV_VERSION={{mri_ruby_version}}
-            && bundle exec rake db:pg:terminate_connections
             && bundle exec rake db:pg:terminate_connections db:drop' {{madek_user}}
           executable=/bin/bash
-  when: madek_datalayer_drop_database
+  when: drop_database or restore_data
+  ignore_errors: true
 
-- name: Migrate
+- name: Migrate to 100
   shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
             && rbenv-load
-            && cd {{madek_root_dir}}/webapp/
+            && cd {{madek_webapp_dir}}
+            && export RAILS_ENV={{rails_env}}
+            && export RBENV_VERSION={{mri_ruby_version}}
+            && export VERSION=100
+            && bundle exec rake db:create db:migrate' {{madek_user}}
+          executable=/bin/bash
+  register: migrate
+  when: drop_database or restore_data
+  changed_when: not migrate.stdout | match("")
+
+- name: Restore data
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
+            && rbenv-load
+            && cd {{madek_webapp_dir}}
+            && export RAILS_ENV={{rails_env}}
+            && export RBENV_VERSION={{mri_ruby_version}}
+            && export FILE={{db_data_file}}
+            && bundle exec rake db:pg:terminate_connections
+            && bundle exec rake db:pg:terminate_connections db:pg:truncate_tables db:pg:data:restore' {{madek_user}}
+          executable=/bin/bash
+  register: migrate
+  when: restore_data
+  changed_when: not migrate.stdout | match("")
+
+- name: Migrate rest
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
+            && rbenv-load
+            && cd {{madek_webapp_dir}}
             && export RAILS_ENV={{rails_env}}
             && export RBENV_VERSION={{mri_ruby_version}}
             && bundle exec rake db:create db:migrate' {{madek_user}}
@@ -28,10 +60,9 @@
   changed_when: not migrate.stdout | match("")
 
 - file:
-    path: "{{madek_root_dir}}/webapp/db"
+    path: "{{madek_webapp_dir}}/db"
     owner: root
     group: root
     state: directory
     recurse: yes
-
 

@@ -27,8 +27,7 @@ madek_user_home: "/home/{{madek_user}}"
 madek_root_dir: '/var/local/{{madek_webapp_name}}'
 madek_webapp_dir: "{{madek_root_dir}}/webapp"
 rails_env: production
-
-### global defaults ############################################################
+madek_webapp_service_name: madek-webapp_{{madek_webapp_name}}
 
 
 # can be overridden

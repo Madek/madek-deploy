@@ -9,6 +9,7 @@
     - "{{thumbnail_storage_dir}}"
     - "{{download_storage_dir}}"
     - "{{zip_storage_dir}}"
+  ignore_errors: yes
 
 - template:
     src: settings.local.yml

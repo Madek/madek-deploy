@@ -24,8 +24,3 @@ zhdk_integration: False
 ssh_keys:
 - "{{lookup('file', './ssh_keys/drtom')}}"
 
-
-### Passenger #################################################################
-passenger_min_instances: 1
-
-

@@ -1,1 +1,3 @@
-madek_datalayer_drop_database: false
+drop_database: false
+restore_data: false
+db_data_file: /opt/madekdata/backups/latest-data.pgbin
