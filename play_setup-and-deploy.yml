@@ -12,7 +12,8 @@
     - role: apache-httpd
 
     - role: server-reverse-proxy
-      reverse_proxy_enabled: False
+      site_online: False
+      tags: [debug]
 
     - role: git-checkout
       git_checkout_target_path: "{{madek_root_dir}}"

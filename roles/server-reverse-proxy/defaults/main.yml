@@ -1,2 +1,2 @@
-reverse_proxy_enabled: true
+site_online: true
 madek_host_apps_path: "/etc/apache2/shared/{{madek_host_name}}_apps.conf"

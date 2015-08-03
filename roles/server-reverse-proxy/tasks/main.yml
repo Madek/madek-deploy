@@ -1,29 +1,3 @@
-### offline ###################################################################
-
-- template:
-    src: offline.apache.conf
-    dest: /etc/apache2/sites-available/offline.conf
-    mode: 0644
-
-- command: a2ensite offline
-  when: not reverse_proxy_enabled
-
-- command: a2dissite offline
-  when: reverse_proxy_enabled
-
-- template:
-    src: offline_https.apache.conf
-    dest: /etc/apache2/sites-available/offline_https.conf
-    mode: 0755
-
-- command: a2ensite offline_https
-  when: not reverse_proxy_enabled
-
-- command: a2dissite offline_https
-  when: reverse_proxy_enabled
-
-
-
 ### shared site  ##############################################################
 
 - file: path=/etc/apache2/shared
@@ -34,15 +8,25 @@
     path: "{{madek_host_apps_path}}"
     state: touch
 
-- template:
+- name: template site online include
+  template:
     src: shared-site.apache.conf
     dest: /etc/apache2/shared/madek_{{madek_webapp_name}}_site.conf
     mode: 0644
+  when: site_online
 
+
+- name: template site offline include
+  template:
+    src: shared-site_offline.apache.conf
+    dest: /etc/apache2/shared/madek_{{madek_webapp_name}}_site.conf
+    mode: 0644
+  when: not site_online
 
 - lineinfile:
     dest: "{{madek_host_apps_path}}"
     line: "Include /etc/apache2/shared/madek_{{madek_webapp_name}}_site.conf"
+
 
 ### http site #################################################################
 
@@ -52,10 +36,6 @@
     mode: 0644
 
 - command: a2ensite madek_{{madek_host_name}}
-  when: reverse_proxy_enabled
-
-- command: a2dissite madek_{{madek_host_name}}
-  when: not reverse_proxy_enabled
 
 
 ### https site ################################################################
@@ -67,14 +47,10 @@
   register: reverse_proxy_https_site
 
 - command: a2ensite madek_{{madek_host_name}}_https
-  when: reverse_proxy_enabled
 
-- command: a2dissite madek_{{madek_host_name}}_https
-  when: not reverse_proxy_enabled
 
 ### reload ####################################################################
 
 - service:
     name: apache2
     state: reloaded
-

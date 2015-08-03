@@ -42,5 +42,4 @@
     group: root
     state: directory
     recurse: yes
-  tags: ['debug']
 
