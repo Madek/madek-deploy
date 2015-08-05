@@ -1,0 +1,62 @@
+'deploy_test8':
+  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  name: Deploy test8/
+  run-on:
+  - type: branch
+    include-match: ^madek-v3$
+  context:
+    tasks:
+      deploy:
+        exclusive-global-resources:
+          "test8": true
+        scripts:
+          deploy:
+            body: |
+              cd deploy && \
+              ansible-playbook -i hosts_zhdk_test8 play_setup-and-deploy.yml
+
+'deploy_test8_with-db-drop':
+  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  name: Deploy test8/ drop-database
+  context:
+    tasks:
+      deploy:
+        exclusive-global-resources:
+          "test8": true
+        scripts:
+          deploy:
+            body: |
+              cd deploy && \
+              ansible-playbook -i hosts_zhdk_test8 play_setup-and-deploy.yml -e drop_database=yes
+
+'deploy_test':
+  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  name: Deploy test/
+  run-on:
+  - type: branch
+    include-match: ^madek-v3$
+  context:
+    tasks:
+      deploy:
+        exclusive-global-resources:
+          "test": true
+        scripts:
+          deploy:
+            body: |
+              cd deploy && \
+              time ansible-playbook -i hosts_zhdk_test play_setup-and-deploy.yml
+
+'deploy_test_with-restore-data':
+  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  name: Deploy test/ with data-reset
+  context:
+    tasks:
+      deploy:
+        exclusive-global-resources:
+          "test": true
+        scripts:
+          deploy:
+            timeout: 15000
+            body: |
+              cd deploy && \
+              time ansible-playbook -i hosts_zhdk_test play_setup-and-deploy.yml  -e restore_data=true

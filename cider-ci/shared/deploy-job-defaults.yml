@@ -1,0 +1,28 @@
+depends-on:
+- type: job
+  job: all_tests
+  submodule: ['webapp']
+  states: [passed]
+
+run-on:
+- type: branch
+  include-match: ^madek-v3$
+
+context:
+  tasks:
+    deploy:
+
+      max-auto-trials: 1
+
+      environment-variables:
+        LANG: "en_US.UTF-8"
+
+      traits:
+        deploy-madek-test: true
+        linux: true
+        ansible: true
+
+      git-options:
+        submodules:
+          clone: true
+          timeout: 60

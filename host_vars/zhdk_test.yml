@@ -10,6 +10,7 @@ thumbnail_storage_dir: /opt/madekdata/attachments
 
 
 ssh_keys:
+- "{{lookup('file', './ssh_keys/cislave_madek')}}"
 - "{{lookup('file', './ssh_keys/drtom')}}"
 - "{{lookup('file', './ssh_keys/mfa')}}"
 - "{{lookup('file', './ssh_keys/nimaai')}}"
