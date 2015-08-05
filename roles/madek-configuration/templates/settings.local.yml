@@ -1,5 +1,31 @@
 use_x_sendfile: true
-
 zhdk_integration: {{zhdk_integration}}
+
+file_storage_dir: "{{file_storage_dir}}"
+thumbnail_storage_dir: "{{thumbnail_storage_dir}}"
+download_storage_dir: "{{download_storage_dir}}"
+zip_storage_dir: "{{zip_storage_dir}}"
+
+database:
+  adapter: "postgresql"
+  classname: "org.postgresl.Driver"
+  subname: '//localhost:{{database.port}}/{{database.name}}'
+  subprotocol: "postgresql"
+  user: "{{database.user}}"
+  password: "{{database.password}}"
+  max_pool_size: 3
+
+
+services:
+
+  api:
+
+    http:
+
+      host: localhost
+      port: {{madek_api_port}}
+      context: {{madek_web_context_or_empty}}
+      sub_context: /api
+      ssl: false
 
 

@@ -1,0 +1,24 @@
+- hosts: madek
+
+  vars_files:
+    - vars.yml
+
+  tasks:
+
+  - name: the madek_master_secret
+    debug:
+      msg: '{{ madek_master_secret }}'
+
+  - name: the madek_host_name
+    debug:
+      msg: '{{ madek_host_name }}'
+
+  - name: the madek_web_context
+    debug:
+      msg: '{{ madek_web_context }}'
+
+  - name: the madek_root_dir
+    debug:
+      msg: '{{ madek_root_dir }}'
+
+

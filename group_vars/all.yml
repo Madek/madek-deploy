@@ -1,21 +1,37 @@
 ### global defaults ############################################################
 
+madek_base_name: madek
+madek_web_context: "/"
+madek_webapp_port: 8880
+madek_api_port: 8980
+
+madek_host_name: '{{ host_name | default(ansible_default_ipv4.address) }}'
+
+madek_machine_signature: "{{ansible_machine_id}}"
+madek_mounts_device_signature: '{{ ansible_mounts | map(attribute="device") | join(" ") | hash("sha1") }}'
+madek_mounts_uuid_signature: '{{ ansible_mounts | map(attribute="device") | join(" ") | hash("sha1") }}'
+madek_master_secret: >
+  {{[ madek_machine_signature,
+      madek_mounts_device_signature,
+      madek_mounts_uuid_signature,
+      madek_host_name,
+      madek_web_context
+    ] | join(" ") | hash("sha256") }}
+
+
 file_storage_dir: "{{madek_root_dir}}/storage/originals"
 thumbnail_storage_dir: "{{madek_root_dir}}/storage/thumbnails"
 download_storage_dir: "{{madek_root_dir}}/tmp/downloads"
 zip_storage_dir: "{{madek_root_dir}}/tmp/zipfiles"
 
-mri_ruby_version: 2.1.5
+database_password: '{{madek_master_secret}}'
 
-# can be overridden
-database_password: madek
+zhdk_integration: False
+zencoder_enabled: False
+zencoder_test_mode: False
 
-# database
-database:
-  username: madek
-  password: "{{database_password}}"
-  hostname: localhost
-  port: 5432
-  database: madek-v3_production
-  pool: 25
+ssh_keys: []
 
+# dont' use single quotes "'"; or quote them
+madek_site_title: "Madek@{{madek_host_name}}{{madek_web_context_or_slash}}"
+madek_welcome_title: "Welcome to you installation of Madek!"

@@ -15,7 +15,7 @@
             && rbenv-load
             && cd {{madek_webapp_dir}}
             && export RAILS_ENV={{rails_env}}
-            && export RBENV_VERSION={{mri_ruby_version}}
+            && export RBENV_VERSION={{rubies.mri.version}}
             && bundle exec rake db:pg:terminate_connections db:drop' {{madek_user}}
           executable=/bin/bash
   when: drop_database or restore_data
@@ -26,7 +26,7 @@
             && rbenv-load
             && cd {{madek_webapp_dir}}
             && export RAILS_ENV={{rails_env}}
-            && export RBENV_VERSION={{mri_ruby_version}}
+            && export RBENV_VERSION={{rubies.mri.version}}
             && export VERSION=100
             && bundle exec rake db:create db:migrate' {{madek_user}}
           executable=/bin/bash
@@ -39,7 +39,7 @@
             && rbenv-load
             && cd {{madek_webapp_dir}}
             && export RAILS_ENV={{rails_env}}
-            && export RBENV_VERSION={{mri_ruby_version}}
+            && export RBENV_VERSION={{rubies.mri.version}}
             && export FILE={{db_data_file}}
             && bundle exec rake db:pg:terminate_connections
             && bundle exec rake db:pg:terminate_connections db:pg:truncate_tables db:pg:data:restore' {{madek_user}}
@@ -53,7 +53,7 @@
             && rbenv-load
             && cd {{madek_webapp_dir}}
             && export RAILS_ENV={{rails_env}}
-            && export RBENV_VERSION={{mri_ruby_version}}
+            && export RBENV_VERSION={{rubies.mri.version}}
             && bundle exec rake db:create db:migrate' {{madek_user}}
           executable=/bin/bash
   register: migrate

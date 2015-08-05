@@ -11,7 +11,7 @@
 - name: template site online include
   template:
     src: shared-site.apache.conf
-    dest: /etc/apache2/shared/madek_{{madek_webapp_name}}_site.conf
+    dest: /etc/apache2/shared/{{madek_base_name}}_site.conf
     mode: 0644
   when: site_online
 
@@ -19,34 +19,34 @@
 - name: template site offline include
   template:
     src: shared-site_offline.apache.conf
-    dest: /etc/apache2/shared/madek_{{madek_webapp_name}}_site.conf
+    dest: /etc/apache2/shared/{{madek_base_name}}_site.conf
     mode: 0644
   when: not site_online
 
 - lineinfile:
     dest: "{{madek_host_apps_path}}"
-    line: "Include /etc/apache2/shared/madek_{{madek_webapp_name}}_site.conf"
+    line: "Include /etc/apache2/shared/{{madek_base_name}}_site.conf"
 
 
 ### http site #################################################################
 
 - template:
     src: site.apache.conf
-    dest: /etc/apache2/sites-available/madek_{{madek_host_name}}.conf
+    dest: /etc/apache2/sites-available/{{madek_host_name}}.conf
     mode: 0644
 
-- command: a2ensite madek_{{madek_host_name}}
+- command: a2ensite {{madek_host_name}}
 
 
 ### https site ################################################################
 
 - template:
     src: site_https.apache.conf
-    dest: /etc/apache2/sites-available/madek_{{madek_host_name}}_https.conf
+    dest: /etc/apache2/sites-available/{{madek_host_name}}_https.conf
     mode: 0755
   register: reverse_proxy_https_site
 
-- command: a2ensite madek_{{madek_host_name}}_https
+- command: a2ensite {{madek_host_name}}_https
 
 
 ### reload ####################################################################

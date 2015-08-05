@@ -1,4 +1,0 @@
-file_storage_dir: "{{file_storage_dir}}"
-thumbnail_storage_dir: "{{thumbnail_storage_dir}}"
-download_storage_dir: "{{download_storage_dir}}"
-zip_storage_dir: "{{zip_storage_dir}}"

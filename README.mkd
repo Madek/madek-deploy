@@ -1,9 +1,7 @@
 Setting up Madek with Ansible
 =============================
 
-**ATTENTION**: Checkout the `madek-v3` branch to deploy to testing. Unintended
-(bad) things can happen if you don't keep the submodules in sync when switching
-branches. It is probably wise to check out the madek-v3 in a different location.
+**WORK IN PROGRESS** The deploy scriptes are being rewritten for Madek version 3.
 
 Step by step procedure
 ----------------------
@@ -12,28 +10,101 @@ Step by step procedure
 
 The easiest way is to copy the provided `hosts_demo` file:
 
-    cp hosts_demo hosts
+    cp hosts_demo my_hosts
 
-Adjust the value of the ansible_ssh_host variable therein with the ip of your
-madek server. If the ip is 10.0.0.1 the line should read:
+Within the file `my_host` replace the word `demo` with `my_host` and adjust the
+value of the ansible_ssh_host variable  ip of your madek server. If the ip is
+10.0.0.1 the line should read:
 
-    madek-host ansible_ssh_host=10.0.0.1 ansible_ssh_user=root
+    my_host ansible_ssh_host=10.0.0.1 ansible_ssh_user=root
 
 
 ### Install or Upgrade Madek
 
-    ansible-playbook  -i hosts play_setup-and-deploy.yml
+    ansible-playbook -i my_hosts play_setup-and-deploy.yml -e 'madek_master_secret=REPLACE-WITH-YOUR-SECRET'
+
+
 
 ### Create a Admin User and set the Password
 
-    ansible-playbook -i hosts play_create-admin.yml -e 'admin_password=YOUR-SECRETE-PASSWORD'
+    ansible-playbook -i my_hosts play_create-admin.yml -e 'admin_password=YOUR-SECRETE-PASSWORD madek_master_secret=REPLACE-WITH-YOUR-SECRET'
 
+This will create (or update) a user with the login `admin` and the given
+password.
 
 
 Customization and Advanced Topics
 ---------------------------------
 
+### The `madek_master_secret`
+
+The setup generates a default `madek_master_secret` based on various properties
+of the target host and your application. These properties might be guessable or
+not, depending on the setup of your host. It is highly recommended to override
+the generated secret as shown in the invocations above.
+
+Alternatives to the command line arguments are variables defined in the Ansible
+Inventory. This is convenient in particular in conjunction with the [Ansible
+Vault].
+
+Caveat: the [Ansible rules of precedence] should be understood when proceeding
+in this manner. At any rate, invoking
+
+    ansible-playbook -i my_hosts play_create-admin.yml
+
+(possibly with augmented arguments) will show the actual used values and
+is recommended to be consulted for confirmation.
+
+  [Ansible rules of precedence]: http://docs.ansible.com/ansible/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
+  [Ansible Vault]: http://docs.ansible.com/ansible/playbooks_vault.html
+
+
+
+
+### Web-Contexts
+
+TODO
+
+### Virtual Host Names
+
+TODO
+
+### Running multiple Instances of Madek withing one Host
+
+**We highly recommend not to run multiple instances in a single host**.  It is
+possible but the setup is intricate and prone to cause interference between the
+applications unless the administrator has a very deep knowledge of Madek itself
+and of the internals of the Madek deployment and setup process. We ourself only
+use this possibility for testing etc.
+
+A minimal list of things to do:
+
+* Override the following vars with appropriate values:
+    * `madek_base_name`
+    * `madek_web_context` and/or `madek_host_name`
+    * `madek_webapp_port` and `madek_api_port`
+
+#### Caveats
+
+* Contexts can shadow routes used by madek, e.g. `/my` (as used by
+    the dashboard) is likely to cause conflicts.
+
+* Order of contexts matters: adjust the order of lines in
+    `/etc/apache2/shared/YOUR-HOST-NAME_apps.conf` if any context shadows
+    others, e.g. `/madek2` must come before `/` or the Madek instance
+    under `/` will shadow any paths and `/madek2` can not be reached.
+
+* The `madek_base_name` must be unique per instance. It is used for user and
+    entity names (system, database, ...) and as part of paths. The value is not
+    escaped and characters which are likely to cause problems in these contexts
+    should be avoided.
+
+
 ### Resetting the Data from Production `test.madek`
+
+** THIS IS OUTDATED**
+TODO
+
 
 Resetting the data from the last production dump is conditional and needs to
 explicitly requested, e.g.:
@@ -48,6 +119,11 @@ Be aware:
 
 ### Configure the Color Scheme
 
+TODO
+
+** THIS IS OUTDATED AND CURRENTLY BROKEN / NOT POSSIBLE **
+
+
 Madek comes with 4 predefined color schemes: green, red, blue and mono. The
 color scheme can be configured by setting the `color_scheme` variable.
 You can also set a `custom_color` variable to a valid CSS color, which will
@@ -58,6 +134,11 @@ See `host_vars/test-vm` for example.
 
 
 ### Configure Zencoder
+
+TODO
+
+** THIS IS OUTDATED AND CURRENTLY NOT POSSIBLE **
+
 
 Set the `zencoder_enabled` variable in your host file to `True`, and
 the `zencoder_test_mode` to your desired value (probably `False`).
@@ -77,6 +158,10 @@ madek installation e.g.
 
 
 ### Configure Newrelic Application Monitoring
+
+TODO
+
+** THIS IS OUTDATED AND CURRENTLY NOT POSSIBLE **
 
 Perform the following once:
 

@@ -1,0 +1,3 @@
+dependencies:
+- role: madek-configuration
+- role: lein-install

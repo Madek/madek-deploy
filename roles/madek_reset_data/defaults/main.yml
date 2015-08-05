@@ -1,2 +1,0 @@
-reset_data_start_migration: 100
-reset_data_file: /opt/madekdata/backups/latest-data.pgbin

@@ -1,0 +1,100 @@
+### user ######################################################################
+
+- name: Add service group
+  group:  name={{lein_service_user}}
+          system=true
+  when: lein_service_user != 'root'
+
+- name: Add service user
+  user: name={{lein_service_user}}
+        generate_ssh_key=yes
+        group={{lein_service_user}}
+        system=yes
+        shell=/bin/bash
+  when: lein_service_user != 'root'
+
+- file: path=/etc/{{lein_service_name}}
+        state=directory
+        mode=0755
+
+### setup dir and lein ########################################################
+
+- file:
+    path: "{{item}}"
+    owner: "{{lein_service_user}}"
+    group: "{{lein_service_user}}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{lein_service_app_dir}}/target"
+    - "{{lein_service_app_dir}}/log"
+    - ~{{lein_service_user}}/.lein
+    - ~{{lein_service_user}}/.m2
+
+- shell: >
+    su -l -s /bin/bash -c '
+    cd {{lein_service_app_dir}}
+    && export LEIN_ROOT=1
+    && export JVM_OPTS=-Xmx256m
+    && lein do deps, clean, compile
+    ' {{madek_user}}
+  changed_when: false
+
+
+- file:
+    path: "{{item}}"
+    owner: "{{lein_service_user}}"
+    group: "{{lein_service_user}}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{lein_service_app_dir}}/target"
+    - ~{{lein_service_user}}/.lein
+    - ~{{lein_service_user}}/.m2
+
+
+### logging ###################################################################
+
+- template: src=../../../templates/log4j.properties
+            dest={{lein_service_app_dir}}/config/log4j.properties
+            mode=0640
+            group={{lein_service_user}}
+  register: lein_service_log_rotation_conf
+  when: FALSE
+
+- template: src=logrotate
+            dest=/etc/logrotate.d/{{lein_service_name}}
+
+### SERVICE ###################################################################
+
+- template: src=init.conf
+            dest=/etc/init/{{lein_service_name}}.conf
+  register: lein_service_init
+  when: ansible_distribution_release == 'trusty'
+
+- template: src=wrapper.sh
+            dest={{lein_service_wrapper_bin}}
+            mode=755
+
+- template: src=start.sh
+            dest={{lein_service_bin}}
+            mode=755
+
+- template: src=service.conf
+            dest=/etc/systemd/system/{{lein_service_name}}.service
+  register: lein_service_init
+  when: ansible_distribution_release == 'jessie'
+
+
+### enable
+
+- service: name={{lein_service_name}} enabled=yes
+
+### start
+
+- command: logrotate -f /etc/logrotate.d/{{lein_service_name}}
+
+- service: name={{lein_service_name}} state=restarted
+
+- service: name={{lein_service_name}} state=started
+

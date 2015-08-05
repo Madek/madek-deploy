@@ -1,12 +1,5 @@
 madek_webapp_xmx_value: 500m
-madek_webapp_service_name: madek-webapp_{{madek_webapp_name}}
 madek_webapp_log_dir: /var/log/{{madek_webapp_service_name}}
 madek_webapp_service_bin: /usr/local/bin/{{madek_webapp_service_name}}
 madek_webapp_wrapper_bin: /usr/local/bin/{{madek_webapp_service_name}}_wrapper
 madek_webapp_theme: bootstrap-plain
-
-madek_webapp:
-  ruby:
-    version: jruby-9.0.0.0
-    alias: jruby-9000
-

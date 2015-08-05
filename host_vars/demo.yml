@@ -1,0 +1,5 @@
+### specific settings for a local virtual machine
+
+# remove the preceding pound sign `# ` and set the secret value
+# madek_master_secret: REPLACE-WITH-YOUR-SECRET
+

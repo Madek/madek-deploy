@@ -1,14 +1,14 @@
 // overrides color setting
-{% if webapp.color_scheme == "green" %}
+{% if webapp_color_scheme is defined and webapp_color_scheme == "green" %}
 $scheme-green         : true
-{% elif webapp.color_scheme == "red" %}
+{% elif webapp_color_scheme is defined and webapp_color_scheme == "red" %}
 $scheme-red           : true
-{% elif webapp.color_scheme == "blue" %}
+{% elif webapp_color_scheme is defined and webapp_color_scheme == "blue" %}
 $scheme-blue          : true
-{% elif webapp.color_scheme == "mono" %}
+{% elif webapp_color_scheme is defined and webapp_color_scheme == "mono" %}
 $scheme-mono          : true
 {% endif %}
 
-{% if webapp.custom_color is defined and webapp.custom_color %}
-$custom-color         : {{webapp.custom_color}}
+{% if webapp_custom_color is defined and webapp_custom_color %}
+$custom-color         : {{webapp_custom_color}}
 {% endif %}
