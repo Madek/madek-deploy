@@ -6,7 +6,40 @@ Setting up Madek with Ansible
 Step by step procedure
 ----------------------
 
+### Checkout / Upgrade the Master-Project
+
+Checkout the Madek master-project `https://github.com/Madek/madek` including
+submodules (recursively). See either Initial Checkout or Upgrading below.
+
+Descend into the `deploy` directory and continue with configuration of the
+inventory.
+
+#### Initial Checkout
+
+    git clone --recursive https://github.com/Madek/madek.git
+
+#### Upgrading
+
+The version which is going to be deployed is exactly the one that is checked
+out in the master-project. So the master-project must be updated to upgrade
+you installation of Madek. From within the master-project:
+
+    git pull
+    git submodule update --init --recursive
+
+It is possible to run into troubles if the submodule structure has changed. The
+following command might help. Backup your changes beforehand!
+
+    git reset --hard origin/master && git clean --force -fd
+    git submodule foreach --recursive 'git reset --hard HEAD && git clean --force -fd’
+
+You can as well start from scratch.
+
+
 ### Create your hosts configuration file
+
+This and all the following steps are carried out from within the `deploy`
+subdirectory.
 
 The easiest way is to copy the provided `hosts_demo` file:
 
@@ -22,7 +55,6 @@ value of the ansible_ssh_host variable  ip of your madek server. If the ip is
 ### Install or Upgrade Madek
 
     ansible-playbook -i my_hosts play_setup-and-deploy.yml -e 'madek_master_secret=REPLACE-WITH-YOUR-SECRET'
-
 
 
 ### Create a Admin User and set the Password
@@ -50,7 +82,7 @@ Vault].
 Caveat: the [Ansible rules of precedence] should be understood when proceeding
 in this manner. At any rate, invoking
 
-    ansible-playbook -i my_hosts play_create-admin.yml
+    ansible-playbook -i my_hosts play_info.yml
 
 (possibly with augmented arguments) will show the actual used values and
 is recommended to be consulted for confirmation.
