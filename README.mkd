@@ -69,7 +69,7 @@ TODO
 
 TODO
 
-### Running multiple Instances of Madek withing one Host
+### Running multiple Instances of Madek within one Host
 
 **We highly recommend not to run multiple instances in a single host**.  It is
 possible but the setup is intricate and prone to cause interference between the
