@@ -4,10 +4,6 @@ depends-on:
   submodule: ['webapp']
   states: [passed]
 
-run-on:
-- type: branch
-  include-match: ^madek-v3$
-
 context:
   tasks:
     deploy:
