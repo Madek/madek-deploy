@@ -14,9 +14,9 @@ context:
         LANG: "en_US.UTF-8"
 
       traits:
+        ansible: true
         deploy-madek-test: true
         linux: true
-        ansible: true
 
       git-options:
         submodules:

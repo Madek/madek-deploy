@@ -34,7 +34,7 @@
   name: Deploy test/
   run-on:
   - type: branch
-    include-match: ^madek$
+    include-match: ^master$
   context:
     tasks:
       deploy:
