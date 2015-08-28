@@ -6,7 +6,7 @@
     recurse: yes
   with_items:
     - "{{path}}/node_modules"
-    - "~{{madek_user}}/.npm"
+    - ~{{madek_user}}/.npm
 
 - name: npm install
   shell: su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh

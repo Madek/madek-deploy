@@ -36,4 +36,5 @@ dependencies:
   - role: madek-configuration
 
   - role: madek-npm
-
+    path: "{{madek_webapp_dir}}"
+    user: "{{madek_user}}"
