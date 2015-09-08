@@ -187,16 +187,3 @@ Note: The *setup-and-deploy* playbook will remember the
 `zencoder_api_key`. There is no need to specify it again when the
 setup-and-deploy playbook will be run in the future, to upgrade your
 madek installation e.g.
-
-
-### Configure Newrelic Application Monitoring
-
-TODO
-
-** THIS IS OUTDATED AND CURRENTLY NOT POSSIBLE **
-
-Perform the following once:
-
-    ansible-playbook  -i hosts play_setup-and-deploy.yml -e 'newrelic_key=YOUR-NEWRELIC-KEY'
-
-
