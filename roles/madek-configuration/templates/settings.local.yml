@@ -1,6 +1,8 @@
 use_x_sendfile: true
 zhdk_integration: {{zhdk_integration}}
 
+madek_master_secret: {{madek_master_secret}}
+
 file_storage_dir: "{{file_storage_dir}}"
 thumbnail_storage_dir: "{{thumbnail_storage_dir}}"
 download_storage_dir: "{{download_storage_dir}}"
