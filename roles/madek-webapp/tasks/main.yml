@@ -24,19 +24,6 @@
     src: colors.sass
     dest: "{{madek_webapp_dir}}/app/assets/stylesheets/config/local/_colors.sass"
 
-- name: 'Assets: directories'
-  file:
-    path: "{{item}}"
-    owner: "{{madek_user}}"
-    group: "{{madek_user}}"
-    state: directory
-    recurse: yes
-  with_items:
-    - "{{madek_webapp_dir}}/public/assets"
-    - "{{madek_webapp_dir}}/tmp"
-    - "{{madek_webapp_dir}}/tmp/cache/browserify-rails" # make sure dir exists
-
-
 - name: 'Assets: Precompile'
   shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
             && rbenv-load
@@ -50,30 +37,6 @@
           executable=/bin/bash
   register: precompile_assets
   changed_when: not precompile_assets.stderr | match("")
-
-- name: 'Assets: owner root'
-  file:
-    path: "{{item}}"
-    owner: root
-    group: root
-    state: directory
-    recurse: yes
-  with_items:
-    - "{{madek_webapp_dir}}/public/assets"
-    - "{{madek_webapp_dir}}/tmp"
-
-
-- name: 'Assets: owner madek_user' # server-side js rendering needs this!
-  file:
-    path: "{{item}}"
-    owner: "{{madek_user}}"
-    group: "{{madek_user}}"
-    state: directory
-    recurse: yes
-  with_items:
-    - "{{madek_webapp_dir}}/tmp/cache/assets"
-    - "{{madek_webapp_dir}}/tmp/cache/browserify-rails"
-
 
 ### logs #######################################################################
 

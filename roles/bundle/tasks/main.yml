@@ -19,14 +19,3 @@
          executable=/bin/bash
   register: bundle_mri
   changed_when: bundle_mri.stdout | match(".*Installing.*")
-
-- file:
-    path: "{{item}}"
-    owner: root
-    group: root
-    state: directory
-    recurse: yes
-  with_items:
-    - "{{path}}/vendor/bundle"
-    - "{{path}}/node_modules"
-    - "{{path}}/.bundle"

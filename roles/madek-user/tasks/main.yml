@@ -21,25 +21,3 @@
     role_attr_flags: CREATEDB,SUPERUSER
     login_user: root
     port: "{{database.port}}"
-
-- name: change ownership of ѕome dirs to madek
-  file:
-    path: "{{item}}"
-    owner: "{{madek_user}}"
-    group: "{{madek_user}}"
-    state: directory
-    recurse: yes
-  with_items:
-    - "{{madek_root_dir}}/tmp"
-    - "{{madek_webapp_dir}}/tmp"
-    - "{{madek_webapp_dir}}/log"
-
-
-- name: lock madek home for writing
-  file:
-    path: "~{{madek_user}}"
-    owner: root
-    group: root
-    state: directory
-    recurse: yes
-

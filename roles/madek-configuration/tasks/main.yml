@@ -1,16 +1,3 @@
-- file:
-    path: "{{item}}"
-    owner: "{{madek_user}}"
-    group: "{{madek_user}}"
-    state: directory
-    recurse: yes
-  with_items:
-    - "{{file_storage_dir}}"
-    - "{{thumbnail_storage_dir}}"
-    - "{{download_storage_dir}}"
-    - "{{zip_storage_dir}}"
-  ignore_errors: yes
-
 - name: Configure database
   template:
     src: database.yml

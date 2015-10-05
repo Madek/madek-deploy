@@ -30,6 +30,8 @@
 
     - role: madek-webapp
 
+    - role: madek-permissions-lockdown
+
     - role: madek-set-data
 
     - role: server-reverse-proxy
