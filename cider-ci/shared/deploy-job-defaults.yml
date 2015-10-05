@@ -3,6 +3,9 @@ depends-on:
   job: all_tests
   submodule: ['webapp']
   states: [passed]
+- type: job
+  job: Integration-Tests
+  states: [passed]
 
 context:
   tasks:
