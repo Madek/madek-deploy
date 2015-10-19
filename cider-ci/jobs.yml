@@ -13,7 +13,7 @@
           deploy:
             body: |
               cd deploy && \
-              ansible-playbook -i hosts_zhdk_test8 play_setup-and-deploy.yml
+              ansible-playbook -v -i hosts_zhdk_test8 play_setup-and-deploy.yml
 
 'deploy_test8_with-db-drop':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
@@ -27,7 +27,7 @@
           deploy:
             body: |
               cd deploy && \
-              ansible-playbook -i hosts_zhdk_test8 play_setup-and-deploy.yml -e drop_database=yes
+              ansible-playbook -v -i hosts_zhdk_test8 play_setup-and-deploy.yml -e drop_database=yes
 
 'deploy_test':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
@@ -44,7 +44,7 @@
           deploy:
             body: |
               cd deploy && \
-              time ansible-playbook -i hosts_zhdk_test play_setup-and-deploy.yml
+              time ansible-playbook -v -i hosts_zhdk_test play_setup-and-deploy.yml
 
 'deploy_test_with-restore-data':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
@@ -59,4 +59,4 @@
             timeout: 15000
             body: |
               cd deploy && \
-              time ansible-playbook -i hosts_zhdk_test play_setup-and-deploy.yml  -e restore_data=true
+              time ansible-playbook -v -i hosts_zhdk_test play_setup-and-deploy.yml  -e restore_data=true
