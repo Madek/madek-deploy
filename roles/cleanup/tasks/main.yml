@@ -1,0 +1,13 @@
+# Cleanup previously ignored directories that were converted to submodules
+# (can not be handled automatically, need to explicity handle them)
+
+- name: 'check for node_modules submodule'
+  shell: test -e {{path}}/webapp/node_modules/.git
+  register: node_modules_submodule
+  ignore_errors: yes
+
+
+- name: 'cleanup old node_modules'
+  file: path={{path}}/webapp/node_modules state=absent
+  when: node_modules_submodule.rc != 0
+  ignore_errors: yes

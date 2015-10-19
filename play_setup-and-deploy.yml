@@ -14,6 +14,9 @@
     - role: server-reverse-proxy
       site_online: False
 
+    - role: cleanup
+      path: "{{madek_root_dir}}"
+
     - role: git-checkout
       git_checkout_target_path: "{{madek_root_dir}}"
       git_checkout_repo: "https://github.com/Madek/madek.git"

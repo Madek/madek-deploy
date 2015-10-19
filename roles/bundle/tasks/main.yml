@@ -6,7 +6,6 @@
     recurse: yes
   with_items:
     - "{{path}}/vendor/bundle"
-    - "{{path}}/node_modules"
     - "{{path}}/.bundle"
 
 - name: "Bundle {{ruby_version}}"
