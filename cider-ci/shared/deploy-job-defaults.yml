@@ -1,10 +1,6 @@
 depends-on:
 - type: job
-  job: all_tests
-  submodule: ['webapp']
-  states: [passed]
-- type: job
-  job: Integration-Tests
+  job: integration-tests
   states: [passed]
 
 context:
@@ -25,3 +21,10 @@ context:
         submodules:
           clone: true
           timeout: 60
+
+      scripts:
+        deploy:
+          body: |
+            set -eux
+            cd deploy
+            time ansible-playbook -i ${HOSTS_FILE} play_setup-and-deploy.yml
