@@ -4,27 +4,27 @@ depends-on:
   states: [passed]
 
 context:
-  tasks:
-    deploy:
 
-      max-auto-trials: 1
+  task-defaults:
 
-      environment-variables:
-        LANG: "en_US.UTF-8"
+    max-auto-trials: 1
 
-      traits:
-        ansible: true
-        deploy-madek-test: true
-        linux: true
+    environment-variables:
+      LANG: "en_US.UTF-8"
 
-      git-options:
-        submodules:
-          clone: true
-          timeout: 60
+    traits:
+      ansible: true
+      deploy-madek-test: true
+      linux: true
 
-      scripts:
-        deploy:
-          body: |
-            set -eux
-            cd deploy
-            time ansible-playbook -i ${HOSTS_FILE} play_setup-and-deploy.yml
+    git-options:
+      submodules:
+        clone: true
+        timeout: 60
+
+    scripts:
+      deploy:
+        body: |
+          set -eux
+          cd deploy
+          time ansible-playbook -i ${HOSTS_FILE} play_setup-and-deploy.yml
