@@ -3,7 +3,7 @@
   name: Deploy test8/
   run-on:
   - type: branch
-    include-match: ^master$
+    include-match: ^ts_|master$
   context:
     tasks:
       deploy:
