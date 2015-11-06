@@ -1,11 +1,13 @@
 
 rubies:
   jruby:
-    version: jruby-9.0.0.0
+    version: jruby-9.0.3.0
     alias: jruby-9000
   mri:
-    version: 2.1.5
-    alias: ruby-2.1
+    version: 2.2.3
+    alias: 2.2
+    present: True
+    default: True
 
 rails_env: production
 
