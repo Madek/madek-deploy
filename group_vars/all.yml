@@ -1,4 +1,6 @@
+################################################################################
 ### global defaults ############################################################
+################################################################################
 
 madek_base_name: madek
 madek_web_context: "/"
@@ -17,6 +19,15 @@ madek_master_secret: >
       madek_host_name,
       madek_web_context
     ] | join(" ") | hash("sha256") }}
+
+
+### Memory ####################################################################
+# database uses around 20%
+# webapp 50%, and 10% thereof is used as cache
+webapp_xmx_value: "{{ (ansible_memtotal_mb * 0.6) | round | int }}m"
+webapp_cache_size_megabytes: "{{ (ansible_memtotal_mb * 0.1) | round | int }}"
+# api 20%
+lein_service_xmx_value: "{{ (ansible_memtotal_mb * 0.2) | round | int }}m"
 
 
 file_storage_dir: "{{madek_root_dir}}/storage/originals"
