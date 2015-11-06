@@ -11,6 +11,8 @@ context:
 
     environment-variables:
       LANG: "en_US.UTF-8"
+      DROP_DATABASE: false
+      RESTORE_DATA: false
 
     traits:
       ansible: true
@@ -24,7 +26,12 @@ context:
 
     scripts:
       deploy:
+        timeout: 15000
         body: |
           set -eux
           cd deploy
-          time ansible-playbook -i ${HOSTS_FILE} play_setup-and-deploy.yml
+          echo $(pwd)
+          ls -R inventories
+          time ansible-playbook -v -i "${HOSTS_FILE}" play_setup-and-deploy.yml \
+             --extra-vars "{\"drop_database\": ${DROP_DATABASE}, \"restore_data\": ${RESTORE_DATA}}"
+

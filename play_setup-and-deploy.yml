@@ -25,6 +25,7 @@
     - role: madek-user
 
     - role: madek-datalayer
+      tags: [madek-datalayer]
 
     - role: lein-service
       lein_service_name: "{{madek_api_service_name}}"

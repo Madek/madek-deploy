@@ -1,0 +1,5 @@
+[madek]
+test ansible_ssh_host=test.madek.zhdk.ch ansible_ssh_user=root
+
+[zhdk]
+test

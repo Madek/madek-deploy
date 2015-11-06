@@ -47,8 +47,6 @@
 
 - set_fact: zencoder_inbox_pw="{{zencoder_inbox_pw_task.stdout}}"
 
-- debug: var=zencoder_inbox_pw
-
 ### zencoder_inbox user ########################################################
 
 - command: mkpasswd --method=SHA-512 -S '{{zencoder_inbox_salt_task.stdout}}' '{{zencoder_inbox_pw}}'

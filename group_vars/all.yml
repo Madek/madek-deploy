@@ -35,3 +35,7 @@ ssh_keys: []
 # dont' use single quotes "'"; or quote them
 madek_site_title: "Madek@{{madek_host_name}}{{madek_web_context_or_slash}}"
 madek_welcome_title: "Welcome to you installation of Madek!"
+
+
+drop_database: false
+restore_data: false

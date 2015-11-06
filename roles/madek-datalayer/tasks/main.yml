@@ -4,7 +4,7 @@
   failed_when: false
 
 - file:
-    path: "{{madek_webapp_dir}}/db"
+    path: "{{madek_root_dir}}"
     owner: "{{madek_user}}"
     group: "{{madek_user}}"
     state: directory

@@ -1,0 +1,11 @@
+zhdk_integration: True
+ntp_server: ntp.zhdk.ch
+
+ssh_keys:
+  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/cislave_madek')}}"
+  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/drtom')}}"
+  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/mfa')}}"
+  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/nimaai')}}"
+  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/rca')}}"
+
+removed_ssh_keys: []

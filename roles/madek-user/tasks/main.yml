@@ -11,9 +11,6 @@
     system: yes
     shell: /bin/bash
 
-- debug:
-    var: "{{madek_user}}"
-
 - name: Create or update postgresql user
   postgresql_user:
     name: "{{database.user}}"

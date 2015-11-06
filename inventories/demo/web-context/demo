@@ -1,0 +1,3 @@
+[madek]
+demo ansible_ssh_host=localhost ansible_ssh_user=root
+
