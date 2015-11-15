@@ -10,6 +10,7 @@
     - "{{thumbnail_storage_dir}}"
     - "{{download_storage_dir}}"
     - "{{zip_storage_dir}}"
+  when: setup_storage_directories
 
 - name: Configure database
   template:
