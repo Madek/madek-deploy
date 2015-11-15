@@ -1,0 +1,3 @@
+madek_host_name: staging-v3-upload.madek.zhdk.ch
+
+db_backups_enabled: False

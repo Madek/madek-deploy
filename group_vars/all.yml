@@ -1,17 +1,45 @@
+###############################################################################
+# Madek Default Variables
+################################################################################
+
+# This files contains variables for your Madek environment which are
+# meant to be overridden for customization.
+
 ################################################################################
 ### global defaults ############################################################
 ################################################################################
 
-madek_base_name: madek
-madek_web_context: "/"
-madek_webapp_port: 8880
-madek_api_port: 8980
-
 madek_host_name: '{{ host_name | default(ansible_default_ipv4.address) }}'
+ssh_keys: []
+
+# dont' use single quotes "'"; or quote them
+madek_site_title: "Madek@{{madek_host_name}}{{madek_web_context_or_slash}}"
+madek_welcome_title: "Welcome to your installation of Madek!"
+
+zhdk_integration: False
+zencoder_enabled: False
+zencoder_test_mode: False
+
+
+
+################################################################################
+### directories ################################################################
+################################################################################
+
+file_storage_dir: "{{madek_root_dir}}/storage/originals"
+thumbnail_storage_dir: "{{madek_root_dir}}/storage/thumbnails"
+download_storage_dir: "{{madek_root_dir}}/tmp/downloads"
+zip_storage_dir: "{{madek_root_dir}}/tmp/zipfiles"
+
+
+################################################################################
+### secrets ####################################################################
+################################################################################
 
 madek_machine_signature: "{{ansible_machine_id}}"
 madek_mounts_device_signature: '{{ ansible_mounts | map(attribute="device") | join(" ") | hash("sha1") }}'
 madek_mounts_uuid_signature: '{{ ansible_mounts | map(attribute="device") | join(" ") | hash("sha1") }}'
+
 madek_master_secret: >
   {{[ madek_machine_signature,
       madek_mounts_device_signature,
@@ -20,33 +48,38 @@ madek_master_secret: >
       madek_web_context
     ] | join(" ") | hash("sha256") }}
 
+madek_database_secret: >
+  {{lookup('pipe', "echo -n 'database' | openssl sha1 -hmac '{{madek_master_secret}}' | cut -f2 -d ' '")}}
 
+
+
+###############################################################################
 ### Memory ####################################################################
 # database uses around 20%
-# webapp 50%, and 10% thereof is used as cache
+# webapp 50%, and 10% of this is used as cache
+#################################################################################
 webapp_xmx_value: "{{ (ansible_memtotal_mb * 0.6) | round | int }}m"
 webapp_cache_size_megabytes: "{{ (ansible_memtotal_mb * 0.1) | round | int }}"
 # api 20%
 lein_service_xmx_value: "{{ (ansible_memtotal_mb * 0.2) | round | int }}m"
 
 
-file_storage_dir: "{{madek_root_dir}}/storage/originals"
-thumbnail_storage_dir: "{{madek_root_dir}}/storage/thumbnails"
-download_storage_dir: "{{madek_root_dir}}/tmp/downloads"
-zip_storage_dir: "{{madek_root_dir}}/tmp/zipfiles"
+################################################################################
+### web contexts ###############################################################
+# only change this variables if you intent to run multiple Madek instances
+# in one server and you know how the internals work
+################################################################################
 
-database_password: '{{madek_master_secret}}'
+madek_base_name: madek
+madek_web_context: "/"
+madek_webapp_port: 8880
+madek_api_port: 8980
 
-zhdk_integration: False
-zencoder_enabled: False
-zencoder_test_mode: False
 
-ssh_keys: []
-
-# dont' use single quotes "'"; or quote them
-madek_site_title: "Madek@{{madek_host_name}}{{madek_web_context_or_slash}}"
-madek_welcome_title: "Welcome to you installation of Madek!"
-
+################################################################################
+### reset ######################################################################
+################################################################################
 
 drop_database: false
 restore_data: false
+

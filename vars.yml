@@ -33,7 +33,7 @@ madek_api_service_name: "{{madek_base_name}}_api"
 # database
 database:
   user: "{{madek_user}}"
-  password: "{{database_password}}"
+  password: "{{madek_database_secret}}"
   hostname: localhost
   port: 5432
   name: "{{madek_base_name}}_production"

@@ -1,0 +1,5 @@
+[madek]
+staging-v3-upload ansible_ssh_host=staging-v3-upload.madek.zhdk.ch ansible_ssh_user=root
+
+[zhdk]
+staging-v3-upload

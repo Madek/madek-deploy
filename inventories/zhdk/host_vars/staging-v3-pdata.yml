@@ -1,0 +1,6 @@
+madek_host_name: staging-v3-pdata.madek.zhdk.ch
+
+file_storage_dir: /opt/madekdata/attachments
+thumbnail_storage_dir: /opt/madekdata/attachments
+
+db_backups_enabled: False

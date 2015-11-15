@@ -1,6 +1,6 @@
 'deploy_test8':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
-  name: Deploy test8/
+  name: Deploy to test8
   run-on:
   - type: branch
     include-match: ^ts_|master$
@@ -14,7 +14,7 @@
 
 'deploy_test8_with-db-drop':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
-  name: Deploy test8/ drop-database
+  name: Deploy to test8 with drop-database
   context:
     tasks:
       deploy:
@@ -24,9 +24,12 @@
           HOSTS_FILE: inventories/zhdk/test8
           DROP_DATABASE: 'true'
 
+###############################################################################
+
+
 'deploy_test':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
-  name: Deploy test/
+  name: Deploy to test
   run-on:
   - type: branch
     include-match: ^master$
@@ -40,7 +43,7 @@
 
 'deploy_test_with-restore-data':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
-  name: Deploy test/ with data-reset
+  name: Deploy to test with data-reset
   context:
     tasks:
       deploy:
@@ -51,3 +54,59 @@
           RESTORE_DATA: 'true'
         environment-variables:
           HOSTS_FILE: inventories/zhdk/test
+
+
+###############################################################################
+
+'deploy_staging-v3-pdata':
+  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  name: Deploy to staging-v3-pdata
+  context:
+    tasks:
+      deploy:
+        exclusive-global-resources:
+          "staging-v3-pdata": true
+        environment-variables:
+          HOSTS_FILE: inventories/zhdk/staging-v3-pdata
+
+'deploy_staging-v3-pdata_with-restore-data':
+  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  name: Deploy to staging-v3-pdata with data-reset
+  context:
+    tasks:
+      deploy:
+        exclusive-global-resources:
+          "staging-v3-pdata": true
+        environment-variables:
+          HOSTS_FILE: inventories/zhdk/staging-v3-pdata
+          RESTORE_DATA: 'true'
+        environment-variables:
+          HOSTS_FILE: inventories/zhdk/staging-v3-pdata
+
+
+###############################################################################
+
+'deploy_staging-v3-upload':
+  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  name: Deploy to staging-v3-upload
+  context:
+    tasks:
+      deploy:
+        exclusive-global-resources:
+          "staging-v3-upload": true
+        environment-variables:
+          HOSTS_FILE: inventories/zhdk/staging-v3-upload
+
+'deploy_staging-v3-upload_with-db-drop':
+  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  name: Deploy to staging-v3-upload with drop-database
+  context:
+    tasks:
+      deploy:
+        exclusive-global-resources:
+          "staging-v3-upload": true
+        environment-variables:
+          HOSTS_FILE: inventories/zhdk/staging-v3-upload
+          DROP_DATABASE: 'true'
+
+
