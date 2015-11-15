@@ -61,6 +61,7 @@ madek_database_secret: >
 # webapp 50%, and 10% of this is used as cache
 #################################################################################
 webapp_xmx_value: "{{ (ansible_memtotal_mb * 0.6) | round | int }}m"
+webapp_xms_value: "{{ (ansible_memtotal_mb * 0.3) | round | int }}m"
 webapp_cache_size_megabytes: "{{ (ansible_memtotal_mb * 0.1) | round | int }}"
 # api 20%
 lein_service_xmx_value: "{{ (ansible_memtotal_mb * 0.2) | round | int }}m"

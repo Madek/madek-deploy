@@ -1,5 +1,7 @@
 madek_host_name: test.madek.zhdk.ch
 
+setup_storage_directories: false
+
 file_storage_dir: /opt/madekdata/attachments
 thumbnail_storage_dir: /opt/madekdata/attachments
 
