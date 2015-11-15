@@ -6,6 +6,12 @@
   roles:
     - role: debuntu-setup
 
+    - role: monitoring
+      monitoring_state: unmonitored
+      monit_state: stopped
+      monitored_services: "{{madek_services}}"
+      tags: [monitoring-stop]
+
     - role: postgresql
     - role: ftp-server
 
@@ -34,11 +40,17 @@
 
     - role: madek-webapp
 
+    - role: monitoring
+      monitoring_state: monitored
+      monitored_services: "{{madek_services}}"
+      tags: [monitoring-start]
+
     - role: madek-permissions-lockdown
 
     - role: madek-set-data
 
     - role: server-reverse-proxy
+
 
 #
 #    - role: db-backups

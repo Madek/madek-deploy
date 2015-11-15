@@ -29,6 +29,18 @@ madek_webapp_service_name: "{{madek_base_name}}_webapp"
 madek_api_dir: "{{madek_root_dir}}/api"
 madek_api_service_name: "{{madek_base_name}}_api"
 
+madek_services:
+
+  - name: "{{madek_api_service_name}}"
+    port: "{{madek_api_port}}"
+    path: "{{madek_web_context_or_empty}}/api"
+    config_file_name: "{{madek_api_service_name}}_at_{{madek_api_port}}"
+
+  - name: "{{madek_webapp_service_name}}"
+    port: "{{madek_webapp_port}}"
+    path: "{{madek_web_context_or_empty}}/"
+    config_file_name: "{{madek_webapp_service_name}}_at_{{madek_webapp_port}}"
+
 
 # database
 database:
