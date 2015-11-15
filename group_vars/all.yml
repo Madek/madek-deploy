@@ -26,11 +26,11 @@ zencoder_test_mode: False
 ### directories ################################################################
 ################################################################################
 
-file_storage_dir: "{{madek_root_dir}}/storage/originals"
-thumbnail_storage_dir: "{{madek_root_dir}}/storage/thumbnails"
-download_storage_dir: "{{madek_root_dir}}/tmp/downloads"
-zip_storage_dir: "{{madek_root_dir}}/tmp/zipfiles"
-
+madek_storage_dir: /var/local/madek-file-storage
+file_storage_dir: "{{madek_storage_dir}}/originals"
+thumbnail_storage_dir: "{{madek_storage_dir}}/thumbnails"
+download_storage_dir: "{{madek_storage_dir}}/tmp/downloads"
+zip_storage_dir: "{{madek_storage_dir}}/tmp/zipfiles"
 
 ################################################################################
 ### secrets ####################################################################

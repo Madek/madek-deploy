@@ -38,6 +38,9 @@ You can as well start from scratch.
 
 ### Create your hosts configuration file
 
+** THIS IS OUTDATED**
+TODO
+
 This and all the following steps are carried out from within the `deploy`
 subdirectory.
 
@@ -59,7 +62,7 @@ value of the ansible_ssh_host variable  ip of your madek server. If the ip is
 
 ### Create a Admin User and set the Password
 
-    ansible-playbook -i my_hosts play_create-admin.yml -e 'admin_password=YOUR-SECRETE-PASSWORD madek_master_secret=REPLACE-WITH-YOUR-SECRET'
+    ansible-playbook -i my_hosts play_create-admin.yml -e 'admin_password=YOUR-SECRETE-PASSWORD'
 
 This will create (or update) a user with the login `admin` and the given
 password.
