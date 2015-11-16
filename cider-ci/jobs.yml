@@ -43,7 +43,7 @@
 
 'deploy_test_with-restore-data':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
-  name: Deploy to test with data-reset
+  name: Deploy to test with restore-data
   context:
     tasks:
       deploy:
@@ -52,9 +52,6 @@
         environment-variables:
           HOSTS_FILE: inventories/zhdk/test
           RESTORE_DATA: 'true'
-        environment-variables:
-          HOSTS_FILE: inventories/zhdk/test
-
 
 ###############################################################################
 
@@ -80,9 +77,6 @@
         environment-variables:
           HOSTS_FILE: inventories/zhdk/staging-v3-pdata
           RESTORE_DATA: 'true'
-        environment-variables:
-          HOSTS_FILE: inventories/zhdk/staging-v3-pdata
-
 
 ###############################################################################
 
