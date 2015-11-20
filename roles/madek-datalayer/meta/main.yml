@@ -1,7 +1,5 @@
 dependencies:
 
-  - role: install_nodejs
-
   - role: madek-user
 
   - role: rbenv
@@ -22,7 +20,3 @@ dependencies:
     path: "{{madek_webapp_dir}}"
     user: "{{madek_user}}"
     ruby_version: "{{rubies.mri.version}}"
-
-  - role: madek-npm
-    path: "{{madek_webapp_dir}}"
-    user: "{{madek_user}}"
