@@ -2,6 +2,8 @@ madek_host_name: test8.madek.zhdk.ch
 
 db_backups_enabled: False
 
+zencoder_enabled: True
+
 ssh_keys:
   - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/cislave_madek')}}"
   - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/drtom')}}"
