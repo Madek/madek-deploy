@@ -9,6 +9,8 @@ context:
 
     max-auto-trials: 1
 
+    aggregate-state: satisfy-last
+
     environment-variables:
       LANG: "en_US.UTF-8"
       DROP_DATABASE: false
