@@ -8,6 +8,16 @@ thumbnail_storage_dir: "{{thumbnail_storage_dir}}"
 download_storage_dir: "{{download_storage_dir}}"
 zip_storage_dir: "{{zip_storage_dir}}"
 
+
+zencoder_enabled: {{zencoder_enabled}}
+zencoder_api_key: {{zencoder_api_key}}
+zencoder_test_mode: {{zencoder_test_mode}}
+zencoder_video_output_formats_defaults: {{zencoder_video_output_formats_defaults}}
+zencoder_video_thumbnails_defaults: {{zencoder_video_thumbnails_defaults}}
+zencoder_audio_output_formats_defaults: {{zencoder_audio_output_formats_defaults}}
+
+
+
 database:
   adapter: "postgresql"
   classname: "org.postgresl.Driver"
