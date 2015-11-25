@@ -1,16 +1,3 @@
-- name: 'Give permissions to madek (will be locked down later)'
-  file:
-    path: "{{item}}"
-    owner: "{{madek_user}}"
-    group: "{{madek_user}}"
-    state: directory
-    recurse: true
-    mode: 0755
-  with_items:
-    - "~{{madek_user}}"
-    - "{{madek_webapp_dir}}"
-
-
 - name: 'npm: install'
   shell: "su -l -s /bin/bash -c 'cd {{path}} && npm install' {{madek_user}}"
   register: npm_install

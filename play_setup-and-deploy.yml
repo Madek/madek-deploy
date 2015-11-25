@@ -27,6 +27,7 @@
       git_checkout_target_path: "{{madek_root_dir}}"
       git_checkout_repo: "https://github.com/Madek/madek.git"
       git_checkout_version: "{{ lookup('pipe','cd  ./../. && git log -n 1 --format=%H') }}"
+      git_checkout_owner: "{{madek_user}}"
 
     - role: madek-user
 
@@ -45,19 +46,9 @@
       monitored_services: "{{madek_services}}"
       tags: [monitoring-start]
 
-    - role: madek-permissions-lockdown
-
     - role: madek-set-data
 
     - role: server-reverse-proxy
 
-
-#
 #    - role: db-backups
 #      tags: [db-backups]
-#
-#    - role: madek-dropbox
-#
-#    - role: madek-zencoder
-#      tags: [zencoder]
-#
