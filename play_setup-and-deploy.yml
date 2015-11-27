@@ -13,7 +13,6 @@
       tags: [monitoring-stop]
 
     - role: postgresql
-    - role: ftp-server
 
     - role: apache-httpd
 
