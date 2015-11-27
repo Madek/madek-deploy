@@ -65,7 +65,7 @@
 
 'deploy_staging-v3-pdata_with-restore-data':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
-  name: Deploy to staging-v3-pdata with data-reset
+  name: Deploy to staging-v3-pdata with restore-data
   context:
     tasks:
       deploy:
