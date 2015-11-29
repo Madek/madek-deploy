@@ -5,7 +5,7 @@
     tasks:
       deploy:
         exclusive-global-resources:
-          "test8": true
+          "test8.madek.zhdk.ch": true
         environment-variables:
           HOSTS_FILE: inventories/zhdk/test8
 
@@ -16,7 +16,7 @@
     tasks:
       deploy:
         exclusive-global-resources:
-          "test8": true
+          "test8.madek.zhdk.ch": true
         environment-variables:
           HOSTS_FILE: inventories/zhdk/test8
           DROP_DATABASE: 'true'
@@ -34,7 +34,7 @@
     tasks:
       deploy:
         exclusive-global-resources:
-          "test": true
+          "test.madek.zhdk.ch": true
         environment-variables:
           HOSTS_FILE: inventories/zhdk/test
 
@@ -45,7 +45,7 @@
     tasks:
       deploy:
         exclusive-global-resources:
-          "test": true
+          "test.madek.zhdk.ch": true
         environment-variables:
           HOSTS_FILE: inventories/zhdk/test
           RESTORE_DATA: 'true'
@@ -59,7 +59,7 @@
     tasks:
       deploy:
         exclusive-global-resources:
-          "staging-v3-pdata": true
+          "staging-v3-pdata.madek.zhdk.ch": true
         environment-variables:
           HOSTS_FILE: inventories/zhdk/staging-v3-pdata
 
@@ -70,7 +70,7 @@
     tasks:
       deploy:
         exclusive-global-resources:
-          "staging-v3-pdata": true
+          "staging-v3-pdata.madek.zhdk.ch": true
         environment-variables:
           HOSTS_FILE: inventories/zhdk/staging-v3-pdata
           RESTORE_DATA: 'true'
@@ -84,7 +84,7 @@
     tasks:
       deploy:
         exclusive-global-resources:
-          "staging-v3-upload": true
+          "staging-v3-upload.madek.zhdk.ch": true
         environment-variables:
           HOSTS_FILE: inventories/zhdk/staging-v3-upload
 
@@ -95,9 +95,7 @@
     tasks:
       deploy:
         exclusive-global-resources:
-          "staging-v3-upload": true
+          "staging-v3-upload.madek.zhdk.ch": true
         environment-variables:
           HOSTS_FILE: inventories/zhdk/staging-v3-upload
           DROP_DATABASE: 'true'
-
-
