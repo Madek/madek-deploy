@@ -94,6 +94,22 @@ is recommended to be consulted for confirmation.
   [Ansible Vault]: http://docs.ansible.com/ansible/playbooks_vault.html
 
 
+### Creating and Fetching Database Dumps
+
+Example:
+
+    ansible-playbook -i inventories/zhdk/staging-v3-pdata play_dump-and-fetch-data.yml
+
+
+This will dump and fetch `data` as well as `structure_and_data` into
+`tmp/{{ansible_host_name}}/tmp/` . Override `dump_items` to fetch only either
+of them.
+
+From the datalayer directory (of the webapp) a restore would look like the
+following example:
+
+    rake db:pg:truncate_tables db:pg:data:restore FILE=../../../deploy/tmp/staging-v3-pdata/tmp/madek_data.pgbin
+
 
 
 ### Web-Contexts
@@ -135,23 +151,6 @@ A minimal list of things to do:
     should be avoided.
 
 
-### Resetting the Data from Production `test.madek`
-
-** THIS IS OUTDATED**
-TODO
-
-
-Resetting the data from the last production dump is conditional and needs to
-explicitly requested, e.g.:
-
-    ansible-playbook -i hosts_zhdk-test play_setup-and-deploy.yml -e 'reset_data=True'
-
-Be aware:
-
-* Running the migrations, and hence the whole deploy, will take more than 2 hours.
-* Resetting the data is required if migrations are mutated.
-
-
 ### Configure the Color Scheme
 
 TODO
@@ -172,7 +171,7 @@ See `host_vars/test-vm` for example.
 
 TODO
 
-** THIS IS OUTDATED AND CURRENTLY NOT POSSIBLE **
+** This is outdated, see the examples **
 
 
 Set the `zencoder_enabled` variable in your host file to `True`, and

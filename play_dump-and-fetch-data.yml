@@ -1,0 +1,34 @@
+---
+
+- hosts: madek
+
+  vars_files:
+    - vars.yml
+
+  vars:
+    dump_items:
+      - data
+      - structure_and_data
+
+  tasks:
+
+  - name: Dump
+    become: true
+    become_user: '{{madek_user}}'
+    become_method: su
+    shell:  |
+      set -eux
+      source /etc/profile.d/rbenv-load.sh
+      rbenv-load
+      cd {{madek_webapp_dir}}
+      export RAILS_ENV={{rails_env}}
+      export RBENV_VERSION={{rubies.mri.version}}
+      bundle exec rake db:pg:{{item}}:dump FILE=/tmp/madek_{{item}}.pgbin
+    args:
+      executable: /bin/bash
+    with_items: "{{dump_items}}"
+
+  - fetch:
+      src: /tmp/madek_{{item}}.pgbin
+      dest: tmp/
+    with_items: "{{dump_items}}"
