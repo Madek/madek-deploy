@@ -34,6 +34,8 @@ services:
 
   api:
 
+    cors_enabled: {{api_cors_enabled}}
+
     http:
 
       host: localhost
