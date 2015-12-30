@@ -11,8 +11,6 @@ export export RAILS_RELATIVE_URL_ROOT="{{madek_web_context_or_empty}}"
 export MADEK_ROOT_DIR="{{madek_root_dir}}"
 
 # Memory Settings
-export JVM_OPTS="-Xmx{{webapp_xmx_value}}"
-# it seems that the above is ignored,
 # we could either invoke `jruby -J-Xmx4G` or set JRUBY_OPTS
 export JRUBY_OPTS="-J-Xms{{webapp_xms_value}} -J-Xmx{{webapp_xmx_value}}"
 

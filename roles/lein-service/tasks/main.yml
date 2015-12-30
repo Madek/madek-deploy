@@ -35,7 +35,7 @@
     su -l -s /bin/bash -c '
     cd {{lein_service_app_dir}}
     && export LEIN_ROOT=1
-    && export JVM_OPTS=-Xmx256m
+    && export JAVA_OPTS=-Xmx256m
     && lein do deps, clean, compile
     ' {{madek_user}}
   changed_when: false
