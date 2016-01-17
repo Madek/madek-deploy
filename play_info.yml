@@ -5,6 +5,23 @@
 
   tasks:
 
+
+  - name: madek_memtotal_mb
+    debug:
+      var: madek_memtotal_mb
+
+  - name: webapp_xmx_mb_value
+    debug:
+      var: webapp_xmx_mb_value
+
+  - name: webapp_cache_size_megabytes
+    debug:
+      var: webapp_cache_size_megabytes
+
+  - name: lein_service_xmx_mb_value
+    debug:
+      var: lein_service_xmx_mb_value
+
   - name: the madek_master_secret
     debug:
       msg: '{{ madek_master_secret }}'

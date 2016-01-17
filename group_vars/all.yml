@@ -80,9 +80,9 @@ madek_database_secret: >
 
 madek_memtotal_mb: '{{ansible_memtotal_mb * 0.7 }}'
 
-webapp_xmx_mb_value: "{{ madek_memtotal_mb * 0.5 | round | int }}"
-webapp_cache_size_megabytes: "{{ madek_memtotal_mb * 0.05 | round | int }}"
-lein_service_xmx_mb_value: "{{ madek_memtotal_mb * 0.1 | round | int }}"
+webapp_xmx_mb_value: "{{ ((madek_memtotal_mb | float) * 0.5) | round |int }}"
+webapp_cache_size_megabytes: "{{ (( madek_memtotal_mb | float) * 0.05) | round | int }}"
+lein_service_xmx_mb_value: "{{ ((madek_memtotal_mb | float) * 0.1) | round | int }}"
 
 
 ################################################################################
