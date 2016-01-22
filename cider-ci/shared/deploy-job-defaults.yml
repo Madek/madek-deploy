@@ -35,5 +35,6 @@ context:
           echo $(pwd)
           ls -R inventories
           time ansible-playbook -v -i "${HOSTS_FILE}" play_setup-and-deploy.yml \
-             --extra-vars "{\"drop_database\": ${DROP_DATABASE}, \"restore_data\": ${RESTORE_DATA}}"
+             --extra-vars "{\"drop_database\": ${DROP_DATABASE}, \"restore_data\": ${RESTORE_DATA}}" \
+             --vault-password-file inventories/zhdk/vault-pass
 
