@@ -72,13 +72,15 @@
     src: service.conf
     dest: "/etc/systemd/system/{{madek_webapp_service_name}}.service"
   register: madek_webapp_systemd_service
-  when: ansible_distribution_release == 'jessie'
+  when: not ansible_distribution_release == 'trusty'
+
 
 - service:
     name: "{{madek_webapp_service_name}}"
     enabled: yes
 
 - command: logrotate -f /etc/logrotate.d/{{madek_webapp_service_name}}
+  ignore_errors: yes
 
 - service:
     name: "{{madek_webapp_service_name}}"

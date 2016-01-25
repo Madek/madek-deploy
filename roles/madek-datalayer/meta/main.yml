@@ -1,5 +1,8 @@
 dependencies:
 
+  - role: install_nodejs
+    npm_version: next
+
   - role: madek-user
 
   - role: rbenv

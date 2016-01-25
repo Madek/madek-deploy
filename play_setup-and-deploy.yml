@@ -22,13 +22,13 @@
     - role: cleanup
       path: "{{madek_root_dir}}"
 
+    - role: madek-user
+
     - role: git-checkout
       git_checkout_target_path: "{{madek_root_dir}}"
       git_checkout_repo: "https://github.com/Madek/madek.git"
       git_checkout_version: "{{ lookup('pipe','cd  ./../. && git log -n 1 --format=%H') }}"
       git_checkout_owner: "{{madek_user}}"
-
-    - role: madek-user
 
     - role: madek-datalayer
       tags: [madek-datalayer]
