@@ -40,6 +40,9 @@
 
     - role: madek-webapp
 
+    - role: madek-admin
+      tags: [madek-admin]
+
     - role: monitoring
       monitoring_state: monitored
       monitored_services: "{{madek_services}}"

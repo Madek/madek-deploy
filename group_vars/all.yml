@@ -80,9 +80,14 @@ madek_database_secret: >
 
 madek_memtotal_mb: '{{ansible_memtotal_mb * 0.7 }}'
 
-webapp_xmx_mb_value: "{{ ((madek_memtotal_mb | float) * 0.5) | round |int }}"
+webapp_xmx_mb_value: "{{ ((madek_memtotal_mb | float) * 0.4) | round |int }}"
 webapp_cache_size_megabytes: "{{ (( madek_memtotal_mb | float) * 0.05) | round | int }}"
+
+admin_xmx_mb_value: "{{ ((madek_memtotal_mb | float) * 0.2) | round |int }}"
+admin_cache_size_megabytes: "{{ (( madek_memtotal_mb | float) * 0.05) | round | int }}"
+
 lein_service_xmx_mb_value: "{{ ((madek_memtotal_mb | float) * 0.1) | round | int }}"
+
 
 
 ################################################################################
@@ -94,7 +99,8 @@ lein_service_xmx_mb_value: "{{ ((madek_memtotal_mb | float) * 0.1) | round | int
 madek_base_name: madek
 madek_web_context: "/"
 madek_webapp_port: 8880
-madek_api_port: 8980
+madek_admin_port: 8881
+madek_api_port: 8885
 
 
 ################################################################################

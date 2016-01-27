@@ -1,0 +1,86 @@
+- name: Install admin dependencies
+  apt: pkg={{item}} state=present update_cache=yes cache_valid_time=3600
+  with_items:
+    - memcached
+    - libimage-exiftool-perl
+    - imagemagick
+
+
+### secrets ####################################################################
+
+- name: Create secrets
+  template: src=secrets.yml
+            dest={{madek_admin_dir}}/config/secrets.yml
+            owner={{madek_user}}
+            group={{madek_user}}
+            mode=0600
+  register: secret
+
+
+### assets ###################################################################
+
+- name: 'Assets: Precompile'
+  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
+            && rbenv-load
+            && cd {{madek_admin_dir}}
+            && export RAILS_ENV={{rails_env}}
+            && export RBENV_VERSION={{rubies.mri.version}}
+            && export RAILS_RELATIVE_URL_ROOT="{{madek_web_context}}"
+            && rm -rf public/assets/*
+            && rm -rf tmp/cache/*
+            && bundle exec rake assets:precompile' {{madek_user}}
+          executable=/bin/bash
+  register: precompile_assets
+  changed_when: not precompile_assets.stderr | match("")
+
+### logs #######################################################################
+
+- name: Configure logrotation
+  template:
+    src: logrotate
+    dest: "/etc/logrotate.d/{{madek_admin_service_name}}"
+
+### Shared Service #############################################################
+
+- template: src=wrapper.sh
+            dest={{madek_admin_wrapper_bin}}
+            mode=755
+  register: madek_admin_wrapper
+
+- template: src=start.sh
+            dest={{madek_admin_service_bin}}
+            mode=755
+  register: madek_admin_start
+
+
+### Upstart Service ############################################################
+
+- template: src=init.conf
+            dest=/etc/init/cider-ci_user-interface.conf
+  register: init_script
+  when: ansible_distribution_release == 'trusty'
+
+
+### Systemd Service ############################################################
+
+- template:
+    src: service.conf
+    dest: "/etc/systemd/system/{{madek_admin_service_name}}.service"
+  register: madek_admin_systemd_service
+  when: not ansible_distribution_release == 'trusty'
+
+
+- service:
+    name: "{{madek_admin_service_name}}"
+    enabled: yes
+
+- command: logrotate -f /etc/logrotate.d/{{madek_admin_service_name}}
+  ignore_errors: yes
+
+- service:
+    name: "{{madek_admin_service_name}}"
+    state: restarted
+
+- service:
+    name: "{{madek_admin_service_name}}"
+    state: started
