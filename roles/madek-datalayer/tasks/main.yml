@@ -3,6 +3,9 @@
     state: stopped
   failed_when: false
 
+- command: logrotate -f /etc/logrotate.d/{{madek_webapp_service_name}}
+  failed_when: false
+
 - file:
     path: "{{madek_root_dir}}"
     owner: "{{madek_user}}"
