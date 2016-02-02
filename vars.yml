@@ -23,6 +23,8 @@ madek_user_home: "/home/{{madek_user}}"
 
 madek_root_dir: '/var/local/{{madek_base_name}}'
 
+madek_api_docs_dir: "{{madek_root_dir}}/api-docs"
+
 madek_webapp_dir: "{{madek_root_dir}}/webapp"
 madek_webapp_service_name: "{{madek_base_name}}_webapp"
 
