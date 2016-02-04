@@ -85,7 +85,7 @@ Vault].
 Caveat: the [Ansible rules of precedence] should be understood when proceeding
 in this manner. At any rate, invoking
 
-    ansible-playbook -i my_hosts play_info.yml
+    ansible-playbook -i my_hosts play_info.yml --vault-password-file inventories/zhdk/vault-pass
 
 (possibly with augmented arguments) will show the actual used values and
 is recommended to be consulted for confirmation.
