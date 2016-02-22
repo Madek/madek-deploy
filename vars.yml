@@ -49,7 +49,7 @@ madek_services:
 
   - name: "{{madek_admin_service_name}}"
     port: "{{madek_admin_port}}"
-    path: "{{madek_web_context_or_empty}}/"
+    path: "{{madek_web_context_or_empty}}/admin"
     config_file_name: "{{madek_admin_service_name}}_at_{{madek_admin_port}}"
 
 
