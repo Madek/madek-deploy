@@ -1,7 +1,6 @@
 dependencies:
 
-  - role: install_nodejs
-    npm_version: next
+  - role: install-nodejs
 
   - role: madek-user
 
@@ -16,6 +15,7 @@ dependencies:
       alias: "{{rubies.mri.alias}}"
       present: True
       default: True
+      package_dependencies: []
 
   - role: madek-configuration
 

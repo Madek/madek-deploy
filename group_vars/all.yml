@@ -68,10 +68,7 @@ madek_master_secret: >
       madek_web_context
     ] | join(" ") | hash("sha256") }}
 
-madek_database_secret: >
-  {{lookup('pipe', "echo -n 'database' | openssl sha1 -hmac '{{madek_master_secret}}' | cut -f2 -d ' '")}}
-
-
+madek_database_secret: "{{['database', madek_master_secret ] | join() | hash('sha256') }}"
 
 ###############################################################################
 ### Memory ####################################################################

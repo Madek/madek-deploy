@@ -1,7 +1,6 @@
 dependencies:
 
-  - role: install_nodejs
-    npm_version: next
+  - role: install-nodejs
 
   - role: madek-user
 
@@ -11,6 +10,7 @@ dependencies:
       version: "{{rubies.jruby.version}}"
       alias: "{{rubies.jruby.alias}}"
       present: True
+      package_dependencies: []
 
   - role: bundle
     path: "{{madek_webapp_dir}}"
@@ -28,6 +28,7 @@ dependencies:
       alias: "{{rubies.mri.alias}}"
       present: True
       default: True
+      package_dependencies: []
 
   - role: bundle
     path: "{{madek_webapp_dir}}"

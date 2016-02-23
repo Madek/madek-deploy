@@ -26,6 +26,10 @@
     debug:
       msg: '{{ madek_master_secret }}'
 
+  - name: the madek_database_secret
+    debug:
+      msg: '{{ madek_database_secret}}'
+
   - name: the madek_host_name
     debug:
       msg: '{{ madek_host_name }}'
