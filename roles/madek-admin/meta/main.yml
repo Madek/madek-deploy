@@ -37,7 +37,3 @@ dependencies:
     ruby_version: "{{rubies.mri.version}}"
 
   - role: madek-configuration
-
-  - role: madek-npm
-    path: "{{madek_admin_dir}}"
-    user: "{{madek_user}}"
