@@ -1,3 +1,0 @@
-- name: 'npm: install'
-  shell: "su -l -s /bin/bash -c 'cd {{path}} && npm install' {{madek_user}}"
-  register: npm_install
