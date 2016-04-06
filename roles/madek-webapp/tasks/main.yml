@@ -16,28 +16,6 @@
             mode=0600
   register: secret
 
-
-### assets ###################################################################
-
-- name: custom color scheme
-  template:
-    src: colors.sass
-    dest: "{{madek_webapp_dir}}/app/assets/stylesheets/config/local/_colors.sass"
-
-- name: 'Assets: Precompile'
-  shell:  su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
-            && rbenv-load
-            && cd {{madek_webapp_dir}}
-            && export RAILS_ENV={{rails_env}}
-            && export RBENV_VERSION={{rubies.mri.version}}
-            && export RAILS_RELATIVE_URL_ROOT="{{madek_web_context}}"
-            && rm -rf public/assets/*
-            && rm -rf tmp/cache/*
-            && bundle exec rake assets:precompile' {{madek_user}}
-          executable=/bin/bash
-  register: precompile_assets
-  changed_when: not precompile_assets.stderr | match("")
-
 ### logs #######################################################################
 
 - name: Configure logrotation
