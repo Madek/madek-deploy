@@ -1,0 +1,21 @@
+- name: remove ruby
+  file:
+    path: ~/.rbenv/versions/{{version}}
+    state: absent
+  when: reinstall
+
+- name: install ruby
+  become: yes
+  become_user: "{{user}}"
+  shell: |
+    #!/usr/bin/env bash
+    set -eux
+    if [ ! -d ~/.rbenv/versions/{{version}} ]; then
+      . ~/.bashrc
+      export PATH="$HOME/.rbenv/bin:$PATH"
+      eval "$(rbenv init -)"
+      rm -f ~/.rbenv/shims/.rbenv-shim
+      rbenv install {{version}}
+      gem install bundler
+      rbenv rehash
+    fi

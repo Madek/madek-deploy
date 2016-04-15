@@ -4,12 +4,6 @@
 [submodule "roles/postgresql"]
 	path = roles/postgresql
 	url = https://github.com/DrTom/ansible-role-postgresql.git
-[submodule "roles/rbenv"]
-	path = roles/rbenv
-	url = https://github.com/DrTom/ansible-role-rbenv.git
-[submodule "roles/rbenv-ruby"]
-	path = roles/rbenv-ruby
-	url = https://github.com/DrTom/ansible-role-rbenv-ruby.git
 [submodule "roles/apache-httpd"]
 	path = roles/apache-httpd
 	url = https://github.com/DrTom/ansible-role-apache-httpd.git

@@ -10,12 +10,7 @@ dependencies:
 
   - role: rbenv-ruby
     user: "{{madek_user}}"
-    ruby:
-      version: "{{rubies.mri.version}}"
-      alias: "{{rubies.mri.alias}}"
-      present: True
-      default: True
-      package_dependencies: []
+    version: "{{rubies.mri.version}}"
 
   - role: madek-configuration
 

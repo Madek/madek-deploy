@@ -18,8 +18,8 @@
     become_method: su
     shell:  |
       set -eux
-      source /etc/profile.d/rbenv-load.sh
-      rbenv-load
+      export PATH="$HOME/.rbenv/bin:$PATH"
+      eval "$(rbenv init -)"
       cd {{madek_webapp_dir}}
       export RAILS_ENV={{rails_env}}
       export RBENV_VERSION={{rubies.mri.version}}

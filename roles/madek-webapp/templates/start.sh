@@ -1,8 +1,10 @@
 #!/bin/bash
 set -eux
-source /etc/profile.d/rbenv-load.sh
+
 cd {{madek_webapp_dir}}
-rbenv-load
+
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
 rbenv shell {{rubies.jruby.version}}
 
 # Rails Settings

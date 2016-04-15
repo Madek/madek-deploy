@@ -1,10 +1,10 @@
 
 rubies:
   jruby:
-    version: jruby-9.0.3.0
+    version: jruby-9.0.5.0
     alias: jruby-9000
   mri:
-    version: 2.2.3
+    version: 2.2.4
     alias: 2.2
     present: True
     default: True

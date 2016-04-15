@@ -1,10 +1,15 @@
 - name: "Bundle {{ruby_version}}"
-  shell: su -l -s /bin/bash -c 'source /etc/profile.d/rbenv-load.sh
-          && rbenv-load
-          && cd {{path}}
-          && export RAILS_ENV={{rails_env}}
-          && export RBENV_VERSION={{ruby_version}}
-          && bundle install --deployment' {{user}}
-         executable=/bin/bash
+  become: true
+  become_user: "{{user}}"
+  shell: |
+    #!/usr/bin/env bash
+    set -uex
+    export PATH="$HOME/.rbenv/bin:$PATH"
+    eval "$(rbenv init -)"
+    cd {{path}}
+    export RAILS_ENV={{rails_env}}
+    export RBENV_VERSION={{ruby_version}}
+    bundle install --deployment
   register: bundle_mri
-  changed_when: bundle_mri.stdout | match(".*Installing.*")
+  changed_when: >
+    bundle_mri.stdout | match(".*Installing.*")

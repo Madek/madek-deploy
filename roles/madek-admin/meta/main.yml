@@ -6,11 +6,7 @@ dependencies:
 
   - role: rbenv-ruby
     user: "{{madek_user}}"
-    ruby:
-      version: "{{rubies.jruby.version}}"
-      alias: "{{rubies.jruby.alias}}"
-      present: True
-      package_dependencies: []
+    version: "{{rubies.jruby.version}}"
 
   - role: bundle
     path: "{{madek_admin_dir}}"
@@ -23,13 +19,7 @@ dependencies:
 
   - role: rbenv-ruby
     user: "{{madek_user}}"
-    ruby:
-      version: "{{rubies.mri.version}}"
-      alias: "{{rubies.mri.alias}}"
-      present: True
-      default: True
-      package_dependencies: []
-
+    version: "{{rubies.mri.version}}"
 
   - role: bundle
     path: "{{madek_admin_dir}}"
