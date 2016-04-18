@@ -14,8 +14,9 @@
       . ~/.bashrc
       export PATH="$HOME/.rbenv/bin:$PATH"
       eval "$(rbenv init -)"
-      rm -f ~/.rbenv/shims/.rbenv-shim
       rbenv install {{version}}
+      rbenv shell {{version}}
+      rbenv rehash
       gem install bundler
       rbenv rehash
     fi

@@ -12,11 +12,3 @@
     rm -rf ~/.rbenv/plugins
     curl https://raw.githubusercontent.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash
 
-- name: add local rbenv-load to bashrc
-  become: yes
-  become_user: "{{user}}"
-  lineinfile:
-    dest: ~/.bashrc
-    line: >
-      function rbenv-load(){ export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)" ;} # rbenv-load via ansible
-    regexp: rbenv-load via ansible
