@@ -2,9 +2,7 @@
 set -eux
 cd {{madek_admin_dir}}
 
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-rbenv shell {{rubies.jruby.version}}
+export PATH=$(pwd)/vendor/jruby/bin/:$PATH
 
 # Rails Settings
 export RAILS_ENV={{rails_env}}

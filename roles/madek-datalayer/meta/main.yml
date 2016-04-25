@@ -1,20 +1,5 @@
 dependencies:
 
-  - role: install-nodejs
-
   - role: madek-user
 
-  - role: rbenv
-    user: "{{madek_user}}"
-    rbenv_change_owner_post_setup: root
-
-  - role: rbenv-ruby
-    user: "{{madek_user}}"
-    version: "{{rubies.mri.version}}"
-
   - role: madek-configuration
-
-  - role: bundle
-    path: "{{madek_webapp_dir}}"
-    user: "{{madek_user}}"
-    ruby_version: "{{rubies.mri.version}}"
