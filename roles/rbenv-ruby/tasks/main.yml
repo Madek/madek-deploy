@@ -6,7 +6,7 @@
 
 - name: install ruby
   become: yes
-  become_user: "{{user}}"
+  become_user: "{{madek_user}}"
   shell: |
     #!/usr/bin/env bash
     set -eux
