@@ -1,0 +1,9 @@
+- name: remove madek monitorings
+  shell: |
+    set -eux
+    rm -f /etc/monit/conf.d/madek_*
+
+- name: reload monit
+  service:
+    name: monit
+    state: reloaded

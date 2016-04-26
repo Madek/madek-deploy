@@ -7,11 +7,8 @@
 
     - role: os-setup
 
-    - role: monitoring
-      monitoring_state: unmonitored
-      monit_state: stopped
-      monitored_services: "{{madek_services}}"
-      tags: [monitoring-stop]
+    - role: monit-unmonitor
+      tags: [monit-unmonitor]
 
     - role: openjdk8_install
 
