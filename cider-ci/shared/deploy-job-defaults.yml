@@ -28,7 +28,7 @@ context:
 
     scripts:
       deploy:
-        timeout: 5 hours
+        timeout: 3 hours
         body: |
           set -eux
           cd deploy

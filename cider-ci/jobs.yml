@@ -1,3 +1,17 @@
+'deploy_hslu':
+  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  name: Deploy to hslu
+  context:
+    tasks:
+      deploy:
+        exclusive-global-resources:
+          "hslu.madek.zhdk.ch": true
+        environment-variables:
+          HOSTS_FILE: inventories/zhdk/hslu
+
+###############################################################################
+
+
 'deploy_test8':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to test8

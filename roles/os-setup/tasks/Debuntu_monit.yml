@@ -38,7 +38,7 @@
   lineinfile:
     dest: /etc/monit/monitrc
     regexp: 'allow (admin|cider-ci):.*'
-    line: '   allow admin:"{{ci_master_secret}}"'
+    line: '   allow admin:"{{madek_master_secret}}"'
 
 - name: reload monit
   service:
