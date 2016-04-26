@@ -20,6 +20,7 @@
       set -eux
       cd {{madek_webapp_dir}}
       export PATH=$(pwd)/vendor/jruby/bin/:$PATH
+      export RAILS_ENV=production
       jruby -S bundle exec rake db:pg:{{item}}:dump FILE=/tmp/madek_{{item}}.pgbin
     args:
       executable: /bin/bash
