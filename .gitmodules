@@ -1,6 +1,3 @@
-[submodule "roles/debuntu-setup"]
-	path = roles/debuntu-setup
-	url = https://github.com/DrTom/ansible-role-debuntu-setup
 [submodule "roles/postgresql"]
 	path = roles/postgresql
 	url = https://github.com/DrTom/ansible-role-postgresql.git
