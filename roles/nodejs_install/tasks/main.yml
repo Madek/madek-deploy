@@ -1,20 +1,8 @@
-- name: Install dependencies node.js
-  apt:
-    pkg: curl
-    state: latest
-    cache_valid_time: 3600
-
-- name: Configure APT for nodejs
-  shell: |
-    #!/usr/bin/bash
-    set -eux
-    curl -sL https://deb.nodesource.com/setup_4.x | bash -
-
 - name: Install node.js
   apt:
-    pkg: nodejs
+    pkg: "{{item}}"
     state: latest
     cache_valid_time: 3600
-
-- name: update npm
-  shell: npm install --global npm@latest
+  with_items:
+    - nodejs
+    - nodejs-legacy

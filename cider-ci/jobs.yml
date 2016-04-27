@@ -11,6 +11,32 @@
 
 ###############################################################################
 
+'deploy_preview':
+  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  name: Deploy to preview
+  context:
+    tasks:
+      deploy:
+        exclusive-global-resources:
+          "preview.madek.zhdk.ch": true
+        environment-variables:
+          HOSTS_FILE: inventories/zhdk/preview
+
+'deploy_preview_with-restore-data':
+  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  name: Deploy to preview with restore-data
+  context:
+    tasks:
+      deploy:
+        exclusive-global-resources:
+          "preview.madek.zhdk.ch": true
+        environment-variables:
+          HOSTS_FILE: inventories/zhdk/preview
+          RESTORE_DATA: 'true'
+
+
+###############################################################################
+
 
 'deploy_test8':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
