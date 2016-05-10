@@ -13,5 +13,5 @@ export MADEK_ROOT_DIR="{{madek_root_dir}}"
 # we could either invoke `jruby -J-Xmx4G` or set JRUBY_OPTS
 export JRUBY_OPTS=" -J-Xmx{{admin_xmx_mb_value}}m "
 
-bundle exec puma config.ru -t 4:40 -b tcp://127.0.0.1:{{madek_admin_port}} \
+ruby -S bundle exec puma config.ru -t 4:40 -b tcp://127.0.0.1:{{madek_admin_port}} \
   >> {{madek_admin_log_dir}}/{{madek_admin_service_name}}.log 2>&1
