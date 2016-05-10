@@ -10,9 +10,6 @@
     - role: monit-unmonitor
       tags: [monit-unmonitor]
 
-    - role: nodejs_install
-      tags: [nodejs_install]
-
     - role: openjdk8_install
 
     - role: postgresql
