@@ -1,0 +1,12 @@
+- name: stop all madek services
+  shell:
+    systemctl list-unit-files --type=service
+    | awk '{print $1}'
+    | grep madek
+    | xargs systemctl stop
+  failed_when: false
+
+- name: remove madek units
+  shell: rm -f /etc/systemd/system/madek*
+
+- shell: systemctl daemon-reload

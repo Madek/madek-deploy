@@ -1,5 +1,0 @@
-lein_service_user: "{{lein_git_service_name}}"
-lein_service_app_dir: "/var/local/{{lein_service_name}}"
-lein_service_log_dir: /var/log/{{lein_service_name}}
-lein_service_bin: /usr/local/bin/{{lein_service_name}}
-lein_service_wrapper_bin: /usr/local/bin/{{lein_service_name}}_wrapper

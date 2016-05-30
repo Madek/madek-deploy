@@ -1,0 +1,6 @@
+# Cleanup previously ignored directories that were converted to submodules
+# (can not be handled automatically, need to explicity handle them)
+
+- include: unmonitor.yml
+- include: stop-and-remove-services.yml
+- include: apache.yml

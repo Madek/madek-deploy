@@ -1,0 +1,5 @@
+dependencies:
+
+  - role: madek-user
+
+  - role: madek-configuration

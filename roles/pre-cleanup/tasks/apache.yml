@@ -1,0 +1,3 @@
+- name: 'remove all madek reverse-proxy configurations'
+  shell:  find /etc/apache2 | grep madek | xargs rm -rf
+

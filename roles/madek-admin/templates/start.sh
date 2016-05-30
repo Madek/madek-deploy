@@ -6,7 +6,7 @@ export PATH=$(pwd)/vendor/jruby/bin/:$PATH
 
 # Rails Settings
 export RAILS_ENV={{rails_env}}
-export export RAILS_RELATIVE_URL_ROOT="{{madek_web_context_or_empty}}"
+export export RAILS_RELATIVE_URL_ROOT=""
 export MADEK_ROOT_DIR="{{madek_root_dir}}"
 
 # Memory Settings

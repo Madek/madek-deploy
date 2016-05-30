@@ -42,7 +42,7 @@ services:
 
       host: localhost
       port: {{madek_api_port}}
-      context: {{madek_web_context_or_empty}}
+      context: ""
       sub_context: /api
       ssl: false
 

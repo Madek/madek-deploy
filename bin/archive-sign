@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -eu
+
+mkdir -p tmp
+
+function cleanup {
+  rm -f tmp/madek.secret.pem
+}
+trap cleanup EXIT
+cleanup
+
+gpg --output tmp/madek.secret.pem --decrypt crypto/madek.secret.pem.gpg
+
+cat madek.tar.gz | openssl dgst -sha256 -sign tmp/madek.secret.pem -out madek.tar.gz.sig
+
+bin/archive-verify

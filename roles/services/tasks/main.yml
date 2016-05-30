@@ -1,0 +1,34 @@
+- debug:
+    var: madek_services
+
+- name: make sure service {{item.value.name}} is stopped
+  service:
+    name: madek_{{item.value.name}}
+    state: stopped
+  failed_when: false
+  with_dict: '{{madek_services}}'
+
+#- include: configure.yml
+#  tags: [deploy-configure]
+
+- include: setup-service.yml
+  with_dict: '{{madek_services}}'
+  tags: [deploy-setup-services]
+
+- name: reload systemctl
+  command: systemctl daemon-reload
+  changed_when: false
+
+- name: start service {{item.value.name}}
+  service:
+    name: madek_{{item.value.name}}
+    state: started
+    enabled: yes
+  with_dict: '{{madek_services}}'
+
+- name: wait for service {{item.value.name}}
+  wait_for:
+    host: localhost
+    port: '{{item.value.http_port}}'
+    timeout: 120
+  with_dict: '{{madek_services}}'

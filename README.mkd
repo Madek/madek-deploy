@@ -1,7 +1,7 @@
 Setting up Madek with Ansible
 =============================
 
-**WORK IN PROGRESS** The deploy scriptes are being rewritten for Madek version 3.
+**WORK IN PROGRESS** The deploy scripts are being rewritten for Madek version 3.
 
 Step by step procedure
 ----------------------
@@ -112,80 +112,8 @@ following example:
 
 
 
-### Web-Contexts
-
-TODO
-
-### Virtual Host Names
-
-TODO
-
-### Running multiple Instances of Madek within one Host
-
-**We highly recommend not to run multiple instances in a single host**.  It is
-possible but the setup is intricate and prone to cause interference between the
-applications unless the administrator has a very deep knowledge of Madek itself
-and of the internals of the Madek deployment and setup process. We ourself only
-use this possibility for testing etc.
-
-A minimal list of things to do:
-
-* Override the following vars with appropriate values:
-    * `madek_base_name`
-    * `madek_web_context` and/or `madek_host_name`
-    * `madek_webapp_port` and `madek_api_port`
-
-#### Caveats
-
-* Contexts can shadow routes used by madek, e.g. `/my` (as used by
-    the dashboard) is likely to cause conflicts.
-
-* Order of contexts matters: adjust the order of lines in
-    `/etc/apache2/shared/YOUR-HOST-NAME_apps.conf` if any context shadows
-    others, e.g. `/madek2` must come before `/` or the Madek instance
-    under `/` will shadow any paths and `/madek2` can not be reached.
-
-* The `madek_base_name` must be unique per instance. It is used for user and
-    entity names (system, database, ...) and as part of paths. The value is not
-    escaped and characters which are likely to cause problems in these contexts
-    should be avoided.
-
-
-### Configure the Color Scheme
-
-TODO
-
-** THIS IS OUTDATED AND CURRENTLY BROKEN / NOT POSSIBLE **
-
-
-Madek comes with 4 predefined color schemes: green, red, blue and mono. The
-color scheme can be configured by setting the `color_scheme` variable.
-You can also set a `custom_color` variable to a valid CSS color, which will
-override the main color *on top of* the chosen scheme.
-
-This is most conveniently performed in the variables file for your specific host.
-See `host_vars/test-vm` for example.
-
 
 ### Configure Zencoder
 
-TODO
+See the examples.
 
-** This is outdated, see the examples **
-
-
-Set the `zencoder_enabled` variable in your host file to `True`, and
-the `zencoder_test_mode` to your desired value (probably `False`).
-
-    zencoder_enabled: True
-    zencoder_test_mode: False
-
-Keep these parameters in the hosts file. Run the setup-and-deploy play
-with an additional parameter specifying your zencoder api-key:
-
-    ansible-playbook  -i hosts play_setup-and-deploy.yml -e 'zencoder_api_key=YOUR-ZENCODER-API-KEY'
-
-Note: The *setup-and-deploy* playbook will remember the
-`zencoder_api_key`. There is no need to specify it again when the
-setup-and-deploy playbook will be run in the future, to upgrade your
-madek installation e.g.

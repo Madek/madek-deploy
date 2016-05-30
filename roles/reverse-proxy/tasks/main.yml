@@ -1,0 +1,35 @@
+- include: setup-apache2.yml
+
+- name: disable all madek sites
+  shell: rm /etc/apache2/sites-enabled/madek_*
+  failed_when: false
+  register: cmd
+  changed_when: cmd.rc != 0
+
+- name: remove madek configurations
+  file:
+    path: /etc/apache2/madek
+    state: absent
+
+- file:
+    path: /etc/apache2/madek/
+    state: directory
+    mode: 0755
+
+- template:
+    src: shared.conf
+    dest: /etc/apache2/madek/shared.conf
+    mode: 0644
+  tags:
+    - server_setup-munin
+
+- include: virtual-host.yml
+  with_indexed_items: '{{virtual_hosts}}'
+
+- name: reload reverse-proxy
+  service:
+    name: apache2
+    state: reloaded
+  tags:
+    - server_setup-munin
+

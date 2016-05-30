@@ -1,0 +1,13 @@
+- name: Configure database for {{service.name}}
+  template:
+    src: database.yml
+    dest: "{{madek_server_dir}}{{service.path}}/config/database.yml"
+    mode: 0755
+
+- name: Configure secrets for {{service.name}}
+  template:
+    src: secrets.yml
+    dest: "{{madek_server_dir}}{{service.path}}/config/secrets.yml"
+  register: secret
+
+

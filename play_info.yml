@@ -34,10 +34,6 @@
     debug:
       msg: '{{ madek_host_name }}'
 
-  - name: the madek_web_context
-    debug:
-      msg: '{{ madek_web_context }}'
-
   - name: the madek_root_dir
     debug:
       msg: '{{ madek_root_dir }}'

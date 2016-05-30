@@ -12,19 +12,10 @@
     - "{{zip_storage_dir}}"
   when: setup_storage_directories
 
-- name: Configure database
-  template:
-    src: database.yml
-    dest: "{{madek_webapp_dir}}/config/database.yml"
-    mode: 0755
-  register: database_config
+- name: Configure services
+  include: configure_services.yml
+  with_dict: '{{madek_services}}'
 
-- name: Configure database
-  template:
-    src: database.yml
-    dest: "{{madek_admin_dir}}/config/database.yml"
-    mode: 0755
-  register: database_config
 
 - template:
     src: secrets.yml
@@ -33,5 +24,5 @@
 
 - template:
     src: settings.local.yml
-    dest: "{{madek_root_dir}}/config/settings.local.yml"
+    dest: "{{madek_server_dir}}/config/settings.local.yml"
     mode: 0755

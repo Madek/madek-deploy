@@ -1,3 +1,2 @@
 [madek]
-demo ansible_ssh_host=192.168.0.35 ansible_ssh_user=root
-
+demo

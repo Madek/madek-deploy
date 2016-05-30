@@ -1,0 +1,14 @@
+###############################################################################
+
+- name: dependencies
+  apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
+  with_items: [monit, ruby]
+  tags: [internet]
+
+- include: monitor-service.yml
+  with_dict: '{{madek_services}}'
+
+- name: reload monit
+  service:
+    name: monit
+    state: reloaded

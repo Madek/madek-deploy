@@ -1,0 +1,9 @@
+- set_fact:
+    service: '{{item.value}}'
+
+- debug:
+    var: service
+
+- name: Configure rails service
+  include: configure_rails_service.yml
+  when: service.type == 'rails'

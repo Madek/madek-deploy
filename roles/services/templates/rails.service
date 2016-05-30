@@ -1,0 +1,20 @@
+[Unit]
+Description=Madek {{service.name}} Service
+After=syslog.target
+After=network.target
+
+BindsTo=postgresql.service
+
+[Service]
+WorkingDirectory={{service_dir}}
+User={{madek_user}}
+Group={{madek_user}}
+Environment=JRUBY_HOME={{service_dir}}/vendor/jruby
+Environment=PATH={{service_dir}}/vendor/jruby/bin:/usr/local/bin:/usr/bin:/bin
+Environment=RAILS_ENV=production
+Environment=RAILS_TIME_ZONE={{rails_timezone}}
+Environment=RAILS_RELATIVE_URL_ROOT={{service.context}}
+ExecStart={{service_dir}}/vendor/jruby/bin/jruby -S bundle exec puma config.ru -t 4:40 -b tcp://localhost:{{service.http_port}}
+
+[Install]
+WantedBy=multi-user.target

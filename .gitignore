@@ -3,5 +3,6 @@ ZHdK-secrets.mkd
 .project
 .mux.yml
 .retry
-*tar.gz
+*tar.gz*
 *retry
+*secret*

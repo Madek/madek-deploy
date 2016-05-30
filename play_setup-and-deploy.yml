@@ -1,14 +1,20 @@
-- hosts: madek
-
-  vars_files:
-    - vars.yml
+- hosts: localhost
 
   roles:
 
-    - role: os-setup
+    - role: find_or_build_archive
+      tags:
+        - find_or_build_archive
+        - get-archive
 
-    - role: monit-unmonitor
-      tags: [monit-unmonitor]
+- hosts: madek
+
+  roles:
+
+    - role: pre-cleanup
+      tags: [pre-cleanup]
+
+    - role: os-setup
 
     - role: openjdk8_install
 
@@ -16,41 +22,39 @@
 
     - role: apache-httpd
 
-    - role: server-reverse-proxy
-      site_online: False
-
-    - role: cleanup
-      path: "{{madek_root_dir}}"
-
     - role: madek-user
 
-    - role: git-checkout
-      git_checkout_target_path: "{{madek_root_dir}}"
-      git_checkout_repo: "https://github.com/Madek/madek.git"
-      git_checkout_version: "{{ lookup('pipe','cd  ./../. && git log -n 1 --format=%H') }}"
-      git_checkout_owner: "{{madek_user}}"
+    - role: get-archive
+      tags: [get-archive]
+
+    - role: server-dir_set-up
+      tags: [server-dir_set-up]
+
+    - role: madek-configuration
+      tags: [madek-configuration]
 
     - role: madek-datalayer
       tags: [madek-datalayer]
 
-    - role: lein-service
-      lein_service_name: "{{madek_api_service_name}}"
-      lein_service_app_dir: "{{madek_api_dir}}"
-      lein_service_user: "{{madek_user}}"
+#    - role: madek-webapp
+#
+#    - role: madek-admin
+#      tags: [madek-admin]
+#    - role: monitoring
+#      monitoring_state: monitored
+#      monitored_services: "{{madek_services}}"
+#      tags: [monitoring-start]
+#
+#    - role: madek-set-data
 
-    - role: madek-webapp
-
-    - role: madek-admin
-      tags: [madek-admin]
+    - role: services
+      tags: [services]
 
     - role: monitoring
-      monitoring_state: monitored
-      monitored_services: "{{madek_services}}"
-      tags: [monitoring-start]
+      tags: [monitoring]
 
-    - role: madek-set-data
-
-    - role: server-reverse-proxy
+    - role: reverse-proxy
+      tags: [reverse-proxy]
 
 #    - role: db-backups
 #      tags: [db-backups]

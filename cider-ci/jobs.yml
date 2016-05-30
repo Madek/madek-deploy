@@ -1,3 +1,35 @@
+build:
+  name: Build the deployment archive
+  context:
+    tasks:
+      build:
+        tree-attachments:
+          archive:
+            content-type: application/gzip
+            include-match: ^madek\.tar\.gz$
+          signature:
+            content-type: application/octet-stream
+            include-match: ^madek\.tar\.gz\.sig$
+        git-options:
+          submodules:
+            clone: true
+            timeout: 60
+        traits:
+          madek-cislave: true
+        scripts:
+          build:
+            timeout: 10 Minutes
+            body: |
+              set -eux
+              cd deploy
+              ./bin/archive-build
+              ./bin/archive-sign
+              cp madek.tar.gz* ../.
+
+
+
+###############################################################################
+
 'deploy_hslu':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to hslu
