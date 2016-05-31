@@ -1,0 +1,18 @@
+- include: install.yml
+
+- include: monitor.yml
+
+- name: add root postgresql user
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    name: root
+    role_attr_flags: CREATEDB,SUPERUSER
+
+- name: Create the a database for root
+  postgresql_db:
+    name: root
+    login_user: root
+    owner: root
+
+

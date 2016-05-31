@@ -19,10 +19,12 @@
     - role: openjdk8_install
 
     - role: postgresql
+      tags: [postgresql]
 
     - role: apache-httpd
 
     - role: madek-user
+      tags: [madek-user]
 
     - role: get-archive
       tags: [get-archive]
@@ -36,17 +38,6 @@
     - role: madek-datalayer
       tags: [madek-datalayer]
 
-#    - role: madek-webapp
-#
-#    - role: madek-admin
-#      tags: [madek-admin]
-#    - role: monitoring
-#      monitoring_state: monitored
-#      monitored_services: "{{madek_services}}"
-#      tags: [monitoring-start]
-#
-#    - role: madek-set-data
-
     - role: services
       tags: [services]
 
@@ -55,6 +46,9 @@
 
     - role: reverse-proxy
       tags: [reverse-proxy]
+
+    - role: madek-set-data
+      tags: [set-data]
 
 #    - role: db-backups
 #      tags: [db-backups]
