@@ -154,7 +154,7 @@ madek_services:
   api:
     name: api
     type: java
-    path: /api
+    dir: /api
     http_port: "{{madek_api_port}}"
     context: /api
     main: madek.api.main
@@ -164,7 +164,8 @@ madek_services:
 
     name: admin-webapp
     type: rails
-    path: /admin-webapp
+    dir: /admin-webapp
+    assets_sub_dir: /public/admin/assets
     http_port: "{{madek_admin_port}}"
     context: "/admin"
     max_memory_fraction: 0.15
@@ -175,7 +176,8 @@ madek_services:
 
     name: webapp
     type: rails
-    path: /webapp
+    dir: /webapp
+    assets_sub_dir: /public/assets
     http_port: "{{madek_webapp_port}}"
     context: ""
     max_memory_fraction: 0.40

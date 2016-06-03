@@ -2,7 +2,7 @@
     service: "{{item.value}}"
 
 - set_fact:
-    service_dir: "{{madek_server_dir}}{{service.path}}"
+    service_dir: "{{madek_server_dir}}{{service.dir}}"
 
 - name: setup {{service.name}} java service
   template:
