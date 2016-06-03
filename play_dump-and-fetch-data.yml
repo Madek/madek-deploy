@@ -2,9 +2,6 @@
 
 - hosts: madek
 
-  vars_files:
-    - vars.yml
-
   vars:
     dump_items:
       - data
