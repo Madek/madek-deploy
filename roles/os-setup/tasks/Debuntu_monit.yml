@@ -37,7 +37,7 @@
 - name: configuer monit http allow localhost
   lineinfile:
     dest: /etc/monit/monitrc
-    regexp: 'allow (admin|cider-ci):.*'
+    regexp: 'allow (admin|madek):.*'
     line: '   allow admin:"{{madek_master_secret}}"'
 
 - name: reload monit

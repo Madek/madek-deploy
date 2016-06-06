@@ -8,9 +8,6 @@
   failed_when: false
   with_dict: '{{madek_services}}'
 
-#- include: configure.yml
-#  tags: [deploy-configure]
-
 - include: setup-service.yml
   with_dict: '{{madek_services}}'
   tags: [deploy-setup-services]

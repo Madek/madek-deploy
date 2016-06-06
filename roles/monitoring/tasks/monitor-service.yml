@@ -6,6 +6,6 @@
 
 - template:
     src: service_monit
-    dest: /etc/monit/conf.d/cider-ci_{{service.name}}
+    dest: /etc/monit/conf.d/madek_{{service.name}}
     mode: 0600
 

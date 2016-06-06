@@ -1,4 +1,0 @@
-madek_admin_log_dir: /var/log/{{madek_admin_service_name}}
-madek_admin_service_bin: /usr/local/bin/{{madek_admin_service_name}}
-madek_admin_wrapper_bin: /usr/local/bin/{{madek_admin_service_name}}_wrapper
-madek_admin_theme: bootstrap-plain

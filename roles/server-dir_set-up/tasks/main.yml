@@ -1,4 +1,4 @@
-- name: remove previously installed cider-ci server
+- name: remove previously installed madek server
   file:
     path: '{{madek_server_dir}}'
     state: absent

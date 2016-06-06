@@ -1,4 +1,0 @@
-madek_webapp_log_dir: /var/log/{{madek_webapp_service_name}}
-madek_webapp_service_bin: /usr/local/bin/{{madek_webapp_service_name}}
-madek_webapp_wrapper_bin: /usr/local/bin/{{madek_webapp_service_name}}_wrapper
-madek_webapp_theme: bootstrap-plain

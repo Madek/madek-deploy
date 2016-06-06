@@ -1,3 +1,12 @@
+- name: stop monit
+  service:
+    name: monit
+    state: stopped
+  failed_when: false
+
+- name: remove monit madek service monitoring
+  shell: rm -rf /etc/monit/conf.d/cider-ci_*  /etc/monit/conf.d/madek_*
+
 - name: stop all madek services
   shell:
     systemctl list-unit-files --type=service
@@ -8,5 +17,14 @@
 
 - name: remove madek units
   shell: rm -f /etc/systemd/system/madek*
+  failed_when: false
 
-- shell: systemctl daemon-reload
+- name: reload systemd
+  shell: systemctl daemon-reload
+  failed_when: false
+
+- name: kill all remaining processes of the user madek
+  shell: pkill -u {{madek_user}}
+  failed_when: false
+
+
