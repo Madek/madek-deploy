@@ -2,6 +2,9 @@ depends-on:
 - type: job
   job: integration-tests
   states: [passed]
+- type: job
+  job: build
+  states: [passed]
 
 context:
 

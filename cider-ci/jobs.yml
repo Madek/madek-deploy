@@ -2,7 +2,7 @@ build:
   run-on:
 
   - type: branch
-    include-match: ^.*master.*$
+    include-match: ^master$
 
 
   name: Build the deployment archive
@@ -39,11 +39,6 @@ build:
 'deploy_hslu':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to hslu
-  depends-on:
-    - type: job
-      job: build
-      submodule: ['webapp']
-      states: [passed]
   context:
     tasks:
       deploy:
@@ -57,11 +52,6 @@ build:
 'deploy_preview':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to preview
-  depends-on:
-    - type: job
-      job: build
-      submodule: ['webapp']
-      states: [passed]
   context:
     tasks:
       deploy:
@@ -73,11 +63,6 @@ build:
 'deploy_preview_with-restore-data':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to preview with restore-data
-  depends-on:
-    - type: job
-      job: build
-      submodule: ['webapp']
-      states: [passed]
   context:
     tasks:
       deploy:
@@ -97,11 +82,6 @@ build:
   run-on:
   - type: branch
     include-match: ^master$
-  depends-on:
-    - type: job
-      job: build
-      submodule: ['webapp']
-      states: [passed]
   context:
     tasks:
       deploy:
@@ -113,11 +93,6 @@ build:
 'deploy_test8_with-db-drop':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to test8 with drop-database
-  depends-on:
-    - type: job
-      job: build
-      submodule: ['webapp']
-      states: [passed]
   context:
     tasks:
       deploy:
@@ -136,11 +111,6 @@ build:
   run-on:
   - type: branch
     include-match: ^master$
-  depends-on:
-    - type: job
-      job: build
-      submodule: ['webapp']
-      states: [passed]
   context:
     tasks:
       deploy:
@@ -152,11 +122,6 @@ build:
 'deploy_test_with-restore-data':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to test with restore-data
-  depends-on:
-    - type: job
-      job: build
-      submodule: ['webapp']
-      states: [passed]
   context:
     tasks:
       deploy:
@@ -171,11 +136,6 @@ build:
 'deploy_staging-v3-pdata':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to staging-v3-pdata
-  depends-on:
-    - type: job
-      job: build
-      submodule: ['webapp']
-      states: [passed]
   context:
     tasks:
       deploy:
@@ -187,11 +147,6 @@ build:
 'deploy_staging-v3-pdata_with-restore-data':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to staging-v3-pdata with restore-data
-  depends-on:
-    - type: job
-      job: build
-      submodule: ['webapp']
-      states: [passed]
   context:
     tasks:
       deploy:
@@ -206,11 +161,6 @@ build:
 'deploy_staging-v3-upload':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to staging-v3-upload
-  depends-on:
-    - type: job
-      job: build
-      submodule: ['webapp']
-      states: [passed]
   context:
     tasks:
       deploy:
@@ -222,11 +172,6 @@ build:
 'deploy_staging-v3-upload_with-db-drop':
   _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to staging-v3-upload with drop-database
-  depends-on:
-    - type: job
-      job: build
-      submodule: ['webapp']
-      states: [passed]
   context:
     tasks:
       deploy:
