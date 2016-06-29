@@ -1,33 +1,29 @@
-depends-on:
-- type: job
-  job: integration-tests
-  states: [passed]
-- type: job
-  job: build
-  states: [passed]
+depends_on:
+  build:
+    type: job
+    job_key: build
+    states: [passed]
 
 context:
 
-  task-defaults:
+  task_defaults:
 
-    max-auto-trials: 1
+    max_trials: 1
 
-    aggregate-state: satisfy-last
+    aggregate_state: satisfy-last
 
-    environment-variables:
+    environment_variables:
       LANG: "en_US.UTF-8"
-      DROP_DATABASE: false
-      RESTORE_DATA: false
+      DROP_DATABASE: 'false'
+      RESTORE_DATA: 'false'
 
     traits:
-      ansible: true
-      deploy-madek-test: true
-      linux: true
+      Ansible 2: yes
+      ci-executor-madek: yes
 
-    git-options:
+    git_options:
       submodules:
-        clone: true
-        timeout: 60
+        include_match: ^.*$
 
     scripts:
       deploy:

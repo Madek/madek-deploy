@@ -1,27 +1,26 @@
 build:
-  run-on:
-
-  - type: branch
-    include-match: ^master$
-
+  run_when:
+    integration tests passed:
+      type: job
+      job_key: integration-tests
+      states: [passed]
 
   name: Build the deployment archive
   context:
     tasks:
       build:
-        tree-attachments:
+        tree_attachments:
           archive:
-            content-type: application/gzip
-            include-match: ^madek\.tar\.gz$
+            content_type: application/gzip
+            include_match: ^madek\.tar\.gz$
           signature:
-            content-type: application/octet-stream
-            include-match: ^madek\.tar\.gz\.sig$
-        git-options:
+            content_type: application/octet-stream
+            include_match: ^madek\.tar\.gz\.sig$
+        git_options:
           submodules:
-            clone: true
-            timeout: 60
+            include_match: ^.*$
         traits:
-          madek-cislave: true
+          ci-executor-madek: yes
         scripts:
           build:
             timeout: 10 Minutes
@@ -33,42 +32,41 @@ build:
               cp madek.tar.gz* ../.
 
 
-
 ###############################################################################
 
 'deploy_hslu':
-  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to hslu
   context:
     tasks:
       deploy:
-        exclusive-global-resources:
+        exclusive_global_resources:
           "hslu.madek.zhdk.ch": true
-        environment-variables:
+        environment_variables:
           HOSTS_FILE: inventories/zhdk/hslu
 
 ###############################################################################
 
 'deploy_preview':
-  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to preview
   context:
     tasks:
       deploy:
-        exclusive-global-resources:
+        exclusive_global_resources:
           "preview.madek.zhdk.ch": true
-        environment-variables:
+        environment_variables:
           HOSTS_FILE: inventories/zhdk/preview
 
 'deploy_preview_with-restore-data':
-  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to preview with restore-data
   context:
     tasks:
       deploy:
-        exclusive-global-resources:
+        exclusive_global_resources:
           "preview.madek.zhdk.ch": true
-        environment-variables:
+        environment_variables:
           HOSTS_FILE: inventories/zhdk/preview
           RESTORE_DATA: 'true'
 
@@ -77,28 +75,29 @@ build:
 
 
 'deploy_test8':
-  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to test8
-  run-on:
-  - type: branch
-    include-match: ^master$
+  run_when: &RUN_ON_MASTER
+    master branch:
+      type: branch
+      include_match: ^master$
   context:
     tasks:
       deploy:
-        exclusive-global-resources:
+        exclusive_global_resources:
           "test8.madek.zhdk.ch": true
-        environment-variables:
+        environment_variables:
           HOSTS_FILE: inventories/zhdk/test8
 
 'deploy_test8_with-db-drop':
-  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to test8 with drop-database
   context:
     tasks:
       deploy:
-        exclusive-global-resources:
+        exclusive_global_resources:
           "test8.madek.zhdk.ch": true
-        environment-variables:
+        environment_variables:
           HOSTS_FILE: inventories/zhdk/test8
           DROP_DATABASE: 'true'
 
@@ -106,77 +105,75 @@ build:
 
 
 'deploy_test':
-  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to test
-  run-on:
-  - type: branch
-    include-match: ^master$
+  run_when: *RUN_ON_MASTER
   context:
     tasks:
       deploy:
-        exclusive-global-resources:
+        exclusive_global_resources:
           "test.madek.zhdk.ch": true
-        environment-variables:
+        environment_variables:
           HOSTS_FILE: inventories/zhdk/test
 
 'deploy_test_with-restore-data':
-  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to test with restore-data
   context:
     tasks:
       deploy:
-        exclusive-global-resources:
+        exclusive_global_resources:
           "test.madek.zhdk.ch": true
-        environment-variables:
+        environment_variables:
           HOSTS_FILE: inventories/zhdk/test
           RESTORE_DATA: 'true'
 
 ###############################################################################
 
 'deploy_staging-v3-pdata':
-  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to staging-v3-pdata
   context:
     tasks:
       deploy:
-        exclusive-global-resources:
+        exclusive_global_resources:
           "staging-v3-pdata.madek.zhdk.ch": true
-        environment-variables:
+        environment_variables:
           HOSTS_FILE: inventories/zhdk/staging-v3-pdata
 
 'deploy_staging-v3-pdata_with-restore-data':
-  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to staging-v3-pdata with restore-data
   context:
     tasks:
       deploy:
-        exclusive-global-resources:
+        exclusive_global_resources:
           "staging-v3-pdata.madek.zhdk.ch": true
-        environment-variables:
+        environment_variables:
           HOSTS_FILE: inventories/zhdk/staging-v3-pdata
           RESTORE_DATA: 'true'
 
 ###############################################################################
 
 'deploy_staging-v3-upload':
-  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to staging-v3-upload
   context:
     tasks:
       deploy:
-        exclusive-global-resources:
+        exclusive_global_resources:
           "staging-v3-upload.madek.zhdk.ch": true
-        environment-variables:
+        environment_variables:
           HOSTS_FILE: inventories/zhdk/staging-v3-upload
 
 'deploy_staging-v3-upload_with-db-drop':
-  _cider-ci_include: cider-ci/shared/deploy-job-defaults.yml
+  include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to staging-v3-upload with drop-database
   context:
     tasks:
       deploy:
-        exclusive-global-resources:
+        exclusive_global_resources:
           "staging-v3-upload.madek.zhdk.ch": true
-        environment-variables:
+        environment_variables:
           HOSTS_FILE: inventories/zhdk/staging-v3-upload
           DROP_DATABASE: 'true'
