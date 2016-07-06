@@ -6,7 +6,7 @@
 
 - name: Configure secrets for {{service.name}}
   template:
-    src: secrets.yml
+    src: geheimnisse.yml
     dest: "{{madek_server_dir}}{{service.dir}}/config/secrets.yml"
   register: secret
 

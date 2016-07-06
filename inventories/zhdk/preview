@@ -3,3 +3,6 @@ preview ansible_ssh_host=preview.madek.zhdk.ch ansible_ssh_user=root
 
 [zhdk]
 preview
+
+[secrets]
+preview

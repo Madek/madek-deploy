@@ -3,3 +3,6 @@ staging-v3-upload ansible_ssh_host=staging-v3-upload.madek.zhdk.ch ansible_ssh_u
 
 [zhdk]
 staging-v3-upload
+
+[secrets]
+staging-v3-upload

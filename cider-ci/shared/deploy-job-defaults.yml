@@ -19,6 +19,7 @@ context:
 
     traits:
       Ansible 2: yes
+      git-crypt: yes
       ci-executor-madek: yes
 
     git_options:
@@ -26,7 +27,14 @@ context:
         include_match: ^.*$
 
     scripts:
+      unlock:
+        body: |
+          git crypt unlock
+          git submodule foreach 'git crypt unlock || exit 0'
       deploy:
+        start_when:
+          unlocked:
+            script_key: unlock
         timeout: 3 hours
         body: |
           set -eux
@@ -34,6 +42,5 @@ context:
           echo $(pwd)
           ls -R inventories
           time ansible-playbook -v -i "${HOSTS_FILE}" play_setup-and-deploy.yml \
-             --extra-vars "{\"drop_database\": ${DROP_DATABASE}, \"restore_data\": ${RESTORE_DATA}}" \
-             --vault-password-file inventories/zhdk/vault-pass
+             --extra-vars "{\"drop_database\": ${DROP_DATABASE}, \"restore_data\": ${RESTORE_DATA}}"
 

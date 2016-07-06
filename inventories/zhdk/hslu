@@ -3,3 +3,6 @@ hslu ansible_ssh_host=hslu.madek.zhdk.ch ansible_ssh_user=root
 
 [zhdk]
 hslu
+
+[secrets]
+hslu
