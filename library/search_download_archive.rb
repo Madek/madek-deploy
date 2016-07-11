@@ -4,6 +4,7 @@
 require 'json'
 require 'openssl'
 require 'open3'
+require 'yaml'
 
 def exec! cmd
   Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
@@ -19,34 +20,62 @@ def exec! cmd
   end
 end
 
-tree_id = exec!('cd .. && git log -n 1 --pretty=%T').strip
+def tag
+  release = YAML.load_file("../config/releases.yml")['releases'].first
+  tag = "#{release['version_major']}.#{release['version_minor']}.#{release['version_patch']}" \
+    + ( release['version_pre'] ?  "-#{release['version_pre']}" : "")
+end
 
-# TODO: for now we use what is found on cider-ci
-# later on we want to use releases on GitHub (git tag --points-at HEAD)
-# which are singed!
-ci_url_prefix = "http://ci.zhdk.ch/cider-ci/storage/tree-attachments/#{tree_id}"
+def tree_id
+  exec!('cd .. && git log -n 1 --pretty=%T').strip
+end
 
 def check_url! url
   exec! " curl -sS --fail -I '#{url}'"
 end
 
-args = JSON.parse(File.open(ARGV[0]).read) rescue {}
+def check_and_build_urls base_url
+  begin
+    ['madek.tar.gz', 'madek.tar.gz.sig'].map{|name|
+      base_url + "/" + name
+    }.map{ |url|
+      check_url!(url) && url
+    }
+  rescue Exception => e
+    nil
+  end
+end
+
+@args = JSON.parse(File.open(ARGV[0]).read) rescue {}
+
+def find_urls
+  if base_url = @args['base_url']
+    check_and_build_urls base_url
+  else
+    check_and_build_urls("https://github.com/Madek/madek/releases/download/#{tag}") \
+    || check_and_build_urls("http://ci.zhdk.ch/cider-ci/storage/tree-attachments/#{tree_id}")
+  end
+end
+
 
 begin
-  check_url! "#{ci_url_prefix}/madek.tar.gz"
-  check_url! "#{ci_url_prefix}/madek.tar.gz.sig"
-  print JSON.dump(
-    "changed" => false,
-    "url_prefix" => ci_url_prefix,
-    "stdout" => "Archive and signature found."
-  )
+  if urls = find_urls
+    print JSON.dump(
+      "args" => @args,
+      "changed" => false,
+      "urls" => urls,
+      "stdout" => "Archive and signature found."
+    )
+  else
+    raise 'no urls'
+  end
 rescue Exception => e
   print JSON.dump(
+    "args" => @args,
     "changed" => false,
-    "url_prefix" => nil,
+    "urls" => nil,
     "stdout" => "Warning: archive or signature missing! #{e}"
   )
 end
-
 
 exit 0

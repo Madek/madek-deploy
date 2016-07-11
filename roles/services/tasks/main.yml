@@ -19,7 +19,7 @@
 - name: start service {{item.value.name}}
   service:
     name: madek_{{item.value.name}}
-    state: started
+    state: restarted
     enabled: yes
   with_dict: '{{madek_services}}'
 

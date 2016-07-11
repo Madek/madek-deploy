@@ -11,6 +11,7 @@
 
 madek_host_name: '{{ host_name | default(ansible_default_ipv4.address) }}'
 ssh_keys: []
+removed_ssh_keys: []
 
 # dont' use single quotes "'"; or quote them
 madek_site_title: "Madek@{{madek_host_name}}"
@@ -22,6 +23,8 @@ server_timezone: Etc/UTC
 rails_timezone: UTC
 
 force_local_build: false
+
+madek_archive_base_url: NULL
 
 ################################################################################
 ### API ########################################################################

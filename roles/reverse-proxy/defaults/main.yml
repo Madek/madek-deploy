@@ -1,5 +1,4 @@
-ci_apache2_disable_default: true
-ci_apache2_modules:
+apache2_modules:
   - expires
   - headers
   - proxy

@@ -1,4 +1,13 @@
-- search_download_archive: {}
+- name: Install dependencies
+  apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
+  with_items: [ruby]
+  tags: [internet]
+  when: >
+    (ansible_distribution == "Debian"
+      or  ansible_distribution == "Ubuntu")
+
+- search_download_archive:
+    base_url: '{{madek_archive_base_url}}'
   register: search_download_archive
   tags: [debug]
 
@@ -7,12 +16,12 @@
   tags: [debug]
 
 - set_fact:
-    download_archive_url_prefix: "{{search_download_archive.url_prefix}}"
+    download_urls: "{{search_download_archive.urls}}"
   when: >
-    (search_download_archive.url is not none)
+    (search_download_archive.urls is not none)
     and (not force_local_build)
   tags: [debug]
 
 - debug:
-    var: download_archive_url_prefix
+    var: download_urls
   tags: [debug]
