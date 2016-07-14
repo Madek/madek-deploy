@@ -6,6 +6,15 @@ scripts:
     body: |
       #!/usr/bin/env bash
       set -eux
-      lxc exec ${CONTAINER_NAME} -- curl --fail http://localhost/api/status
-      lxc exec ${CONTAINER_NAME} -- curl --fail http://localhost/admin/status
-      lxc exec ${CONTAINER_NAME} -- curl --fail http://localhost/status
+      echo 'application statuses'
+      lxc exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost/api/status
+      lxc exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost/admin/status
+      lxc exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost/status
+
+      echo 'login page'
+      lxc exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost
+
+      echo 'expolore page'
+      lxc exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost/explore
+
+      lxc exec ${CONTAINER_NAME} -- monit status

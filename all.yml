@@ -81,24 +81,6 @@ virtual_hosts:
   ssl_certificate_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
 
 
-
-###############################################################################
-### Memory ####################################################################
-#################################################################################
-# database uses around 20% already
-
-madek_memtotal_mb: '{{ansible_memtotal_mb * 0.7 }}'
-
-webapp_xmx_mb_value: "{{ ((madek_memtotal_mb | float) * 0.4) | round |int }}"
-webapp_cache_size_megabytes: "{{ (( madek_memtotal_mb | float) * 0.05) | round | int }}"
-
-admin_xmx_mb_value: "{{ ((madek_memtotal_mb | float) * 0.2) | round |int }}"
-admin_cache_size_megabytes: "{{ (( madek_memtotal_mb | float) * 0.05) | round | int }}"
-
-lein_service_xmx_mb_value: "{{ ((madek_memtotal_mb | float) * 0.1) | round | int }}"
-
-
-
 ################################################################################
 ### web contexts ###############################################################
 ################################################################################
@@ -162,6 +144,8 @@ madek_services:
     context: /api
     main: madek.api.main
     monit_match: java.*madek\.api\.main
+    monit_check_urls:
+      - http://localhost:{{madek_api_port}}/api/status
 
   admin_webapp:
 
@@ -174,6 +158,8 @@ madek_services:
     max_memory_fraction: 0.15
     cache_store_size_fraction: 0.02
     monit_match: java.*webapp.*puma.*config\.ru.*{{madek_admin_port}}
+    monit_check_urls:
+      - http://localhost:{{madek_admin_port}}/admin/status
 
   webapp:
 
@@ -186,6 +172,10 @@ madek_services:
     max_memory_fraction: 0.40
     cache_store_size_fraction: 0.05
     monit_match: java.*webapp.*puma.*config\.ru.*{{madek_webapp_port}}
+    monit_check_urls:
+      - http://localhost:{{madek_webapp_port}}/status
+      - http://localhost:{{madek_webapp_port}}
+      - http://localhost:{{madek_webapp_port}}/explore
 
 
 # database

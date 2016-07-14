@@ -2,8 +2,11 @@ check process madek_{{service.name}}
         matching {{service.monit_match}}
         start program = "/bin/systemctl start madek_{{service.name}}" with timeout 120 seconds
         stop program  = "/bin/systemctl stop madek_{{service.name}}"
+        {% for item in service.monit_check_urls %}
         if failed
-                url http://localhost:{{service.http_port}}{{service.context}}/status
+                url {{item}}
                 with timeout 60 seconds
-                for 10 cycles
+                for 3 cycles
         then restart
+        {% endfor %}
+

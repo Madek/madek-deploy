@@ -30,8 +30,6 @@ database:
   password: "{{database.password}}"
   max_pool_size: 3
 
-webapp_cache_size_megabytes: {{webapp_cache_size_megabytes}}
-
 services:
 
   api:
@@ -45,5 +43,4 @@ services:
       context: ""
       sub_context: /api
       ssl: false
-
 
