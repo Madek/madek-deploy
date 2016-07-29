@@ -14,6 +14,7 @@ Environment=PATH={{service_dir}}/vendor/jruby/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_ENV=production
 Environment=RAILS_TIME_ZONE={{rails_timezone}}
 Environment=RAILS_RELATIVE_URL_ROOT={{service.context}}
+Environment=JRUBY_OPTS=-J-Xmx{{service.xmx}}
 ExecStart={{service_dir}}/vendor/jruby/bin/jruby -S bundle exec puma config.ru -t 4:40 -b tcp://localhost:{{service.http_port}}
 
 [Install]

@@ -155,8 +155,7 @@ madek_services:
     assets_sub_dir: /public/admin/assets
     http_port: "{{madek_admin_port}}"
     context: "/admin"
-    max_memory_fraction: 0.15
-    cache_store_size_fraction: 0.02
+    xmx: 512m
     monit_match: java.*webapp.*puma.*config\.ru.*{{madek_admin_port}}
     monit_check_urls:
       - http://localhost:{{madek_admin_port}}/admin/status
@@ -169,8 +168,7 @@ madek_services:
     assets_sub_dir: /public/assets
     http_port: "{{madek_webapp_port}}"
     context: ""
-    max_memory_fraction: 0.40
-    cache_store_size_fraction: 0.05
+    xmx: 1024m
     monit_match: java.*webapp.*puma.*config\.ru.*{{madek_webapp_port}}
     monit_check_urls:
       - http://localhost:{{madek_webapp_port}}/status

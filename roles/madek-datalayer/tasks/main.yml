@@ -69,6 +69,7 @@
     export JRUBY_OPTS=" -J-Xmx8G "
     jruby -S bundle exec rake db:create db:migrate
   register: migrate
+  tags: madek-datalayer-migrate-rest
   changed_when: not migrate.stdout | match("")
 
 - name: Seed (set core data)
