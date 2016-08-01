@@ -53,7 +53,7 @@ def find_urls
     check_and_build_urls base_url
   else
     check_and_build_urls("https://github.com/Madek/madek/releases/download/#{tag}") \
-    || check_and_build_urls("http://ci.zhdk.ch/cider-ci/storage/tree-attachments/#{tree_id}")
+    || check_and_build_urls("https://ci.zhdk.ch/cider-ci/storage/tree-attachments/#{tree_id}")
   end
 end
 
