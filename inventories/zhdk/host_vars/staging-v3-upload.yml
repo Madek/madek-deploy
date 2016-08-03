@@ -5,6 +5,6 @@ madek_master_secret: '{{staging_v3_upload.madek_master_secret}}'
 
 zencoder_enabled: True
 zencoder_api_key: '{{zhdk_zencoder_api_key}}'
-zencoder_test_mode: True
+zencoder_test_mode: False
 
 db_backups_enabled: False
