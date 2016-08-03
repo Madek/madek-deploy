@@ -40,10 +40,19 @@ def tree_id
   end
 end
 
+def commit_id
+  tree_id= Dir.chdir(SOURCE_DIR) do
+    exec!("git log -1 --pretty=%H").strip
+  end
+end
+
 def prepare
   clean
   FileUtils.mkdir_p BUILD_DIR
-  IO.write("#{BUILD_DIR}/tree_id",tree_id)
+  IO.write("#{BUILD_DIR}/tree_id", tree_id)
+  FileUtils.mkdir_p "#{BUILD_DIR}/config"
+  IO.write("#{BUILD_DIR}/config/git_refs.yml",
+           {tree_id: tree_id, commit_id: commit_id}.as_json.to_yaml)
   print " prepared, ..."
 end
 
