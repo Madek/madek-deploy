@@ -46,13 +46,20 @@ def commit_id
   end
 end
 
+def deploy_info
+  {
+    tree_id: tree_id,
+    commit_id: commit_id,
+    time: Time.now.utc.to_json
+  }
+end
+
 def prepare
   clean
   FileUtils.mkdir_p BUILD_DIR
   IO.write("#{BUILD_DIR}/tree_id", tree_id)
   FileUtils.mkdir_p "#{BUILD_DIR}/config"
-  IO.write("#{BUILD_DIR}/config/git_refs.yml",
-           {tree_id: tree_id, commit_id: commit_id}.as_json.to_yaml)
+  IO.write("#{BUILD_DIR}/config/deploy-info.yml", deploy_info.as_json.to_yaml)
   print " prepared, ..."
 end
 
