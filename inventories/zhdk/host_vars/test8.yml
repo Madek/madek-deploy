@@ -1,4 +1,5 @@
 madek_external_hostname: test8.madek.zhdk.ch
+madek_external_base_url: https://{{ madek_external_hostname }}
 
 madek_master_secret: '{{test8.madek_master_secret}}'
 
