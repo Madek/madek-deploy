@@ -9,12 +9,14 @@
 ### global defaults ############################################################
 ################################################################################
 
-madek_host_name: '{{ host_name | default(ansible_default_ipv4.address) }}'
+madek_external_base_url: http://{{ madek_external_hostname }}
+madek_external_hostname: '{{ ansible_default_ipv4.address }}'
+
 ssh_keys: []
 removed_ssh_keys: []
 
 # dont' use single quotes "'"; or quote them
-madek_site_title: "Madek@{{madek_host_name}}"
+madek_site_title: "Madek@{{madek_external_hostname}}"
 madek_welcome_title: "Welcome to your installation of Madek!"
 
 zhdk_integration: False
@@ -71,14 +73,16 @@ madek_database_secret: "{{['database', madek_master_secret ] | join() | hash('sh
 ### http server ###############################################################
 #################################################################################
 
-virtual_hosts:
+madek_virtual_hosts:
 - hostname: "localhost"
   ip: "localhost"
   logfile_infix: "localhost"
+  force_redirect_to_https: no
 - hostname: NULL
   ip: '*'
   ssl_certificate_file: /etc/ssl/certs/ssl-cert-snakeoil.pem
   ssl_certificate_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
+  force_redirect_to_https: no
 
 
 ################################################################################

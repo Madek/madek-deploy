@@ -1,4 +1,4 @@
-madek_host_name: preview.madek.zhdk.ch
+madek_external_hostname: preview.madek.zhdk.ch
 
 madek_master_secret: '{{preview.madek_master_secret}}'
 

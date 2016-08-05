@@ -4,7 +4,8 @@ zhdk_integration: {{zhdk_integration}}
 default_storage_dir: {{madek_storage_dir}}
 
 madek_master_secret: {{madek_master_secret}}
-madek_host_name: {{madek_host_name}}
+
+madek_external_base_url: {{ madek_external_base_url }}
 
 file_storage_dir: "{{file_storage_dir}}"
 thumbnail_storage_dir: "{{thumbnail_storage_dir}}"

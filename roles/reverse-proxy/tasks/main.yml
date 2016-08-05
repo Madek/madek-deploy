@@ -23,8 +23,11 @@
   tags:
     - server_setup-munin
 
+- debug:
+    var: madek_virtual_hosts
+
 - include: virtual-host.yml
-  with_indexed_items: '{{virtual_hosts}}'
+  with_indexed_items: '{{madek_virtual_hosts}}'
 
 - name: reload reverse-proxy
   service:

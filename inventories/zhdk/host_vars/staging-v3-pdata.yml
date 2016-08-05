@@ -1,4 +1,4 @@
-madek_host_name: staging-v3-pdata.madek.zhdk.ch
+madek_external_hostname: staging-v3-pdata.madek.zhdk.ch
 
 madek_master_secret: '{{staging_v3_pdata.madek_master_secret}}'
 

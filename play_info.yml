@@ -14,9 +14,9 @@
     debug:
       msg: '{{ madek_database_secret}}'
 
-  - name: the madek_host_name
+  - name: the madek_external_hostname
     debug:
-      msg: '{{ madek_host_name }}'
+      msg: '{{ madek_external_hostname }}'
 
   - name: the madek_root_dir
     debug:
