@@ -11,5 +11,6 @@ db_backups_enabled: False
 zhdk_integration: True
 
 madek_storage_dir: /opt/madekdata
-file_storage_dir: /opt/madekdata/attachments
-thumbnail_storage_dir: /opt/madekdata/attachments
+madek_file_storage_dir: /opt/madekdata/attachments
+madek_thumbnail_storage_dir: /opt/madekdata/attachments
+madek_tmp_dir: /opt/madekdata/tmp

@@ -54,10 +54,11 @@ zencoder_audio_output_formats_defaults: [{audio_codec: 'vorbis', skip_video: tru
 ################################################################################
 
 madek_storage_dir: /var/local/madek-file-storage
-file_storage_dir: "{{madek_storage_dir}}/originals"
-thumbnail_storage_dir: "{{madek_storage_dir}}/thumbnails"
-download_storage_dir: "{{madek_storage_dir}}/tmp/downloads"
-zip_storage_dir: "{{madek_storage_dir}}/tmp/zipfiles"
+madek_file_storage_dir: "{{madek_storage_dir}}/originals"
+madek_thumbnail_storage_dir: "{{madek_storage_dir}}/thumbnails"
+
+# uploaded files will be temporarily stored here too:
+madek_tmp_dir: "/tmp/madek"
 
 setup_storage_directories: true
 

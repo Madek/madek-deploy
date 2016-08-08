@@ -6,10 +6,9 @@
     state: directory
     recurse: yes
   with_items:
-    - "{{file_storage_dir}}"
-    - "{{thumbnail_storage_dir}}"
-    - "{{download_storage_dir}}"
-    - "{{zip_storage_dir}}"
+    - "{{madek_file_storage_dir}}"
+    - "{{madek_thumbnail_storage_dir}}"
+    - "{{madek_tmp_dir}}"
   when: setup_storage_directories
 
 - name: Configure services

@@ -4,7 +4,7 @@ madek_master_secret: '{{staging_v3_pdata.madek_master_secret}}'
 
 setup_storage_directories: false
 
-file_storage_dir: /opt/madekdata/attachments
-thumbnail_storage_dir: /opt/madekdata/attachments
+madek_file_storage_dir: /opt/madekdata/attachments
+madek_thumbnail_storage_dir: /opt/madekdata/attachments
 
 db_backups_enabled: False

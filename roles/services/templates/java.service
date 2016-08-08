@@ -10,6 +10,7 @@ BindsTo=postgresql.service
 WorkingDirectory={{service_dir}}
 User={{madek_user}}
 Group={{madek_user}}
+Environment=TMPDIR={{madek_tmp_dir}}
 Environment=CLASSPATH={{service_dir}}/config:{{service_dir}}/{{service.name}}.jar
 ExecStart=/usr/lib/jvm/java-8-openjdk-amd64/bin/java "-Xmx{{ service.xmx_mb | default(200) }}m" {{service.main}}
 
