@@ -9,11 +9,6 @@
     state: absent
   with_items: '{{removed_ssh_keys}}'
 
-- include: RedHead7.yml
-  when: >
-    ansible_os_family == "RedHat"
-    and ansible_distribution_major_version|int >= 7
-
 - include: Debuntu.yml
   when: >
     (ansible_distribution == "Ubuntu"
