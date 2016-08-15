@@ -90,6 +90,12 @@ def build_documentation_dir
   print "done, "
 end
 
+def build_api_documentation_dir
+  print "building api documentation ... "
+  copy_git_repo_files "api/docs"
+  print "done, "
+end
+
 def build_rails_services
   RAILS_SERVICES.each do |service|
     print "building #{service} ... "
@@ -156,6 +162,7 @@ def main
     prepare
     build_config_dir
     build_rails_services
+    build_api_documentation_dir
     build_lein_services
     pack build_archive
     puts " done "
