@@ -17,4 +17,7 @@ scripts:
       echo 'expolore page'
       lxc exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost/explore
 
+      echo 'api documentation'
+      lxc exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost/api/docs/index.html
+
       lxc exec ${CONTAINER_NAME} -- monit status
