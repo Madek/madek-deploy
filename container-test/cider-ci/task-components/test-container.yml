@@ -20,4 +20,7 @@ scripts:
       echo 'api documentation'
       lxc exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost/api/docs/index.html
 
+      echo 'api browser via /api/browser/'
+      lxc exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost/api/browser/
+
       lxc exec ${CONTAINER_NAME} -- monit status
