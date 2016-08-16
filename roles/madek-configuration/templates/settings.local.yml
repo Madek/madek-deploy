@@ -17,7 +17,7 @@ zencoder_video_output_formats_defaults: {{zencoder_video_output_formats_defaults
 zencoder_video_thumbnails_defaults: {{zencoder_video_thumbnails_defaults | to_json }}
 zencoder_audio_output_formats_defaults: {{zencoder_audio_output_formats_defaults | to_json }}
 
-
+mini_profiler_enabled: {{mini_profiler_enabled}}
 
 database:
   adapter: "postgresql"
