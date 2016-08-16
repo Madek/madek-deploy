@@ -1,0 +1,30 @@
+ansible_ssh_host: prod3.madek.zhdk.ch
+ansible_ssh_user: root
+
+# TODO: change to medienarchiv
+madek_external_hostname: prod3.madek.zhdk.ch
+
+madek_master_secret: '{{medienarchiv.madek_master_secret}}'
+
+zencoder_enabled: True
+zencoder_api_key: '{{zhdk_zencoder_api_key}}'
+zencoder_test_mode: False
+
+db_backups_enabled: True
+
+zhdk_integration: True
+
+# TODO: setup filer and enable
+# madek_storage_dir: /opt/madekdata
+# madek_file_storage_dir: /opt/madekdata/attachments
+# madek_thumbnail_storage_dir: /opt/madekdata/attachments
+# madek_tmp_dir: /opt/madekdata/tmp
+
+
+# TODO: setup and enable letsencrypt
+#madek_virtual_hosts:
+#- hostname: '{{madek_external_hostname}}'
+#  ip: '*'
+#  ssl_certificate_file: /etc/letsencrypt/live/test8.madek.zhdk.ch/fullchain.pem
+#  ssl_certificate_key_file: /etc/letsencrypt/live/test8.madek.zhdk.ch/privkey.pem
+#  force_redirect_to_https: yes
