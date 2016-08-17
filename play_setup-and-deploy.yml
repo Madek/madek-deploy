@@ -17,6 +17,9 @@
     - role: os-setup
       tags: [os-setup]
 
+    - role: dependencies
+      tags: [dependencies]
+
     - role: openjdk8_install
 
     - role: postgresql
