@@ -58,21 +58,7 @@ build:
         environment_variables:
           HOSTS_FILE: inventories/zhdk/preview
 
-'deploy_preview_with-restore-data':
-  include: cider-ci/shared/deploy-job-defaults.yml
-  name: Deploy to preview with restore-data
-  context:
-    tasks:
-      deploy:
-        exclusive_global_resources:
-          "preview.madek.zhdk.ch": true
-        environment_variables:
-          HOSTS_FILE: inventories/zhdk/preview
-          RESTORE_DATA: 'true'
-
-
 ###############################################################################
-
 
 'deploy_test8':
   include: cider-ci/shared/deploy-job-defaults.yml
@@ -89,6 +75,8 @@ build:
         environment_variables:
           HOSTS_FILE: inventories/zhdk/test8
 
+
+
 'deploy_test8_with-db-drop':
   include: cider-ci/shared/deploy-job-defaults.yml
   name: Deploy to test8 with drop-database
@@ -103,77 +91,23 @@ build:
 
 ###############################################################################
 
-
-'deploy_test':
+'deploy_medienarchive':
   include: cider-ci/shared/deploy-job-defaults.yml
-  name: Deploy to test
-  run_when: *RUN_ON_MASTER
+  name: Deploy to medienarchiv
   context:
     tasks:
       deploy:
         exclusive_global_resources:
-          "test.madek.zhdk.ch": true
+          "medienarchiv.zhdk.ch": true
         environment_variables:
-          HOSTS_FILE: inventories/zhdk/test
-
-'deploy_test_with-restore-data':
-  include: cider-ci/shared/deploy-job-defaults.yml
-  name: Deploy to test with restore-data
-  context:
-    tasks:
-      deploy:
-        exclusive_global_resources:
-          "test.madek.zhdk.ch": true
-        environment_variables:
-          HOSTS_FILE: inventories/zhdk/test
-          RESTORE_DATA: 'true'
-
-###############################################################################
-
-'deploy_staging-v3-pdata':
-  include: cider-ci/shared/deploy-job-defaults.yml
-  name: Deploy to staging-v3-pdata
-  context:
-    tasks:
-      deploy:
-        exclusive_global_resources:
-          "staging-v3-pdata.madek.zhdk.ch": true
-        environment_variables:
-          HOSTS_FILE: inventories/zhdk/staging-v3-pdata
-
-'deploy_staging-v3-pdata_with-restore-data':
-  include: cider-ci/shared/deploy-job-defaults.yml
-  name: Deploy to staging-v3-pdata with restore-data
-  context:
-    tasks:
-      deploy:
-        exclusive_global_resources:
-          "staging-v3-pdata.madek.zhdk.ch": true
-        environment_variables:
-          HOSTS_FILE: inventories/zhdk/staging-v3-pdata
-          RESTORE_DATA: 'true'
-
-###############################################################################
-
-'deploy_staging-v3-upload':
-  include: cider-ci/shared/deploy-job-defaults.yml
-  name: Deploy to staging-v3-upload
-  context:
-    tasks:
-      deploy:
-        exclusive_global_resources:
-          "staging-v3-upload.madek.zhdk.ch": true
-        environment_variables:
-          HOSTS_FILE: inventories/zhdk/staging-v3-upload
-
-'deploy_staging-v3-upload_with-db-drop':
-  include: cider-ci/shared/deploy-job-defaults.yml
-  name: Deploy to staging-v3-upload with drop-database
-  context:
-    tasks:
-      deploy:
-        exclusive_global_resources:
-          "staging-v3-upload.madek.zhdk.ch": true
-        environment_variables:
-          HOSTS_FILE: inventories/zhdk/staging-v3-upload
-          DROP_DATABASE: 'true'
+          HOSTS_FILE: inventories/zhdk/medienarchiv
+        scripts:
+          check-head-of-release:
+            body: |
+              set -eux
+              git fetch --all
+              [[ $(git log -n 1 --pretty=%H HEAD -- ) == $(git log -n 1 --pretty=%H origin/release -- ) ]]
+          deploy:
+            start_when:
+              only when we are on the head of release:
+                script_key: check-head-of-release
