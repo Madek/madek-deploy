@@ -21,14 +21,12 @@ db_backups_enabled: True
 
 zhdk_integration: True
 
-# TODO: setup filer and enable
 madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/attachments
 madek_thumbnail_storage_dir: /opt/madekdata/attachments
 madek_tmp_dir: /opt/madekdata/tmp
 
 
-# TODO: setup and enable letsencrypt
 madek_virtual_hosts:
 - hostname: '{{madek_external_hostname}}'
   ip: '*'
