@@ -2,7 +2,7 @@
 
 # Ansible managed
 
-DUMP_DIR="{{madek_root_dir}}/db/media_files/{{rails_env}}/backups"
+DUMP_DIR="{{db_backups_dir}}"
 DUMP_FILE_NAME="madek-data-dump_$(date +%FT%T%Z).pgbin"
 DUMP_FILE="${DUMP_DIR}/${DUMP_FILE_NAME}"
 LINK_NAME="latest-data.pgbin"

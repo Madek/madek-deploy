@@ -1,2 +1,3 @@
 db_backups_enabled: False
-db_dump_data_enabled: False
+db_backups_dir: /var/local/madek/backups
+

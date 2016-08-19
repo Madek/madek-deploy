@@ -54,5 +54,5 @@
     - role: madek-set-data
       tags: [set-data]
 
-#    - role: db-backups
-#      tags: [db-backups]
+    - role: db-backups
+      tags: [db-backups]

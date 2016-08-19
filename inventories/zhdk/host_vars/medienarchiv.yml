@@ -18,6 +18,7 @@ zencoder_api_key: '{{zhdk_zencoder_api_key}}'
 zencoder_test_mode: False
 
 db_backups_enabled: True
+db_backups_dir: /opt/madekdata/backups
 
 zhdk_integration: True
 
