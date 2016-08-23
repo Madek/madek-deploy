@@ -125,6 +125,7 @@ madek_root_dir: '/{{madek_base_name}}'
 madek_server_dir: '{{madek_root_dir}}/server'
 
 madek_api_docs_dir: "{{madek_server_dir}}/api/docs"
+madek_api_browser_dir: "{{madek_server_dir}}/api/browser"
 
 madek_webapp_dir: "{{madek_server_dir}}/webapp"
 madek_webapp_service_name: "{{madek_base_name}}_webapp"

@@ -71,16 +71,16 @@ def build_config_dir
   print " done, "
 end
 
-def copy_git_repo_files dir_name
-  FileUtils.mkdir_p "#{BUILD_DIR}/#{dir_name}"
-  sub_source_dir = "#{SOURCE_DIR}/#{dir_name}"
+def copy_git_repo_files source_dir_name, target_dir_name = source_dir_name
+  FileUtils.mkdir_p "#{BUILD_DIR}/#{target_dir_name}"
+  sub_source_dir = "#{SOURCE_DIR}/#{source_dir_name}"
   Dir.exist?(sub_source_dir) || raise("No directory #{sub_source_dir}")
   exec! <<-CMD.strip_heredoc
     #!/usr/bin/env bash
     set -eux
     cd #{sub_source_dir}
     #{DEPLOY_DIR}/bin/git-archive-all -- - \
-      | tar x --directory #{BUILD_DIR}/#{dir_name}
+      | tar x --directory #{BUILD_DIR}/#{target_dir_name}
   CMD
 end
 
@@ -95,6 +95,14 @@ def build_api_documentation_dir
   copy_git_repo_files "api/docs"
   print "done, "
 end
+
+def build_api_browser_dir
+  print "building api browser dir... "
+  copy_git_repo_files "api/resources/browser", "api/browser"
+  print "done, "
+end
+
+
 
 def build_rails_services
   RAILS_SERVICES.each do |service|
@@ -163,6 +171,7 @@ def main
     build_config_dir
     build_rails_services
     build_api_documentation_dir
+    build_api_browser_dir
     build_lein_services
     pack build_archive
     puts " done "
