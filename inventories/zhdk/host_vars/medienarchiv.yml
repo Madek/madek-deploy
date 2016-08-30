@@ -1,11 +1,12 @@
 ansible_ssh_host: medienarchiv.zhdk.ch
-#ansible_ssh_host: prod3.madek.zhdk.ch
 ansible_ssh_user: root
 
 # setting up proper owner etc  is very slow and should only be necessary
 # when we switch servers or something
 setup_storage_directories: no
 
+madek_welcome_title: false
+madek_site_title: false
 
 madek_external_hostname: medienarchiv.zhdk.ch
 madek_external_base_url: https://{{ madek_external_hostname }}

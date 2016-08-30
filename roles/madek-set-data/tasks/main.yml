@@ -19,6 +19,7 @@
     body: |
       AppSettings.find_or_create_by(id: 0) \
         .update_attributes! site_title: '{{madek_site_title}}'
+  when: not not madek_site_title
 
 
 - uri:
@@ -33,3 +34,4 @@
     body: >
       AppSettings.find_or_create_by(id: 0) \
         .update_attributes! welcome_title: '{{madek_welcome_title}}'
+  when: not not madek_welcome_title
