@@ -32,8 +32,6 @@ madek_tmp_dir: /opt/madekdata/tmp
 madek_virtual_hosts:
 - hostname: '{{madek_external_hostname}}'
   ip: '*'
-  ssl_certificate_file: /etc/ssl/certs/ssl-cert-snakeoil.pem
-  ssl_certificate_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
   ssl_certificate_file: /etc/letsencrypt/live/medienarchiv.zhdk.ch/fullchain.pem
   ssl_certificate_key_file: /etc/letsencrypt/live/medienarchiv.zhdk.ch/privkey.pem
   force_redirect_to_https: yes
