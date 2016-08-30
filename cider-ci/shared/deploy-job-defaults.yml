@@ -20,7 +20,7 @@ context:
     traits:
       Ansible 2: yes
       git-crypt: yes
-      ci-executor-madek: yes
+      ci-executor.madek: yes
 
     git_options:
       submodules:
