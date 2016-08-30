@@ -20,9 +20,18 @@ build:
           submodules:
             include_match: ^.*$
         traits:
-          ci-executor-madek: yes
+          Leiningen: yes
+          git-crypt: yes
+          madek-repo-decryption: yes
         scripts:
+          unlock:
+            body: |
+              git crypt unlock
+              git submodule foreach 'git crypt unlock || exit 0'
           build:
+            start_when:
+              unlocked:
+                script_key: unlock
             timeout: 10 Minutes
             body: |
               set -eux

@@ -1,1 +1,2 @@
 *secret*yml filter=git-crypt diff=git-crypt
+*secret*pem filter=git-crypt diff=git-crypt
