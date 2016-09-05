@@ -1,7 +1,6 @@
 Setting up Madek with Ansible
 =============================
 
-**WORK IN PROGRESS** The deploy scripts are being rewritten for Madek version 3.
 
 Step by step procedure
 ----------------------
@@ -36,28 +35,14 @@ following command might help. Backup your changes beforehand!
 You can as well start from scratch.
 
 
-### Create your hosts configuration file
+### Create an Inventory
 
-** THIS IS OUTDATED**
-TODO
-
-This and all the following steps are carried out from within the `deploy`
-subdirectory.
-
-The easiest way is to copy the provided `hosts_demo` file:
-
-    cp hosts_demo my_hosts
-
-Within the file `my_host` replace the word `demo` with `my_host` and adjust the
-value of the ansible_ssh_host variable  ip of your madek server. If the ip is
-10.0.0.1 the line should read:
-
-    my_host ansible_ssh_host=10.0.0.1 ansible_ssh_user=root
+See the `./inventories` directory for examples.
 
 
 ### Install or Upgrade Madek
 
-    ansible-playbook -i my_hosts play_setup-and-deploy.yml -e 'madek_master_secret=REPLACE-WITH-YOUR-SECRET'
+    ansible-playbook -i $MY_INVENTORY_PATH  play_setup-and-deploy.yml
 
 
 ### Create a Admin User and set the Password

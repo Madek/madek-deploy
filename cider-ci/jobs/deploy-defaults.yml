@@ -15,7 +15,7 @@ context:
     environment_variables:
       LANG: "en_US.UTF-8"
       DROP_DATABASE: 'false'
-      RESTORE_DATA: 'false'
+      RESTORE_STRUCTURE_AND_DATA: 'false'
 
     traits:
       Ansible 2: yes
@@ -42,5 +42,5 @@ context:
           echo $(pwd)
           ls -R inventories
           time ansible-playbook -v -i "${HOSTS_FILE}" play_setup-and-deploy.yml \
-             --extra-vars "{\"drop_database\": ${DROP_DATABASE}, \"restore_data\": ${RESTORE_DATA}}"
+             --extra-vars "{\"drop_database\": ${DROP_DATABASE}, \"restore_structure_and_data\": ${RESTORE_STRUCTURE_AND_DATA}}"
 

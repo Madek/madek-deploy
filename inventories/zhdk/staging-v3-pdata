@@ -1,8 +1,0 @@
-[madek]
-staging-v3-pdata ansible_ssh_host=staging-v3-pdata.madek.zhdk.ch ansible_ssh_user=root
-
-[zhdk]
-staging-v3-pdata
-
-[secrets]
-staging-v3-pdata

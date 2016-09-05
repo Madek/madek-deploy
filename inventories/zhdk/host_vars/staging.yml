@@ -1,11 +1,11 @@
-ansible_ssh_host: test.madek.zhdk.ch
+ansible_ssh_host: staging.madek.zhdk.ch
 ansible_ssh_user: root
 
-madek_external_hostname: test.madek.zhdk.ch
+madek_external_hostname: staging.madek.zhdk.ch
 
 zhdk_integration: True
 
-madek_master_secret: '{{test.madek_master_secret}}'
+madek_master_secret: '{{staging.madek_master_secret}}'
 
 setup_storage_directories: false
 

@@ -1,8 +1,7 @@
 /tmp
-ZHdK-secrets.mkd
 .project
 .mux.yml
 .retry
 *tar.gz*
 *retry
-*secret*
+master_secret.txt

@@ -23,25 +23,23 @@
     export PATH=$(pwd)/vendor/jruby/bin/:$PATH
     export RAILS_ENV={{rails_env}}
     jruby -S bundle exec rake db:pg:terminate_connections db:drop
-  when: drop_database or restore_data
+  when: drop_database or restore_structure_and_data
+  ignore_errors: true
+  tags: [drop-db]
+
+- name: Create DB
+  become: true
+  become_user: "{{madek_user}}"
+  shell: |
+    #!/usr/bin/env bash
+    set -eux
+    cd {{madek_webapp_dir}}
+    export PATH=$(pwd)/vendor/jruby/bin/:$PATH
+    export RAILS_ENV={{rails_env}}
+    jruby -S bundle exec rake db:create
   ignore_errors: true
 
-- name: Migrate to 100
-  become: true
-  become_user: "{{madek_user}}"
-  shell:  |
-    #!/usr/bin/env bash
-    set -eux
-    cd {{madek_webapp_dir}}
-    export RAILS_ENV={{rails_env}}
-    export PATH=$(pwd)/vendor/jruby/bin/:$PATH
-    export VERSION=100
-    jruby -S bundle exec rake db:create db:migrate
-  register: migrate
-  when: drop_database or restore_data
-  changed_when: not migrate.stdout | match("")
-
-- name: Restore data
+- name: Restore structure and data
   become: true
   become_user: "{{madek_user}}"
   shell:  |
@@ -50,26 +48,25 @@
     cd {{madek_webapp_dir}}
     export PATH=$(pwd)/vendor/jruby/bin/:$PATH
     export RAILS_ENV={{rails_env}}
-    export FILE={{db_data_file}}
-    export JRUBY_OPTS=" -J-Xmx8G "
-    jruby -S bundle exec rake db:pg:terminate_connections
-    jruby -S bundle exec rake db:pg:terminate_connections db:pg:truncate_tables db:pg:data:restore
-  register: migrate
-  when: restore_data
-  changed_when: not migrate.stdout | match("")
+    export FILE={{restore_structure_and_data_file}}
+    export JRUBY_OPTS=" -J-Xmx2G "
+    jruby -S bundle exec rake db:pg:terminate_connections db:pg:structure_and_data:restore
+  register: restore
+  when: restore_structure_and_data
+  changed_when: not restore.stdout | match("")
 
-- name: Migrate rest
+- name: Migrate
   become: true
   become_user: "{{madek_user}}"
   shell:  |
     #!/usr/bin/env bash
+    set -eux
     cd {{madek_webapp_dir}}
     export PATH=$(pwd)/vendor/jruby/bin/:$PATH
     export RAILS_ENV={{rails_env}}
-    export JRUBY_OPTS=" -J-Xmx10G "
-    jruby -S bundle exec rake db:create db:migrate
+    export JRUBY_OPTS=" -J-Xmx2G "
+    jruby -S bundle exec rake db:migrate
   register: migrate
-  tags: madek-datalayer-migrate-rest
   changed_when: not migrate.stdout | match("")
 
 - name: Seed (set core data)
