@@ -12,7 +12,7 @@ scripts:
       set -eux
       # lxc launch images:debian/jessie/amd64  ${CONTAINER_NAME}
       # Debian doesn't work because of https://github.com/systemd/systemd/issues/719
-      lxc launch ubuntu:16.04 ${CONTAINER_NAME}
+      lxc launch --ephemeral ubuntu:16.04 ${CONTAINER_NAME}
       lxc list
 
   destroy-container:
