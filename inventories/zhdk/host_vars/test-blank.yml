@@ -1,0 +1,20 @@
+ansible_ssh_host: test-blank.madek.zhdk.ch
+ansible_ssh_user: root
+
+madek_external_hostname: test-blank.madek.zhdk.ch
+
+zhdk_integration: True
+
+madek_master_secret: '{{test_blank.madek_master_secret}}'
+
+setup_storage_directories: True
+
+#madek_storage_dir: /tmp
+#madek_file_storage_dir: /opt/madekdata/attachments
+#madek_thumbnail_storage_dir: /opt/madekdata/attachments
+#madek_tmp_dir: /opt/madekdata/tmp
+
+restore_structure_and_data: no
+drop_database: yes
+
+db_backups_enabled: False
