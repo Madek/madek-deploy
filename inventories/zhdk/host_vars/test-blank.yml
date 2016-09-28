@@ -18,3 +18,7 @@ restore_structure_and_data: no
 drop_database: yes
 
 db_backups_enabled: False
+
+# create a default admin on this box
+admin_login: admin
+admin_password: '{{test_blank.admin_password}}'

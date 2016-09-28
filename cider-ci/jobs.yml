@@ -94,7 +94,16 @@
           HOSTS_FILE: inventories/zhdk/hosts_test-blank
           DROP_DATABASE: 'true'
           RESTORE_STRUCTURE_AND_DATA: 'false'
-
+        scripts:
+          setup_admin:
+            start_when:
+              deployed:
+                script_key: deploy
+            body: |
+              set -eux
+              cd deploy
+              echo $(pwd)
+              ansible-playbook -i inventories/zhdk/hosts_test-blank play_create-admin.yml
 
 ### staging ###################################################################
 
