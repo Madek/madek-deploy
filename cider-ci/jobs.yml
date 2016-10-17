@@ -81,10 +81,10 @@
 'deploy_test-blank':
   include: cider-ci/jobs/deploy-defaults.yml
   name: Deploy to test-blank
-  run_when: &RUN_ON_MASTER
-    master branch:
-      type: branch
-      include_match: ^master$
+  # run_when: &RUN_ON_MASTER
+  #  master branch:
+  #    type: branch
+  #    include_match: ^master$
   context:
     tasks:
       deploy:
