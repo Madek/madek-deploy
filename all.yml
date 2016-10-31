@@ -21,6 +21,7 @@ madek_site_title: "Madek@{{madek_external_hostname}}"
 madek_welcome_title: "Welcome to your installation of Madek!"
 
 zhdk_integration: False
+shibboleth_sign_in: False
 
 server_timezone: Etc/UTC
 rails_timezone: UTC
