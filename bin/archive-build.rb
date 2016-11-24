@@ -35,14 +35,20 @@ def clean
 end
 
 def tree_id
-  tree_id= Dir.chdir(SOURCE_DIR) do
+  @tree_id ||= Dir.chdir(SOURCE_DIR) do
     exec!("git log -1 --pretty=%T").strip
   end
 end
 
 def commit_id
-  tree_id= Dir.chdir(SOURCE_DIR) do
+  @commit_id ||= Dir.chdir(SOURCE_DIR) do
     exec!("git log -1 --pretty=%H").strip
+  end
+end
+
+def datalayer_tree_id
+  @datalayer_tree_id ||= Dir.chdir(SOURCE_DIR) do
+    exec!("cd webapp/datalayer && git log -1 --pretty=%T").strip
   end
 end
 
@@ -50,6 +56,7 @@ def deploy_info
   {
     tree_id: tree_id,
     commit_id: commit_id,
+    datalayer_tree_id: datalayer_tree_id,
     time: Time.now.utc.to_json
   }
 end
