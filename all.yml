@@ -52,7 +52,7 @@ zencoder_video_output_formats_defaults:
   - {format: 'webm', label: 'webm', quality: 4, speed: 2, width: 620, thumbnails: true}
   - {format: 'mp4', label: 'mp4', video_codec: 'h264', width: 620}
 zencoder_video_thumbnails_defaults: {interval: 60, width: 620, format: "jpg"}
-zencoder_audio_output_formats_defaults: [{audio_codec: 'vorbis', skip_video: true}]
+zencoder_audio_output_formats_defaults: [{audio_codec: 'mp3', skip_video: true}]
 
 
 ################################################################################
