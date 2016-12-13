@@ -11,7 +11,6 @@ madek_master_secret: '{{test_blank.madek_master_secret}}'
 zencoder_enabled: True
 zencoder_api_key: '{{zhdk_zencoder_api_key}}'
 zencoder_test_mode: True
-zencoder_audio_output_formats_defaults: [{audio_codec: 'vorbis', skip_video: true}, {audio_codec: 'mp3', skip_video: true}]
 
 setup_storage_directories: True
 

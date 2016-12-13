@@ -1,4 +1,7 @@
 zhdk_integration: True
+
+zencoder_audio_output_formats_defaults: [{audio_codec: 'vorbis', skip_video: true}, {audio_codec: 'mp3', skip_video: true}]
+
 ntp_server: ntp.zhdk.ch
 
 ssh_keys:
