@@ -1,4 +1,14 @@
-zhdk_integration: True
+zhdk_integration: True # turns on AGW support + custom ldap groups handling
+zhdk_agw_api_url: https://intern.zhdk.ch/?auth/madek # key is in ./secrets.yml!
+zhdk_admin_ids: [
+  10301, # susanneschumacher
+  162294, # birkweiberg
+  182749, # tschank
+  186272, # cweckema
+  189987, # mkmit
+  195509, # pkuederl
+  196200, # malbrech
+]
 
 zencoder_audio_output_formats_defaults: [{audio_codec: 'vorbis', skip_video: true}, {audio_codec: 'mp3', skip_video: true}]
 
