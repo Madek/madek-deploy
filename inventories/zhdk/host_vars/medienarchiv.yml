@@ -28,6 +28,10 @@ madek_file_storage_dir: /opt/madekdata/attachments
 madek_thumbnail_storage_dir: /opt/madekdata/attachments
 madek_tmp_dir: /opt/madekdata/tmp
 
+madek_webapp_html_extra_body_start: |
+    <!-- Piwik Image Tracker-->
+    <img src="https://analytics.zhdk.ch/piwik.php?idsite=174&rec=1" style="border:0;position:fixed;top:0;left:0" alt="">
+    <!-- End Piwik -->
 
 madek_virtual_hosts:
 - hostname: '{{madek_external_hostname}}'

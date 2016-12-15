@@ -22,3 +22,7 @@ restore_structure_and_data: yes
 
 db_backups_enabled: False
 
+madek_webapp_html_extra_body_start: |
+  <!-- Piwik Image Tracker-->
+  <img src="https://analytics.zhdk.ch/piwik.php?idsite=172&rec=1" style="border:0;position:fixed;top:0;left:0" alt="">
+  <!-- End Piwik -->
