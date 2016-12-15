@@ -21,3 +21,4 @@ madek_tmp_dir: /opt/madekdata/tmp
 restore_structure_and_data: yes
 
 db_backups_enabled: False
+
