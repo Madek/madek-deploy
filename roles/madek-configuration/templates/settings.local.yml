@@ -19,9 +19,9 @@ thumbnail_storage_dir: "{{madek_thumbnail_storage_dir}}"
 zencoder_enabled: {{zencoder_enabled}}
 zencoder_api_key: {{zencoder_api_key}}
 zencoder_test_mode: {{zencoder_test_mode}}
-zencoder_video_output_formats_defaults: {{zencoder_video_output_formats_defaults | to_json }}
+zencoder_video_output_formats: {{zencoder_video_output_formats | to_json }}
 zencoder_video_thumbnails_defaults: {{zencoder_video_thumbnails_defaults | to_json }}
-zencoder_audio_output_formats_defaults: {{zencoder_audio_output_formats_defaults | to_json }}
+zencoder_audio_output_formats: {{zencoder_audio_output_formats | to_json }}
 
 webapp_html_extra_content:
   head_start: |

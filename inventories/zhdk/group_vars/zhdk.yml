@@ -10,7 +10,9 @@ zhdk_admin_ids: [
   196200, # malbrech
 ]
 
-zencoder_audio_output_formats_defaults: [{audio_codec: 'vorbis', skip_video: true}, {audio_codec: 'mp3', skip_video: true}]
+zencoder_audio_output_formats:
+  vorbis: {format: 'ogg', audio_codec: 'vorbis', skip_video: true}
+  mp3: {format: 'mp3', audio_codec: 'mp3', skip_video: true}
 
 ntp_server: ntp.zhdk.ch
 
