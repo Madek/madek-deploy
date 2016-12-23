@@ -10,6 +10,15 @@ zhdk_admin_ids: [
   196200, # malbrech
 ]
 
+zencoder_video_output_formats:
+  webm: {format: 'webm', label: 'webm', quality: 4, speed: 2, width: 620, thumbnails: true}
+  mp4: {format: 'mp4', label: 'mp4', video_codec: 'h264', width: 620}
+  # minimum height for HD video targets videos where the higher size would increase the available size by 25%
+  # worst normal case small preview height: 620 * 3/4 = 465
+  # target min_size for HD: 620x465 * 1.25 = 775x581
+  webm_HD: {format: 'webm', label: 'webm', quality: 4, speed: 2, height: 1080, skip: {min_size: '775x580'}}
+  mp4_HD: {format: 'mp4', label: 'mp4', video_codec: 'h264', height: 1080, skip: {min_size: '775x580'}}
+
 zencoder_audio_output_formats:
   vorbis: {format: 'ogg', audio_codec: 'vorbis', skip_video: true}
   mp3: {format: 'mp3', audio_codec: 'mp3', skip_video: true}
