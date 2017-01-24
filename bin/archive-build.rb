@@ -57,7 +57,7 @@ def deploy_info
     tree_id: tree_id,
     commit_id: commit_id,
     datalayer_tree_id: datalayer_tree_id,
-    time: Time.now.utc.as_json
+    build_time: Time.now.utc.as_json
   }
 end
 
