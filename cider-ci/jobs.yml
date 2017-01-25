@@ -56,6 +56,7 @@
             start_when:
               only when we are on the head of release:
                 script_key: check-head-of-release
+
 ### test ######################################################################
 
 'deploy_test':
@@ -119,4 +120,3 @@
           HOSTS_FILE: inventories/zhdk/hosts_staging
           DROP_DATABASE: 'true'
           RESTORE_STRUCTURE_AND_DATA: 'true'
-
