@@ -15,11 +15,6 @@ madek_external_hostname: '{{ ansible_default_ipv4.address }}'
 ssh_keys: []
 removed_ssh_keys: []
 
-# dont' use single quotes "'"; or quote them
-# set either of them to FALSE to not override it with each deployment
-madek_site_title: "Madek@{{madek_external_hostname}}"
-madek_welcome_title: "Welcome to your installation of Madek!"
-
 zhdk_integration: False
 shibboleth_sign_in: False
 

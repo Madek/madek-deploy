@@ -51,8 +51,5 @@
     - role: reverse-proxy
       tags: [reverse-proxy]
 
-    - role: madek-set-data
-      tags: [set-data]
-
     - role: db-backups
       tags: [db-backups]
