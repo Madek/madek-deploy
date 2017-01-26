@@ -43,7 +43,7 @@
 - name: reload monit
   service:
     name: monit
-    state: reloaded
+    state: restarted
     enabled: true
 
 - name: call monit to awake it
