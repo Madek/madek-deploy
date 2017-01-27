@@ -52,12 +52,17 @@ def datalayer_tree_id
   end
 end
 
+def changes_since_release
+  exec!('./dev/release-notes-pre').strip
+end
+
 def deploy_info
   {
     tree_id: tree_id,
     commit_id: commit_id,
     datalayer_tree_id: datalayer_tree_id,
     build_time: Time.now.utc.as_json
+    changes_since_release: changes_since_release
   }
 end
 
