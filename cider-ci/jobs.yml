@@ -57,7 +57,22 @@
               only when we are on the head of release:
                 script_key: check-head-of-release
 
-### test ######################################################################
+### staging ###################################################################
+
+'deploy_staging':
+  include: cider-ci/jobs/deploy-defaults.yml
+  name: Deploy to staging
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources:
+          "staging.madek.zhdk.ch": true
+        environment_variables:
+          HOSTS_FILE: inventories/zhdk/hosts_staging
+          DROP_DATABASE: 'true'
+          RESTORE_STRUCTURE_AND_DATA: 'true'
+
+### test - auto-deploy from master #################################################
 
 'deploy_test':
   include: cider-ci/jobs/deploy-defaults.yml
@@ -77,15 +92,12 @@
           RESTORE_STRUCTURE_AND_DATA: 'true'
 
 
-### test-blank ################################################################
+### test-blank - auto-deploy from master ###########################################
 
 'deploy_test-blank':
   include: cider-ci/jobs/deploy-defaults.yml
   name: Deploy to test-blank
-  run_when: &RUN_ON_MASTER
-   master branch:
-     type: branch
-     include_match: ^master$
+  run_when: *RUN_ON_MASTER
   context:
     tasks:
       deploy:
@@ -106,17 +118,21 @@
               echo $(pwd)
               ansible-playbook -i inventories/zhdk/hosts_test-blank play_create-admin.yml
 
-### staging ###################################################################
-
-'deploy_staging':
+'deploy_test-blank_first_time':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: Deploy to staging
+  name: Deploy to test-blank (Re-Installation & First Time Setup)
   context:
     tasks:
       deploy:
         exclusive_global_resources:
-          "staging.madek.zhdk.ch": true
+          "test-blank.madek.zhdk.ch": true
         environment_variables:
-          HOSTS_FILE: inventories/zhdk/hosts_staging
+          HOSTS_FILE: inventories/zhdk/hosts_test-blank
           DROP_DATABASE: 'true'
-          RESTORE_STRUCTURE_AND_DATA: 'true'
+          RESTORE_STRUCTURE_AND_DATA: 'false'
+        scripts:
+          first_time_setup:
+            start_when:
+              deployed:
+                script_key: deploy
+            body: cd deploy && ansible-playbook -i inventories/zhdk/hosts_test-blank play_first-time-setup.yml
