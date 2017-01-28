@@ -9,6 +9,7 @@
 
 - set_fact:
     download_urls: "{{search_download_archive.urls}}"
+    build_is_latest_release: "{{search_download_archive.build_is_latest_release}}"
   when: >
     (search_download_archive.urls is not none)
     and (not force_local_build)
@@ -16,4 +17,8 @@
 
 - debug:
     var: download_urls
+  tags: [debug]
+
+- debug:
+    var: build_is_latest_release
   tags: [debug]

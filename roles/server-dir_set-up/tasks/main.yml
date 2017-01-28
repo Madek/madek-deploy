@@ -3,7 +3,7 @@
     path: '{{madek_server_dir}}'
     state: absent
 
-- name: marke sure madek root dir is present
+- name: make sure madek root dir is present
   file:
     path: '{{madek_root_dir}}'
     state: directory
@@ -15,6 +15,14 @@
     tar xf /tmp/madek.tar.gz
     mv {{madek_root_dir}}/madek {{madek_server_dir}}
 
+- name: add deploy info to file
+  lineinfile:
+    dest: "{{madek_server_dir}}/config/deploy-info.yml"
+    insertafter: '^---$'
+    # NOTE: `build_is_latest_release` set by `find_or_build_archive` role
+    line: 'deployed: { time: "{{ ansible_date_time.iso8601 }}", is_release: {{ hostvars.localhost.build_is_latest_release|trim }} }'
+    validate: ruby -e 'require "yaml"; YAML.safe_load(File.read("%s"))'
+
 - name: change owner
   file:
     path: "{{madek_root_dir}}"
@@ -22,4 +30,3 @@
     group: "{{madek_user}}"
     state: directory
     recurse: yes
-

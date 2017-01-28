@@ -53,7 +53,9 @@ def datalayer_tree_id
 end
 
 def changes_since_release
-  exec!('./dev/release-notes-pre').strip
+  @changes_since_release ||= Dir.chdir(SOURCE_DIR) do
+    exec!('./dev/release-notes-pre').strip
+  end
 end
 
 def deploy_info
@@ -61,7 +63,7 @@ def deploy_info
     tree_id: tree_id,
     commit_id: commit_id,
     datalayer_tree_id: datalayer_tree_id,
-    build_time: Time.now.utc.as_json
+    build_time: Time.now.utc.as_json,
     changes_since_release: changes_since_release
   }
 end

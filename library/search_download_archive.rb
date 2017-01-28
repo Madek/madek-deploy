@@ -26,6 +26,10 @@ def tag
     + ( release['version_pre'] ?  "-#{release['version_pre']}" : "")
 end
 
+def build_is_latest_release
+  `cd .. && test $(git rev-parse HEAD) == $(git rev-parse origin/release) && echo 'true' || echo 'false'`
+end
+
 def tree_id
   exec!('cd .. && git log -n 1 --pretty=%T').strip
 end
@@ -64,6 +68,7 @@ begin
       "args" => @args,
       "changed" => false,
       "urls" => urls,
+      "build_is_latest_release" => build_is_latest_release,
       "stdout" => "Archive and signature found."
     )
   else
