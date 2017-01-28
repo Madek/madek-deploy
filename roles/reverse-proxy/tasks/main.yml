@@ -1,4 +1,5 @@
 - include: setup-apache2.yml
+- include: setup-certbot.yml
 
 - name: disable all madek sites
   shell: rm /etc/apache2/sites-enabled/madek_*
@@ -29,10 +30,21 @@
 - include: virtual-host.yml
   with_indexed_items: '{{madek_virtual_hosts}}'
 
+- name: enable letsencrypt cert if present
+  when: '(letsencrypt_check_certbot.rc == 0) and (letsencrypt_cert.stat.exists == True)'
+  # NOTE: give config path so it applies to *all* vhosts.
+  # TODO: enable HSTS: `--hsts`
+  shell:
+    certbot run
+      -n --strict-permissions
+      --keep-until-expiring
+      --redirect --uir
+      --apache --apache-vhost-root /etc/apache2/madek
+      -d {{madek_external_hostname}}
+
 - name: reload reverse-proxy
   service:
     name: apache2
     state: reloaded
   tags:
     - server_setup-munin
-

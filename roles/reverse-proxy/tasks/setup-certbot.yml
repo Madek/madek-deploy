@@ -1,0 +1,19 @@
+- name: check for presence of `certbot`
+  shell: 'which certbot'
+  ignore_errors: true
+  register: letsencrypt_check_certbot
+
+
+- name: check for presence of letsencrypt cert
+  stat:
+    path: /etc/letsencrypt/live/{{madek_external_hostname}}/cert.pem
+  register: letsencrypt_cert
+
+
+# TODO: install certbot by default
+# - name: Add backports repository
+#   apt_repository: repo='deb http://http.debian.net/debian jessie-backports main' cache_valid_time=3600 state=present update_cache=yes
+#
+# - name: LetsEncrypt install certbot
+#   with_items: [python-certbot-apache]
+#   apt: "pkg={{item}} state=present update_cache=yes cache_valid_time=3600 default_release=jessie-backports"

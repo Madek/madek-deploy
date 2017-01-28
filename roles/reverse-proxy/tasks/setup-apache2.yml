@@ -4,7 +4,6 @@
   with_items:
     - apache2
     - libapache2-mod-xsendfile
-  tags: [internet]
 
 - name: Disable default site
   command:  a2dissite 000-default
@@ -16,5 +15,3 @@
   register: result
   with_items: '{{apache2_modules}}'
   changed_when: result.stdout | search("Enabling module")
-
-
