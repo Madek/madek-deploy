@@ -20,14 +20,15 @@ def exec! cmd
   end
 end
 
-def tag
+def latest_tag_from_version
+  return @tag if @tag
   release = YAML.load_file("../config/releases.yml")['releases'].first
-  tag = "#{release['version_major']}.#{release['version_minor']}.#{release['version_patch']}" \
+  @tag = "v#{release['version_major']}.#{release['version_minor']}.#{release['version_patch']}" \
     + ( release['version_pre'] ?  "-#{release['version_pre']}" : "")
 end
 
-def build_is_latest_release
-  `cd .. && test $(git rev-parse HEAD) == $(git rev-parse origin/release) && echo 'true' || echo 'false'`
+def git_describe_tag
+  @git_describe_tag ||= exec!('cd .. && git describe --tags').strip
 end
 
 def tree_id
@@ -35,7 +36,7 @@ def tree_id
 end
 
 def check_url! url
-  exec! " curl -sS --fail -I '#{url}'"
+  exec! "curl -sS --fail -I '#{url}'"
 end
 
 def check_and_build_urls base_url
@@ -56,7 +57,7 @@ def find_urls
   if base_url = @args['base_url']
     check_and_build_urls base_url
   else
-    check_and_build_urls("https://github.com/Madek/madek/releases/download/#{tag}") \
+    check_and_build_urls("https://github.com/Madek/madek/releases/download/#{latest_tag_from_version}") \
     || check_and_build_urls("https://ci.zhdk.ch/cider-ci/storage/tree-attachments/#{tree_id}")
   end
 end
@@ -68,7 +69,8 @@ begin
       "args" => @args,
       "changed" => false,
       "urls" => urls,
-      "build_is_latest_release" => build_is_latest_release,
+      "git_describe_tag" => git_describe_tag,
+      "build_is_latest_release" => git_describe_tag == latest_tag_from_version,
       "stdout" => "Archive and signature found."
     )
   else
