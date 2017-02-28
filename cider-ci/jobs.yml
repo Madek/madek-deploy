@@ -97,30 +97,7 @@
 'deploy_test-blank':
   include: cider-ci/jobs/deploy-defaults.yml
   name: Deploy to test-blank
-  run_when: *RUN_ON_MASTER
-  context:
-    tasks:
-      deploy:
-        exclusive_global_resources:
-          "test-blank.madek.zhdk.ch": true
-        environment_variables:
-          HOSTS_FILE: inventories/zhdk/hosts_test-blank
-          DROP_DATABASE: 'true'
-          RESTORE_STRUCTURE_AND_DATA: 'false'
-        scripts:
-          setup_admin:
-            start_when:
-              deployed:
-                script_key: deploy
-            body: |
-              set -eux
-              cd deploy
-              echo $(pwd)
-              ansible-playbook -i inventories/zhdk/hosts_test-blank play_create-admin.yml
-
-'deploy_test-blank_first_time':
-  include: cider-ci/jobs/deploy-defaults.yml
-  name: Deploy to test-blank (Re-Installation & First Time Setup)
+  description: Deploy to test-blank incl. Re-Installation & First Time Setups ("Fresh Instance")
   context:
     tasks:
       deploy:
