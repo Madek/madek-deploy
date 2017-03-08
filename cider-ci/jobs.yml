@@ -22,7 +22,9 @@
 
 'deploy_hslu':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: Deploy to hslu
+  name: "\uD83C\uDF10 Deploy to hslu"
+  depends_on: # NOTE: not strictly needed, but doesn't hurt
+    good to merge: { job_key: good-to-merge, type: job, states: [passed] }
   context:
     tasks:
       deploy:
@@ -35,7 +37,9 @@
 
 'deploy_medienarchive':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: Deploy to medienarchiv
+  name: "\uD83C\uDF10  Deploy to medienarchiv"
+  depends_on: # NOTE: not strictly needed, but doesn't hurt
+    good to merge: { job_key: good-to-merge, type: job, states: [passed] }
   context:
     tasks:
       deploy:
@@ -61,7 +65,7 @@
 
 'deploy_staging':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: Deploy to staging
+  name: "\uD83C\uDFE2 Deploy to staging"
   context:
     tasks:
       deploy:
@@ -76,7 +80,7 @@
 
 'deploy_test':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: Deploy to test
+  name: "\uD83C\uDFE2 Deploy to test"
   run_when: &RUN_ON_MASTER
     master branch:
       type: branch
@@ -96,7 +100,7 @@
 
 'deploy_test-blank':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: Deploy to test-blank
+  name: "\uD83C\uDFE2 Deploy to test-blank"
   description: Deploy to test-blank incl. Re-Installation & First Time Setups ("Fresh Instance")
   context:
     tasks:
