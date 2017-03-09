@@ -33,12 +33,11 @@
 - name: enable letsencrypt cert if present
   when: '(letsencrypt_check_certbot.rc == 0) and (letsencrypt_cert.stat.exists == True)'
   # NOTE: give config path so it applies to *all* vhosts.
-  # TODO: enable HSTS: `--hsts`
   shell:
     certbot run
       -n --strict-permissions
       --keep-until-expiring
-      --redirect --uir
+      --redirect --uir --hsts
       --apache --apache-vhost-root /etc/apache2/madek
       -d {{madek_external_hostname}}
 
