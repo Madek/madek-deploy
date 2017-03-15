@@ -1,0 +1,3 @@
+madek_external_hostname: staging.hslu.madek.zhdk.ch
+ansible_ssh_host: staging-hslu.madek.zhdk.ch
+ansible_ssh_user: root
