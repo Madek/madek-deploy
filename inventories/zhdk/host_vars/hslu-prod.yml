@@ -1,3 +1,5 @@
 madek_external_hostname: hslu.zhdk.ch
 ansible_ssh_host: prod-hslu.madek.zhdk.ch
 ansible_ssh_user: root
+madek_vim_mode: true
+
