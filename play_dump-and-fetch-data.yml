@@ -2,11 +2,6 @@
 
 - hosts: madek
 
-  vars:
-    dump_items:
-      - data
-      - structure_and_data
-
   tasks:
 
   - name: Dump
@@ -18,12 +13,10 @@
       cd {{madek_webapp_dir}}
       export PATH=$(pwd)/vendor/jruby/bin/:$PATH
       export RAILS_ENV=production
-      jruby -S bundle exec rake db:pg:{{item}}:dump FILE=/tmp/madek_{{item}}.pgbin
+      jruby -S bundle exec rake db:pg:structure_and_data:dump FILE=/tmp/madek.pgbin
     args:
       executable: /bin/bash
-    with_items: "{{dump_items}}"
 
   - fetch:
-      src: /tmp/madek_{{item}}.pgbin
+      src: /tmp/madek.pgbin
       dest: tmp/
-    with_items: "{{dump_items}}"

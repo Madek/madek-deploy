@@ -9,14 +9,10 @@
     state=absent
   when: not db_backups_enabled
 
-- template: >
-    src=dump_data.sh
-    dest=/etc/cron.daily/madek-db-data-dump-{{rails_env}}
-    mode=0755
-  when: db_backups_enabled
+
+# remove old data dump
 
 - file: >
     path=/etc/cron.daily/madek-db-data-dump-{{rails_env}}
     state=absent
-  when: not db_backups_enabled
 
