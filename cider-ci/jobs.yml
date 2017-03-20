@@ -20,16 +20,14 @@
 
 ### HSLU ######################################################################
 
-'deploy_hslu':
+'deploy_hslu_prod':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "\uD83C\uDF10 Deploy to hslu"
-  depends_on: # NOTE: not strictly needed, but doesn't hurt
-    good to merge: { job_key: good-to-merge, type: job, states: [passed] }
+  name: "\uD83C\uDF10 Deploy to prod-hslu"
   context:
     tasks:
       deploy:
         exclusive_global_resources:
-          "hslu.madek.zhdk.ch": true
+          "prod-hslu.madek.zhdk.ch": true
         environment_variables:
           HOSTS_FILE: inventories/zhdk/hosts_hslu
 

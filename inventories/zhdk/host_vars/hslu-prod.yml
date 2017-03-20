@@ -1,5 +1,15 @@
-madek_external_hostname: hslu.zhdk.ch
 ansible_ssh_host: prod-hslu.madek.zhdk.ch
 ansible_ssh_user: root
+
 madek_vim_mode: true
 
+madek_external_hostname: hslu.zhdk.ch
+
+zencoder_enabled: True
+zencoder_api_key: '{{zhdk_zencoder_api_key}}'
+zencoder_test_mode: False
+
+madek_storage_dir: /opt/madekdata
+madek_file_storage_dir: /opt/madekdata/attachments
+madek_thumbnail_storage_dir: /opt/madekdata/attachments
+madek_tmp_dir: /opt/madekdata/tmp
