@@ -22,7 +22,7 @@
 
 'deploy_hslu_prod':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "\uD83C\uDF10 Deploy to prod-hslu"
+  name: "Deploy to prod-hslu"
   context:
     tasks:
       deploy:
