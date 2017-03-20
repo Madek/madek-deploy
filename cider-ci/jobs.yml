@@ -20,18 +20,33 @@
 
 ### HSLU ######################################################################
 
-'deploy_hslu':
+'deploy_hslu_prod':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "\uD83C\uDF10 Deploy to hslu"
+  name: "Deploy to prod-hslu"
   depends_on: # NOTE: not strictly needed, but doesn't hurt
     good to merge: { job_key: good-to-merge, type: job, states: [passed] }
+    deploy to staging passed: { job_key: deploy_hslu_staging, type: job, states: [passed] }
   context:
     tasks:
       deploy:
-        exclusive_global_resources:
-          "hslu.madek.zhdk.ch": true
         environment_variables:
-          HOSTS_FILE: inventories/zhdk/hosts_hslu
+          HOSTS_FILE: inventories/zhdk/hslu-prod_hosts
+        exclusive_global_resources:
+          "prod-hslu.madek.zhdk.ch": true
+
+'deploy_hslu_staging':
+  include: cider-ci/jobs/deploy-defaults.yml
+  name: "Deploy to staging-hslu"
+  context:
+    tasks:
+      deploy:
+        environment_variables:
+          HOSTS_FILE: inventories/zhdk/hslu-staging_hosts
+          DROP_DATABASE: 'true'
+          RESTORE_STRUCTURE_AND_DATA: 'true'
+        exclusive_global_resources:
+          "staging-hslu.madek.zhdk.ch": true
+
 
 ### medienarchiv ##############################################################
 

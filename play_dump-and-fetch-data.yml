@@ -6,7 +6,7 @@
 
   - name: Dump
     become: true
-    become_user: '{{madek_user}}'
+    become_user: madek
     become_method: su
     shell:  |
       set -eux

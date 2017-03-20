@@ -6,7 +6,6 @@ madek_vim_mode: true
 madek_external_hostname: hslu.zhdk.ch
 
 shibboleth_sign_in_enabled: True
-
 madek_master_secret: '{{hslu.madek_master_secret}}'
 
 zencoder_enabled: True

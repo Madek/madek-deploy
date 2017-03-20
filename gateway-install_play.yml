@@ -1,0 +1,6 @@
+- hosts: madek-gateway
+
+  roles:
+    - role: os-setup
+    - role: apache-httpd
+
