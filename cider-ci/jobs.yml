@@ -28,8 +28,16 @@
       deploy:
         exclusive_global_resources:
           "prod-hslu.madek.zhdk.ch": true
-        environment_variables:
-          HOSTS_FILE: inventories/zhdk/hosts_hslu
+
+'deploy_hslu_staging':
+  include: cider-ci/jobs/deploy-defaults.yml
+  name: "Deploy to staging-hslu"
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources:
+          "staging-hslu.madek.zhdk.ch": true
+
 
 ### medienarchiv ##############################################################
 

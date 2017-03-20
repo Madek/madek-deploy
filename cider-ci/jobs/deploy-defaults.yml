@@ -1,9 +1,3 @@
-depends_on:
-  build:
-    type: job
-    job_key: build
-    states: [passed]
-
 context:
 
   task_defaults:
