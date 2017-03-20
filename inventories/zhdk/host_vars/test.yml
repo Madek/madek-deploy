@@ -22,6 +22,9 @@ restore_structure_and_data: yes
 
 db_backups_enabled: False
 
+feature_toggles:
+  admin_sql_reports: "on my own risk"
+
 webapp_html_extra_content:
   body_start: |
     <!-- Piwik Image Tracker-->
