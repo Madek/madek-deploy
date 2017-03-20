@@ -11,6 +11,8 @@
   context:
     tasks:
       deploy:
+        environment_variables:
+          HOSTS_FILE: inventories/zhdk/hslu-prod_hosts
         exclusive_global_resources:
           "prod-hslu.madek.zhdk.ch": true
 
@@ -20,6 +22,8 @@
   context:
     tasks:
       deploy:
+        environment_variables:
+          HOSTS_FILE: inventories/zhdk/hslu-staging_hosts
         exclusive_global_resources:
           "staging-hslu.madek.zhdk.ch": true
 
