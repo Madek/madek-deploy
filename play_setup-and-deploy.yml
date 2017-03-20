@@ -2,9 +2,9 @@
 
   roles:
 
-    - role: find_or_build_archive
+    - role: build_archive
       tags:
-        - find_or_build_archive
+        - build_archive
         - get-archive
 
 - hosts: madek

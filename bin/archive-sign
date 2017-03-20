@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -eu
-
-cat madek.tar.gz | openssl dgst -sha256 -sign crypto/madek.secret.pem -out madek.tar.gz.sig
-
-bin/archive-verify

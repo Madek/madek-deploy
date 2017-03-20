@@ -2,32 +2,5 @@
   synchronize:
     src: "{{item}}"
     dest: /tmp/{{item}}
-  when: hostvars.localhost.download_urls is not defined
   with_items:
     - madek.tar.gz
-
-- name: download archive to the server
-  get_url:
-    url: '{{hostvars.localhost.download_urls[0]}}'
-    dest: /tmp/madek.tar.gz
-    force: yes
-  when: hostvars.localhost.download_urls is defined
-
-- name: download archive signature to the server
-  get_url:
-    url: '{{hostvars.localhost.download_urls[1]}}'
-    dest: /tmp/madek.tar.gz.sig
-    force: yes
-  when: hostvars.localhost.download_urls is defined
-
-- name: copy public key to the server
-  copy:
-    src: crypto/madek.pub.pem
-    dest: /tmp/madek.pub.pem
-  when: hostvars.localhost.download_urls is defined
-
-- name: verify archive
-  shell: >
-    openssl dgst -verify /tmp/madek.pub.pem
-    -signature /tmp/madek.tar.gz.sig /tmp/madek.tar.gz
-  when: hostvars.localhost.download_urls is defined
