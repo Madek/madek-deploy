@@ -36,6 +36,10 @@ ssh_keys:
 removed_ssh_keys:
   - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/cislave_madek')}}"
 
+madek_webapp_embeds:
+  enable_opengraph: true
+  twitter_cards_site: '@zhdk'
+
 # for UI forms, "bundle" these keys
 # feature is experimental, if stable this config should go into AppSettings (DB!)
 ui_bundle_context_keys:

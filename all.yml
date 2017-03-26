@@ -114,6 +114,9 @@ madek_webapp_html_extra_head_start: ''
 madek_webapp_html_extra_head_end: ''
 madek_webapp_html_extra_body_start: ''
 madek_webapp_html_extra_body_end: ''
+madek_webapp_embeds:
+  enable_opengraph: true
+  twitter_cards_site: false
 
 ###############################################################################
 ###############################################################################
