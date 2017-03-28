@@ -4,7 +4,7 @@ ansible_ssh_user: root
 madek_external_hostname: test-blank.madek.zhdk.ch
 
 zhdk_integration: True
-shibboleth_sign_in: False # disabled because package is broken…
+shibboleth_sign_in_enabled: False # disabled because package is broken…
 
 madek_master_secret: '{{test_blank.madek_master_secret}}'
 

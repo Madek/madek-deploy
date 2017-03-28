@@ -16,7 +16,7 @@ ssh_keys: []
 removed_ssh_keys: []
 
 zhdk_integration: False
-shibboleth_sign_in: False
+shibboleth_sign_in_enabled: False
 
 server_timezone: Etc/UTC
 rails_timezone: UTC

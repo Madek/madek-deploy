@@ -7,6 +7,8 @@ zhdk_agw_api_key: {{zhdk_agw_api_key}}
 zhdk_admin_ids: {{zhdk_admin_ids}}
 {% endif %}
 
+shibboleth_sign_in_enabled: {{shibboleth_sign_in_enabled}}
+
 default_storage_dir: {{madek_storage_dir}}
 
 madek_master_secret: {{madek_master_secret}}
