@@ -22,9 +22,9 @@
 
 'deploy_hslu_prod':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "Deploy to prod-hslu"
-  depends_on: # NOTE: not strictly needed, but doesn't hurt
-    good to merge: { job_key: good-to-merge, type: job, states: [passed] }
+  name: "\uD83C\uDF10 Deploy to prod-hslu"
+  depends_on:
+    good to merge: { job_key: good-to-merge, type: job, states: [passed] } # NOTE: not strictly needed, but doesn't hurt
     deploy to staging passed: { job_key: deploy_hslu_staging, type: job, states: [passed] }
   context:
     tasks:
@@ -36,7 +36,7 @@
 
 'deploy_hslu_staging':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "Deploy to staging-hslu"
+  name: "\uD83C\uDFE2 Deploy to staging-hslu"
   context:
     tasks:
       deploy:
@@ -53,8 +53,9 @@
 'deploy_medienarchive':
   include: cider-ci/jobs/deploy-defaults.yml
   name: "\uD83C\uDF10  Deploy to medienarchiv"
-  depends_on: # NOTE: not strictly needed, but doesn't hurt
-    good to merge: { job_key: good-to-merge, type: job, states: [passed] }
+  depends_on:
+    good to merge: { job_key: good-to-merge, type: job, states: [passed] } # NOTE: not strictly needed, but doesn't hurt
+    deploy to staging passed: { job_key: deploy_staging, type: job, states: [passed] }
   context:
     tasks:
       deploy:
