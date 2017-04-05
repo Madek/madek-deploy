@@ -8,6 +8,7 @@ zhdk_admin_ids: {{zhdk_admin_ids}}
 {% endif %}
 
 shibboleth_sign_in_enabled: {{shibboleth_sign_in_enabled}}
+shibboleth_sign_in_url: {{shibboleth_sign_in_url | default('NONE') }}
 
 default_storage_dir: {{madek_storage_dir}}
 
