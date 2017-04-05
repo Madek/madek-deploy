@@ -3,13 +3,6 @@
 ###############################################################################
 
 'build':
-  run_when:
-    integration tests passed:
-      type: job
-      job_key: integration-tests
-      states: [passed]
-
-  name: Build the deployment archive
   context:
     include: cider-ci/contexts/build_archive.yml
 
