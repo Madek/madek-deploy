@@ -15,10 +15,15 @@
 
 'deploy_hslu_prod':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "\uD83C\uDF10 Deploy to prod-hslu"
+  name: "♚ Deploy to prod-hslu"
   depends_on:
-    good to merge: { job_key: good-to-merge, type: job, states: [passed] } # NOTE: not strictly needed, but doesn't hurt
     deploy to staging passed: { job_key: deploy_hslu_staging, type: job, states: [passed] }
+    'we are on zhdk/deploy': { type: branch, include_match: '^zhdk\/deploy$'}
+  run_when:
+    'deploy at 3:15 UTC':
+      type: cron
+      value: '15 3 * * *'
+      branch_include_match: ^zhdk/deploy$
   context:
     tasks:
       deploy:
@@ -29,7 +34,15 @@
 
 'deploy_hslu_staging':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "\uD83C\uDFE2 Deploy to staging-hslu"
+  name: "♟ Deploy to staging-hslu"
+  depends_on:
+    deploy to container passed: { job_key: test-container-deploy, type: job, states: [passed] }
+  run_when:
+    'deploy at 2:15 UTC':
+      type: cron
+      value: '15 2 * * *'
+      branch_include_match: ^release$
+      rerun: true
   context:
     tasks:
       deploy:
@@ -45,10 +58,15 @@
 
 'deploy_medienarchive':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "\uD83C\uDF10  Deploy to medienarchiv"
+  name: "♛ Deploy to medienarchiv"
   depends_on:
-    good to merge: { job_key: good-to-merge, type: job, states: [passed] } # NOTE: not strictly needed, but doesn't hurt
     deploy to staging passed: { job_key: deploy_staging, type: job, states: [passed] }
+    'we are on zhdk/deploy': { type: branch, include_match: '^zhdk\/deploy$'}
+  run_when:
+    'deploy at 3:30 UTC':
+      type: cron
+      value: '30 3 * * *'
+      branch_include_match: ^zhdk/deploy$
   context:
     tasks:
       deploy:
@@ -59,22 +77,18 @@
           # defaults but let's make it very clear here:
           DROP_DATABASE: 'false'
           RESTORE_STRUCTURE_AND_DATA: 'false'
-        scripts:
-          check-head-of-release:
-            body: |
-              set -eux
-              git fetch --all
-              [[ $(git log -n 1 --pretty=%H HEAD -- ) == $(git log -n 1 --pretty=%H origin/release -- ) ]]
-          deploy:
-            start_when:
-              only when we are on the head of release:
-                script_key: check-head-of-release
-
-### staging ###################################################################
 
 'deploy_staging':
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "\uD83C\uDFE2 Deploy to staging"
+  name: "♟ Deploy to staging"
+  run_when:
+    'deploy at 2:30 UTC':
+      type: cron
+      value: '30 2 * * *'
+      branch_include_match: ^release$
+      rerun: true
+  depends_on:
+    deploy to container passed: { job_key: test-container-deploy, type: job, states: [passed] }
   context:
     tasks:
       deploy:
