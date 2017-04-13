@@ -8,6 +8,7 @@ zhdk_admin_ids: [
   189987, # mkmit
   195509, # pkuederl
   196200, # malbrech
+  158882, # lsotrug
 ]
 
 zencoder_video_output_formats:
