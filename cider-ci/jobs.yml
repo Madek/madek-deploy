@@ -140,3 +140,33 @@
               deployed:
                 script_key: deploy
             body: cd deploy && ansible-playbook -i inventories/zhdk/hosts_test-blank play_first-time-setup.yml
+
+### test-blank with prod data (for development) ###################################
+
+'deploy_test-blank':
+  include: cider-ci/jobs/deploy-defaults.yml
+  name: "\uD83D\uDEA7 Deploy to test-blank like test!"
+  description: |
+    Deploy to test-blank w/ prod data (for development).
+    Note that previews etc won't work, but UPLOADING does!
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources:
+          "test-blank.madek.zhdk.ch": true
+        environment_variables:
+          HOSTS_FILE: inventories/zhdk/hosts_test-blank
+          DROP_DATABASE: 'true'
+          RESTORE_STRUCTURE_AND_DATA: 'true'
+
+        scripts:
+          get-latest-data:
+            body: |
+              #!/bin/sh -exu
+              ssh root@test-blank.madek.zhdk.ch 'mkdir -p /opt/madekdata/backups'
+              rsync -LavPh root@test.madek.zhdk.ch:/opt/madekdata/backups/latest.pgbin latest.pgbin
+              rsync -LavPh latest.pgbin root@test-blank.madek.zhdk.ch:/opt/madekdata/backups/latest.pgbin
+
+          deploy:
+            start_when:
+              got latest data: { script_key: get-latest-data }
