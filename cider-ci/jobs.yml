@@ -143,7 +143,7 @@
 
 ### test-blank with prod data (for development) ###################################
 
-'deploy_test-blank':
+'deploy_test-blank_like-test':
   include: cider-ci/jobs/deploy-defaults.yml
   name: "\uD83D\uDEA7 Deploy to test-blank like test!"
   description: |
