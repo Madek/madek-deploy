@@ -76,8 +76,8 @@ madek_database_secret: "{{['database', madek_master_secret ] | join() | hash('sh
 ### feature toggles ############################################################
 ################################################################################
 
-madek_feature_toggles:
-  admin_sql_reports: false # alpha feature, not for production! enable it by setting it to "on my own risk"
+# alpha feature, NOT for production! enable it by setting it to "on my own risk"
+madek_feature_toggle_admin_sql_reports: false
 
 ###############################################################################
 ### http server ###############################################################

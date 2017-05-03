@@ -22,8 +22,7 @@ restore_structure_and_data: yes
 
 db_backups_enabled: False
 
-madek_feature_toggles:
-  admin_sql_reports: "on my own risk"
+madek_feature_toggle_admin_sql_reports: "on my own risk"
 
 madek_webapp_html_extra_head_end: |
   <style>

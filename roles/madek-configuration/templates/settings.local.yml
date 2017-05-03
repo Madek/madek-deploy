@@ -26,7 +26,8 @@ zencoder_video_output_formats: {{zencoder_video_output_formats | to_json }}
 zencoder_video_thumbnails_defaults: {{zencoder_video_thumbnails_defaults | to_json }}
 zencoder_audio_output_formats: {{zencoder_audio_output_formats | to_json }}
 
-feature_toggles: {{  madek_feature_toggles | to_json  }}
+feature_toggles:
+  admin_sql_reports: {{ madek_feature_toggle_admin_sql_reports }}
 
 webapp_embeds: {{ madek_webapp_embeds | to_json  }}
 
