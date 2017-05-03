@@ -72,6 +72,12 @@ setup_storage_directories: true
 madek_master_secret: "{{ lookup('password', inventory_dir + '/' + 'master_secret.txt chars=ascii_letters,digits,hexdigits length=40') }}"
 madek_database_secret: "{{['database', madek_master_secret ] | join() | hash('sha256') }}"
 
+################################################################################
+### feature toggles ############################################################
+################################################################################
+
+madek_feature_toggles:
+  admin_sql_reports: false # alpha feature, not for production! enable it by setting it to "on my own risk"
 
 ###############################################################################
 ### http server ###############################################################
