@@ -22,11 +22,10 @@ restore_structure_and_data: yes
 
 db_backups_enabled: False
 
-webapp_html_extra_content:
-  head_end: |
-    <style>
-      [data-react-class="UI.Views.My.Uploader"]:before {
-        color: red; font: bolder 3em monospace;
-        content: 'NOTE! THIS IS A STAGING SERVER! UPLOAD DOES NOT WORK!';
-      }
-      </style>
+madek_webapp_html_extra_head_end: |
+  <style>
+    [data-react-class="UI.Views.My.Uploader"]:before {
+      color: red; font: bolder 3em monospace;
+      content: 'NOTE! THIS IS A STAGING SERVER! UPLOAD DOES NOT WORK!';
+    }
+  </style>
