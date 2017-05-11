@@ -104,10 +104,15 @@
 'deploy_test':
   include: cider-ci/jobs/deploy-defaults.yml
   name: "\uD83C\uDFE2 Deploy to test"
-  run_when: &RUN_ON_MASTER
+  run_when: &RUN_ON_MASTER_AND_DO_NIGHTLY_RESET
     master branch:
       type: branch
       include_match: ^master$
+    'deploy at 4:30 UTC':
+      type: cron
+      value: '30 4 * * *'
+      branch_include_match: ^release$
+      rerun: true
   context:
     tasks:
       deploy:
@@ -125,6 +130,7 @@
   include: cider-ci/jobs/deploy-defaults.yml
   name: "\uD83C\uDFE2 Deploy to test-blank"
   description: Deploy to test-blank incl. Re-Installation & First Time Setups ("Fresh Instance")
+  run_when: *RUN_ON_MASTER_AND_DO_NIGHTLY_RESET
   context:
     tasks:
       deploy:
