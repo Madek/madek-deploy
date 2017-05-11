@@ -111,7 +111,7 @@
     'deploy at 4:30 UTC':
       type: cron
       value: '30 4 * * *'
-      branch_include_match: ^release$
+      branch_include_match: ^master$
       rerun: true
   context:
     tasks:
