@@ -95,26 +95,9 @@
         exclusive_global_resources:
           "staging.madek.zhdk.ch": true
         environment_variables:
-          SERVER_HOSTNAME: 'staging.madek.zhdk.ch'
           HOSTS_FILE: inventories/zhdk/hosts_staging
           DROP_DATABASE: 'true'
           RESTORE_STRUCTURE_AND_DATA: 'true'
-        # TMP: migrate ISO country codes after each deploy to check the script
-        scripts:
-          migrate-iso-country-codes: &MIGRATE_ISO_COUNTRY_CODES
-            start_when: { after: { script_key: deploy } }
-            timeout: 1 hour
-            body: |
-              ssh -T "root@${SERVER_HOSTNAME}" << EOF
-                set -exu
-                cd /madek/server
-                export MADEK_ROOT_DIR=\`pwd\`
-                cd webapp
-                export PATH=\$(pwd)/vendor/jruby/bin/:$PATH
-                export RAILS_ENV=production
-                jruby -S bundle exec rails runner ./script/maintenance/migrate-country-codes.rb
-                echo '' && echo 'OK'
-              EOF
 
 ### test - auto-deploy from master #################################################
 
@@ -136,13 +119,9 @@
         exclusive_global_resources:
           "test.madek.zhdk.ch": true
         environment_variables:
-          SERVER_HOSTNAME: 'test.madek.zhdk.ch'
           HOSTS_FILE: inventories/zhdk/hosts_test
           DROP_DATABASE: 'true'
           RESTORE_STRUCTURE_AND_DATA: 'true'
-        # TMP: migrate ISO country codes after each deploy to check the script
-        scripts:
-          migrate-iso-country-codes: *MIGRATE_ISO_COUNTRY_CODES
 
 
 ### test-blank - auto-deploy from master ###########################################
