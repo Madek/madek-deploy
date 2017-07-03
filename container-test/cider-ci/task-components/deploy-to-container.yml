@@ -9,7 +9,12 @@ scripts:
       #!/usr/bin/env bash
       set -eux
       lxc exec ${CONTAINER_NAME} -- ifconfig
+
+      # remove broken git object reference config
+      rm .git/objects/info/alternates
+      git fetch
       git repack
+
       # the next command will not work if we invoke it too quickly after
       # booting the machine
       sleep 30
