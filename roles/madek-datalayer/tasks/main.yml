@@ -45,15 +45,11 @@
   shell:  |
     #!/usr/bin/env bash
     set -eux
-    cd {{madek_webapp_dir}}
-    export PATH=$(pwd)/vendor/jruby/bin/:$PATH
-    export RAILS_ENV={{rails_env}}
-    export FILE={{restore_structure_and_data_file}}
-    export JRUBY_OPTS=" -J-Xmx2G "
-    jruby -S bundle exec rake db:pg:terminate_connections db:pg:structure_and_data:restore
+    pg_restore --exit-on-error --single-transaction -x -O -d '{{database.name}}' '{{restore_structure_and_data_file}}'
   register: restore
   when: restore_structure_and_data
   changed_when: not restore.stdout | match("")
+  tags: [restore_structure_and_data]
 
 - name: Migrate
   become: true
