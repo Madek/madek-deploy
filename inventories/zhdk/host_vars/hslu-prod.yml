@@ -3,10 +3,10 @@ ansible_ssh_user: root
 
 madek_vim_mode: true
 
-madek_external_hostname: hslu.zhdk.ch
+madek_external_hostname: portfoliodb.hslu.ch
 
 shibboleth_sign_in_enabled: True
-shibboleth_sign_in_url: https://madek.hslu.zhdk.ch/Shibboleth.sso/Login?target=https%3A%2F%2Fmadek.hslu.zhdk.ch%2FShibboleth.sso%2FSession
+shibboleth_sign_in_url: https://{{madek_external_hostname}}/Shibboleth.sso/Login?target=https%3A%2F%2F{{madek_external_hostname}}%2FShibboleth.sso%2FSession
 shibboleth_gateway_ip: 195.176.247.169
 
 madek_master_secret: '{{hslu.madek_master_secret}}'
