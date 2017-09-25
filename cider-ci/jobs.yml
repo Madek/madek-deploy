@@ -20,7 +20,7 @@
     deploy to staging passed: { job_key: deploy_hslu_staging, type: job, states: [passed] }
     'we are on zhdk/deploy': { type: branch, include_match: '^zhdk\/deploy$'}
   run_when:
-    'deploy at 3:15 UTC':
+    'deploy at 3:15 UTC on branch zhdk/deploy':
       type: cron
       value: '15 3 * * *'
       branch_include_match: ^zhdk/deploy$
@@ -38,7 +38,7 @@
   depends_on:
     deploy to container passed: { job_key: test-container-deploy, type: job, states: [passed] }
   run_when:
-    'deploy at 2:15 UTC':
+    'deploy at 2:15 UTC on branch release':
       type: cron
       value: '15 2 * * *'
       branch_include_match: ^release$
@@ -63,7 +63,7 @@
     deploy to staging passed: { job_key: deploy_staging, type: job, states: [passed] }
     'we are on zhdk/deploy': { type: branch, include_match: '^zhdk\/deploy$'}
   run_when:
-    'deploy at 3:30 UTC':
+    'deploy at 3:30 UTC on branch zhdk/deploy':
       type: cron
       value: '30 3 * * *'
       branch_include_match: ^zhdk/deploy$
@@ -82,7 +82,7 @@
   include: cider-ci/jobs/deploy-defaults.yml
   name: "♟ Deploy to staging"
   run_when:
-    'deploy at 2:30 UTC':
+    'deploy at 2:30 UTC on branch release':
       type: cron
       value: '30 2 * * *'
       branch_include_match: ^release$
