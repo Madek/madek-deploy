@@ -10,3 +10,6 @@
   when: >
     (ansible_distribution == "Ubuntu"
       and ansible_distribution_release == "xenial")
+    or
+    (ansible_distribution == "Debian"
+    and ansible_distribution_release == "stretch")

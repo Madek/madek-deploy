@@ -1,0 +1,8 @@
+[madek-gateway]
+madek-gateway
+
+[madek]
+hfg-prod
+
+[secrets]
+hfg-prod

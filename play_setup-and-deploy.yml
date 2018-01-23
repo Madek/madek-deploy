@@ -21,6 +21,7 @@
       tags: [dependencies]
 
     - role: openjdk8_install
+      tags: [openjdk8]
 
     - role: postgresql
       tags: [postgresql]

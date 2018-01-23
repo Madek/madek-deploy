@@ -102,3 +102,12 @@ following example:
 
 See the examples.
 
+
+Importing Data
+---------------
+
+Example
+
+    rsync -e ssh -Pav root@madek.*************.**:/var/local/madek-file-storage/* /opt/madekdata/
+
+

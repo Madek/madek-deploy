@@ -11,6 +11,49 @@
 ### Deploy jobs ###############################################################
 ###############################################################################
 
+### HFG ######################################################################
+
+'deploy_hfg_prod':
+  include: cider-ci/jobs/deploy-defaults.yml
+  name: "♚ Deploy to prod-hfg"
+  depends_on:
+    deploy to staging passed: { job_key: deploy_hfg_staging, type: job, states: [passed] }
+    'we are on zhdk/deploy': { type: branch, include_match: '^zhdk\/deploy$'}
+  run_when:
+    'deploy at 3:15 UTC on branch zhdk/deploy':
+      type: cron
+      value: '15 3 * * *'
+      branch_include_match: ^zhdk/deploy$
+  context:
+    tasks:
+      deploy:
+        environment_variables:
+          HOSTS_FILE: inventories/zhdk/hfg-prod_hosts
+        exclusive_global_resources:
+          "prod-hfg.madek.zhdk.ch": true
+
+'deploy_hfg_staging':
+  include: cider-ci/jobs/deploy-defaults.yml
+  name: "♟ Deploy to staging-hfg"
+  depends_on:
+    deploy to container passed: { job_key: test-container-deploy, type: job, states: [passed] }
+  run_when:
+    'deploy at 2:15 UTC on branch release':
+      type: cron
+      value: '15 2 * * *'
+      branch_include_match: ^release$
+      rerun: true
+  context:
+    tasks:
+      deploy:
+        environment_variables:
+          HOSTS_FILE: inventories/zhdk/hfg-staging_hosts
+          DROP_DATABASE: 'true'
+          RESTORE_STRUCTURE_AND_DATA: 'true'
+        exclusive_global_resources:
+          "staging-hfg.madek.zhdk.ch": true
+
+
 ### HSLU ######################################################################
 
 'deploy_hslu_prod':

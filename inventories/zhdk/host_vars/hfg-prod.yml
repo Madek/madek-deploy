@@ -1,0 +1,20 @@
+ansible_ssh_host: hfg-madek-prod.ruby.zhdk.ch
+ansible_ssh_user: root
+
+madek_vim_mode: true
+
+madek_external_hostname: madek.hfg-karlsruhe.de
+
+shibboleth_sign_in_enabled: False
+
+madek_master_secret: '{{hfg.madek_master_secret}}'
+
+zencoder_enabled: False
+
+madek_storage_dir: /opt/madekdata
+madek_file_storage_dir: /opt/madekdata/originals
+madek_thumbnail_storage_dir: /opt/madekdata/thumbnails
+madek_tmp_dir: /opt/madekdata/tmp
+
+db_backups_enabled: True
+db_backups_dir: /opt/madekdata/backups
