@@ -10,6 +10,10 @@
     var: search_download_archive
   tags: [debug]
 
+# set some default
+- set_fact:
+    build_is_latest_release: FALSE
+
 - set_fact:
     download_urls: "{{search_download_archive.urls}}"
     build_is_latest_release: "{{search_download_archive.build_is_latest_release}}"
