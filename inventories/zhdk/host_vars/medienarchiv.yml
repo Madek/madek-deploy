@@ -9,8 +9,6 @@ madek_welcome_title: false
 madek_site_title: false
 
 madek_external_hostname: medienarchiv.zhdk.ch
-madek_external_base_url: https://{{ madek_external_hostname }}
-
 
 madek_master_secret: '{{medienarchiv.madek_master_secret}}'
 
