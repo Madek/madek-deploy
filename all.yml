@@ -150,11 +150,11 @@ madek_webapp_service_name: "{{madek_base_name}}_webapp"
 madek_admin_dir: "{{madek_server_dir}}/admin-webapp"
 madek_admin_service_name: "{{madek_base_name}}_admin-webapp"
 
-
 madek_api_dir: "{{madek_server_dir}}/api"
 madek_api_service_name: "{{madek_base_name}}_api"
 
-
+madek_user_docs_dir: "{{madek_root_dir}}/user-docs"
+madek_user_docs_web_path: "/hilfe"
 
 madek_services:
 
