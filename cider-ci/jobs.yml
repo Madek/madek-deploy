@@ -41,7 +41,7 @@
     'deploy at 2:15 UTC on branch release':
       type: cron
       value: '15 2 * * *'
-      branch_include_match: ^release$
+      branch_include_match: ^zhdk/staging$
       rerun: true
   context:
     tasks:
@@ -84,7 +84,7 @@
     'deploy at 2:15 UTC on branch release':
       type: cron
       value: '15 2 * * *'
-      branch_include_match: ^release$
+      branch_include_match: ^zhdk/staging$
       rerun: true
   context:
     tasks:
@@ -128,7 +128,7 @@
     'deploy at 2:30 UTC on branch release':
       type: cron
       value: '30 2 * * *'
-      branch_include_match: ^release$
+      branch_include_match: ^zhdk/staging$
       rerun: true
   depends_on:
     deploy to container passed: { job_key: test-container-deploy, type: job, states: [passed] }
