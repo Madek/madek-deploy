@@ -6,12 +6,15 @@
 - command: logrotate -f /etc/logrotate.d/{{madek_webapp_service_name}}
   failed_when: false
 
-- file:
-    path: "{{madek_root_dir}}"
-    owner: "{{madek_user}}"
-    group: "{{madek_user}}"
-    state: directory
-    recurse: yes
+# FIXME: https://github.com/ansible/ansible/issues/39456
+- name: change owner
+  shell: 'chown -R "{{madek_user}}":"{{madek_user}}" "{{madek_root_dir}}"'
+# - file:
+#     path: "{{madek_root_dir}}"
+#     owner: "{{madek_user}}"
+#     group: "{{madek_user}}"
+#     state: directory
+#     recurse: yes
 
 - name: Drop DB
   become: true
@@ -76,10 +79,12 @@
     export JRUBY_OPTS=" -J-Xmx2G "
     jruby -S bundle exec rake db:seed
 
-- file:
-    path: "{{madek_webapp_dir}}/db"
-    owner: root
-    group: root
-    state: directory
-    recurse: yes
-
+# FIXME: https://github.com/ansible/ansible/issues/39456
+- name: create DB dir, change owner to root
+  shell: "mkdir -p '{{madek_webapp_dir}}/db' && chown -R root:root '{{madek_webapp_dir}}/db'"
+# - file:
+#     path: "{{madek_webapp_dir}}/db"
+#     owner: root
+#     group: root
+#     state: directory
+#     recurse: yes

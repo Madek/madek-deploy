@@ -23,10 +23,13 @@
     line: 'deployed: { time: "{{ ansible_date_time.iso8601 }}", is_release: {{ hostvars.localhost.build_is_latest_release|trim }} }'
     validate: ruby -e 'require "yaml"; YAML.safe_load(File.read("%s"))'
 
+
+# FIXME: https://github.com/ansible/ansible/issues/39456
 - name: change owner
-  file:
-    path: "{{madek_root_dir}}"
-    owner: "{{madek_user}}"
-    group: "{{madek_user}}"
-    state: directory
-    recurse: yes
+  shell: 'chown -R "{{madek_user}}":"{{madek_user}}" "{{madek_root_dir}}"'
+#   file:
+#     path: "{{madek_root_dir}}"
+#     owner: "{{madek_user}}"
+#     group: "{{madek_user}}"
+#     state: directory
+#     recurse: yes
