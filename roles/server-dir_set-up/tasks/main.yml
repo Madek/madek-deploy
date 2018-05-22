@@ -27,6 +27,9 @@
 # FIXME: https://github.com/ansible/ansible/issues/39456
 - name: change owner
   shell: 'chown -R "{{madek_user}}":"{{madek_user}}" "{{madek_root_dir}}"'
+  # TODO: can fail on storage read only instances (will fail on HFG and HSLU staging)
+  # go back to file module and remove this or remove comments and keep the hack
+  ignore_errors: yes
 #   file:
 #     path: "{{madek_root_dir}}"
 #     owner: "{{madek_user}}"

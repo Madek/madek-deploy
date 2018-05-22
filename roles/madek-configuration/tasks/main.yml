@@ -12,6 +12,9 @@
     - "{{madek_thumbnail_storage_dir}}"
     - "{{madek_tmp_dir}}"
   when: setup_storage_directories
+  # TODO: can fail on storage read only instances (will fail on HFG and HSLU staging)
+  # go back to file module and remove this or remove comments and keep the hack
+  ignore_errors: yes
 
 - name: Configure services
   include: configure_services.yml
