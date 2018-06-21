@@ -1,6 +1,9 @@
 - name: fetch git tags
   shell: 'git fetch --tags --recurse-submodules=no'
 
+- name: build combined releases.yml file
+  shell: '../dev/releasenotes-md-to-yaml.rb'
+
 - search_download_archive:
     base_url: '{{madek_archive_base_url}}'
   register: search_download_archive
