@@ -123,6 +123,7 @@ madek_webapp_html_extra_body_end: ''
 madek_webapp_embeds:
   enable_opengraph: true
   twitter_cards_site: false
+madek_webapp_xmx_mb: 1000
 
 ###############################################################################
 ###############################################################################
@@ -195,7 +196,7 @@ madek_services:
     assets_sub_dir: /public/assets
     http_port: "{{madek_webapp_port}}"
     context: ""
-    xmx: 1024m
+    xmx: '{{ madek_webapp_xmx_mb | default(1024) }}m'
     monit_match: java.*webapp.*puma.*config\.ru.*{{madek_webapp_port}}
     monit_check_urls:
       - http://localhost:{{madek_webapp_port}}/status

@@ -20,5 +20,7 @@ madek_file_storage_dir: /opt/madekdata/attachments
 madek_thumbnail_storage_dir: /opt/madekdata/attachments
 madek_tmp_dir: /opt/madekdata/tmp
 
+madek_webapp_xmx_mb: 2000
+
 db_backups_enabled: True
 db_backups_dir: /opt/madekdata/backups
