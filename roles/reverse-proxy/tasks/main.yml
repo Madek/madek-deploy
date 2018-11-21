@@ -24,6 +24,11 @@
   tags:
     - server_setup-munin
 
+- template:
+    src: robots.txt
+    dest: "{{ madek_webapp_dir }}/public/robots.txt"
+    mode: 0644
+
 - debug:
     var: madek_virtual_hosts
 
