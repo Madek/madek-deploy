@@ -11,6 +11,8 @@ zencoder_enabled: True
 zencoder_api_key: '{{zhdk_zencoder_api_key}}'
 zencoder_test_mode: True
 
+madek_disallow_search_engine_crawlers: yes
+
 setup_storage_directories: false
 
 madek_storage_dir: /opt/madekdata

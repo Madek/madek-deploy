@@ -10,6 +10,7 @@ shibboleth_sign_in_enabled: False
 madek_master_secret: '{{hfg.madek_master_secret}}'
 
 zencoder_enabled: False
+madek_disallow_search_engine_crawlers: yes
 
 madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/originals
@@ -28,5 +29,3 @@ madek_webapp_html_extra_head_end: |
           }
     </style>
     <!-- End Staging Note -->
-
-

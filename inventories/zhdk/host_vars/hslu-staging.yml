@@ -15,6 +15,8 @@ zencoder_enabled: True
 zencoder_api_key: '{{hslu.zencoder_api_key}}'
 zencoder_test_mode: True
 
+madek_disallow_search_engine_crawlers: yes
+
 madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/attachments
 madek_thumbnail_storage_dir: /opt/madekdata/attachments
@@ -32,5 +34,3 @@ madek_webapp_html_extra_head_end: |
           }
     </style>
     <!-- End Staging Note -->
-
-
