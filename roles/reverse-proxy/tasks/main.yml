@@ -46,9 +46,9 @@
       --apache --apache-vhost-root /etc/apache2/madek
       -d {{madek_external_hostname}}
 
-- name: reload reverse-proxy
+- name: restart reverse-proxy
   service:
     name: apache2
-    state: reloaded
+    state: restarted
   tags:
     - server_setup-munin
