@@ -1,0 +1,30 @@
+deploy_madek:
+  name: Deploy Madek to madek-spiel.kiste.li
+  include: cider-ci/jobs/deploy-defaults.yml
+
+  context:
+    task_defaults:
+      traits:
+        ci-executor.madek: yes
+
+    tasks:
+      deploy:
+        exclusive_global_resources:
+          "spiel1.ruby.zhdk.ch": true
+        environment_variables:
+          HOSTS_FILE: "inventories/zhdk/hosts_spiel"
+          TARGET_BRANCH: "feat/roles"
+
+        scripts:
+          deploy:
+            start_when:
+              only when we are on the head of target branch:
+                { script_key: check-head-of-branch }
+
+
+          check-head-of-branch:
+            body: git fetch && test $(git log -n 1 --pretty=%H HEAD -- ) == $(git log -n 1 --pretty=%H "origin/${TARGET_BRANCH}" -- )
+
+          customize:
+            start_when: { after: { script_key: deploy } }
+            body: scp extensions/local-theme-spiel1.css root@spiel1.ruby.zhdk.ch:/madek/server/webapp/public/assets/local-theme.css

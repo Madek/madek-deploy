@@ -219,3 +219,6 @@
           deploy:
             start_when:
               got latest data: { script_key: get-latest-data }
+
+# includes
+include: cider-ci/jobs/deploy-spiel1.yml
