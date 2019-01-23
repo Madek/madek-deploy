@@ -23,7 +23,7 @@ rails_timezone: UTC
 
 force_local_build: false
 
-madek_archive_base_url: NULL
+madek_archive_base_url: null
 
 server_journald_forward_to_syslog: 'no'
 
