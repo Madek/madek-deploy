@@ -33,18 +33,16 @@
     var: madek_virtual_hosts
 
 - include: virtual-host.yml
-  with_indexed_items: '{{madek_virtual_hosts}}'
+  with_indexed_items: "{{madek_virtual_hosts}}"
 
 - name: enable letsencrypt cert if present
-  when: '(letsencrypt_check_certbot.rc == 0) and (letsencrypt_cert.stat.exists == True)'
-  # NOTE: give config path so it applies to *all* vhosts.
-  shell:
-    certbot run
-      -n --strict-permissions
-      --keep-until-expiring
-      --redirect --uir --hsts
-      --apache --apache-vhost-root /etc/apache2/madek
-      -d {{madek_external_hostname}}
+  when: "(letsencrypt_check_certbot.rc == 0) and (letsencrypt_cert.stat.exists == True)"
+  shell: certbot run -n
+    --strict-permissions
+    --keep-until-expiring
+    --apache
+    --redirect --uir --hsts
+    -d {{madek_external_hostname}}
 
 - name: restart reverse-proxy
   service:
