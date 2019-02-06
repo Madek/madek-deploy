@@ -29,8 +29,6 @@ server_journald_forward_to_syslog: 'no'
 
 mini_profiler_enabled: no
 
-madek_disallow_search_engine_crawlers: no
-
 ################################################################################
 ### API ########################################################################
 ################################################################################
@@ -96,6 +94,8 @@ madek_virtual_hosts:
   ssl_certificate_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
   force_redirect_to_https: no
 
+madek_disallow_search_engine_crawlers: no
+madek_block_useragents: []
 
 ################################################################################
 ### web contexts ###############################################################
