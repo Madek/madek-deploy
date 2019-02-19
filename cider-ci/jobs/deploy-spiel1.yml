@@ -6,7 +6,7 @@ deploy_madek:
     deploy to container passed:
       { job_key: test-container-deploy, type: job, states: [passed] }
     we are on feature branch: # also see `TARGET_BRANCH` below
-      { type: branch, include_match: '^feat\/roles$' }
+      { type: branch, include_match: '^feat\/fairdata$' }
 
   context:
     task_defaults:
@@ -19,7 +19,7 @@ deploy_madek:
           "spiel1.ruby.zhdk.ch": true
         environment_variables:
           HOSTS_FILE: "inventories/zhdk/hosts_spiel"
-          TARGET_BRANCH: "feat/roles"
+          TARGET_BRANCH: "feat/fairdata"
 
         scripts:
           deploy:
