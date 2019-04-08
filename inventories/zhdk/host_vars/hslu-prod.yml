@@ -19,6 +19,10 @@ madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/attachments
 madek_thumbnail_storage_dir: /opt/madekdata/attachments
 madek_tmp_dir: /opt/madekdata/tmp
+# setting up proper owner etc  is very slow and should only be necessary
+# when we switch servers or something
+setup_storage_directories: no
+
 
 madek_webapp_xmx_mb: 2000
 

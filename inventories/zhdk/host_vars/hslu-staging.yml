@@ -17,10 +17,12 @@ zencoder_test_mode: True
 
 madek_disallow_search_engine_crawlers: yes
 
+
 madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/attachments
 madek_thumbnail_storage_dir: /opt/madekdata/attachments
 madek_tmp_dir: /opt/madekdata/tmp
+setup_storage_directories: no # dont do it, files are mounted read-only!
 
 madek_webapp_html_extra_head_end: |
     <!-- Staging Note -->
