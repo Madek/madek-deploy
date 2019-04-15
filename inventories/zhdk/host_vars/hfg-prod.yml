@@ -17,6 +17,10 @@ madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/originals
 madek_thumbnail_storage_dir: /opt/madekdata/thumbnails
 madek_tmp_dir: /opt/madekdata/tmp
+# setting up proper owner etc  is very slow and should only be necessary
+# when we switch servers or something
+setup_storage_directories: no
+
 
 db_backups_enabled: True
 db_backups_dir: /opt/madekdata/backups

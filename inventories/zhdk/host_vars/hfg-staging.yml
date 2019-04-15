@@ -16,6 +16,7 @@ madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/originals
 madek_thumbnail_storage_dir: /opt/madekdata/thumbnails
 madek_tmp_dir: /tmp
+setup_storage_directories: no # dont do it, files are mounted read-only!
 
 madek_webapp_html_extra_head_end: |
     <!-- Staging Note -->

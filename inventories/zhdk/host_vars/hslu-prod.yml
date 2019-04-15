@@ -6,7 +6,8 @@ madek_vim_mode: true
 madek_external_hostname: portfoliodb.hslu.ch
 
 shibboleth_sign_in_enabled: True
-shibboleth_sign_in_url: https://{{madek_external_hostname}}/Shibboleth.sso/Login?target=https%3A%2F%2F{{madek_external_hostname}}%2FShibboleth.sso%2FSession
+shibboleth_sign_in_url_base: 'https://{{madek_external_hostname}}/Shibboleth.sso/Login'
+shibboleth_sign_in_url_target: 'https://{{madek_external_hostname}}/Shibboleth.sso/Session'
 shibboleth_gateway_ip: 195.176.247.169
 
 madek_master_secret: '{{hslu.madek_master_secret}}'
@@ -19,6 +20,10 @@ madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/attachments
 madek_thumbnail_storage_dir: /opt/madekdata/attachments
 madek_tmp_dir: /opt/madekdata/tmp
+# setting up proper owner etc  is very slow and should only be necessary
+# when we switch servers or something
+setup_storage_directories: no
+
 
 madek_webapp_xmx_mb: 2000
 
