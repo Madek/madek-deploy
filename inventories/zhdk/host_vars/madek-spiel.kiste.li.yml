@@ -5,7 +5,9 @@ ansible_ssh_port: 22
 ansible_ssh_user: root
 
 # storage
-setup_storage_directories: true
+# setting up proper owner etc  is very slow and should only be necessary
+# when we switch servers or something
+setup_storage_directories: no
 madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/files
 madek_thumbnail_storage_dir: /opt/madekdata/thumbs
