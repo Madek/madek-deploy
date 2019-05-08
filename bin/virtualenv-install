@@ -1,0 +1,17 @@
+#!/bin/bash
+
+QUIETARGS=$1 # call this script with `-qqq` for more quietness
+
+{
+
+unset $PYTHONPATH
+
+python -m ensurepip --user
+python -m pip install $QUIETARGS --user --upgrade virtualenv
+
+python -m virtualenv $QUIETARGS --python=`which python2` .virtualenv &&
+    source .virtualenv/bin/activate &&
+    python -m pip install $QUIETARGS -U pip &&
+    python -m pip install $QUIETARGS -r ansible-requirements.txt
+
+} || { echo 'ERROR!'; exit 1; }
