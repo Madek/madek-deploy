@@ -5,4 +5,6 @@
 *tar.gz*
 *retry
 master_secret.txt
+vagrant-ssh-config
 .virtualenv
+/.vagrant

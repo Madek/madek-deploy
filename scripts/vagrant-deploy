@@ -1,0 +1,8 @@
+#!/bin/sh -exu
+
+vagrant up
+
+time ./bin/ansible-to-vagrant \
+  -i ./inventories/vagrant/hosts \
+  "$@" \
+  play_setup-and-deploy.yml

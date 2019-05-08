@@ -1,0 +1,3 @@
+#!/bin/sh -exu
+
+./scripts/vagrant-deploy -v -e '{"drop_database": true}'
