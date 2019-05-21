@@ -54,7 +54,7 @@ end
 
 def changes_since_release
   @changes_since_release ||= Dir.chdir(SOURCE_DIR) do
-    exec!('./dev/release-notes-pre').strip
+    exec!('./dev/release-notes').strip
   end
 end
 
