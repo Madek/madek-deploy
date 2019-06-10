@@ -11,9 +11,8 @@
     shell:  |
       set -eux
       cd {{madek_webapp_dir}}
-      export PATH=$(pwd)/vendor/jruby/bin/:$PATH
       export RAILS_ENV=production
-      jruby -S bundle exec rake db:pg:structure_and_data:dump FILE=/tmp/madek.pgbin
+      bundle exec rake db:pg:structure_and_data:dump FILE=/tmp/madek.pgbin
     args:
       executable: /bin/bash
 

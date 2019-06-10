@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -eu
 
-export PATH=../webapp/vendor/jruby/bin:$PATH
+# export PATH=../webapp/vendor/jruby/bin:$PATH
 export BUNDLE_GEMFILE=../webapp/Gemfile
 
-bundle exec jruby -S ../dev/releasenotes-md-to-yaml.rb
+bundle exec ../dev/releasenotes-md-to-yaml.rb
 
-bundle exec jruby -S bin/archive-build.rb
+bundle exec bin/archive-build.rb
