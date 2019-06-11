@@ -2,11 +2,13 @@
 set -eu
 
 export PATH=~/.gem/ruby/2.3.0/bin:$PATH
-export BUNDLE_GEMFILE=../webapp/Gemfile
+# export BUNDLE_GEMFILE=../webapp/Gemfile
 
-gem install bundler -N -v 1.17 --user-install
-bundle install
+# gem install bundler -N -v 1.17 --user-install
+# bundle install --path bundle
+gem install activesupport -N -v 5.2.3 --user-install
+gem install pry -N --user-install
 
-bundle exec ../dev/releasenotes-md-to-yaml.rb
+../dev/releasenotes-md-to-yaml.rb
 
-bundle exec bin/archive-build.rb
+bin/archive-build.rb

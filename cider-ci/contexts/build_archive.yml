@@ -27,7 +27,6 @@ tasks:
         body: |
           set -eux
           cd deploy
-          gem env
           ./bin/archive-build
           ./bin/archive-sign
           cp madek.tar.gz* ../.
