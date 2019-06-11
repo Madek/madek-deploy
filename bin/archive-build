@@ -2,11 +2,8 @@
 set -eu
 
 # export PATH=../webapp/vendor/jruby/bin:$PATH
-export PATH=~/.rubies/ruby-2.6.3/bin:$PATH
 export BUNDLE_GEMFILE=../webapp/Gemfile
 
-gem install bundler -N -v 1.17
+../dev/releasenotes-md-to-yaml.rb
 
-bundle exec ../dev/releasenotes-md-to-yaml.rb
-
-bundle exec bin/archive-build.rb
+bin/archive-build.rb

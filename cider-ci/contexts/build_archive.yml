@@ -27,6 +27,7 @@ tasks:
         body: |
           set -eux
           cd deploy
+          pwd
           ./bin/archive-build
           ./bin/archive-sign
           cp madek.tar.gz* ../.
