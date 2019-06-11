@@ -4,8 +4,7 @@ set -eu
 # export PATH=../webapp/vendor/jruby/bin:$PATH
 export BUNDLE_GEMFILE=../webapp/Gemfile
 
-whoami
-which bundle
+gem install bundler -N
 
 bundle exec ../dev/releasenotes-md-to-yaml.rb
 
