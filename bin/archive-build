@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 set -eu
 
-# export PATH=../webapp/vendor/jruby/bin:$PATH
+export PATH=~/.gem/ruby/2.3.0/bin:$PATH
 export BUNDLE_GEMFILE=../webapp/Gemfile
 
-../dev/releasenotes-md-to-yaml.rb
+gem install bundler -N -v 1.17 --user-install
+bundle install
 
-bin/archive-build.rb
+bundle exec ../dev/releasenotes-md-to-yaml.rb
+
+bundle exec bin/archive-build.rb
