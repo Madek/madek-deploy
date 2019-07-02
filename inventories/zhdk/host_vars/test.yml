@@ -41,4 +41,33 @@ madek_webapp_html_extra_head_end: |
       color: red; font: bolder 3em monospace;
       content: 'NOTE! THIS IS A TEST SERVER! UPLOAD DOES NOT WORK!';
     }
-    </style>
+  </style>
+  /* ---- FROM HERE OVERRIDE ---- */
+  <style>
+    body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.now.sh"] {
+      font-family: Helvetica,"Helvetica Neue",Arial,sans-serif !important;;
+      color: #852171 !important;
+      background: #90fae7 !important;
+      font-size: 1.5rem;
+    }
+    body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.now.sh"] .videojs.vjs-default-skin .vjs-titlebar {
+      font-family: Helvetica,"Helvetica Neue",Arial,sans-serif !important;;
+      letter-spacing: 0.1rem;
+      background: #852171 !important;
+      color: #90fae7 !important;
+    }
+    body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.now.sh"] .videojs.vjs-default-skin .vjs-titlebar .vjs-titlebar-logo {
+      display: none;
+    }
+    body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.now.sh"] .videojs.vjs-default-skin .vjs-big-play-button {
+      background: #852171 !important;
+      color: #90fae7 !important;
+      border-color: #90fae7 !important;
+    }
+    body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.now.sh"] .videojs.vjs-default-skin .vjs-control-bar,
+    body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.now.sh"] .video-js.vjs-default-skin .vjs-menu-button .vjs-menu-content {
+      background: #852171 !important;
+      color: #90fae7 !important;
+      border-color: #90fae7 !important;
+    }
+  </style>
