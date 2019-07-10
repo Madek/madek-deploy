@@ -1,0 +1,33 @@
+- name: check ruby-install version
+  shell: ruby-install --version || echo 'NONE'
+  changed_when: false
+  register: "check_ruby_install_version"
+
+- name: check chruby version
+  args:
+    warn: False
+    executable: /bin/bash
+  shell: |
+    { source /etc/profile.d/chruby.sh && chruby --version; } || echo 'NONE'
+  changed_when: false
+  register: "check_chruby_version"
+
+# - debug: 'var={{ item }}'
+#   with_items: [ 'check_ruby_install_version', 'check_chruby_version' ]
+
+- import_tasks: install-ruby-install.yml
+  when: 'check_ruby_install_version.stdout != ("ruby-install: " ~ madek_ruby_install_version)'
+
+- include: install-chruby.yml
+  when: 'check_chruby_version.stdout != ("chruby: " ~ madek_chruby_version)'
+
+- name: configure gemrc
+  template:
+    src: "usr_local_etc_gemrc"
+    dest: "/usr/local/etc/gemrc"
+
+- name: install used rubies for all apps (for upgrades this can happen before stopping services!)
+  register: result
+  changed_when: '"Ruby is already installed" not in result.stdout'
+  shell: "ruby-install --no-install-deps --no-reinstall ruby {{ item.value }}"
+  with_dict: "{{ madek_ruby_versions }}"

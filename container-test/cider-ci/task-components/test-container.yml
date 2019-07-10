@@ -14,7 +14,7 @@ scripts:
       echo 'login page'
       lxc exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost
 
-      echo 'expolore page'
+      echo 'explore page'
       lxc exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost/explore
 
       echo 'api documentation'
@@ -24,3 +24,5 @@ scripts:
       lxc exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost/api/browser/
 
       lxc exec ${CONTAINER_NAME} -- monit status
+
+      echo OK

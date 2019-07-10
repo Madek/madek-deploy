@@ -3,15 +3,19 @@
 
 ### Install some stuff we need ###############################################
 
-- name: Install stuff
-  apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
-  with_items: [ruby, python-passlib]
+- name: Install basic packages
+  apt: pkg={{packages}} state=latest update_cache=yes cache_valid_time=3600
+  vars:
+    packages:
+      # - ruby
+      - htop
+      - python-passlib
 
 ### set timezone ##############################################################
 
 - name: Set timezone variables
   copy:
-    content: '{{server_timezone}}'
+    content: "{{server_timezone}}"
     dest: /etc/timezone
     owner: root
     group: root
@@ -21,7 +25,6 @@
 - name: reconfigure tzdata
   command: dpkg-reconfigure --frontend noninteractive tzdata
   when: set_etc_timezone.changed
-
 
 ### journald and syslog #######################################################
 
@@ -36,45 +39,38 @@
   shell: systemctl force-reload systemd-journald
   when: journald_config.changed
 
-
 ### Vim as default editor #####################################################
 
 - name: Install vim-nox
   apt: pkg=vim-nox state=latest update_cache=yes cache_valid_time=3600
   register: install_vim_nox
-  when: madek_vim_mode == true
 
 - name: Set vim-nox as default editor
   command: update-alternatives --set editor /usr/bin/vim.nox
-  when:  madek_vim_mode == true
   register: result
   changed_when: result.stdout | search("using \/usr\/bin\/vim\.nox")
 
 - lineinfile:
     dest: "{{ansible_env.HOME}}/.bashrc"
     line: set -o vi
-  when:  madek_vim_mode == true
-
+  when: madek_vim_mode == true
 
 ### etckeeper #################################################################
 
 - include: Debuntu_etckeeper.yml
 
-
 ### monit #####################################################################
 
 - include: Debuntu_monit.yml
   tags:
-  - os-setup_monit
-
+    - os-setup_monit
 
 ### vmware ####################################################################
 
 - name: install vmware tools
-  apt: name={{item}} state=latest update_cache=yes cache_valid_time=3600
+  apt: name={{packages}} state=latest update_cache=yes cache_valid_time=3600
   when: ansible_virtualization_type == "VMware"
-  with_items:
-  - open-vm-tools
-  - open-vm-tools-dkms
-
-
+  vars:
+    packages:
+      - open-vm-tools
+      - open-vm-tools-dkms

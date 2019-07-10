@@ -1,0 +1,16 @@
+- name: install ruby
+  shell: ruby-install --no-install-deps --no-reinstall ruby {{madek_rails_dummy_ruby_version}}
+  register: result
+  changed_when: '"Ruby is already installed" not in result.stdout'
+
+- name: install bundler and bundle
+  args: { warn: no }
+  shell:
+    cmd: |
+      sudo -iu {{madek_rails_dummy_user}} bash -ex <<EOF
+        source /usr/local/share/chruby/chruby.sh
+        chruby {{madek_rails_dummy_ruby_version}}
+        gem install bundler
+        cd {{madek_rails_dummy_path}}
+        bundle install
+      EOF

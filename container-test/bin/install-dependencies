@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
-set -eux
+set -euxo
 
-apt-get update
-apt-get install curl ruby libyaml-dev python2.7 python2.7-dev python-pip git libffi-dev -y -f
+# remove this packet if installed - its not needed and causes problems on Ubuntu
+apt purge -y -f open-iscsi || true
 
-# https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#latest-releases-via-apt-debian
-echo 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main' > /etc/apt/sources.list.d/ansible-ppa.list
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
-apt-get update
-apt-get install -y -f ansible
+apt update
+
+# first pacakges line only needed for container test,
+# second line some deps for installing ruby and bundler,
+# rest is standard recommendation
+apt install -y -f \
+  ssh \
+  gcc libcurl4-openssl-dev libxml2-dev \
+  git curl build-essential default-jdk python libssl-dev 

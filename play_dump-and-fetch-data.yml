@@ -1,22 +1,21 @@
----
-
 - hosts: madek
 
   tasks:
+    - name: Dump
+      become: true
+      become_user: root
+      shell: |
+        set -eux
+        sudo -u "{{madek_user}}" -- bash -eux -c '
+          cd {{madek_webapp_dir}}
+          export RAILS_ENV=production
+          /usr/local/bin/chruby-exec ruby-{{madek_ruby_versions.webapp}} -- \
+            bundle exec rake db:pg:structure_and_data:dump FILE=/tmp/madek.pgbin
+        '
+      args:
+        executable: /bin/bash
+        warn: no
 
-  - name: Dump
-    become: true
-    become_user: madek
-    become_method: su
-    shell:  |
-      set -eux
-      cd {{madek_webapp_dir}}
-      export PATH=$(pwd)/vendor/jruby/bin/:$PATH
-      export RAILS_ENV=production
-      jruby -S bundle exec rake db:pg:structure_and_data:dump FILE=/tmp/madek.pgbin
-    args:
-      executable: /bin/bash
-
-  - fetch:
-      src: /tmp/madek.pgbin
-      dest: tmp/
+    - fetch:
+        src: /tmp/madek.pgbin
+        dest: tmp/

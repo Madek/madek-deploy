@@ -6,18 +6,16 @@ After=network.target
 BindsTo=postgresql.service
 
 [Service]
+SyslogIdentifier=madek-{{service.name}}
 WorkingDirectory={{service_dir}}
 User={{madek_user}}
 Group={{madek_user}}
 Environment=TMPDIR={{madek_tmp_dir}}
-Environment=JRUBY_HOME={{service_dir}}/vendor/jruby
-Environment=PATH={{service_dir}}/vendor/jruby/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
 Environment=RAILS_TIME_ZONE={{rails_timezone}}
 Environment=RAILS_RELATIVE_URL_ROOT={{service.context}}
-Environment=JRUBY_OPTS=-J-Xmx{{service.xmx}}
-ExecStart={{service_dir}}/vendor/jruby/bin/jruby -S bundle exec puma config.ru -e production -t 4:40 -b tcp://localhost:{{service.http_port}}
+ExecStart=/usr/local/bin/chruby-exec 'ruby-{{service.ruby_version}}' -- bundle exec puma -e production -t '1:{{service.max_threads_per_worker}}' -b 'tcp://localhost:{{service.http_port}}' config.ru
 
 [Install]
 WantedBy=multi-user.target

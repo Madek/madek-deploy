@@ -1,4 +1,5 @@
 - name: upload archive to the server
+  failed_when: false # ignore errors
   synchronize:
     src: "{{item}}"
     dest: /tmp/{{item}}
@@ -8,14 +9,14 @@
 
 - name: download archive to the server
   get_url:
-    url: '{{hostvars.localhost.download_urls[0]}}'
+    url: "{{hostvars.localhost.download_urls[0]}}"
     dest: /tmp/madek.tar.gz
     force: yes
   when: hostvars.localhost.download_urls is defined
 
 - name: download archive signature to the server
   get_url:
-    url: '{{hostvars.localhost.download_urls[1]}}'
+    url: "{{hostvars.localhost.download_urls[1]}}"
     dest: /tmp/madek.tar.gz.sig
     force: yes
   when: hostvars.localhost.download_urls is defined

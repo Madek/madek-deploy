@@ -18,15 +18,4 @@
 
 - name: Configure services
   include: configure_services.yml
-  with_dict: '{{madek_services}}'
-
-
-- template:
-    src: geheimnisse.yml
-    dest: "{{madek_webapp_dir}}/config/secrets.yml"
-  register: secret
-
-- template:
-    src: settings.local.yml
-    dest: "{{madek_server_dir}}/config/settings.local.yml"
-    mode: 0755
+  with_dict: "{{madek_services}}"

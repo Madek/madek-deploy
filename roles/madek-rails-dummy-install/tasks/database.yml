@@ -1,0 +1,13 @@
+- copy:
+    content: |
+      production:
+        adapter: postgresql
+        encoding: unicode
+        host: 127.0.0.1
+        pool: 25
+        port: {{database.port}}
+        database: {{database.name}}
+        username: {{database.user}}
+        password: {{database.password}}
+    dest: '{{madek_rails_dummy_path}}/config/database.yml'
+  name: configure dummy database

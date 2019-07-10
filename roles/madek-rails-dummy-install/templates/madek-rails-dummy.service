@@ -1,0 +1,29 @@
+[Unit]
+Description=Madek Rails Dummy Service
+After=syslog.target
+After=network.target
+
+#BindsTo=madek-migration.service
+#After=madek-migration.service
+
+[Service]
+SyslogIdentifier=madek-rails-dummy
+WorkingDirectory={{madek_rails_dummy_path}}
+User={{madek_rails_dummy_user}}
+Group={{madek_rails_dummy_user}}
+
+#Environment=MADEK_SECRET={{madek_master_secret}}
+#Environment=PATH=/home/{{madek_rails_dummy_user}}/.rubies/ruby-{{madek_rails_dummy_ruby_version}}/bin:/usr/local/bin:/usr/bin:/bin
+
+Environment=RAILS_LOG_LEVEL=WARN
+Environment=RAILS_ENV=production
+Environment=RAILS_SERVE_STATIC_FILES=Yes
+ExecStart=/usr/local/bin/chruby-exec ruby-{{madek_rails_dummy_ruby_version}} -- \
+    bundle exec puma \
+    -e production \
+    -t 1:{{madek_rails_dummy_max_threads_per_worker}} \
+    -w {{madek_rails_dummy_workers}} \
+    -b tcp://localhost:{{madek_rails_dummy_HTTP_PORT}}
+
+[Install]
+WantedBy=multi-user.target

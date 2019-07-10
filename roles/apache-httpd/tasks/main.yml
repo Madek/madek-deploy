@@ -1,0 +1,33 @@
+- name: Install apache2
+  apt: name={{packages}} state=latest update_cache=yes cache_valid_time=3600
+  register: apache2_install
+  vars:
+    packages:
+    - apache2
+    - libapache2-mod-xsendfile
+
+- name: Disable default site
+  command: a2dissite 000-default
+  args:
+    removes: /etc/apache2/sites-enabled/000-default.conf
+  register: apache2_disable_default_site
+
+- name: Note modules
+  template:
+    src: enabled_modules.yml
+    dest: /etc/apache2/enabled_modules.yml
+    mode: 755
+  register: apache2_enabled_modules
+
+- name: Enable modules
+  shell:  a2enmod {{item}}
+  with_items: '{{apache_httpd_enabled_modules}}'
+  when: apache2_enabled_modules.changed
+
+- name: Restart
+  service:
+    name: apache2
+    state: restarted
+  when: apache2_enabled_modules.changed
+        or apache2_disable_default_site.changed
+        or apache2_install.changed

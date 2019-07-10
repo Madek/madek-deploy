@@ -2,7 +2,7 @@
 .project
 .mux.yml
 .retry
-*tar.gz*
+#*tar.gz*
 *retry
 master_secret.txt
 vagrant-ssh-config

@@ -1,0 +1,45 @@
+- apt:
+    name: "{{ packages }}"
+    state: present
+    cache_valid_time: 3600
+    update_cache: yes
+  vars:
+    packages:
+      - autoconf
+      - bison
+      - build-essential
+      - libcurl4-openssl-dev
+      - libffi-dev
+      - libgdbm-dev
+      - libncurses5-dev
+      - libreadline-dev
+      - libreadline6-dev
+      - libssl-dev
+      - libyaml-dev
+      - zlib1g-dev
+
+- name: Install libgdbm version according to distribution (Debian)
+  apt: pkg=libgdbm3 state=present update_cache=yes cache_valid_time=3600
+  when: ansible_distribution == "Debian"
+
+- name: Install libgdbm version according to distribution (Ubuntu 18+)
+  apt: pkg=libgdbm3 state=present update_cache=yes cache_valid_time=3600
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version|int < 18
+
+- name: Install libgdbm version according to distribution (Ubuntu 16)
+  apt: pkg=libgdbm5 state=present update_cache=yes cache_valid_time=3600
+  when: ansible_distribution == "Ubuntu" and not ansible_distribution_major_version|int < 18
+
+- name: copy and unpack ruby-install install dir
+  unarchive:
+    src: files/ruby-install-{{madek_ruby_install_version}}.tar.gz
+    dest: /tmp/
+    creates: /tmp/ruby-install-{{madek_ruby_install_version}}
+
+- name: install ruby-install
+  shell: |
+    set -eux
+    cd /tmp/ruby-install-{{madek_ruby_install_version}} || { ls -la /tmp; exit 1; }
+    make install
+    chmod a+x /usr/local/bin/ruby-install
+    rm -rf /tmp/ruby-install-{{madek_ruby_install_version}}

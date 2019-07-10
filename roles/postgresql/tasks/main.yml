@@ -6,12 +6,12 @@
   args: { warn: no }
   changed_when: false
   register: check_root_postgresql_user
-  shell: sudo -u postgres psql -c "SELECT 'already exists' FROM pg_catalog.pg_roles WHERE rolname = 'root'"
+  shell: sudo -iu postgres psql -c "SELECT 'already exists' FROM pg_catalog.pg_roles WHERE rolname = 'root'"
 
 - name: add root postgresql user
   args: { warn: no }
   when: '"already exists" not in check_root_postgresql_user.stdout'
-  shell: sudo -u postgres psql "CREATE ROLE root SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;"
+  shell: sudo -iu postgres psql -c "CREATE ROLE root SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;"
 
 - name: Create the a database for root
   postgresql_db:
