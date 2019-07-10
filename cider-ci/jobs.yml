@@ -2,10 +2,9 @@
 ### Build #####################################################################
 ###############################################################################
 
-'build':
+"build":
   context:
     include: cider-ci/contexts/build_archive.yml
-
 
 ###############################################################################
 ### Deploy jobs ###############################################################
@@ -13,16 +12,17 @@
 
 ### HFG ######################################################################
 
-'deploy_hfg_prod':
+"deploy_hfg_prod":
   include: cider-ci/jobs/deploy-defaults.yml
   name: "♚ Deploy to prod-hfg"
   depends_on:
-    deploy to staging passed: { job_key: deploy_hfg_staging, type: job, states: [passed] }
-    'we are on zhdk/deploy': { type: branch, include_match: '^zhdk\/deploy$'}
+    deploy to staging passed:
+      { job_key: deploy_hfg_staging, type: job, states: [passed] }
+    "we are on zhdk/deploy": { type: branch, include_match: '^zhdk\/deploy$' }
   run_when:
-    'deploy at 3:15 UTC on branch zhdk/deploy':
+    "deploy at 3:15 UTC on branch zhdk/deploy":
       type: cron
-      value: '15 3 * * *'
+      value: "15 3 * * *"
       branch_include_match: ^zhdk/deploy$
   context:
     tasks:
@@ -32,15 +32,16 @@
         exclusive_global_resources:
           "prod-hfg.madek.zhdk.ch": true
 
-'deploy_hfg_staging':
+"deploy_hfg_staging":
   include: cider-ci/jobs/deploy-defaults.yml
   name: "♟ Deploy to staging-hfg"
   depends_on:
-    deploy to container passed: { job_key: test-container-deploy, type: job, states: [passed] }
+    deploy to container passed:
+      { job_key: test-containers-deploy, type: job, states: [passed] }
   run_when:
-    'deploy at 2:15 UTC on branch release':
+    "deploy at 2:15 UTC on branch release":
       type: cron
-      value: '15 2 * * *'
+      value: "15 2 * * *"
       branch_include_match: ^zhdk/staging$
       rerun: true
   context:
@@ -48,24 +49,24 @@
       deploy:
         environment_variables:
           HOSTS_FILE: inventories/zhdk/hfg-staging_hosts
-          DROP_DATABASE: 'true'
-          RESTORE_STRUCTURE_AND_DATA: 'true'
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "true"
         exclusive_global_resources:
           "staging-hfg.madek.zhdk.ch": true
 
-
 ### HSLU ######################################################################
 
-'deploy_hslu_prod':
+"deploy_hslu_prod":
   include: cider-ci/jobs/deploy-defaults.yml
   name: "♚ Deploy to prod-hslu"
   depends_on:
-    deploy to staging passed: { job_key: deploy_hslu_staging, type: job, states: [passed] }
-    'we are on zhdk/deploy': { type: branch, include_match: '^zhdk\/deploy$'}
+    deploy to staging passed:
+      { job_key: deploy_hslu_staging, type: job, states: [passed] }
+    "we are on zhdk/deploy": { type: branch, include_match: '^zhdk\/deploy$' }
   run_when:
-    'deploy at 3:15 UTC on branch zhdk/deploy':
+    "deploy at 3:15 UTC on branch zhdk/deploy":
       type: cron
-      value: '15 3 * * *'
+      value: "15 3 * * *"
       branch_include_match: ^zhdk/deploy$
   context:
     tasks:
@@ -75,15 +76,16 @@
         exclusive_global_resources:
           "prod-hslu.madek.zhdk.ch": true
 
-'deploy_hslu_staging':
+"deploy_hslu_staging":
   include: cider-ci/jobs/deploy-defaults.yml
   name: "♟ Deploy to staging-hslu"
   depends_on:
-    deploy to container passed: { job_key: test-container-deploy, type: job, states: [passed] }
+    deploy to container passed:
+      { job_key: test-containers-deploy, type: job, states: [passed] }
   run_when:
-    'deploy at 2:15 UTC on branch release':
+    "deploy at 2:15 UTC on branch release":
       type: cron
-      value: '15 2 * * *'
+      value: "15 2 * * *"
       branch_include_match: ^zhdk/staging$
       rerun: true
   context:
@@ -91,24 +93,24 @@
       deploy:
         environment_variables:
           HOSTS_FILE: inventories/zhdk/hslu-staging_hosts
-          DROP_DATABASE: 'true'
-          RESTORE_STRUCTURE_AND_DATA: 'true'
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "true"
         exclusive_global_resources:
           "staging-hslu.madek.zhdk.ch": true
 
-
 ### medienarchiv ##############################################################
 
-'deploy_medienarchive':
+"deploy_medienarchive":
   include: cider-ci/jobs/deploy-defaults.yml
   name: "♛ Deploy to medienarchiv"
   depends_on:
-    deploy to staging passed: { job_key: deploy_staging, type: job, states: [passed] }
-    'we are on zhdk/deploy': { type: branch, include_match: '^zhdk\/deploy$'}
+    deploy to staging passed:
+      { job_key: deploy_staging, type: job, states: [passed] }
+    "we are on zhdk/deploy": { type: branch, include_match: '^zhdk\/deploy$' }
   run_when:
-    'deploy at 3:30 UTC on branch zhdk/deploy':
+    "deploy at 3:30 UTC on branch zhdk/deploy":
       type: cron
-      value: '30 3 * * *'
+      value: "30 3 * * *"
       branch_include_match: ^zhdk/deploy$
   context:
     tasks:
@@ -118,20 +120,21 @@
         environment_variables:
           HOSTS_FILE: inventories/zhdk/hosts_medienarchiv
           # defaults but let's make it very clear here:
-          DROP_DATABASE: 'false'
-          RESTORE_STRUCTURE_AND_DATA: 'false'
+          DROP_DATABASE: "false"
+          RESTORE_STRUCTURE_AND_DATA: "false"
 
-'deploy_staging':
+"deploy_staging":
   include: cider-ci/jobs/deploy-defaults.yml
   name: "♟ Deploy to staging"
   run_when:
-    'deploy at 2:30 UTC on branch release':
+    "deploy at 2:30 UTC on branch release":
       type: cron
-      value: '30 2 * * *'
+      value: "30 2 * * *"
       branch_include_match: ^zhdk/staging$
       rerun: true
   depends_on:
-    deploy to container passed: { job_key: test-container-deploy, type: job, states: [passed] }
+    deploy to container passed:
+      { job_key: test-containers-deploy, type: job, states: [passed] }
   context:
     tasks:
       deploy:
@@ -139,21 +142,21 @@
           "staging.madek.zhdk.ch": true
         environment_variables:
           HOSTS_FILE: inventories/zhdk/hosts_staging
-          DROP_DATABASE: 'true'
-          RESTORE_STRUCTURE_AND_DATA: 'true'
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "true"
 
 ### test - auto-deploy from master #################################################
 
-'deploy_test':
+"deploy_test":
   include: cider-ci/jobs/deploy-defaults.yml
   name: "\uD83C\uDFE2 Deploy to test"
   run_when: &RUN_ON_MASTER_AND_DO_NIGHTLY_RESET
     master branch:
       type: branch
       include_match: ^master$
-    'deploy at 4:30 UTC':
+    "deploy at 4:30 UTC":
       type: cron
-      value: '30 4 * * *'
+      value: "30 4 * * *"
       branch_include_match: ^master$
       rerun: true
   context:
@@ -163,13 +166,12 @@
           "test.madek.zhdk.ch": true
         environment_variables:
           HOSTS_FILE: inventories/zhdk/hosts_test
-          DROP_DATABASE: 'true'
-          RESTORE_STRUCTURE_AND_DATA: 'true'
-
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "true"
 
 ### test-blank - auto-deploy from master ###########################################
 
-'deploy_test-blank':
+"deploy_test-blank":
   include: cider-ci/jobs/deploy-defaults.yml
   name: "\uD83C\uDFE2 Deploy to test-blank"
   description: Deploy to test-blank incl. Re-Installation & First Time Setups ("Fresh Instance")
@@ -181,8 +183,8 @@
           "test-blank.madek.zhdk.ch": true
         environment_variables:
           HOSTS_FILE: inventories/zhdk/hosts_test-blank
-          DROP_DATABASE: 'true'
-          RESTORE_STRUCTURE_AND_DATA: 'false'
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "false"
         scripts:
           first_time_setup:
             start_when:
@@ -192,7 +194,7 @@
 
 ### test-blank with prod data (for development) ###################################
 
-'deploy_test-blank_like-test':
+"deploy_test-blank_like-test":
   include: cider-ci/jobs/deploy-defaults.yml
   name: "\uD83D\uDEA7 Deploy to test-blank like test!"
   description: |
@@ -205,8 +207,8 @@
           "test-blank.madek.zhdk.ch": true
         environment_variables:
           HOSTS_FILE: inventories/zhdk/hosts_test-blank
-          DROP_DATABASE: 'true'
-          RESTORE_STRUCTURE_AND_DATA: 'true'
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "true"
 
         scripts:
           get-latest-data:

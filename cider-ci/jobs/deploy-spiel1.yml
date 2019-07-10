@@ -4,7 +4,7 @@ deploy_madek:
 
   depends_on:
     deploy to container passed:
-      { job_key: test-container-deploy, type: job, states: [passed] }
+      { job_key: test-containers-deploy, type: job, states: [passed] }
     we are on feature branch: # also see `TARGET_BRANCH` below
       { type: branch, include_match: '^feat\/roles$' }
 
