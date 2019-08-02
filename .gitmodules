@@ -1,3 +1,0 @@
-[submodule "roles/apache-httpd"]
-	path = roles/apache-httpd
-	url = https://github.com/DrTom/ansible-role-apache-httpd.git
