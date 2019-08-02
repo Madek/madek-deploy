@@ -6,17 +6,16 @@
     - libapache2-mod-xsendfile
 
 - name: Disable default site
-  command:  a2dissite 000-default
-            removes=/etc/apache2/sites-enabled/000-default.conf
+  command: a2dissite 000-default
+    removes=/etc/apache2/sites-enabled/000-default.conf
   register: apache2_disable_default_site
 
 - name: Note modules
   template: src=enabled_modules.yml
-            dest=/etc/apache2/enabled_modules.yml mode=755
+    dest=/etc/apache2/enabled_modules.yml mode=755
   register: apache2_enabled_modules
 
 - name: Enable modules
-  shell:  a2enmod {{item}}
-  with_items: apache_httpd_enabled_modules
+  shell: a2enmod {{item}}
+  with_items: "{{apache_httpd_enabled_modules}}"
   when: apache2_enabled_modules.changed
-
