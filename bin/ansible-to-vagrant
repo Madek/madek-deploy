@@ -1,0 +1,8 @@
+#!/bin/bash -exu
+
+vagrant ssh-config \
+  | sed 's/Host madek.*/Host madek.example.com/' \
+  > ./inventories/vagrant/vagrant-ssh-config
+
+# cd ../deploy
+bin/ansible-playbook -i ./inventories/vagrant/hosts "$@"

@@ -188,7 +188,7 @@
             start_when:
               deployed:
                 script_key: deploy
-            body: cd deploy && ansible-playbook -i inventories/zhdk/hosts_test-blank play_first-time-setup.yml
+            body: cd deploy && bin/ansible-playbook -i inventories/zhdk/hosts_test-blank play_first-time-setup.yml
 
 ### test-blank with prod data (for development) ###################################
 

@@ -10,11 +10,3 @@
   with_items: '{{removed_ssh_keys}}'
 
 - include: Debuntu.yml
-  when: >
-    (ansible_distribution == "Ubuntu"
-      and ansible_distribution_major_version|int >= 7)
-
-- include: Debuntu.yml
-  when: >
-    (ansible_distribution == "Debian"
-      and ansible_distribution_major_version|int >= 8)

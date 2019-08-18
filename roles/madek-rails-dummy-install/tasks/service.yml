@@ -1,0 +1,23 @@
+- template:
+    src: madek-rails-dummy.service
+    dest: /etc/systemd/system/madek-rails-dummy.service
+    mode: 0644
+  name: copy madek-rails-dummy.service
+
+- command: systemctl daemon-reload
+  changed_when: false
+  name: reload systemctl
+
+# TMP:
+
+- name: start madek-rails-dummy.service
+  service:
+    name: madek-rails-dummy.service
+    state: started
+    enabled: yes
+
+- name: wait for madek-rails-dummy.service
+  wait_for:
+    host: localhost
+    port: '{{madek_rails_dummy_HTTP_PORT}}'
+    timeout: 180

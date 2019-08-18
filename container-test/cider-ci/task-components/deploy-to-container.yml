@@ -1,5 +1,4 @@
 scripts:
-
   prepare-container:
     start_when:
       container has been created:
@@ -18,11 +17,13 @@ scripts:
       # the next command will not work if we invoke it too quickly after
       # booting the machine
       sleep 30
-      tar cf - ${CIDER_CI_WORKING_DIR} \
-        | lxc exec ${CONTAINER_NAME} -- tar xvf - -C /tmp
-      lxc exec ${CONTAINER_NAME} -- \
-        /tmp/${CIDER_CI_WORKING_DIR}/deploy/container-test/bin/install-dependencies
+      CONTAINER_IP=$(lxc list --format=json ${CONTAINER_NAME} | jq -r ".[].state.network.eth0.addresses | .[0].address")
+      until ping -c1 -W1 ${CONTAINER_IP}; do sleep 3; done
 
+      lxc exec ${CONTAINER_NAME} -- bash - < ${CIDER_CI_WORKING_DIR}/deploy/container-test/bin/install-dependencies
+
+      lxc exec ${CONTAINER_NAME} -- \
+        /bin/sh -c "mkdir -p /root/.ssh && echo '$(cat ~/.ssh/id_rsa.pub)' >> /root/.ssh/authorized_keys"
 
   deploy-to-container:
     timeout: 20 Minutes
@@ -32,4 +33,20 @@ scripts:
     body: |
       #!/usr/bin/env bash
       set -eux
-      lxc exec ${CONTAINER_NAME} -- /bin/bash -c "set -eux && cd /tmp/${CIDER_CI_WORKING_DIR}/deploy && container-test/bin/deploy"
+
+      CONTAINER_IP=$(lxc list --format=json ${CONTAINER_NAME} | jq -r ".[].state.network.eth0.addresses | .[0].address")
+
+      cd deploy
+
+      bin/ansible-playbook \
+        -i container-test/inventory/hosts \
+        -e "ansible_ssh_host=${CONTAINER_IP}" \
+        play_setup-and-deploy.yml
+
+      bin/ansible-playbook \
+        -i container-test/inventory/hosts \
+        -e "ansible_ssh_host=${CONTAINER_IP}" \
+        -e "admin_password=supersecret" \
+        play_first-time-setup.yml
+
+      echo OK

@@ -1,7 +1,6 @@
 - hosts: localhost
 
   roles:
-
     - role: find_or_build_archive
       tags:
         - find_or_build_archive
@@ -10,12 +9,14 @@
 - hosts: madek
 
   roles:
-
     - role: pre-cleanup
       tags: [pre-cleanup]
 
     - role: os-setup
       tags: [os-setup]
+
+    - role: ruby-setup
+      tags: [ruby-setup]
 
     - role: dependencies
       tags: [dependencies]

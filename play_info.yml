@@ -1,24 +1,22 @@
 - hosts: madek
 
-  vars_files:
-    - vars.yml
-
   tasks:
+    - name: the madek_master_secret
+      debug:
+        msg: "{{ madek_master_secret }}"
 
+    - name: the madek_database_secret
+      debug:
+        msg: "{{ madek_database_secret}}"
 
-  - name: the madek_master_secret
-    debug:
-      msg: '{{ madek_master_secret }}'
+    - name: the madek_external_hostname
+      debug:
+        msg: "{{ madek_external_hostname }}"
 
-  - name: the madek_database_secret
-    debug:
-      msg: '{{ madek_database_secret}}'
+    - name: the madek_root_dir
+      debug:
+        msg: "{{ madek_root_dir }}"
 
-  - name: the madek_external_hostname
-    debug:
-      msg: '{{ madek_external_hostname }}'
-
-  - name: the madek_root_dir
-    debug:
-      msg: '{{ madek_root_dir }}'
-
+    - name: the madek_storage_dir
+      debug:
+        msg: "{{ madek_storage_dir }}"

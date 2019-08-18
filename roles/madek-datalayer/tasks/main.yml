@@ -19,39 +19,62 @@
 #     state: directory
 #     recurse: yes
 
+- name: bundle
+  become: true
+  become_user: root
+  shell:
+    cmd: |
+      sudo -iu "{{madek_user}}" -- bash -eux <<EOF
+        cd {{madek_webapp_dir}}
+        export RAILS_ENV={{rails_env}}
+        /usr/local/bin/chruby-exec ruby-{{madek_ruby_versions.datalayer}} -- \
+          bundle install
+      EOF
+  tags: [bundle]
+
 - name: Drop DB
   become: true
-  become_user: "{{madek_user}}"
-  shell: |
-    #!/usr/bin/env bash
-    set -eux
-    cd {{madek_webapp_dir}}
-    export PATH=$(pwd)/vendor/jruby/bin/:$PATH
-    export RAILS_ENV={{rails_env}}
-    jruby -S bundle exec rake db:pg:terminate_connections db:drop
-  when: drop_database or restore_structure_and_data
-  ignore_errors: true
+  become_user: root
+  shell:
+    cmd: |
+      sudo -iu "{{madek_user}}" -- bash -eux <<EOF
+        cd {{madek_webapp_dir}}
+        export RAILS_ENV={{rails_env}}
+        export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+        /usr/local/bin/chruby-exec ruby-{{madek_ruby_versions.datalayer}} -- \
+          bundle exec rake db:pg:terminate_connections db:drop
+      EOF
+  when: "drop_database or restore_structure_and_data"
+  register: madek_drop_db_task
+  changed_when: not madek_drop_db_task.failed
+  failed_when: |
+    madek_drop_db_task.failed and ('database "' ~ database.name ~ '" does not exist' not in madek_drop_db_task.stderr)
   tags: [drop-db]
 
 - name: Create DB
   become: true
-  become_user: "{{madek_user}}"
-  shell: |
-    #!/usr/bin/env bash
-    set -eux
-    cd {{madek_webapp_dir}}
-    export PATH=$(pwd)/vendor/jruby/bin/:$PATH
-    export RAILS_ENV={{rails_env}}
-    jruby -S bundle exec rake db:create
-  ignore_errors: true
+  become_user: root
+  shell:
+    cmd: |
+      sudo -iu "{{madek_user}}" -- bash -eux <<EOF
+        cd {{madek_webapp_dir}}
+        export RAILS_ENV={{rails_env}}
+        /usr/local/bin/chruby-exec ruby-{{madek_ruby_versions.datalayer}} -- \
+          bundle exec rake db:create
+      EOF
+  register: madek_create_db_task
+  changed_when: not madek_create_db_task.failed
+  failed_when: |
+    madek_create_db_task.failed and ("Database '" ~ database.name ~ "' already exists" not in madek_create_db_task.stderr)
 
 - name: Restore structure and data
   become: true
-  become_user: "{{madek_user}}"
-  shell:  |
-    #!/usr/bin/env bash
-    set -eux
-    pg_restore --exit-on-error --single-transaction -x -O -d '{{database.name}}' '{{restore_structure_and_data_file}}'
+  become_user: root
+  shell:
+    cmd: |
+      sudo -iu "{{madek_user}}" -- bash -eux <<EOF
+        pg_restore --exit-on-error --single-transaction -x -O -d '{{database.name}}' '{{restore_structure_and_data_file}}'
+      EOF
   register: restore
   when: restore_structure_and_data
   changed_when: not restore.stdout | match("")
@@ -59,28 +82,31 @@
 
 - name: Migrate
   become: true
-  become_user: "{{madek_user}}"
-  shell:  |
-    #!/usr/bin/env bash
-    set -eux
-    cd {{madek_webapp_dir}}
-    export PATH=$(pwd)/vendor/jruby/bin/:$PATH
-    export RAILS_ENV={{rails_env}}
-    export JRUBY_OPTS=" -J-Xmx2G "
-    jruby -S bundle exec rake db:migrate
+  become_user: root
+  # echo "DROP TABLE ar_internal_metadata;" | psql "{{database.name}}";
+  # echo "INSERT INTO "ar_internal_metadata" VALUES ('environment', '{{rails_env}}', now(), now() ) ON CONFLICT DO UPDATE;" | psql "{{database.name}}";
+  shell:
+    cmd: |
+      sudo -iu "{{madek_user}}" -- bash -eux <<EOF
+        cd {{madek_webapp_dir}}
+        export RAILS_ENV="{{rails_env}}"
+        /usr/local/bin/chruby-exec ruby-{{madek_ruby_versions.datalayer}} -- \
+          bundle exec rake db:migrate
+      EOF
   register: migrate
-  changed_when: not migrate.stdout | match("")
+  changed_when: 'not migrate.stdout == ""'
 
 - name: Seed (set core data)
   become: true
-  become_user: "{{madek_user}}"
-  shell:  |
-    #!/usr/bin/env bash
-    cd {{madek_webapp_dir}}
-    export PATH=$(pwd)/vendor/jruby/bin/:$PATH
-    export RAILS_ENV={{rails_env}}
-    export JRUBY_OPTS=" -J-Xmx2G "
-    jruby -S bundle exec rake db:seed
+  become_user: root
+  shell:
+    cmd: |
+      sudo -iu "{{madek_user}}" -- bash -eux <<EOF
+        cd {{madek_webapp_dir}}
+        export RAILS_ENV={{rails_env}}
+        /usr/local/bin/chruby-exec ruby-{{madek_ruby_versions.datalayer}} -- \
+          bundle exec rake db:seed
+      EOF
 
 # FIXME: https://github.com/ansible/ansible/issues/39456
 - name: create DB dir, change owner to root
