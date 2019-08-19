@@ -130,8 +130,6 @@
       value: '30 2 * * *'
       branch_include_match: ^zhdk/staging$
       rerun: true
-  depends_on:
-    deploy to container passed: { job_key: test-container-deploy, type: job, states: [passed] }
   context:
     tasks:
       deploy:
