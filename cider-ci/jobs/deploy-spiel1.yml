@@ -3,8 +3,8 @@ deploy_madek:
   include: cider-ci/jobs/deploy-defaults.yml
 
   depends_on:
-    deploy to container passed:
-      { job_key: test-container-deploy, type: job, states: [passed] }
+    # deploy to container passed:
+    #   { job_key: test-container-deploy, type: job, states: [passed] }
     we are on feature branch: # also see `TARGET_BRANCH` below
       { type: branch, include_match: '^feat\/workflows$' }
 
