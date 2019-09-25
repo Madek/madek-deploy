@@ -12,6 +12,9 @@ shibboleth_gateway_ip: 195.176.247.169
 
 madek_master_secret: '{{hslu.madek_master_secret}}'
 
+madek_disallow_search_engine_crawlers: no
+madek_block_useragents: ['AhrefsBot', 'SemrushBot']
+
 zencoder_enabled: True
 zencoder_api_key: '{{hslu.zencoder_api_key}}'
 zencoder_test_mode: False
