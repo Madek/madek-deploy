@@ -24,6 +24,8 @@ restore_structure_and_data: yes
 
 db_backups_enabled: False
 
+prtg_monitoring: "{{test.prtg_monitoring}}" # from `secrets.yml`
+
 madek_feature_toggle_admin_sql_reports: "on my own risk"
 
 madek_webapp_html_extra_body_start: |

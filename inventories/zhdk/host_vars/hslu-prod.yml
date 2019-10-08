@@ -6,14 +6,14 @@ madek_vim_mode: true
 madek_external_hostname: portfoliodb.hslu.ch
 
 shibboleth_sign_in_enabled: True
-shibboleth_sign_in_url_base: 'https://{{madek_external_hostname}}/Shibboleth.sso/Login'
-shibboleth_sign_in_url_target: 'https://{{madek_external_hostname}}/Shibboleth.sso/Session'
+shibboleth_sign_in_url_base: "https://{{madek_external_hostname}}/Shibboleth.sso/Login"
+shibboleth_sign_in_url_target: "https://{{madek_external_hostname}}/Shibboleth.sso/Session"
 shibboleth_gateway_ip: 195.176.247.169
 
-madek_master_secret: '{{hslu.madek_master_secret}}'
+madek_master_secret: "{{hslu.madek_master_secret}}"
 
 zencoder_enabled: True
-zencoder_api_key: '{{hslu.zencoder_api_key}}'
+zencoder_api_key: "{{hslu.zencoder_api_key}}"
 zencoder_test_mode: False
 
 madek_storage_dir: /opt/madekdata
@@ -24,8 +24,9 @@ madek_tmp_dir: /opt/madekdata/tmp
 # when we switch servers or something
 setup_storage_directories: no
 
-
 madek_webapp_xmx_mb: 2000
 
 db_backups_enabled: True
 db_backups_dir: /opt/madekdata/backups
+
+prtg_monitoring: "{{hslu.prtg_monitoring}}" # from `secrets.yml`

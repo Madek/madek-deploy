@@ -7,10 +7,10 @@ madek_external_hostname: madek.hfg-karlsruhe.de
 
 shibboleth_sign_in_enabled: False
 
-madek_master_secret: '{{hfg.madek_master_secret}}'
+madek_master_secret: "{{hfg.madek_master_secret}}"
 
 zencoder_enabled: True
-zencoder_api_key: '{{hfg.zencoder_api_key}}'
+zencoder_api_key: "{{hfg.zencoder_api_key}}"
 zencoder_test_mode: False
 
 madek_storage_dir: /opt/madekdata
@@ -21,6 +21,7 @@ madek_tmp_dir: /opt/madekdata/tmp
 # when we switch servers or something
 setup_storage_directories: no
 
-
 db_backups_enabled: True
 db_backups_dir: /opt/madekdata/backups
+
+prtg_monitoring: "{{hfg.prtg_monitoring}}" # from `secrets.yml`

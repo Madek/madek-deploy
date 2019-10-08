@@ -6,17 +6,19 @@ madek_site_title: false
 
 madek_external_hostname: medienarchiv.zhdk.ch
 
-madek_master_secret: '{{medienarchiv.madek_master_secret}}'
+madek_master_secret: "{{medienarchiv.madek_master_secret}}"
 
 madek_disallow_search_engine_crawlers: no
-madek_block_useragents: ['AhrefsBot', 'SemrushBot']
+madek_block_useragents: ["AhrefsBot", "SemrushBot"]
 
 zencoder_enabled: True
-zencoder_api_key: '{{zhdk_zencoder_api_key}}'
+zencoder_api_key: "{{zhdk_zencoder_api_key}}"
 zencoder_test_mode: False
 
 db_backups_enabled: True
 db_backups_dir: /opt/madekdata/backups
+
+prtg_monitoring: "{{medienarchiv.prtg_monitoring}}" # from `secrets.yml`
 
 zhdk_integration: True
 
@@ -28,15 +30,14 @@ madek_tmp_dir: /opt/madekdata/tmp
 # when we switch servers or something
 setup_storage_directories: no
 
-
 madek_webapp_html_extra_body_start: |
-    <!-- Piwik Image Tracker-->
-    <img src="https://analytics.zhdk.ch/piwik.php?idsite=174&rec=1" style="border:0;position:fixed;top:0;left:0" alt="">
-    <!-- End Piwik -->
+  <!-- Piwik Image Tracker-->
+  <img src="https://analytics.zhdk.ch/piwik.php?idsite=174&rec=1" style="border:0;position:fixed;top:0;left:0" alt="">
+  <!-- End Piwik -->
 
 madek_virtual_hosts:
-- hostname: '{{madek_external_hostname}}'
-  ip: '*'
-  ssl_certificate_file: /etc/letsencrypt/live/medienarchiv.zhdk.ch/fullchain.pem
-  ssl_certificate_key_file: /etc/letsencrypt/live/medienarchiv.zhdk.ch/privkey.pem
-  force_redirect_to_https: yes
+  - hostname: "{{madek_external_hostname}}"
+    ip: "*"
+    ssl_certificate_file: /etc/letsencrypt/live/medienarchiv.zhdk.ch/fullchain.pem
+    ssl_certificate_key_file: /etc/letsencrypt/live/medienarchiv.zhdk.ch/privkey.pem
+    force_redirect_to_https: yes

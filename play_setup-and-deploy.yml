@@ -8,50 +8,77 @@
 
 - hosts: madek
 
-  roles:
-    - role: pre-cleanup
-      tags: [pre-cleanup]
+  tasks:
+    - when: "prtg_monitoring is defined"
+      import_tasks: "./tasks/prtg_monitoring.yml"
+      vars: { paused: yes, pause_minutes: 30 }
 
-    - role: os-setup
-      tags: [os-setup]
+    - name: deploy
+      block:
+        - import_role: { name: pre-cleanup }
+          tags: [pre-cleanup]
 
-    - role: ruby-setup
-      tags: [ruby-setup]
+        - import_role:
+            name: os-setup
+          tags: [os-setup]
 
-    - role: dependencies
-      tags: [dependencies]
+        - import_role:
+            name: ruby-setup
+          tags: [ruby-setup]
 
-    - role: openjdk8_install
-      tags: [openjdk8]
+        - import_role:
+            name: dependencies
+          tags: [dependencies]
 
-    - role: postgresql
-      tags: [postgresql]
+        - import_role:
+            name: openjdk8_install
+          tags: [openjdk8]
 
-    - role: apache-httpd
+        - import_role:
+            name: postgresql
+          tags: [postgresql]
 
-    - role: madek-user
-      tags: [madek-user]
+        - import_role:
+            name: apache-httpd
 
-    - role: get-archive
-      tags: [get-archive]
+        - import_role:
+            name: madek-user
+          tags: [madek-user]
 
-    - role: server-dir_set-up
-      tags: [server-dir_set-up]
+        - import_role:
+            name: get-archive
+          tags: [get-archive]
 
-    - role: madek-configuration
-      tags: [madek-configuration]
+        - import_role:
+            name: server-dir_set-up
+          tags: [server-dir_set-up]
 
-    - role: madek-datalayer
-      tags: [madek-datalayer]
+        - import_role:
+            name: madek-configuration
+          tags: [madek-configuration]
 
-    - role: services
-      tags: [services]
+        - import_role:
+            name: madek-datalayer
+          tags: [madek-datalayer]
 
-    - role: monitoring
-      tags: [monitoring]
+        - import_role:
+            name: services
+          tags: [services]
 
-    - role: reverse-proxy
-      tags: [reverse-proxy]
+        - import_role:
+            name: monitoring
+          tags: [monitoring]
 
-    - role: db-backups
-      tags: [db-backups]
+        - import_role:
+            name: reverse-proxy
+          tags: [reverse-proxy]
+
+        - import_role:
+            name: db-backups
+          tags: [db-backups]
+
+      # this will run even if a task "deploy" block fails
+      always:
+        - when: "prtg_monitoring is defined"
+          import_tasks: "./tasks/prtg_monitoring.yml"
+          vars: { paused: no }

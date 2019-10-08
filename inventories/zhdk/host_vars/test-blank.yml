@@ -6,14 +6,14 @@ madek_external_hostname: test-blank.madek.zhdk.ch
 zhdk_integration: True
 shibboleth_sign_in_enabled: False # disabled because package is broken…
 
-madek_master_secret: '{{test_blank.madek_master_secret}}'
+madek_master_secret: "{{test_blank.madek_master_secret}}"
 
 zencoder_enabled: True
-zencoder_api_key: '{{zhdk_zencoder_api_key}}'
+zencoder_api_key: "{{zhdk_zencoder_api_key}}"
 zencoder_test_mode: True
 
 madek_disallow_search_engine_crawlers: yes
-madek_block_useragents: ['AhrefsBot', 'SemrushBot']
+madek_block_useragents: ["AhrefsBot", "SemrushBot"]
 
 setup_storage_directories: True
 
@@ -27,11 +27,13 @@ drop_database: yes
 
 db_backups_enabled: False
 
+prtg_monitoring: "{{test_blank.prtg_monitoring}}" # from `secrets.yml`
+
 madek_feature_toggle_admin_sql_reports: "on my own risk"
 
 # create a default admin on this box
 admin_login: admin
-admin_password: '{{test_blank.admin_password}}'
+admin_password: "{{test_blank.admin_password}}"
 
 madek_webapp_html_extra_head_start: |
   <!--
