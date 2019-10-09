@@ -16,6 +16,9 @@ zencoder_enabled: True
 zencoder_api_key: "{{hslu.zencoder_api_key}}"
 zencoder_test_mode: False
 
+madek_block_useragents:
+  ["AhrefsBot", "SemrushBot", "PiplBot", "seo4ajax", "BLEXBot"]
+
 madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/attachments
 madek_thumbnail_storage_dir: /opt/madekdata/attachments

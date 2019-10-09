@@ -7,10 +7,12 @@ madek_external_hostname: staging.madek.hfg-karlsruhe.de
 
 shibboleth_sign_in_enabled: False
 
-madek_master_secret: '{{hfg.madek_master_secret}}'
+madek_master_secret: "{{hfg.madek_master_secret}}"
 
 zencoder_enabled: False
 madek_disallow_search_engine_crawlers: yes
+madek_block_useragents:
+  ["AhrefsBot", "SemrushBot", "PiplBot", "seo4ajax", "BLEXBot"]
 
 madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/originals
@@ -19,14 +21,14 @@ madek_tmp_dir: /tmp
 setup_storage_directories: no # dont do it, files are mounted read-only!
 
 madek_webapp_html_extra_head_end: |
-    <!-- Staging Note -->
-    <style>
-          body:before {
-            color: red; font: bolder 2em monospace;
-            text-align: center;
-            width: 100%;
-            display: inline-block;
-            content: 'THIS IS A STAGING ENVIRONMENT! UPLOAD DOES NOT WORK! CHANGES ARE EPHEMERAL!';
-          }
-    </style>
-    <!-- End Staging Note -->
+  <!-- Staging Note -->
+  <style>
+        body:before {
+          color: red; font: bolder 2em monospace;
+          text-align: center;
+          width: 100%;
+          display: inline-block;
+          content: 'THIS IS A STAGING ENVIRONMENT! UPLOAD DOES NOT WORK! CHANGES ARE EPHEMERAL!';
+        }
+  </style>
+  <!-- End Staging Note -->

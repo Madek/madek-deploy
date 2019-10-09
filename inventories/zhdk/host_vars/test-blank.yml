@@ -13,7 +13,8 @@ zencoder_api_key: "{{zhdk_zencoder_api_key}}"
 zencoder_test_mode: True
 
 madek_disallow_search_engine_crawlers: yes
-madek_block_useragents: ["AhrefsBot", "SemrushBot"]
+madek_block_useragents:
+  ["AhrefsBot", "SemrushBot", "PiplBot", "seo4ajax", "BLEXBot"]
 
 setup_storage_directories: True
 

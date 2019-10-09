@@ -6,18 +6,19 @@ madek_vim_mode: true
 madek_external_hostname: i-portfoliodb.hslu.ch
 
 shibboleth_sign_in_enabled: True
-shibboleth_sign_in_url_base: 'https://{{madek_external_hostname}}/Shibboleth.sso/Login'
-shibboleth_sign_in_url_target: 'https://{{madek_external_hostname}}/Shibboleth.sso/Session'
+shibboleth_sign_in_url_base: "https://{{madek_external_hostname}}/Shibboleth.sso/Login"
+shibboleth_sign_in_url_target: "https://{{madek_external_hostname}}/Shibboleth.sso/Session"
 shibboleth_gateway_ip: 195.176.247.169
 
-madek_master_secret: '{{hslu.madek_master_secret}}'
+madek_master_secret: "{{hslu.madek_master_secret}}"
 
 zencoder_enabled: True
-zencoder_api_key: '{{hslu.zencoder_api_key}}'
+zencoder_api_key: "{{hslu.zencoder_api_key}}"
 zencoder_test_mode: True
 
 madek_disallow_search_engine_crawlers: yes
-
+madek_block_useragents:
+  ["AhrefsBot", "SemrushBot", "PiplBot", "seo4ajax", "BLEXBot"]
 
 madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/attachments
@@ -26,14 +27,14 @@ madek_tmp_dir: /opt/madekdata/tmp
 setup_storage_directories: no # dont do it, files are mounted read-only!
 
 madek_webapp_html_extra_head_end: |
-    <!-- Staging Note -->
-    <style>
-          body:before {
-            color: red; font: bolder 2em monospace;
-            text-align: center;
-            width: 100%;
-            display: inline-block;
-            content: 'THIS IS A STAGING ENVIRONMENT! UPLOAD DOES NOT WORK! CHANGES ARE EPHEMERAL!';
-          }
-    </style>
-    <!-- End Staging Note -->
+  <!-- Staging Note -->
+  <style>
+        body:before {
+          color: red; font: bolder 2em monospace;
+          text-align: center;
+          width: 100%;
+          display: inline-block;
+          content: 'THIS IS A STAGING ENVIRONMENT! UPLOAD DOES NOT WORK! CHANGES ARE EPHEMERAL!';
+        }
+  </style>
+  <!-- End Staging Note -->

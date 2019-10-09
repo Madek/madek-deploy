@@ -9,7 +9,8 @@ madek_external_hostname: medienarchiv.zhdk.ch
 madek_master_secret: "{{medienarchiv.madek_master_secret}}"
 
 madek_disallow_search_engine_crawlers: no
-madek_block_useragents: ["AhrefsBot", "SemrushBot"]
+madek_block_useragents:
+  ["AhrefsBot", "SemrushBot", "PiplBot", "seo4ajax", "BLEXBot"]
 
 zencoder_enabled: True
 zencoder_api_key: "{{zhdk_zencoder_api_key}}"

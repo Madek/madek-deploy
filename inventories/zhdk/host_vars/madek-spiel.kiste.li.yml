@@ -14,6 +14,9 @@ madek_tmp_dir: /opt/madekdata/tmp
 # settings
 zhdk_integration: True
 madek_disallow_search_engine_crawlers: yes
+madek_block_useragents:
+  ["AhrefsBot", "SemrushBot", "PiplBot", "seo4ajax", "BLEXBot"]
+
 madek_feature_toggle_admin_sql_reports: "on my own risk"
 
 # create a default admin on this box
