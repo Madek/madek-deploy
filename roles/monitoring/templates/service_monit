@@ -5,7 +5,7 @@ check process madek_{{service.name}}
         {% for item in service.monit_check_urls %}
         if failed
                 url {{item}}
-                with timeout 30 seconds
-                for 3 cycles
+                with timeout 15 seconds
+                for 2 cycles
         then restart
         {% endfor %}

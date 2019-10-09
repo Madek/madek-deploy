@@ -217,8 +217,6 @@ madek_services:
     monit_match: 'puma.*\:{{madek_webapp_port}}'
     monit_check_urls:
       - http://localhost:{{madek_webapp_port}}/status
-      - http://localhost:{{madek_webapp_port}}
-      - http://localhost:{{madek_webapp_port}}/explore
 
 # database
 database:
