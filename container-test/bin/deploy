@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -eux
 
-ansible-playbook -i container-test/inventory/hosts play_setup-and-deploy.yml
-ansible-playbook \
+bin/ansible-playbook -i container-test/inventory/hosts play_setup-and-deploy.yml
+bin/ansible-playbook \
   -i container-test/inventory/hosts \
   -e "admin_password=supersecret" \
   play_first-time-setup.yml

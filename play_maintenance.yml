@@ -1,6 +1,6 @@
----
 - name: Maintenance
   hosts: madek
+
   tasks:
     - name: test connection
       ping:

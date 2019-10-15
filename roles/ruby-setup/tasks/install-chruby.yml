@@ -1,0 +1,17 @@
+- name: copy and unpack chruby install dir'
+  unarchive:
+    src: files/chruby-{{madek_chruby_version}}.tar.gz
+    dest: /tmp/
+    creates: /tmp/chruby-{{madek_chruby_version}}
+
+- name: install chruby
+  shell: |
+    set -eux
+    cd /tmp/chruby-{{madek_chruby_version}} || { ls -la /tmp; exit 1; }
+    make install
+    rm -rf /tmp/chruby-{{madek_chruby_version}}
+
+- name: add chruby to shells system-wide
+  template:
+    src: etc_profile.d_chruby.sh
+    dest: /etc/profile.d/chruby.sh

@@ -16,6 +16,9 @@ madek_tmp_dir: /opt/madekdata/tmp
 # settings
 zhdk_integration: True
 madek_disallow_search_engine_crawlers: yes
+madek_block_useragents:
+  ["AhrefsBot", "SemrushBot", "PiplBot", "seo4ajax", "BLEXBot"]
+
 madek_feature_toggle_admin_sql_reports: "on my own risk"
 
 # create a default admin on this box
@@ -34,6 +37,8 @@ zencoder_test_mode: False
 
 # backups
 # db_backups_enabled: False
+
+prtg_monitoring: "{{spiel1.prtg_monitoring}}" # from `secrets.yml`
 
 # customize
 madek_webapp_html_extra_head_start: |

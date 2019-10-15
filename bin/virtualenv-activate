@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+echo '✪ virtualenv: preparing…'
+
+source bin/virtualenv-install -qqq &>/dev/null \
+  || source bin/virtualenv-install \
+  || exit 1
+
+echo '✪ virtualenv: OK'

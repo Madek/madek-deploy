@@ -2,7 +2,6 @@ traits:
   LXD: yes
 
 scripts:
-
   create-container:
     start_when:
       bundled:
@@ -10,9 +9,10 @@ scripts:
     body: |
       #!/usr/bin/env bash
       set -eux
-      # lxc launch images:debian/jessie/amd64  ${CONTAINER_NAME}
-      # Debian doesn't work because of https://github.com/systemd/systemd/issues/719
-      lxc launch --ephemeral ubuntu:16.04 ${CONTAINER_NAME}
+
+      # lxc launch --ephemeral ubuntu:16.04 ${CONTAINER_NAME}
+
+      lxc launch --ephemeral ${LXC_BASE_IMAGE} ${CONTAINER_NAME}
       lxc list
 
   destroy-container:
@@ -29,4 +29,3 @@ scripts:
       lxc info ${CONTAINER_NAME}
       lxc delete --force ${CONTAINER_NAME}
       lxc list
-

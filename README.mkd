@@ -42,12 +42,12 @@ See the `./inventories` directory for examples.
 
 ### Install or Upgrade Madek
 
-    ansible-playbook -i $MY_INVENTORY_PATH  play_setup-and-deploy.yml
+    bin/ansible-playbook -i $MY_INVENTORY_PATH  play_setup-and-deploy.yml
 
 
 ### Create a Admin User and set the Password
 
-    ansible-playbook -i my_hosts play_create-admin.yml -e 'admin_password=YOUR-SECRETE-PASSWORD'
+    bin/ansible-playbook -i my_hosts play_create-admin.yml -e 'admin_password=YOUR-SECRETE-PASSWORD'
 
 This will create (or update) a user with the login `admin` and the given
 password.
@@ -70,7 +70,7 @@ Vault].
 Caveat: the [Ansible rules of precedence] should be understood when proceeding
 in this manner. At any rate, invoking
 
-    ansible-playbook -i my_hosts play_info.yml --vault-password-file inventories/zhdk/vault-pass
+    bin/ansible-playbook -i my_hosts play_info.yml --vault-password-file inventories/zhdk/vault-pass
 
 (possibly with augmented arguments) will show the actual used values and
 is recommended to be consulted for confirmation.
@@ -83,7 +83,7 @@ is recommended to be consulted for confirmation.
 
 Example:
 
-    ansible-playbook -i inventories/zhdk/staging-v3-pdata play_dump-and-fetch-data.yml
+    bin/ansible-playbook -i inventories/zhdk/staging-v3-pdata play_dump-and-fetch-data.yml
 
 
 This will dump and fetch `data` as well as `structure_and_data` into
@@ -109,5 +109,3 @@ Importing Data
 Example
 
     rsync -e ssh -Pav root@madek.*************.**:/var/local/madek-file-storage/* /opt/madekdata/
-
-

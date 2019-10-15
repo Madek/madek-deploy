@@ -1,11 +1,11 @@
 - name: remove previously installed madek server
   file:
-    path: '{{madek_server_dir}}'
+    path: "{{madek_server_dir}}"
     state: absent
 
 - name: make sure madek root dir is present
   file:
-    path: '{{madek_root_dir}}'
+    path: "{{madek_root_dir}}"
     state: directory
 
 - name: unpack and move archive in place
@@ -18,11 +18,10 @@
 - name: add deploy info to file
   lineinfile:
     dest: "{{madek_server_dir}}/config/deploy-info.yml"
-    insertafter: '^---$'
+    insertafter: "^---$"
     # NOTE: `build_is_latest_release` set by `find_or_build_archive` role
     line: 'deployed: { time: "{{ ansible_date_time.iso8601 }}", is_release: {{ hostvars.localhost.build_is_latest_release|trim }} }'
-    validate: ruby -e 'require "yaml"; YAML.safe_load(File.read("%s"))'
-
+    validate: /usr/local/bin/chruby-exec {{ madek_ruby_versions.datalayer }} -- ruby -e 'require "yaml"; YAML.safe_load(File.read("%s"))'
 
 # FIXME: https://github.com/ansible/ansible/issues/39456
 - name: change owner
