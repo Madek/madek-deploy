@@ -10,12 +10,20 @@ SyslogIdentifier=madek-{{service.name}}
 WorkingDirectory={{service_dir}}
 User={{madek_user}}
 Group={{madek_user}}
+TimeoutStopSec=5
 Environment=TMPDIR={{madek_tmp_dir}}
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
 Environment=RAILS_TIME_ZONE={{rails_timezone}}
 Environment=RAILS_RELATIVE_URL_ROOT={{service.context}}
+{% if service.puma_config|default(false) %}
+Environment=MADEK_MAX_WORKERS={{service.max_workers}}
+Environment=MADEK_MAX_THREADS={{service.max_threads_per_worker}}
+ExecStart=/usr/local/bin/chruby-exec 'ruby-{{service.ruby_version}}' -- bundle exec puma -C {{service.puma_config}} -b 'tcp://localhost:{{service.http_port}}' config.ru
+{% else %}
 ExecStart=/usr/local/bin/chruby-exec 'ruby-{{service.ruby_version}}' -- bundle exec puma -e production -t '1:{{service.max_threads_per_worker}}' -b 'tcp://localhost:{{service.http_port}}' config.ru
+{% endif %}
+
 
 [Install]
 WantedBy=multi-user.target
