@@ -112,6 +112,7 @@ madek_virtual_hosts:
 
 madek_disallow_search_engine_crawlers: no
 madek_block_useragents: []
+madek_proxy_add_headers: true # must be set to false for hosts behind reverse proxy
 
 ################################################################################
 ### web contexts ###############################################################
