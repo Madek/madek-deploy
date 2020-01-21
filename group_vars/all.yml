@@ -35,6 +35,7 @@ mini_profiler_enabled: no
 
 madek_ruby_versions:
   datalayer: 2.6.3
+  graphql_api: 2.6.3
   admin_webapp: 2.6.3
   webapp: 2.6.3
 
@@ -94,6 +95,7 @@ madek_database_secret: "{{['database', madek_master_secret ] | join() | hash('sh
 
 # alpha feature, NOT for production! enable it by setting it to "on my own risk"
 madek_feature_toggle_admin_sql_reports: false
+madek_graphql_api_preview_enabled: false
 
 ###############################################################################
 ### http server ###############################################################
@@ -122,6 +124,7 @@ madek_base_name: madek
 madek_webapp_port: 8880
 madek_admin_port: 8881
 madek_api_port: 8885
+madek_graphql_api_port: 8886
 
 ################################################################################
 ### reset ######################################################################
@@ -172,18 +175,23 @@ madek_admin_service_name: "{{madek_base_name}}_admin-webapp"
 madek_api_dir: "{{madek_server_dir}}/api"
 madek_api_service_name: "{{madek_base_name}}_api"
 
+madek_graphql_api_dir: "{{madek_server_dir}}/api"
+madek_graphql_api_service_name: "{{madek_base_name}}_api"
+
 madek_user_docs_dir: "{{madek_root_dir}}/user-docs"
 madek_user_docs_web_path: "/hilfe"
 
 madek_services:
-  # caveat: the name of the keys matter for sorting;
+  # NOTE: the name of the keys matter for sorting;
   # webapp must be the last in pythons default sorting
   # because it otherwise eats all routes since it is not
   # scoped
+  # FIXME: use array (hash key is not important anyways)
 
   api:
     name: api
     type: java
+    active: true
     dir: /api
     http_port: "{{madek_api_port}}"
     context: /api
@@ -192,9 +200,25 @@ madek_services:
     monit_check_urls:
       - http://localhost:{{madek_api_port}}/api/status
 
+  graphql_api:
+    name: graphql-api
+    type: rails
+    active: "{{madek_graphql_api_preview_enabled}}"
+    ruby_version: "{{madek_ruby_versions.graphql_api}}"
+    max_threads_per_worker: 2
+    dir: /graphql-api
+    assets_sub_dir: /public/assets
+    http_port: "{{madek_graphql_api_port}}"
+    context: "/graphql"
+    xmx: 512m
+    monit_match: 'puma.*\:{{madek_graphql_api_port}}'
+    monit_check_urls:
+      - http://localhost:{{madek_graphql_api_port}}/graphql/graphiql
+
   admin_webapp:
     name: admin-webapp
     type: rails
+    active: true
     ruby_version: "{{madek_ruby_versions.admin_webapp}}"
     max_threads_per_worker: 2
     dir: /admin-webapp
@@ -209,6 +233,7 @@ madek_services:
   webapp:
     name: webapp
     type: rails
+    active: true
     ruby_version: "{{madek_ruby_versions.webapp}}"
     puma_config: "./config/puma.rb"
     max_workers: "{{ansible_processor_vcpus}}"

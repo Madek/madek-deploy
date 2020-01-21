@@ -8,10 +8,10 @@
   template:
     src: java.service
     dest: /etc/systemd/system/madek_{{service.name}}.service
-  when: service.type == 'java'
+  when: "service.active and service.type == 'java'"
 
 - name: setup {{service.name}} rails service
   template:
     src: rails.service
     dest: /etc/systemd/system/madek_{{service.name}}.service
-  when: service.type == 'rails'
+  when: "service.active and service.type == 'rails'"
