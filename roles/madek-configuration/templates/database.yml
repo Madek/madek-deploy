@@ -6,5 +6,5 @@
   port: {{database.port}}
   pool: 20
   host: 127.0.0.1
-  username: '{{database.user}}'
-  password: '{{database.password}}'
+  username: '{{service.database.user}}'
+  password: '{{service.database.password}}'

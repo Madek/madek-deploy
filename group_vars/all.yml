@@ -181,6 +181,15 @@ madek_graphql_api_service_name: "{{madek_base_name}}_api"
 madek_user_docs_dir: "{{madek_root_dir}}/user-docs"
 madek_user_docs_web_path: "/hilfe"
 
+# database
+database:
+  user: "{{madek_user}}"
+  password: "{{madek_database_secret}}"
+  hostname: localhost
+  port: 5432
+  name: "{{madek_base_name}}_production"
+  pool: 5 # should be (service.max_threads_per_worker - 1)
+
 madek_services:
   # NOTE: the name of the keys matter for sorting;
   # webapp must be the last in pythons default sorting
@@ -210,6 +219,9 @@ madek_services:
     assets_sub_dir: /public/assets
     http_port: "{{madek_graphql_api_port}}"
     context: "/graphql"
+    database:
+      user: "{{database.user}}-readonly"
+      password: "{{database.password}}-readonly"
     xmx: 512m
     monit_match: 'puma.*\:{{madek_graphql_api_port}}'
     monit_check_urls:
@@ -225,6 +237,7 @@ madek_services:
     assets_sub_dir: /public/admin/assets
     http_port: "{{madek_admin_port}}"
     context: "/admin"
+    database: { user: "{{database.user}}", password: "{{database.password}}" }
     xmx: 512m
     monit_match: 'puma.*\:{{madek_admin_port}}'
     monit_check_urls:
@@ -239,18 +252,10 @@ madek_services:
     max_workers: "{{ansible_processor_vcpus}}"
     max_threads_per_worker: 4
     dir: /webapp
+    database: { user: "{{database.user}}", password: "{{database.password}}" }
     assets_sub_dir: /public/assets
     http_port: "{{madek_webapp_port}}"
     context: ""
     monit_match: 'puma.*\:{{madek_webapp_port}}'
     monit_check_urls:
       - http://localhost:{{madek_webapp_port}}/status
-
-# database
-database:
-  user: "{{madek_user}}"
-  password: "{{madek_database_secret}}"
-  hostname: localhost
-  port: 5432
-  name: "{{madek_base_name}}_production"
-  pool: 5 # should be (service.max_threads_per_worker - 1)

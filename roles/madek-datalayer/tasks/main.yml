@@ -120,3 +120,33 @@
 #     group: root
 #     state: directory
 #     recurse: yes
+
+- name: check for read-only postgresql role
+  args: { warn: no }
+  changed_when: false
+  register: check_readonly_postgresql_role
+  shell: sudo -iu postgres psql -c "SELECT 'already exists' FROM pg_catalog.pg_roles WHERE rolname = 'madek_role_readonly'"
+
+- name: add read-only postgresql role
+  args: { warn: no }
+  when: '"already exists" not in check_readonly_postgresql_role.stdout'
+  shell: sudo -iu postgres psql -c "CREATE ROLE madek_role_readonly NOLOGIN;"
+
+- name: check for read-only postgresql user
+  args: { warn: no }
+  changed_when: false
+  register: check_readonly_postgresql_user
+  shell: sudo -iu postgres psql -c "SELECT 'already exists' FROM pg_catalog.pg_roles WHERE rolname = '{{database.user}}-readonly'"
+
+- name: add read-only postgresql user
+  args: { warn: no }
+  when: '"already exists" not in check_readonly_postgresql_user.stdout'
+  shell: sudo -iu postgres psql -c "CREATE ROLE \"{{database.user}}-readonly\" LOGIN;"
+
+- name: configure privileges read-only postgresql user
+  args: { warn: no }
+  shell: >
+    sudo -iu postgres psql -d '{{database.name}}' -c '
+      GRANT SELECT ON ALL TABLES IN SCHEMA public TO "madek-readonly";
+      GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO "madek-readonly";
+      GRANT "madek_role_readonly" TO "{{database.user}}-readonly";'

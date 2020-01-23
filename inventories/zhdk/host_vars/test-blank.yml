@@ -30,7 +30,7 @@ db_backups_enabled: False
 # db_backups_dir: /opt/madekdata/backups
 restore_structure_and_data: no
 madek_feature_toggle_admin_sql_reports: "on my own risk"
-madek_graphql_api_preview_enabled: false
+madek_graphql_api_preview_enabled: true
 
 ###############################################################################
 ### file storage ##############################################################
