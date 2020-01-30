@@ -4,7 +4,7 @@
     state: stopped
   failed_when: false
 
-- name: remove monit madek service monitoring
+- name: remove monit madek service watchdog
   shell: rm -rf /etc/monit/conf.d/cider-ci_*  /etc/monit/conf.d/madek_*
 
 - name: stop all madek services
@@ -26,5 +26,3 @@
 - name: kill all remaining processes of the user madek
   shell: pkill -u {{madek_user}}
   failed_when: false
-
-
