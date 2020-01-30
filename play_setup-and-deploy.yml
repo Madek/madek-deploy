@@ -66,8 +66,8 @@
           tags: [services]
 
         - import_role:
-            name: monitoring
-          tags: [monitoring]
+            name: watchdog
+          tags: [watchdog]
 
         - import_role:
             name: reverse-proxy

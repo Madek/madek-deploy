@@ -3,7 +3,7 @@
   roles:
     - role: os-setup
     - role: ruby-setup
-    - role: monitoring
+    - role: watchdog
 
     - role: postgresql
     - role: madek-rails-dummy-install
