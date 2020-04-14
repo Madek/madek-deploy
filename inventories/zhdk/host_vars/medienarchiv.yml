@@ -1,35 +1,86 @@
+###############################################################################
+### ansible stuff #############################################################
+###############################################################################
+
 ansible_ssh_host: medienarchiv.zhdk.ch
 ansible_ssh_user: root
 
-madek_welcome_title: false
-madek_site_title: false
+
+###############################################################################
+### URL etc ###################################################################
+###############################################################################
 
 madek_external_hostname: medienarchiv.zhdk.ch
 
-madek_master_secret: "{{medienarchiv.madek_master_secret}}"
 
-madek_disallow_search_engine_crawlers: no
-madek_block_useragents:
-  ["AhrefsBot", "SemrushBot", "PiplBot", "seo4ajax", "BLEXBot"]
+###############################################################################
+### ZHdK ######################################################################
+###############################################################################
 
-zencoder_enabled: True
-zencoder_api_key: "{{zhdk_zencoder_api_key}}"
-zencoder_test_mode: False
+zhdk_integration: True
+zhdk_agw_api_key: "{{zhdk_agw_api_prod_key}}"
+zhdk_agw_api_url: "https://intern.zhdk.ch/?auth/{{zhdk_agw_api_prod_app}}"
+
+
+###############################################################################
+### database (deployment) handlling ###########################################
+###############################################################################
 
 db_backups_enabled: True
 db_backups_dir: /opt/madekdata/backups
+# restore_structure_and_data: no
+# madek_feature_toggle_admin_sql_reports: "on my own risk"
 
-prtg_monitoring: "{{medienarchiv.prtg_monitoring}}" # from `secrets.yml`
 
-zhdk_integration: True
+###############################################################################
+### file storage ##############################################################
+###############################################################################
 
 madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/attachments
 madek_thumbnail_storage_dir: /opt/madekdata/attachments
 madek_tmp_dir: /opt/madekdata/tmp
-# setting up proper owner etc  is very slow and should only be necessary
-# when we switch servers or something
-setup_storage_directories: no
+setup_storage_directories: no  # adjusts permissions, very slow, usually not necessary
+
+
+###############################################################################
+### transcoding ###############################################################
+###############################################################################
+
+zencoder_enabled: True
+zencoder_api_key: "{{zhdk_zencoder_api_key}}"
+zencoder_test_mode: False
+
+
+###############################################################################
+### monitoring ################################################################
+###############################################################################
+
+prtg_monitoring: "{{medienarchiv.prtg_monitoring}}" # from `secrets.yml`
+
+
+###############################################################################
+### crawler, SEO ##############################################################
+###############################################################################
+
+madek_disallow_search_engine_crawlers: no
+madek_block_useragents:
+  ["AhrefsBot", "SemrushBot", "PiplBot", "seo4ajax", "BLEXBot"]
+
+
+###############################################################################
+### other #####################################################################
+###############################################################################
+
+madek_master_secret: "{{medienarchiv.madek_master_secret}}"
+
+
+###############################################################################
+### UI and appearance #########################################################
+###############################################################################
+
+madek_welcome_title: false
+madek_site_title: false
 
 madek_webapp_html_extra_body_start: |
   <!-- Piwik Image Tracker-->

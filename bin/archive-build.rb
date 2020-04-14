@@ -8,7 +8,7 @@ require 'fileutils'
 
 APP_NAME='madek'
 LEIN_SERVICES= %w(api)
-RAILS_SERVICES= %w(webapp admin-webapp)
+RAILS_SERVICES= %w(webapp admin-webapp graphql-api)
 
 DEPLOY_DIR= Pathname.new(File.dirname(File.absolute_path(__FILE__))).join("..").to_s
 SOURCE_DIR= File.absolute_path("#{DEPLOY_DIR}/..")

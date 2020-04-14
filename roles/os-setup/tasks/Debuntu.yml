@@ -1,3 +1,9 @@
+- name: Add backports repository for Debian buster
+  apt_repository:
+    repo: deb http://deb.debian.org/debian buster-backports main
+  tags: [internet]
+  when: '(ansible_distribution == "Debian" and ansible_distribution_release == "buster")'
+
 - name: dist upgrade
   apt: upgrade=dist update_cache=yes cache_valid_time=3600
 
@@ -48,7 +54,8 @@
 - name: Set vim-nox as default editor
   command: update-alternatives --set editor /usr/bin/vim.nox
   register: result
-  changed_when: result.stdout | search("using \/usr\/bin\/vim\.nox")
+  # FIXME: this is broken in newer ansible (but also not really important)
+  # changed_when: 'result.stdout | search("using \/usr\/bin\/vim\.nox")'
 
 - lineinfile:
     dest: "{{ansible_env.HOME}}/.bashrc"

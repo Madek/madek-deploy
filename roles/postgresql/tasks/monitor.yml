@@ -1,4 +1,4 @@
-- name: configure database monitoring
+- name: configure database watchdog
   template:
     src: postgresql.monit
     dest: /etc/monit/conf.d/postgresql

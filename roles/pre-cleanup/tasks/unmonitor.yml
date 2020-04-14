@@ -4,7 +4,7 @@
     state: stopped
   failed_when: false
 
-- name: remove madek monitorings
+- name: remove madek watchdogs
   shell: |
     set -eux
     rm -f /etc/monit/conf.d/madek_*

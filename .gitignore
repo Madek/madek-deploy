@@ -1,10 +1,11 @@
-/tmp
-.project
-.mux.yml
-.retry
 #*tar.gz*
 *retry
-master_secret.txt
-vagrant-ssh-config
+.mux.yml
+.project
+.retry
 .virtualenv
 /.vagrant
+/tmp
+madek.tar.gz
+master_secret.txt
+vagrant-ssh-config

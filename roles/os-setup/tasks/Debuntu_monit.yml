@@ -1,8 +1,13 @@
 ### install and configure monit ###############################################
 
 - name: install monit
-  apt: name={{packages}} state=latest update_cache=yes cache_valid_time=3600
-  vars: { packages: [ monit ] }
+  apt:
+    name: monit
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+    default_release: '{% if ansible_distribution_release == "buster" %}buster-backports{% endif %}'
+
 
 - name: configure monit service interval
   lineinfile:

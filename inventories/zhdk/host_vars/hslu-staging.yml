@@ -9,6 +9,7 @@ shibboleth_sign_in_enabled: True
 shibboleth_sign_in_url_base: "https://{{madek_external_hostname}}/Shibboleth.sso/Login"
 shibboleth_sign_in_url_target: "https://{{madek_external_hostname}}/Shibboleth.sso/Session"
 shibboleth_gateway_ip: 195.176.247.169
+madek_proxy_add_headers: false
 
 madek_master_secret: "{{hslu.madek_master_secret}}"
 

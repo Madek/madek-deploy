@@ -34,15 +34,16 @@ mini_profiler_enabled: no
 ################################################################################
 
 madek_ruby_versions:
-  datalayer: 2.6.3
-  admin_webapp: 2.6.3
-  webapp: 2.6.3
+  datalayer: 2.6.6
+  graphql_api: 2.6.6
+  admin_webapp: 2.6.6
+  webapp: 2.6.6
 
 ################################################################################
 ### API ########################################################################
 ################################################################################
 
-api_cors_enabled: False
+api_cors_enabled: True
 
 ################################################################################
 ### Zencoder Encoding Settings #################################################
@@ -94,6 +95,7 @@ madek_database_secret: "{{['database', madek_master_secret ] | join() | hash('sh
 
 # alpha feature, NOT for production! enable it by setting it to "on my own risk"
 madek_feature_toggle_admin_sql_reports: false
+madek_graphql_api_preview_enabled: false
 
 ###############################################################################
 ### http server ###############################################################
@@ -112,6 +114,7 @@ madek_virtual_hosts:
 
 madek_disallow_search_engine_crawlers: no
 madek_block_useragents: []
+madek_proxy_add_headers: true # must be set to false for hosts behind reverse proxy
 
 ################################################################################
 ### web contexts ###############################################################
@@ -121,6 +124,7 @@ madek_base_name: madek
 madek_webapp_port: 8880
 madek_admin_port: 8881
 madek_api_port: 8885
+madek_graphql_api_port: 8886
 
 ################################################################################
 ### reset ######################################################################
@@ -171,52 +175,11 @@ madek_admin_service_name: "{{madek_base_name}}_admin-webapp"
 madek_api_dir: "{{madek_server_dir}}/api"
 madek_api_service_name: "{{madek_base_name}}_api"
 
+madek_graphql_api_dir: "{{madek_server_dir}}/api"
+madek_graphql_api_service_name: "{{madek_base_name}}_api"
+
 madek_user_docs_dir: "{{madek_root_dir}}/user-docs"
 madek_user_docs_web_path: "/hilfe"
-
-madek_services:
-  # caveat: the name of the keys matter for sorting;
-  # webapp must be the last in pythons default sorting
-  # because it otherwise eats all routes since it is not
-  # scoped
-
-  api:
-    name: api
-    type: java
-    dir: /api
-    http_port: "{{madek_api_port}}"
-    context: /api
-    main: madek.api.main
-    monit_match: 'java.*madek\.api\.main'
-    monit_check_urls:
-      - http://localhost:{{madek_api_port}}/api/status
-
-  admin_webapp:
-    name: admin-webapp
-    type: rails
-    ruby_version: "{{madek_ruby_versions.admin_webapp}}"
-    max_threads_per_worker: 2
-    dir: /admin-webapp
-    assets_sub_dir: /public/admin/assets
-    http_port: "{{madek_admin_port}}"
-    context: "/admin"
-    xmx: 512m
-    monit_match: 'puma.*\:{{madek_admin_port}}'
-    monit_check_urls:
-      - http://localhost:{{madek_admin_port}}/admin/status
-
-  webapp:
-    name: webapp
-    type: rails
-    ruby_version: "{{madek_ruby_versions.webapp}}"
-    max_threads_per_worker: 4
-    dir: /webapp
-    assets_sub_dir: /public/assets
-    http_port: "{{madek_webapp_port}}"
-    context: ""
-    monit_match: 'puma.*\:{{madek_webapp_port}}'
-    monit_check_urls:
-      - http://localhost:{{madek_webapp_port}}/status
 
 # database
 database:
@@ -225,4 +188,74 @@ database:
   hostname: localhost
   port: 5432
   name: "{{madek_base_name}}_production"
-  pool: 10
+  pool: 5 # should be (service.max_threads_per_worker - 1)
+
+madek_services:
+  # NOTE: the name of the keys matter for sorting;
+  # webapp must be the last in pythons default sorting
+  # because it otherwise eats all routes since it is not
+  # scoped
+  # FIXME: use array (hash key is not important anyways)
+
+  api:
+    name: api
+    type: java
+    active: true
+    dir: /api
+    http_port: "{{madek_api_port}}"
+    context: /api
+    main: madek.api.main
+    monit_match: 'java.*madek\.api\.main'
+    monit_check_urls:
+      - http://localhost:{{madek_api_port}}/api/status
+
+  graphql_api:
+    name: graphql-api
+    type: rails
+    active: "{{madek_graphql_api_preview_enabled}}"
+    ruby_version: "{{madek_ruby_versions.graphql_api}}"
+    max_threads_per_worker: 2
+    dir: /graphql-api
+    assets_sub_dir: /public/assets
+    http_port: "{{madek_graphql_api_port}}"
+    context: "/graphql"
+    database:
+      user: "{{database.user}}-readonly"
+      password: "{{database.password}}-readonly"
+    xmx: 512m
+    monit_match: 'puma.*\:{{madek_graphql_api_port}}'
+    monit_check_urls:
+      - http://localhost:{{madek_graphql_api_port}}/graphql/graphiql
+
+  admin_webapp:
+    name: admin-webapp
+    type: rails
+    active: true
+    ruby_version: "{{madek_ruby_versions.admin_webapp}}"
+    max_threads_per_worker: 2
+    dir: /admin-webapp
+    assets_sub_dir: /public/admin/assets
+    http_port: "{{madek_admin_port}}"
+    context: "/admin"
+    database: { user: "{{database.user}}", password: "{{database.password}}" }
+    xmx: 512m
+    monit_match: 'puma.*\:{{madek_admin_port}}'
+    monit_check_urls:
+      - http://localhost:{{madek_admin_port}}/admin/status
+
+  webapp:
+    name: webapp
+    type: rails
+    active: true
+    ruby_version: "{{madek_ruby_versions.webapp}}"
+    puma_config: "./config/puma.rb"
+    max_workers: "{{ansible_processor_vcpus}}"
+    max_threads_per_worker: 4
+    dir: /webapp
+    database: { user: "{{database.user}}", password: "{{database.password}}" }
+    assets_sub_dir: /public/assets
+    http_port: "{{madek_webapp_port}}"
+    context: ""
+    monit_match: 'puma.*\:{{madek_webapp_port}}'
+    monit_check_urls:
+      - http://localhost:{{madek_webapp_port}}/status

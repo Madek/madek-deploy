@@ -6,6 +6,10 @@ scripts:
     body: |
       #!/usr/bin/env bash
       set -eux
+
+      echo 'wait for HTTP'
+      lxc exec ${CONTAINER_NAME} -- bash -c 'until curl -i --fail http://localhost/api/status; do sleep 3; done'
+
       echo 'application statuses'
       lxc exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost/api/status
       lxc exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost/admin/status

@@ -1,5 +1,4 @@
 zhdk_integration: True # turns on AGW support + custom ldap groups handling
-zhdk_agw_api_url: https://intern.zhdk.ch/?auth/madek # key is in ./secrets.yml!
 zhdk_admin_ids: [
   10301, # susanneschumacher
   162294, # birkweiberg
