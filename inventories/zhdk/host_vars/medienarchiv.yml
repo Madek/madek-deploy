@@ -43,6 +43,16 @@ madek_tmp_dir: /opt/madekdata/tmp
 setup_storage_directories: no  # adjusts permissions, very slow, usually not necessary
 
 
+
+###############################################################################
+### ldap user, group sync #####################################################
+###############################################################################
+
+zhdk_sync_api_token: "{{medienarchiv.zhdk_sync_api_token}}" # from `secrets.yml`
+zhdk_sync_ldap_password: "{{zhdk_ldap_password}}" # from `secrets.yml`
+
+
+
 ###############################################################################
 ### transcoding ###############################################################
 ###############################################################################
