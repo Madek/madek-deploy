@@ -12,6 +12,7 @@
     - when: "prtg_monitoring is defined"
       import_tasks: "./tasks/prtg_monitoring.yml"
       vars: { paused: yes, pause_minutes: 30 }
+      ignore_errors: yes
 
     - name: deploy
       block:
@@ -82,3 +83,4 @@
         - when: "prtg_monitoring is defined"
           import_tasks: "./tasks/prtg_monitoring.yml"
           vars: { paused: no }
+          ignore_errors: yes

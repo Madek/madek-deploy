@@ -4,6 +4,7 @@ ansible_ssh_user: root
 madek_vim_mode: true
 
 madek_external_hostname: madek.hfg-karlsruhe.de
+madek_is_behind_gateway: true
 
 shibboleth_sign_in_enabled: False
 

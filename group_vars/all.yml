@@ -114,7 +114,7 @@ madek_virtual_hosts:
 
 madek_disallow_search_engine_crawlers: no
 madek_block_useragents: []
-madek_proxy_add_headers: true # must be set to false for hosts behind reverse proxy
+madek_is_behind_gateway: false # set to true if host is behind a HTTP gateway / reverse proxy
 
 ################################################################################
 ### web contexts ###############################################################
