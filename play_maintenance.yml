@@ -16,6 +16,7 @@
         password: "{{secret_key_base}}"
         force_basic_auth: yes
         method: POST
-        HEADER_Content-Type: application/ruby
+        headers:
+          Content-Type: application/ruby
         return_content: yes
         body: "{{lookup('file', ruby_script)}}"

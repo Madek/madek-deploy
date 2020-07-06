@@ -1,0 +1,71 @@
+- debug:
+    msg: "UPGRADING POSTGRESQL SERVER from 9.5 to 10"
+
+- name: stop postgresql service (to free up the port before upgrading)
+  service:
+    name: postgresql
+    state: stopped
+  ignore_errors: True
+
+
+- name: Remove conflicting pg clients
+  apt:
+    pkg:
+      - postgresql-client-11
+      - postgresql-client-12
+    state: absent
+    purge: yes
+    update_cache: yes
+    cache_valid_time: 3600
+  tags: [internet]
+
+- name: Install postgresql 10
+  apt:
+    pkg:
+      - sudo
+      - libpq-dev
+      - postgresql-client-10
+      - postgresql-contrib-10
+      - postgresql-10
+      - python-psycopg2
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  tags: [internet]
+
+- name: drop pg 10 cluster
+  shell: pg_dropcluster --stop 10 main
+  ignore_errors: True
+
+- name: upgrade to pg 10
+  shell: pg_upgradecluster -m upgrade 9.5 main
+  ignore_errors: True
+
+- name: drop 9.5 cluster
+  shell: pg_dropcluster 9.5 main
+  ignore_errors: True
+
+- name: Remove earlier installations of postgresql
+  apt:
+    pkg:
+      - postgresql-9.4
+      - postgresql-9.5
+      - postgresql-9.6
+    state: absent
+    purge: yes
+    update_cache: yes
+    cache_valid_time: 3600
+  tags: [internet]
+
+- name: start the server
+  service:
+    name: postgresql
+    state: started
+
+- name: VACUUM ANALYZE
+  postgresql_query:
+    db: "{{database.name}}"
+    login_user: root
+    query: "VACUUM ANALYZE"
+    autocommit: yes
+

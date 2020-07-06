@@ -1,0 +1,8 @@
+- hosts: madek
+
+  tasks:
+    - name: deploy
+      block:
+        - import_role:
+            name: postgresql
+          tags: [postgresql, pg_upgrade]

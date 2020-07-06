@@ -1,0 +1,10 @@
+- name: Add pgdg apt key
+  apt_key:
+    id: ACCC4CF8
+    url: http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc
+  tags: [internet]
+
+- name: Add pgdg apt repository
+  apt_repository:
+    repo: deb http://apt.postgresql.org/pub/repos/apt/ {{ansible_distribution_release}}-pgdg main
+  tags: [internet]

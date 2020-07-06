@@ -1,20 +1,13 @@
-- include: install.yml
+- include_tasks: apt.yml
 
-- include: monitor.yml
+- package_facts:
+    manager: auto
 
-- name: check root postgresql user
-  args: { warn: no }
-  changed_when: false
-  register: check_root_postgresql_user
-  shell: sudo -iu postgres psql -c "SELECT 'already exists' FROM pg_catalog.pg_roles WHERE rolname = 'root'"
+- include_tasks: upgrade_95_to_10.yml
+  when: "'postgresql-9.5' in ansible_facts.packages"
 
-- name: add root postgresql user
-  args: { warn: no }
-  when: '"already exists" not in check_root_postgresql_user.stdout'
-  shell: sudo -iu postgres psql -c "CREATE ROLE root SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN;"
+- include_tasks: install.yml
 
-- name: Create the a database for root
-  postgresql_db:
-    name: root
-    login_user: root
-    owner: root
+- include_tasks: root_user.yml
+
+- include_tasks: monitor.yml

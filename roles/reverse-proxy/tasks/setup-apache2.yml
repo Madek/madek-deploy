@@ -11,7 +11,7 @@
     removes: /etc/apache2/sites-enabled/000-default.conf
 
 - name: Enable modules
-  shell:  a2enmod {{item}}
-  register: result
-  with_items: '{{apache2_modules}}'
-  changed_when: result.stdout | search("Enabling module")
+  apache2_module:
+    state: present
+    name: "{{item}}"
+  loop: "{{apache2_modules}}"

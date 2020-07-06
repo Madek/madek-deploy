@@ -9,8 +9,8 @@
     password: "{{secret_key_base}}"
     force_basic_auth: yes
     method: POST
-    HEADER_Content-Type: application/ruby
-    register: previous_uri
+    headers:
+      Content-Type: application/ruby
     body: |
 
       admin_person = Person.find_or_create_by pseudonym: 'Admin', subtype: 'Person'
