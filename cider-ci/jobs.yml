@@ -175,7 +175,8 @@
   include: cider-ci/jobs/deploy-defaults.yml
   name: "\uD83C\uDFE2 Deploy to test-blank"
   description: Deploy to test-blank incl. Re-Installation & First Time Setups ("Fresh Instance")
-  run_when: *RUN_ON_MASTER_AND_DO_NIGHTLY_RESET
+  # NOTE: disable automativ deploy se it can be used for feature previews. No regression, eploy with fresh/empty DB is already (better) tested using containers.
+  # run_when: *RUN_ON_MASTER_AND_DO_NIGHTLY_RESET
   context:
     tasks:
       deploy:
@@ -221,6 +222,22 @@
           deploy:
             start_when:
               got latest data: { script_key: get-latest-data }
+
+"deploy_test-blank_no_restore":
+  include: cider-ci/jobs/deploy-defaults.yml
+  name: "\uD83D\uDEA7 Deploy to test-blank WITHOUT DB-RESTORE!"
+  description: |
+    Deploy to test-blank without touching the DB (for development).
+    Note that previews etc won't work, but UPLOADING does!
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources:
+          "test-blank.madek.zhdk.ch": true
+        environment_variables:
+          HOSTS_FILE: inventories/zhdk/hosts_test-blank
+          DROP_DATABASE: "false"
+          RESTORE_STRUCTURE_AND_DATA: "false"
 
 # includes
 include: cider-ci/jobs/deploy-spiel1.yml
