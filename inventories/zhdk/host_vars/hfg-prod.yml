@@ -29,3 +29,7 @@ db_backups_enabled: True
 db_backups_dir: /opt/madekdata/backups
 
 prtg_monitoring: "{{hfg.prtg_monitoring}}" # from `secrets.yml`
+
+madek_webapp_html_extra_head_end: |
+  <style>.ui-header-logo { background-size: auto 9px }</style>
+

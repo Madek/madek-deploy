@@ -28,6 +28,7 @@ madek_tmp_dir: /opt/madekdata/tmp
 setup_storage_directories: no # dont do it, files are mounted read-only!
 
 madek_webapp_html_extra_head_end: |
+  <style>.ui-header-logo { background-size: auto 15px }</style>
   <!-- Staging Note -->
   <style>
         body:before {
@@ -39,3 +40,4 @@ madek_webapp_html_extra_head_end: |
         }
   </style>
   <!-- End Staging Note -->
+
