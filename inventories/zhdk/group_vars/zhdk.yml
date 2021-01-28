@@ -1,11 +1,7 @@
 zhdk_integration: True # turns on AGW support + custom ldap groups handling
 zhdk_admin_ids: [
-  10301, # susanneschumacher
-  162294, # birkweiberg
   182749, # tschank
-  186272, # cweckema
   189987, # mkmit
-  195509, # pkuederl
   196200, # malbrech
   158882, # lsotrug
 ]
@@ -31,7 +27,6 @@ ssh_keys:
   - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/mfa')}}"
   - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/michael')}}"
   - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/nimaai')}}"
-  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/phiku')}}"
 
 removed_ssh_keys:
   - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/cislave_madek')}}"
