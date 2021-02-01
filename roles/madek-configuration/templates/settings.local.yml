@@ -41,6 +41,7 @@ webapp_html_extra_content:
     {{madek_webapp_html_extra_body_start | indent(4)}}
   body_end: |
     {{madek_webapp_html_extra_body_end | indent(4)}}
+madek_support_email: '{{madek_support_email}}'
 
 database:
   adapter: "postgresql"
