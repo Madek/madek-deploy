@@ -92,6 +92,8 @@ madek_master_secret: "{{medienarchiv.madek_master_secret}}"
 madek_welcome_title: false
 madek_site_title: false
 
+madek_support_email: 'support.medienarchiv@zhdk.ch'
+
 madek_webapp_html_extra_body_start: |
   <!-- Piwik Image Tracker-->
   <img src="https://analytics.zhdk.ch/piwik.php?idsite=174&rec=1" style="border:0;position:fixed;top:0;left:0" alt="">

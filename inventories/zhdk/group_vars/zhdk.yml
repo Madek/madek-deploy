@@ -31,7 +31,7 @@ ssh_keys:
 removed_ssh_keys:
   - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/cislave_madek')}}"
 
-madek_support_email: 'support.medienarchiv@zhdk.ch'
+madek_support_email: 'support.madek@zhdk.ch'
 madek_webapp_embeds:
   enable_opengraph: true
   twitter_cards_site: '@zhdk'
