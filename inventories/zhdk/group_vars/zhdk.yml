@@ -1,5 +1,6 @@
 zhdk_integration: True # turns on AGW support + custom ldap groups handling
 zhdk_admin_ids: [
+    8817, # poettli
   182749, # tschank
   189987, # mkmit
   196200, # malbrech
