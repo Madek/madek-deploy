@@ -18,7 +18,7 @@ deploy_madek:
         exclusive_global_resources:
           "spiel1.ruby.zhdk.ch": true
         environment_variables:
-          HOSTS_FILE: "inventories/zhdk/hosts_spiel"
+          DEPLOY_TARGET_INVENTORY: "inventories/zhdk/hosts_spiel"
           TARGET_BRANCH: "feat/roles"
 
         scripts:

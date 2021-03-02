@@ -41,5 +41,5 @@ context:
           cd deploy
           echo $(pwd)
           ls -R inventories
-          time bin/ansible-playbook -v -i "${HOSTS_FILE}" play_setup-and-deploy.yml \
+          time bin/ansible-playbook -v -i ${DEPLOY_TARGET_INVENTORY} play_setup-and-deploy.yml \
              --extra-vars "{\"drop_database\": ${DROP_DATABASE}, \"restore_structure_and_data\": ${RESTORE_STRUCTURE_AND_DATA}}"

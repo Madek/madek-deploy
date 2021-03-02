@@ -28,7 +28,7 @@
     tasks:
       deploy:
         environment_variables:
-          HOSTS_FILE: inventories/zhdk/hfg-prod_hosts
+          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hfg-prod_hosts
         exclusive_global_resources:
           "prod-hfg.madek.zhdk.ch": true
 
@@ -48,7 +48,7 @@
     tasks:
       deploy:
         environment_variables:
-          HOSTS_FILE: inventories/zhdk/hfg-staging_hosts
+          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hfg-staging_hosts
           DROP_DATABASE: "true"
           RESTORE_STRUCTURE_AND_DATA: "true"
         exclusive_global_resources:
@@ -72,7 +72,7 @@
     tasks:
       deploy:
         environment_variables:
-          HOSTS_FILE: inventories/zhdk/hslu-prod_hosts
+          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hslu-prod_hosts
         exclusive_global_resources:
           "prod-hslu.madek.zhdk.ch": true
 
@@ -92,7 +92,7 @@
     tasks:
       deploy:
         environment_variables:
-          HOSTS_FILE: inventories/zhdk/hslu-staging_hosts
+          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hslu-staging_hosts
           DROP_DATABASE: "true"
           RESTORE_STRUCTURE_AND_DATA: "true"
         exclusive_global_resources:
@@ -118,7 +118,7 @@
         exclusive_global_resources:
           "medienarchiv.zhdk.ch": true
         environment_variables:
-          HOSTS_FILE: inventories/zhdk/hosts_medienarchiv
+          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_medienarchiv
           # defaults but let's make it very clear here:
           DROP_DATABASE: "false"
           RESTORE_STRUCTURE_AND_DATA: "false"
@@ -141,7 +141,7 @@
         exclusive_global_resources:
           "staging.madek.zhdk.ch": true
         environment_variables:
-          HOSTS_FILE: inventories/zhdk/hosts_staging
+          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_staging
           DROP_DATABASE: "true"
           RESTORE_STRUCTURE_AND_DATA: "true"
 
@@ -165,7 +165,7 @@
         exclusive_global_resources:
           "test.madek.zhdk.ch": true
         environment_variables:
-          HOSTS_FILE: inventories/zhdk/hosts_test
+          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test
           DROP_DATABASE: "true"
           RESTORE_STRUCTURE_AND_DATA: "true"
 
@@ -183,7 +183,7 @@
         exclusive_global_resources:
           "test-blank.madek.zhdk.ch": true
         environment_variables:
-          HOSTS_FILE: inventories/zhdk/hosts_test-blank
+          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test-blank
           DROP_DATABASE: "true"
           RESTORE_STRUCTURE_AND_DATA: "false"
         scripts:
@@ -207,7 +207,7 @@
         exclusive_global_resources:
           "test-blank.madek.zhdk.ch": true
         environment_variables:
-          HOSTS_FILE: inventories/zhdk/hosts_test-blank
+          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test-blank
           DROP_DATABASE: "true"
           RESTORE_STRUCTURE_AND_DATA: "true"
 
@@ -235,7 +235,7 @@
         exclusive_global_resources:
           "test-blank.madek.zhdk.ch": true
         environment_variables:
-          HOSTS_FILE: inventories/zhdk/hosts_test-blank
+          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test-blank
           DROP_DATABASE: "false"
           RESTORE_STRUCTURE_AND_DATA: "false"
 
