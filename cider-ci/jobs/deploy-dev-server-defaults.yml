@@ -1,0 +1,27 @@
+include: cider-ci/jobs/deploy-defaults.yml
+
+context:
+  task_defaults:
+    max_trials: 3
+    traits:
+      ci-executor.madek: yes
+    environment_variables:
+      DROP_DATABASE: "false"
+      RESTORE_STRUCTURE_AND_DATA: "false"
+      RESTORE_STRUCTURE_AND_DATA_FILE: "/tmp/madek_db_latest.pgbin"
+      DEPLOY_TARGET_INVENTORY: 'inventories/zhdk/hosts_zhdk_developers --limit {{DEV_NAME}},localhost'
+
+  tasks:
+    deploy:
+      scripts:
+        deploy:
+          start_when:
+            db-dump-copied-to-server: { script_key: copy-db-dump-to-server }
+
+        # NOTE: this runs even when not needed, but it takes less than 10seconds so lets keep the config simple
+        copy-db-dump-to-server:
+          body: |
+            set -eux
+            rsync -Lh --stats root@staging.madek.zhdk.ch:/opt/madekdata/backups/latest.pgbin /tmp/madek_db_latest.pgbin
+            rsync -Lh --stats /tmp/madek_db_latest.pgbin root@${DEV_NAME}.ruby.zhdk.ch:"${RESTORE_STRUCTURE_AND_DATA_FILE}"
+

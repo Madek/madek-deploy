@@ -239,5 +239,125 @@
           DROP_DATABASE: "false"
           RESTORE_STRUCTURE_AND_DATA: "false"
 
+zzz_deploy_dev_mfa_aaa:
+  name: ⚒ Dev-Server mfa.ruby.zhdk.ch – Deploy Madek
+  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+  context:
+    task_defaults:
+      exclusive_global_resources: { mfa.ruby.zhdk.ch: true }
+      environment_variables:
+        DEV_NAME: mfa
+
+zzz_deploy_dev_mfa_blank:
+  name: ⚒ Dev-Server mfa.ruby.zhdk.ch – Deploy Madek with Blank DB
+  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+  context:
+    task_defaults:
+      exclusive_global_resources: { mfa.ruby.zhdk.ch: true }
+      environment_variables:
+        DEV_NAME: mfa
+        DROP_DATABASE: "true"
+
+zzz_deploy_dev_mfa_proddata:
+  name: ⚒ Dev-Server mfa.ruby.zhdk.ch – Deploy Madek with Prod Data
+  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+  context:
+    task_defaults:
+      exclusive_global_resources: { mfa.ruby.zhdk.ch: true }
+      environment_variables:
+        DEV_NAME: mfa
+        DROP_DATABASE: "true"
+        RESTORE_STRUCTURE_AND_DATA: "true"
+
+zzz_deploy_dev_michal_aaa:
+  name: ⚒ Dev-Server michal.ruby.zhdk.ch – Deploy Madek
+  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+  context:
+    task_defaults:
+      exclusive_global_resources: { michal.ruby.zhdk.ch: true }
+      environment_variables:
+        DEV_NAME: michal
+
+zzz_deploy_dev_michal_blank:
+  name: ⚒ Dev-Server michal.ruby.zhdk.ch – Deploy Madek with Blank DB
+  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+  context:
+    task_defaults:
+      exclusive_global_resources: { michal.ruby.zhdk.ch: true }
+      environment_variables:
+        DEV_NAME: michal
+        DROP_DATABASE: "true"
+
+zzz_deploy_dev_michal_proddata:
+  name: ⚒ Dev-Server michal.ruby.zhdk.ch – Deploy Madek with Prod Data
+  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+  context:
+    task_defaults:
+      exclusive_global_resources: { michal.ruby.zhdk.ch: true }
+      environment_variables:
+        DEV_NAME: michal
+        DROP_DATABASE: "true"
+        RESTORE_STRUCTURE_AND_DATA: "true"
+
+zzz_deploy_dev_nimaai_aaa:
+  name: ⚒ Dev-Server nimaai.ruby.zhdk.ch – Deploy Madek
+  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+  context:
+    task_defaults:
+      exclusive_global_resources: { nimaai.ruby.zhdk.ch: true }
+      environment_variables:
+        DEV_NAME: nimaai
+
+zzz_deploy_dev_nimaai_blank:
+  name: ⚒ Dev-Server tom.ruby.zhdk.ch – Deploy Madek with Blank DB
+  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+  context:
+    task_defaults:
+      exclusive_global_resources: { tom.ruby.zhdk.ch: true }
+      environment_variables:
+        DEV_NAME: tom
+        DROP_DATABASE: "true"
+
+zzz_deploy_dev_nimaai_proddata:
+  name: ⚒ Dev-Server nimaai.ruby.zhdk.ch – Deploy Madek with Prod Data
+  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+  context:
+    task_defaults:
+      exclusive_global_resources: { nimaai.ruby.zhdk.ch: true }
+      environment_variables:
+        DEV_NAME: nimaai
+        DROP_DATABASE: "true"
+        RESTORE_STRUCTURE_AND_DATA: "true"
+
+zzz_deploy_dev_tom_aaa:
+  name: ⚒ Dev-Server tom.ruby.zhdk.ch – Deploy Madek
+  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+  context:
+    task_defaults:
+      exclusive_global_resources: { tom.ruby.zhdk.ch: true }
+      environment_variables:
+        DEV_NAME: tom
+
+zzz_deploy_dev_tom_blank:
+  name: ⚒ Dev-Server tom.ruby.zhdk.ch – Deploy Madek with Blank DB
+  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+  context:
+    task_defaults:
+      exclusive_global_resources: { tom.ruby.zhdk.ch: true }
+      environment_variables:
+        DEV_NAME: tom
+        DROP_DATABASE: "true"
+
+zzz_deploy_dev_tom_proddata:
+  name: ⚒ Dev-Server tom.ruby.zhdk.ch – Deploy Madek with Prod Data
+  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+  context:
+    task_defaults:
+      exclusive_global_resources: { tom.ruby.zhdk.ch: true }
+      environment_variables:
+        DEV_NAME: tom
+        DROP_DATABASE: "true"
+        RESTORE_STRUCTURE_AND_DATA: "true"
+
 # includes
 include: cider-ci/jobs/deploy-spiel1.yml

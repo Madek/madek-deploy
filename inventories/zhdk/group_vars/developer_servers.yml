@@ -1,0 +1,105 @@
+# based on `host_vars/test.yml`
+#
+
+ansible_ssh_user: root
+
+###############################################################################
+### ZHdK ######################################################################
+###############################################################################
+
+zhdk_integration: True
+zhdk_agw_api_key: "{{zhdk_agw_api_test_key}}"
+zhdk_agw_api_url: "https://intern.zhdk.ch/?auth/{{zhdk_agw_api_test_app}}"
+
+###############################################################################
+### database (deployment) handlling ###########################################
+###############################################################################
+
+db_backups_enabled: False
+# db_backups_dir: /opt/madekdata/backups
+
+madek_feature_toggle_admin_sql_reports: "on my own risk"
+madek_graphql_api_preview_enabled: true
+
+###############################################################################
+### file storage ##############################################################
+###############################################################################
+
+madek_storage_dir: /opt/madekdata
+madek_file_storage_dir: /opt/madekdata/attachments
+madek_thumbnail_storage_dir: /opt/madekdata/attachments
+madek_tmp_dir: /opt/madekdata/tmp
+setup_storage_directories: yes
+
+###############################################################################
+### transcoding ###############################################################
+###############################################################################
+
+zencoder_enabled: True
+zencoder_api_key: "{{zhdk_zencoder_api_key}}"
+zencoder_test_mode: True
+
+###############################################################################
+### monitoring ################################################################
+###############################################################################
+
+# prtg_monitoring: "{{test.prtg_monitoring}}" # from `secrets.yml`
+
+###############################################################################
+### crawler, SEO ##############################################################
+###############################################################################
+
+madek_disallow_search_engine_crawlers: yes
+madek_block_useragents:
+  ["AhrefsBot", "SemrushBot", "PiplBot", "seo4ajax", "BLEXBot"]
+
+###############################################################################
+### other #####################################################################
+###############################################################################
+
+madek_master_secret: "{{michal.madek_master_secret}}"
+
+###############################################################################
+### UI and appearance #########################################################
+###############################################################################
+
+# madek_welcome_title: false
+# madek_site_title: false
+
+# madek_webapp_html_extra_body_start: |
+#   <!-- Piwik Image Tracker-->
+#   <img src="https://analytics.zhdk.ch/piwik.php?idsite=172&rec=1" style="border:0;position:fixed;top:0;left:0" alt="">
+#   <!-- End Piwik -->
+
+# # NOTE: this overrides the groups var, content from there must be copied here!
+# madek_webapp_html_extra_head_end: |
+#   <style>
+#   /* configure zhdk logo for player */
+#   .vjs-titlebar .vjs-titlebar-caption {
+#       padding-right: 23vmin;
+#   }
+#   .vjs-titlebar .vjs-titlebar-logo {
+#       width: 23vmin;
+#       background-size: 20vmin 9vmin;
+#       background-position: 5.8vmin center;
+#       background-repeat: no-repeat;
+#       background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2015.3%2032.8%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.73%22%20d%3D%22M7.5%2027.4H.3m7.2%205H.3M7.5.4H.3%22%2F%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M0%2022.5h15.3v-4.4H6.9l8-8.9V5.4H.5v4.3H8l-8%208.6v4.2z%22%2F%3E%3C%2Fsvg%3E")
+#   }
+#   /* hide titlebar and caption, on www.zhdk.ch */
+#   body[data-embedded-view][data-referer-host="www.zhdk.ch"] .videojs.vjs-default-skin .vjs-titlebar { background: none }
+#   body[data-embedded-view][data-referer-host="www.zhdk.ch"] .videojs.vjs-default-skin .vjs-titlebar-caption { display: none }
+
+#   /* configure zhdk logo, on www.zhdk.ch */
+#   body[data-embedded-view][data-referer-host="www.zhdk.ch"] .vjs-titlebar .vjs-titlebar-caption {
+#       padding-right: 23vmin;
+#   }
+#   body[data-embedded-view][data-referer-host="www.zhdk.ch"] .vjs-titlebar .vjs-titlebar-logo {
+#       right: unset;
+#       left: 0;
+#       width: 9vmin;
+#       background-size: 9vmin 9vmin;
+#       background-position: 2.1vmin center;
+#       background-repeat: no-repeat;
+#       background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2015.3%2032.8%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.73%22%20d%3D%22M7.5%2027.4H.3m7.2%205H.3M7.5.4H.3%22%2F%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M0%2022.5h15.3v-4.4H6.9l8-8.9V5.4H.5v4.3H8l-8%208.6v4.2z%22%2F%3E%3C%2Fsvg%3E")
+#   }
+#   </style>
