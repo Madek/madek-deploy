@@ -12,4 +12,4 @@ apt update
 apt install -y -f \
   ssh \
   gcc libcurl4-openssl-dev libxml2-dev \
-  git curl build-essential default-jdk python libssl-dev 
+  python
