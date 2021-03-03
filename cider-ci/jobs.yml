@@ -309,13 +309,13 @@ zzz_deploy_dev_nimaai_aaa:
         DEV_NAME: nimaai
 
 zzz_deploy_dev_nimaai_blank:
-  name: ⚒ Dev-Server tom.ruby.zhdk.ch – Deploy Madek with Blank DB
+  name: ⚒ Dev-Server nimaai.ruby.zhdk.ch – Deploy Madek with Blank DB
   include: cider-ci/jobs/deploy-dev-server-defaults.yml
   context:
     task_defaults:
-      exclusive_global_resources: { tom.ruby.zhdk.ch: true }
+      exclusive_global_resources: { nimaai.ruby.zhdk.ch: true }
       environment_variables:
-        DEV_NAME: tom
+        DEV_NAME: nimaai
         DROP_DATABASE: "true"
 
 zzz_deploy_dev_nimaai_proddata:
