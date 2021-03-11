@@ -3,7 +3,7 @@ traits:
 
 environment_variables:
   RUBY_ENGINE: ruby
-  RUBY_VERSION: 2.6.6
+  RUBY_VERSION: 2.7.2
   RUBY: "{{RUBY_ENGINE}}-{{RUBY_VERSION}}"
 
 scripts:
