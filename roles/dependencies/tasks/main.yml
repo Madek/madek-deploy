@@ -3,3 +3,9 @@
   with_items:
     - imagemagick
     - libimage-exiftool-perl
+
+- name: Install node.js
+  include_role:
+    name: nodejs-install
+  vars:
+    debian_repo_version: '14.x' # should be current LTS or at least in maintenance, see <https://endoflife.date/nodejs>
