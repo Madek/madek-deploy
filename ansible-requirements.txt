@@ -5,5 +5,5 @@
 setuptools>=11.3
 ansible==2.9.10
 pyopenssl==19.0.0
-jinja2==2.8
+jinja2==2.11.3
 passlib==1.7.1
