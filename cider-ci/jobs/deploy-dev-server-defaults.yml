@@ -23,7 +23,7 @@ context:
           # NOTE: this cleanup is only needed when switching between Madek & Leihs and thusly not part of the general deploy
           body: |
             set -eux
-            ssh root@${DEV_NAME}.ruby.zhdk.ch:"${RESTORE_STRUCTURE_AND_DATA_FILE}" -- \
+            ssh root@${DEV_NAME}.ruby.zhdk.ch -- \
               rm -rf /etc/apache2/sites-enabled/*
 
         # NOTE: this runs even when not needed, but it takes less than 10seconds so lets keep the config simple
