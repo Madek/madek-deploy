@@ -175,8 +175,7 @@
   include: cider-ci/jobs/deploy-defaults.yml
   name: "\uD83C\uDFE2 Deploy to test-blank"
   description: Deploy to test-blank incl. Re-Installation & First Time Setups ("Fresh Instance")
-  # NOTE: disable automativ deploy se it can be used for feature previews. No regression, eploy with fresh/empty DB is already (better) tested using containers.
-  # run_when: *RUN_ON_MASTER_AND_DO_NIGHTLY_RESET
+  run_when: *RUN_ON_MASTER_AND_DO_NIGHTLY_RESET
   context:
     tasks:
       deploy:
