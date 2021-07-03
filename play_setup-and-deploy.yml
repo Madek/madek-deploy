@@ -1,5 +1,16 @@
-- hosts: localhost
+- hosts: madek
+  gather_facts: False
+  pre_tasks:
+    - name: install system python
+      raw: |
+        apt -y update
+        if [ $(lsb_release -c -s) = 'focal' ]; then
+          apt install -y python3 python-is-python3
+        else
+          apt install -y python
+        fi
 
+- hosts: localhost
   roles:
     - role: find_or_build_archive
       tags:
@@ -7,7 +18,6 @@
         - get-archive
 
 - hosts: madek
-
   tasks:
     - when: "prtg_monitoring is defined"
       import_tasks: "./tasks/prtg_monitoring.yml"
@@ -16,6 +26,8 @@
 
     - name: deploy
       block:
+        - import_role: { name: os-check }
+
         - import_role: { name: pre-cleanup }
           tags: [pre-cleanup]
 

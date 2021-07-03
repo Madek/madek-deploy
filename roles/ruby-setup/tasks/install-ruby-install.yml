@@ -26,14 +26,6 @@
   apt: pkg=libgdbm-dev state=present update_cache=yes cache_valid_time=3600
   when: '(ansible_distribution == "Debian" and ansible_distribution_release == "buster")'
 
-- name: Install libgdbm version according to distribution (Ubuntu 18+)
-  apt: pkg=libgdbm3 state=present update_cache=yes cache_valid_time=3600
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_major_version|int < 18
-
-- name: Install libgdbm version according to distribution (Ubuntu 16)
-  apt: pkg=libgdbm5 state=present update_cache=yes cache_valid_time=3600
-  when: ansible_distribution == "Ubuntu" and not ansible_distribution_major_version|int < 18
-
 - name: copy and unpack ruby-install install dir
   unarchive:
     src: files/ruby-install-{{madek_ruby_install_version}}.tar.gz
