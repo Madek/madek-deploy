@@ -1,13 +1,50 @@
+- name: Uninstall other postgresql versions
+  apt:
+    pkg:
+    - postgresql-11
+    - postgresql-client-11
+    - postgresql-12
+    - postgresql-client-12
+    - postgresql-13
+    state: absent
+    update_cache: yes
+    cache_valid_time: 3600
+  tags: [internet]
+
+- name: Install psycopg2
+  apt:
+    pkg: python-psycopg2
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  when: >
+    not (ansible_distribution == "Ubuntu"
+    and ansible_distribution_release == "focal")
+
+- name: Install psycopg2
+  apt:
+    pkg: python3-psycopg2
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  when: >
+    (ansible_distribution == "Ubuntu"
+    and ansible_distribution_release == "focal")
+
 - name: Install postgresql
   apt:
     pkg:
-      - sudo
-      - libpq-dev
-      - postgresql-client-10
-      - postgresql-contrib-10
-      - postgresql-10
-      - python-psycopg2
+    - postgresql-10
+    - postgresql-contrib-10
+    - postgresql-client
+    - libpq-dev
+    - sudo
     state: present
     update_cache: yes
     cache_valid_time: 3600
   tags: [internet]
+
+- name: configure default postgresql version
+  template:
+    dest: /etc/postgresql-common/user_clusters
+    src: etc__postgresql-common__user_clusters

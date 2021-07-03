@@ -7,7 +7,7 @@ scripts:
     body: |
       #!/usr/bin/env bash
       set -eux
-      lxc exec ${CONTAINER_NAME} -- ifconfig
+      lxc exec ${CONTAINER_NAME} -- bash -c "ifconfig || ip a s ; cat /etc/os-release"
 
       # remove broken git object reference config
       rm .git/objects/info/alternates

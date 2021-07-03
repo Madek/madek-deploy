@@ -9,10 +9,10 @@
   tags: [internet]
   when: >
     (ansible_distribution == "Ubuntu"
-      and ansible_distribution_release == "xenial")
+      and ansible_distribution_release == "bionic")
     or
     (ansible_distribution == "Debian"
-    and ansible_distribution_release == "stretch")
+      and ansible_distribution_release == "stretch")
 
 - apt:
     name: openjdk-11-jdk
@@ -21,3 +21,6 @@
   when: >
     (ansible_distribution == "Debian"
     and ansible_distribution_release == "buster")
+    or
+    (ansible_distribution == "Ubuntu"
+      and ansible_distribution_release == "focal")
