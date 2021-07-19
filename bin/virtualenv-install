@@ -1,17 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 QUIETARGS=$1 # call this script with `-qqq` for more quietness
+DEPLOY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
 
 {
 
-unset $PYTHONPATH
-
-python -m ensurepip --user
-python -m pip install $QUIETARGS --user --upgrade virtualenv
-
-python -m virtualenv $QUIETARGS --python=`which python2` .virtualenv &&
-    source .virtualenv/bin/activate &&
-    python -m pip install $QUIETARGS -U pip &&
-    python -m pip install $QUIETARGS -r ansible-requirements.txt
+python3 -m venv ${DEPLOY_DIR}/.virtualenv
+source ${DEPLOY_DIR}/.virtualenv/bin/activate
+pip install $QUIETARGS -r ${DEPLOY_DIR}/ansible-requirements.txt
 
 } || { echo 'ERROR!'; exit 1; }

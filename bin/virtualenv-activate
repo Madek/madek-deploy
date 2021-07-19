@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-echo '✪ virtualenv: preparing…'
+DEPLOY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
 
-source bin/virtualenv-install -qqq &>/dev/null \
-  || source bin/virtualenv-install \
-  || exit 1
+echo '✪ virtualenv: preparing…   [if this fails, run `./bin/virtualenv-install` to debug]'
+
+source ${DEPLOY_DIR}/bin/virtualenv-install -qqq &>/dev/null \
+  || source ${DEPLOY_DIR}/bin/virtualenv-install \
+  || return 1 # this script is beeing `source`d so dont `exit` which would terminate the parent shell
 
 echo '✪ virtualenv: OK'

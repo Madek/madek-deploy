@@ -2,8 +2,14 @@
 # and pinned to a specific version.
 # see https://pip.pypa.io/en/stable/user_guide/#id11
 
-setuptools>=11.3
-ansible==2.9.10
-pyopenssl==19.0.0
-jinja2==2.8
-passlib==1.7.1
+ansible==2.10.1
+ansible-base==2.10.2
+cffi==1.14.3
+cryptography==3.1.1
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+packaging==20.4
+pycparser==2.20
+pyparsing==2.4.7
+PyYAML==5.3.1
+six==1.15.0
