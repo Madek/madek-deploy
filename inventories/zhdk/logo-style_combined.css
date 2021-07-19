@@ -1,8 +1,10 @@
 /* configure zhdk logo for player */
-.vjs-titlebar .vjs-titlebar-caption {
+body[data-fullscreen-view] .vjs-titlebar .vjs-titlebar-caption,
+body[data-embedded-view] .vjs-titlebar .vjs-titlebar-caption {
   padding-right: 23vmin;
 }
-.vjs-titlebar .vjs-titlebar-logo {
+body[data-fullscreen-view] .vjs-titlebar .vjs-titlebar-logo,
+body[data-embedded-view] .vjs-titlebar .vjs-titlebar-logo {
   width: 23vmin;
   background-size: 20vmin 9vmin;
   background-position: 5.8vmin center;
