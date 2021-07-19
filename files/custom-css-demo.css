@@ -1,10 +1,10 @@
-body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.now.sw"] {
+body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.vercel.app"] {
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif !important;
   color: #852171 !important;
   background: #90fae7 !important;
   font-size: 1.5rem;
 }
-body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.now.sh"]
+body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.vercel.app"]
   .videojs.vjs-default-skin
   .vjs-titlebar {
   font-family: Helvetica, "Helvetica Neue", Arial, sans-serif !important;
@@ -12,23 +12,23 @@ body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.now
   background: #852171 !important;
   color: #90fae7 !important;
 }
-body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.now.sh"]
+body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.vercel.app"]
   .videojs.vjs-default-skin
   .vjs-titlebar
   .vjs-titlebar-logo {
   display: none;
 }
-body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.now.sh"]
+body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.vercel.app"]
   .videojs.vjs-default-skin
   .vjs-big-play-button {
   background: #852171 !important;
   color: #90fae7 !important;
   border-color: #90fae7 !important;
 }
-body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.now.sh"]
+body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.vercel.app"]
   .videojs.vjs-default-skin
   .vjs-control-bar,
-body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.now.sh"]
+body[data-embedded-view][data-referer-host="madekembeddemo-custom-css.eins78.vercel.app"]
   .video-js.vjs-default-skin
   .vjs-menu-button
   .vjs-menu-content {

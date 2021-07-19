@@ -86,3 +86,8 @@ madek_webapp_html_extra_head_end: |
       content: 'NOTE! THIS IS A STAGING SERVER! UPLOAD DOES NOT WORK!';
     }
   </style>
+
+  <!-- custom CSS demo -->
+  <style>
+  {{ lookup('file', 'files/custom-css-demo.css') }}
+  </style>
