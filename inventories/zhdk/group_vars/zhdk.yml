@@ -1,24 +1,47 @@
 zhdk_integration: True # turns on AGW support + custom ldap groups handling
 zhdk_admin_ids: [
     8817, # poettli
-  182749, # tschank
-  189987, # mkmit
-  196200, # malbrech
-  158882, # lsotrug
-]
+    182749, # tschank
+    189987, # mkmit
+    196200, # malbrech
+    158882, # lsotrug
+  ]
 
 zencoder_video_output_formats:
-  webm: {format: 'webm', label: 'webm', quality: 4, speed: 2, width: 620, thumbnails: true}
-  mp4: {format: 'mp4', label: 'mp4', video_codec: 'h264', width: 620}
+  webm:
+    {
+      format: "webm",
+      label: "webm",
+      quality: 4,
+      speed: 2,
+      width: 620,
+      thumbnails: true,
+    }
+  mp4: { format: "mp4", label: "mp4", video_codec: "h264", width: 620 }
   # minimum height for HD video targets videos where the higher size would increase the available size by 25%
   # worst normal case small preview height: 620 * 3/4 = 465
   # target min_size for HD: 620x465 * 1.25 = 775x581
-  webm_HD: {format: 'webm', label: 'webm', quality: 4, speed: 2, height: 1080, skip: {min_size: '775x580'}}
-  mp4_HD: {format: 'mp4', label: 'mp4', video_codec: 'h264', height: 1080, skip: {min_size: '775x580'}}
+  webm_HD:
+    {
+      format: "webm",
+      label: "webm",
+      quality: 4,
+      speed: 2,
+      height: 1080,
+      skip: { min_size: "775x580" },
+    }
+  mp4_HD:
+    {
+      format: "mp4",
+      label: "mp4",
+      video_codec: "h264",
+      height: 1080,
+      skip: { min_size: "775x580" },
+    }
 
 zencoder_audio_output_formats:
-  vorbis: {format: 'ogg', audio_codec: 'vorbis', skip_video: true}
-  mp3: {format: 'mp3', audio_codec: 'mp3', skip_video: true}
+  vorbis: { format: "ogg", audio_codec: "vorbis", skip_video: true }
+  mp3: { format: "mp3", audio_codec: "mp3", skip_video: true }
 
 ntp_server: ntp.zhdk.ch
 
@@ -32,19 +55,21 @@ ssh_keys:
 removed_ssh_keys:
   - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/cislave_madek')}}"
 
-madek_support_email: 'support.madek@zhdk.ch'
+madek_support_email: "support.madek@zhdk.ch"
 madek_webapp_embeds:
   enable_opengraph: true
-  twitter_cards_site: '@zhdk'
+  twitter_cards_site: "@zhdk"
 
 # embed player logo (ZHdK)
 madek_webapp_html_extra_head_end: |
   <style>
   /* configure zhdk logo for player */
-  .vjs-titlebar .vjs-titlebar-caption {
+  body[data-fullscreen-view] .vjs-titlebar .vjs-titlebar-caption,
+  body[data-embedded-view] .vjs-titlebar .vjs-titlebar-caption {
       padding-right: 23vmin;
   }
-  .vjs-titlebar .vjs-titlebar-logo {
+  body[data-fullscreen-view] .vjs-titlebar .vjs-titlebar-logo,
+  body[data-embedded-view] .vjs-titlebar .vjs-titlebar-logo {
       width: 23vmin;
       background-size: 20vmin 9vmin;
       background-position: 5.8vmin center;
@@ -52,8 +77,12 @@ madek_webapp_html_extra_head_end: |
       background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2015.3%2032.8%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.73%22%20d%3D%22M7.5%2027.4H.3m7.2%205H.3M7.5.4H.3%22%2F%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M0%2022.5h15.3v-4.4H6.9l8-8.9V5.4H.5v4.3H8l-8%208.6v4.2z%22%2F%3E%3C%2Fsvg%3E")
   }
   /* hide titlebar and caption, on www.zhdk.ch */
-  body[data-embedded-view][data-referer-host="www.zhdk.ch"] .videojs.vjs-default-skin .vjs-titlebar { background: none }
-  body[data-embedded-view][data-referer-host="www.zhdk.ch"] .videojs.vjs-default-skin .vjs-titlebar-caption { display: none }
+  body[data-embedded-view][data-referer-host="www.zhdk.ch"] .videojs.vjs-default-skin .vjs-titlebar {
+    background: none
+  }
+  body[data-embedded-view][data-referer-host="www.zhdk.ch"] .videojs.vjs-default-skin .vjs-titlebar-caption {
+    display: none
+  }
 
   /* configure zhdk logo, on www.zhdk.ch */
   body[data-embedded-view][data-referer-host="www.zhdk.ch"] .vjs-titlebar .vjs-titlebar-caption {
@@ -70,11 +99,12 @@ madek_webapp_html_extra_head_end: |
   }
   </style>
 
-
-
 # for UI forms, "bundle" these keys
 # feature is experimental, if stable this config should go into AppSettings (DB!)
 ui_bundle_context_keys:
-  - { group: 'media_content:portrayed_object_location', prefix: 'media_content:portrayed_object_' }
-  - { group: 'media_object:creator', prefix: 'media_object:creator_'}
-  - { group: 'madek_core:copyright_notice', prefix: 'madek_core:copyright_'}
+  - {
+      group: "media_content:portrayed_object_location",
+      prefix: "media_content:portrayed_object_",
+    }
+  - { group: "media_object:creator", prefix: "media_object:creator_" }
+  - { group: "madek_core:copyright_notice", prefix: "madek_core:copyright_" }
