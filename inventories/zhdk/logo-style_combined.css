@@ -1,28 +1,40 @@
 /* configure zhdk logo for player */
 .vjs-titlebar .vjs-titlebar-caption {
-    padding-right: 23vmin;
+  padding-right: 23vmin;
 }
 .vjs-titlebar .vjs-titlebar-logo {
-    width: 23vmin;
-    background-size: 20vmin 9vmin;
-    background-position: 5.8vmin center;
-    background-repeat: no-repeat;
-    background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2015.3%2032.8%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.73%22%20d%3D%22M7.5%2027.4H.3m7.2%205H.3M7.5.4H.3%22%2F%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M0%2022.5h15.3v-4.4H6.9l8-8.9V5.4H.5v4.3H8l-8%208.6v4.2z%22%2F%3E%3C%2Fsvg%3E")
+  width: 23vmin;
+  background-size: 20vmin 9vmin;
+  background-position: 5.8vmin center;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2015.3%2032.8%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%22.73%22%20d%3D%22M7.5%2027.4H.3m7.2%205H.3M7.5.4H.3%22%2F%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M0%2022.5h15.3v-4.4H6.9l8-8.9V5.4H.5v4.3H8l-8%208.6v4.2z%22%2F%3E%3C%2Fsvg%3E");
 }
 /* hide titlebar and caption, on www.zhdk.ch */
-body[data-embedded-view][data-referer-host="www.zhdk.ch"] .videojs.vjs-default-skin .vjs-titlebar { background: none }
-body[data-embedded-view][data-referer-host="www.zhdk.ch"] .videojs.vjs-default-skin .vjs-titlebar-caption { display: none }
+body[data-embedded-view][data-referer-host="www.zhdk.ch"]
+  .videojs.vjs-default-skin
+  .vjs-titlebar {
+  background: none;
+}
+body[data-embedded-view][data-referer-host="www.zhdk.ch"]
+  .videojs.vjs-default-skin
+  .vjs-titlebar-caption {
+  display: none;
+}
 
 /* configure zhdk logo, on www.zhdk.ch */
-body[data-embedded-view][data-referer-host="www.zhdk.ch"] .vjs-titlebar .vjs-titlebar-caption {
-    padding-right: 23vmin;
+body[data-embedded-view][data-referer-host="www.zhdk.ch"]
+  .vjs-titlebar
+  .vjs-titlebar-caption {
+  padding-right: 23vmin;
 }
-body[data-embedded-view][data-referer-host="www.zhdk.ch"] .vjs-titlebar .vjs-titlebar-logo {
-    right: unset;
-    left: 0;
-    width: 9vmin;
-    background-size: 9vmin 9vmin;
-    background-position: 2.1vmin center;
-    background-repeat: no-repeat;
-    background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2015.3%2032.8%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.73%22%20d%3D%22M7.5%2027.4H.3m7.2%205H.3M7.5.4H.3%22%2F%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M0%2022.5h15.3v-4.4H6.9l8-8.9V5.4H.5v4.3H8l-8%208.6v4.2z%22%2F%3E%3C%2Fsvg%3E")
+body[data-embedded-view][data-referer-host="www.zhdk.ch"]
+  .vjs-titlebar
+  .vjs-titlebar-logo {
+  right: unset;
+  left: 0;
+  width: 9vmin;
+  background-size: 9vmin 9vmin;
+  background-position: 2.1vmin center;
+  background-repeat: no-repeat;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2015.3%2032.8%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%23ccc%22%20stroke-width%3D%22.73%22%20d%3D%22M7.5%2027.4H.3m7.2%205H.3M7.5.4H.3%22%2F%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M0%2022.5h15.3v-4.4H6.9l8-8.9V5.4H.5v4.3H8l-8%208.6v4.2z%22%2F%3E%3C%2Fsvg%3E");
 }
