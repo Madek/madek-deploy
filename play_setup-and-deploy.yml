@@ -44,8 +44,8 @@
           tags: [dependencies]
 
         - import_role:
-            name: openjdk8_install
-          tags: [openjdk8]
+            name: openjdk_install
+          tags: [openjdk]
 
         - import_role:
             name: postgresql

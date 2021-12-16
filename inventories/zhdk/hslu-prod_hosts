@@ -1,8 +1,0 @@
-[madek-gateway]
-hslu-gateway
-
-[madek]
-hslu-prod
-
-[secrets]
-hslu-prod

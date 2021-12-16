@@ -7,7 +7,6 @@ require 'active_support/all'
 require 'fileutils'
 
 APP_NAME='madek'
-LEIN_SERVICES= %w(api)
 RAILS_SERVICES= %w(webapp admin-webapp graphql-api)
 
 DEPLOY_DIR= Pathname.new(File.dirname(File.absolute_path(__FILE__))).join("..").to_s
@@ -116,6 +115,18 @@ def build_api_browser_dir
   print "done, "
 end
 
+def build_api
+  print "building api ... "
+  exec! <<-CMD.strip_heredoc
+    #!/usr/bin/env bash
+    set -eux
+    cd #{SOURCE_DIR}/api
+    ./bin/uberjar
+  CMD
+  FileUtils.cp "#{SOURCE_DIR}/api/madek-api.jar", "#{BUILD_DIR}/api/api.jar"
+  print "done, "
+end
+
 
 
 def build_rails_services
@@ -123,31 +134,6 @@ def build_rails_services
     print "building #{service} ... "
     copy_git_repo_files service
     print "done, "
-  end
-end
-
-def build_lein_service service_name
-  print "building #{service_name} ... "
-  service_source_dir = "#{SOURCE_DIR}/#{service_name}"
-  service_target_dir = "#{BUILD_DIR}/#{service_name}"
-  FileUtils.mkdir_p service_target_dir
-  exec! <<-CMD.strip_heredoc
-    #!/usr/bin/env bash
-    unset JAVA_OPTS
-    unset JAVA_ARCH
-    export LEIN_ROOT=1
-    set -eux
-    cd #{service_source_dir}
-    #{DEPLOY_DIR}/bin/lein do clean, uberjar
-  CMD
- FileUtils.cp "#{service_source_dir}/target/#{service_name}.jar",
-   "#{service_target_dir}/#{service_name}.jar"
-  print "done, "
-end
-
-def build_lein_services
-  LEIN_SERVICES.each do |lein_service|
-    build_lein_service lein_service
   end
 end
 
@@ -186,7 +172,7 @@ def main
     build_rails_services
     build_api_documentation_dir
     build_api_browser_dir
-    build_lein_services
+    build_api
     pack build_archive
     puts " done "
   end
