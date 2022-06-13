@@ -1,0 +1,40 @@
+# Run Ruby Scripts on a server via ansible, get back a log file
+# example: $ bin/ansible-playbook -i inventories/zhdk/hosts_medienarchiv execute-script_play.yml -e 'script_file=inventories/zhdk/extensions/gh362-fix-preview.rb'
+
+- hosts: madek
+  vars:
+    script_file_path: '{{ script_file | mandatory }}'
+    logfile_path: '/tmp/madek-script.{{ansible_date_time.iso8601_basic_short}}.log.txt'
+  tasks:
+    - file:
+        path: /tmp/madek-scripts
+        state: directory
+      name: created /tmp/madek-scripts directory
+
+    - copy:
+        src: '{{script_file_path}}'
+        dest: /tmp/madek-scripts/script.rb
+      name: copy script file
+
+    - file:
+        path: '{{logfile_path}}'
+        state: touch
+        owner: '{{madek_user}}'
+      name: create log file
+
+    - shell: |
+        set -eux
+        cd "{{madek_server_dir}}{{madek_services['webapp'].dir}}"
+        export TMPDIR={{madek_tmp_dir}}
+        export RAILS_LOG_LEVEL=DEBUG
+        export RAILS_ENV=production
+        export RAILS_TIME_ZONE={{rails_timezone}}
+        /usr/local/bin/chruby-exec 'ruby-{{madek_services['webapp'].ruby_version}}' -- bundle exec rails runner /tmp/madek-scripts/script.rb | tee '{{logfile_path}}'
+      become: yes
+      become_user: '{{madek_user}}'
+      name: run rails script
+
+    - fetch:
+        src: '{{logfile_path}}'
+        dest: 'log'
+        fail_on_missing: yes

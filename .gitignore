@@ -6,6 +6,7 @@
 .virtualenv
 /.vagrant
 /tmp
+/log
 madek.tar.gz
 master_secret.txt
 vagrant-ssh-config
