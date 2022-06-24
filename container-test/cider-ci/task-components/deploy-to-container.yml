@@ -26,7 +26,7 @@ scripts:
         /bin/sh -c "mkdir -p /root/.ssh && echo '$(cat ~/.ssh/id_rsa.pub)' >> /root/.ssh/authorized_keys"
 
   deploy-to-container:
-    timeout: 20 Minutes
+    timeout: 60 Minutes
     start_when:
       container has been prepared:
         script_key: prepare-container
