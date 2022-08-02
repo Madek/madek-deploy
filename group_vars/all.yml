@@ -37,10 +37,10 @@ ansible_python_interpreter: '{% if (ansible_distribution is defined and ansible_
 ################################################################################
 
 madek_ruby_versions:
-  datalayer: 2.7.2
-  graphql_api: 2.7.2
-  admin_webapp: 2.7.2
-  webapp: 2.7.2
+  datalayer: 2.7.6
+  graphql_api: 2.7.6
+  admin_webapp: 2.7.6
+  webapp: 2.7.6
 
 ################################################################################
 ### API ########################################################################
