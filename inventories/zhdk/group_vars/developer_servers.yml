@@ -28,7 +28,7 @@ madek_graphql_api_preview_enabled: true
 madek_storage_dir: /opt/madekdata
 madek_file_storage_dir: /opt/madekdata/attachments
 madek_thumbnail_storage_dir: /opt/madekdata/attachments
-madek_tmp_dir: /opt/madekdata/tmp
+#madek_tmp_dir: /opt/madekdata/tmp # use default tmp dir, not datadir (mounted read-only)
 setup_storage_directories: yes
 
 ###############################################################################
