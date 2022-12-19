@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
-QUIETARGS=$1 # call this script with `-qqq` for more quietness
 DEPLOY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
-
-{
 
 python3 -m venv ${DEPLOY_DIR}/.virtualenv
 source ${DEPLOY_DIR}/.virtualenv/bin/activate
-pip install $QUIETARGS -r ${DEPLOY_DIR}/ansible-requirements.txt
-
-} || { echo 'ERROR!'; exit 1; }
+pip install -r ${DEPLOY_DIR}/ansible-requirements.txt

@@ -5,7 +5,7 @@ max_trials: 1
 
 git_options:
   submodules:
-    include_match: ^deploy$
+    include_match: ^.*$
 
 include:
   - container-test/cider-ci/task-components/bundle.yml

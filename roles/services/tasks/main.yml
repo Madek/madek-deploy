@@ -1,6 +1,3 @@
-- debug:
-    var: madek_services
-
 - name: make sure service {{item.value.name}} is stopped
   service:
     name: madek_{{item.value.name}}

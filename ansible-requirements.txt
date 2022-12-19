@@ -1,15 +1,6 @@
-# python dependency list so ansible can be installed non-globally
-# and pinned to a specific version.
-# see https://pip.pypa.io/en/stable/user_guide/#id11
+# Watch out when upgrading this; older Platforms might not support
+# versions you get from newer ones,
+# the following will work on Ubuntu 20.04
 
-ansible==2.10.1
-ansible-base==2.10.2
-cffi==1.14.3
-cryptography==3.1.1
-Jinja2==2.11.2
-MarkupSafe==1.1.1
-packaging==20.4
-pycparser==2.20
-pyparsing==2.4.7
-PyYAML==5.3.1
-six==1.15.0
+ansible==6.7.0
+ansible-core==2.13.7

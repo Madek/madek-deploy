@@ -1,4 +1,5 @@
 - include: search_download_archive.yml
+  when: not force_local_build
 
 - include: build.yml
-  when: download_urls is not defined
+  when: force_local_build or (download_urls is not defined)

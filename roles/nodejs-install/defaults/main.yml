@@ -1,6 +1,0 @@
----
-# Pin-Priority of NodeSource repository
-nodejs_nodesource_pin_priority: 500
-
-# "12" (LTS) or "14" (Current)
-nodejs_version: "12"

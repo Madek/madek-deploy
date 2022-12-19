@@ -1,3 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euxo pipefail
+
 source bin/virtualenv-activate || exit 1
-ansible $@
+ansible "$@"

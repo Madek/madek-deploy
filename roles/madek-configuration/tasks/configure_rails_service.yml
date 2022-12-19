@@ -1,16 +1,3 @@
-- name: bundle for {{service.name}}
-  become: true
-  become_user: root
-  shell:
-    cmd: |
-      sudo -iu "{{madek_user}}" -- bash -eux <<EOF
-        cd {{madek_server_dir}}{{service.dir}};
-        export RAILS_ENV={{rails_env}};
-        /usr/local/bin/chruby-exec ruby-{{madek_ruby_versions.datalayer}} -- \
-          bundle install
-      EOF
-  tags: [bundle]
-
 - name: Configure database for {{service.name}}
   template:
     src: database.yml

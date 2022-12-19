@@ -1,30 +1,25 @@
 traits:
-  ruby-install: yes
-
-environment_variables:
-  RUBY_ENGINE: ruby
-  RUBY_VERSION: 2.7.6
-  RUBY: "{{RUBY_ENGINE}}-{{RUBY_VERSION}}"
+  asdf: true
 
 scripts:
   bundle:
-    exclusive_executor_resource: ruby-install_{{$RUBY}}
+    exclusive_executor_resource: asdf-ruby
     timeout: 20 Minutes
     body: |
       #!/usr/bin/env bash
-      set -eux
-      export PATH=~/.rubies/$RUBY/bin:$PATH
+      set -euxo pipefail
 
       cd deploy/container-test
 
-      rm -f .bundle/config
-
-      if [ ! -d ~/.rubies/$RUBY ]; then
-        ruby-install --no-install-deps $RUBY_ENGINE $RUBY_VERSION
+      if [[ ! -d ~/.asdf/plugins/ruby ]]; then
+        asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
+      else
+        asdf plugin update ruby
       fi
-
-      if [ ! -f ~/.rubies/$RUBY/bin/bundle ]; then
-        gem install bundler
-      fi
-
+      asdf install ruby
       bundle install
+
+  test:
+    start_when:
+      bundle has passed:
+        script_key: bundle

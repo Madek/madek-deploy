@@ -2,97 +2,28 @@
   gather_facts: False
   pre_tasks:
     - name: install system python
-      raw: |
-        apt -y update
-        if [ $(lsb_release -c -s) = 'focal' ]; then
-          apt install -y python3 python-is-python3
-        else
-          apt install -y python
-        fi
+      raw: apt install -y python3
 
 - hosts: localhost
   roles:
     - role: find_or_build_archive
-      tags:
-        - find_or_build_archive
-        - get-archive
 
 - hosts: madek
-  tasks:
-    - when: "prtg_monitoring is defined"
-      import_tasks: "./tasks/prtg_monitoring.yml"
-      vars: { paused: yes, pause_minutes: 30 }
-      ignore_errors: yes
-
-    - name: deploy
-      block:
-        - import_role: { name: os-check }
-
-        - import_role: { name: pre-cleanup }
-          tags: [pre-cleanup]
-
-        - import_role:
-            name: os-setup
-          tags: [os-setup]
-
-        - import_role:
-            name: ruby-setup
-          tags: [ruby-setup]
-
-        - import_role:
-            name: dependencies
-          tags: [dependencies]
-
-        - import_role:
-            name: openjdk_install
-          tags: [openjdk]
-
-        - import_role:
-            name: postgresql
-          tags: [postgresql, pg_upgrade]
-
-        - import_role:
-            name: apache-httpd
-
-        - import_role:
-            name: madek-user
-          tags: [madek-user]
-
-        - import_role:
-            name: get-archive
-          tags: [get-archive]
-
-        - import_role:
-            name: server-dir_set-up
-          tags: [server-dir_set-up]
-
-        - import_role:
-            name: madek-configuration
-          tags: [madek-configuration]
-
-        - import_role:
-            name: madek-datalayer
-          tags: [madek-datalayer]
-
-        - import_role:
-            name: services
-          tags: [services]
-
-        - import_role:
-            name: watchdog
-          tags: [watchdog]
-
-        - import_role:
-            name: reverse-proxy
-          tags: [reverse-proxy]
-
-        - import_role:
-            name: db-backups
-          tags: [db-backups]
-
-      # this will run even if a task "deploy" block fails
-      always:
-        - when: "prtg_monitoring is defined"
-          import_tasks: "./tasks/prtg_monitoring.yml"
-          vars: { paused: no }
-          ignore_errors: yes
+  roles:
+    - role: os-check
+    - role: pre-cleanup
+    - role: os-setup
+    - role: dependencies
+    - role: postgresql
+    - role: apache-httpd
+    - role: madek-user
+    - role: get-archive
+    - role: server-dir_set-up
+    - role: asdf
+      asdf_user: '{{madek_user}}'
+    - role: madek-configuration
+    - role: madek-datalayer
+    - role: services
+    - role: watchdog
+    - role: reverse-proxy
+    - role: db-backups

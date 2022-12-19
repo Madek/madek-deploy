@@ -36,8 +36,6 @@ zencoder_test_mode: False
 # backups
 # db_backups_enabled: False
 
-prtg_monitoring: "{{spiel1.prtg_monitoring}}" # from `secrets.yml`
-
 # customize
 madek_webapp_html_extra_head_start: |
   <!-- powered by Madek -->

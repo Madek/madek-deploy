@@ -1,11 +1,8 @@
 - name: upload archive to the server
-  failed_when: false # ignore errors
-  synchronize:
-    src: "{{item}}"
-    dest: /tmp/{{item}}
+  copy:
+    src: madek.tar.gz
+    dest: /tmp/madek.tar.gz
   when: hostvars.localhost.download_urls is not defined
-  with_items:
-    - madek.tar.gz
 
 - name: download archive to the server
   get_url:
@@ -31,4 +28,6 @@
   shell: >
     openssl dgst -verify /tmp/madek.pub.pem
     -signature /tmp/madek.tar.gz.sig /tmp/madek.tar.gz
-  when: hostvars.localhost.download_urls is defined
+  when: >
+    (hostvars.localhost.download_urls is defined)
+    and verify_madek_archive

@@ -1,0 +1,4 @@
+# asdf_user: '{{madek_user}}'
+asdf_version: v0.10.2
+asdf_root_dir: /home/{{asdf_user}}/.asdf
+

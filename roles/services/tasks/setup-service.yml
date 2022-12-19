@@ -1,6 +1,9 @@
 - set_fact:
     service: "{{item.value}}"
 
+- debug:
+    msg: Setting up {{service}}
+
 - set_fact:
     service_dir: "{{madek_server_dir}}{{service.dir}}"
 
@@ -10,8 +13,7 @@
     dest: /etc/systemd/system/madek_{{service.name}}.service
   when: "service.active and service.type == 'java'"
 
-- name: setup {{service.name}} rails service
-  template:
-    src: rails.service
-    dest: /etc/systemd/system/madek_{{service.name}}.service
+- include: setup-rails-service.yml
   when: "service.active and service.type == 'rails'"
+
+

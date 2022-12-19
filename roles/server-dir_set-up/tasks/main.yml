@@ -19,19 +19,13 @@
   lineinfile:
     dest: "{{madek_server_dir}}/config/deploy-info.yml"
     insertafter: "^---$"
-    # NOTE: `build_is_latest_release` set by `find_or_build_archive` role
-    line: 'deployed: { time: "{{ ansible_date_time.iso8601 }}", is_release: {{ hostvars.localhost.build_is_latest_release|trim }} }'
-    validate: /usr/local/bin/chruby-exec {{ madek_ruby_versions.datalayer }} -- ruby -e 'require "yaml"; YAML.safe_load(File.read("%s"))'
+    line: 'deployed: { time: "{{ ansible_date_time.iso8601 }}"}'
+    # validate: python3 -c 'from yaml import load, Loader; load(open(‘%s’), Loader=Loader)'
 
-# FIXME: https://github.com/ansible/ansible/issues/39456
 - name: change owner
-  shell: 'chown -R "{{madek_user}}":"{{madek_user}}" "{{madek_root_dir}}"'
-  # TODO: can fail on storage read only instances (will fail on HFG and HSLU staging)
-  # go back to file module and remove this or remove comments and keep the hack
-  ignore_errors: yes
-#   file:
-#     path: "{{madek_root_dir}}"
-#     owner: "{{madek_user}}"
-#     group: "{{madek_user}}"
-#     state: directory
-#     recurse: yes
+  file:
+    path: "{{madek_root_dir}}"
+    owner: "{{madek_user}}"
+    group: "{{madek_user}}"
+    state: directory
+    recurse: yes

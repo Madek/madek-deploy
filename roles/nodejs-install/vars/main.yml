@@ -1,3 +1,0 @@
----
-# vars file for nodejs
-debian_repo_version: "{{ nodejs_version }}.x"

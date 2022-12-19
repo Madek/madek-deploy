@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DEPLOY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+
+cd $DEPLOY_DIR
+
+./bin/ansible-playbook -i inventories/vm/hosts.yml -e "admin_password=secret" play_first-time-setup.yml
+

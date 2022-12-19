@@ -1,0 +1,16 @@
+- name: install asdf ruby plugin
+  become: yes
+  become_user: "{{ asdf_user }}"
+  shell: |
+    #!/bin/bash
+    set -eu
+    source ~/.asdf/asdf.sh
+    if [[ -d ~/.asdf/plugins/ruby ]]; then
+      asdf plugin update ruby
+    else
+      asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
+    fi
+  args:
+    executable: /bin/bash
+
+

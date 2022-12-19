@@ -1,6 +1,11 @@
 - name: Etc keeper install packages
-  apt: pkg={{packages}} state=latest update_cache=yes cache_valid_time=3600
-  vars: { packages: [ etckeeper, git ] }
+  apt:
+    pkg:
+      - etckeeper
+      - git
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
 
 - name: etckeeper uninitialize bzr (in case)
   command: etckeeper uninit -f

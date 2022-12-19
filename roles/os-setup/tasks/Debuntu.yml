@@ -5,22 +5,27 @@
   when: '(ansible_distribution == "Debian" and ansible_distribution_release == "buster")'
 
 - name: dist upgrade
-  apt: upgrade=dist update_cache=yes cache_valid_time=3600
+  apt:
+    upgrade: dist
+    update_cache: yes
+    cache_valid_time: 3600
 
 ### Install some stuff we need ###############################################
 
-- name: Install basic packages
-  apt: pkg={{packages}} state=latest update_cache=yes cache_valid_time=3600
-  vars:
-    packages:
-      - git
-      - curl
+- name: install dependencies
+  apt:
+    pkg:
       - build-essential
-      - python
-      - libssl-dev
-      - rsync
+      - curl
+      - git
       - htop
-      - python-passlib
+      - python3
+      - python3-venv
+      - rsync
+    update_cache: yes
+    cache_valid_time: 3600
+
+
 
 ### set timezone ##############################################################
 
@@ -77,13 +82,3 @@
   tags:
     - os-setup_monit
 
-### vmware ####################################################################
-
-- name: install vmware tools
-  apt: name={{packages|join(' ')}} state=latest update_cache=yes cache_valid_time=3600
-  when: ansible_virtualization_type == "VMware"
-  vars:
-    packages:
-      - open-vm-tools
-      # NOTE: `open-vm-tools-dkms` deprecated since Debian 10 buster
-      - "{% if (ansible_distribution == 'Ubuntu') or (ansible_distribution == 'Debian' and ansible_distribution_version |int < 10) %}open-vm-tools-dkms{% endif %}"

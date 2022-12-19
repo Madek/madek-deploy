@@ -11,7 +11,7 @@ tasks:
       submodules:
         include_match: ^.*$
     traits:
-      Leiningen: yes
+      asdf: true
       git-crypt: yes
       madek-repo-decryption: yes
     scripts:
@@ -19,10 +19,24 @@ tasks:
         body: |
           git crypt unlock
           git submodule foreach 'git crypt unlock || exit 0'
+      bundle:
+        exclusive_executor_resource: asdf-ruby
+        timeout: 20 Minutes
+        body: |
+          #!/usr/bin/env bash
+          set -euxo pipefail
+          if [[ ! -d ~/.asdf/plugins/ruby ]]; then
+            asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
+          else
+            asdf plugin update ruby
+          fi
+          asdf install ruby
       build:
         start_when:
           unlocked:
             script_key: unlock
+          bundled:
+            script_key: bundle
         timeout: 10 Minutes
         body: |
           set -eux

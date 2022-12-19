@@ -1,5 +1,14 @@
 #!/usr/bin/env ruby
 
+require 'bundler/inline'
+
+gemfile do
+  source 'https://rubygems.org'
+  gem 'activesupport', '= 7.0.4'
+  gem 'pry', '= 0.14.1'
+end
+
+
 require 'yaml'
 require 'open3'
 require 'pry'
@@ -7,7 +16,7 @@ require 'active_support/all'
 require 'fileutils'
 
 APP_NAME='madek'
-RAILS_SERVICES= %w(webapp admin-webapp graphql-api)
+RAILS_SERVICES= %w(webapp admin-webapp)
 
 DEPLOY_DIR= Pathname.new(File.dirname(File.absolute_path(__FILE__))).join("..").to_s
 SOURCE_DIR= File.absolute_path("#{DEPLOY_DIR}/..")

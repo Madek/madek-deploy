@@ -9,11 +9,6 @@ scripts:
       set -eux
       lxc exec ${CONTAINER_NAME} -- bash -c "ifconfig || ip a s ; cat /etc/os-release"
 
-      # remove broken git object reference config
-      rm .git/objects/info/alternates
-      git fetch
-      git repack
-
       # the next command will not work if we invoke it too quickly after
       # booting the machine
       sleep 30
@@ -25,11 +20,21 @@ scripts:
       lxc exec ${CONTAINER_NAME} -- \
         /bin/sh -c "mkdir -p /root/.ssh && echo '$(cat ~/.ssh/id_rsa.pub)' >> /root/.ssh/authorized_keys"
 
+  virtualenv-prepare:
+    body: |
+      #!/usr/bin/env bash
+      set -euxo pipefail
+      cd deploy
+      bin/virtualenv-install
+
   deploy-to-container:
     timeout: 20 Minutes
     start_when:
       container has been prepared:
         script_key: prepare-container
+      virtualenv-prepared:
+        script_key: virtualenv-prepare
+
     body: |
       #!/usr/bin/env bash
       set -eux
@@ -41,6 +46,7 @@ scripts:
       bin/ansible-playbook \
         -i container-test/inventory/hosts \
         -e "ansible_ssh_host=${CONTAINER_IP}" \
+        -e '{"verify_madek_archive": false, "force_local_build": true}' \
         play_setup-and-deploy.yml
 
       bin/ansible-playbook \

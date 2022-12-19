@@ -1,11 +1,13 @@
 - name: DB Defaults
   become: true
-  become_user: root
-  shell:
-    cmd: |
-      sudo -iu "{{madek_user}}" -- bash -eux <<EOF
-        cd {{madek_webapp_dir}}
-        export RAILS_ENV="{{rails_env}}"
-        /usr/local/bin/chruby-exec ruby-{{madek_ruby_versions.datalayer}} -- \
-          bundle exec rake db:pg:terminate_connections db:defaults
-      EOF
+  become_user: '{{madek_user}}'
+  shell: |
+    #!/usr/bin/env bash
+    set -euo pipefail
+    source ~/.asdf/asdf.sh
+    cd {{madek_webapp_dir}}
+    export RAILS_ENV={{rails_env}}
+    bundle exec rake db:pg:terminate_connections db:defaults
+  args:
+    executable: /bin/bash
+

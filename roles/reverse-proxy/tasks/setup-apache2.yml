@@ -1,9 +1,12 @@
 - name: Install apache2
-  apt: pkg={{item}} state=latest update_cache=yes cache_valid_time=3600
+  apt:
+    pkg:
+      - apache2
+      - libapache2-mod-xsendfile
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
   register: apache2_install
-  with_items:
-    - apache2
-    - libapache2-mod-xsendfile
 
 - name: Disable default site
   command:  a2dissite 000-default
