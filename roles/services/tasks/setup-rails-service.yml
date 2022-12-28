@@ -1,3 +1,12 @@
+# puma wants to set a pidfile now
+- name: make tmp/pids
+  file:
+    path: '{{service_dir}}/tmp/pids'
+    state: directory
+    recurse: yes
+    owner: '{{madek_user}}'
+    group: '{{madek_user}}'
+
 - name: bundle
   shell: |
     #/usr/bin/env bash
