@@ -55,7 +55,7 @@ ActiveRecord::Base.transaction do
 
   # migrate old MetaKey if was given
   if old_mkey
-    mkey.update_attributes!(
+    mkey.update!(
       old_mkey.attributes
         .except('id', 'vocabulary_id', 'meta_datum_object_type')
         .merge(
@@ -65,7 +65,7 @@ ActiveRecord::Base.transaction do
   end
 
   keyword_type = RdfClass.find_or_create_by!(id: 'Country')
-  keyword_type.update_attributes!(description: 'Country, identified by 2-letter code (ISO-3166)')
+  keyword_type.update!(description: 'Country, identified by 2-letter code (ISO-3166)')
 
   # add all countries as custom keywords
   countries.each do |country|
@@ -78,7 +78,7 @@ ActiveRecord::Base.transaction do
 
     kw = Keyword.find_by(meta_key_id: mkey.id, external_uri: uri)
     kw ||= Keyword.create!(term: term, meta_key_id: mkey.id, external_uri: uri)
-    kw.update_attributes!(rdf_class: keyword_type, description: description)
+    kw.update!(rdf_class: keyword_type, description: description)
   end
 
   # migrate old MetaData if old MetaKey was given
@@ -97,7 +97,7 @@ ActiveRecord::Base.transaction do
       keyword = Keyword.find_by(external_uri: uri, meta_key: mkey)
       unless keyword
         keyword = Keyword.find_or_create_by!(term: meta_datum.string, meta_key: mkey)
-        keyword.update_attributes!(
+        keyword.update!(
           description: 'MADEK_SYSTEM_INVALID_ISO_COUNTRY_CODE')
       end
 
