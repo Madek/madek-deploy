@@ -6,3 +6,7 @@ apache2_modules:
   - rewrite
   - ssl
   - xsendfile
+
+# set of templates will taken from "{{inventory_dir}}/TEMPLATE_KEY" placed
+# into `/etc/apache2/madek/TEMPLATE_VALUE`
+reverse_proxy_custom_templates: {}

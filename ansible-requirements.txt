@@ -1,6 +1,10 @@
-# Watch out when upgrading this; older Platforms might not support
-# versions you get from newer ones,
-# the following will work on Ubuntu 20.04
-
-ansible==6.7.0
-ansible-core==2.13.7
+ansible==7.1.0
+ansible-core==2.14.1
+cffi==1.15.1
+cryptography==39.0.0
+Jinja2==3.1.2
+MarkupSafe==2.1.2
+packaging==23.0
+pycparser==2.21
+PyYAML==6.0
+resolvelib==0.8.1

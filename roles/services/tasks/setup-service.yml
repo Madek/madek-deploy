@@ -1,5 +1,6 @@
 - set_fact:
     service: "{{item.value}}"
+  tags: [always]
 
 - debug:
     msg: Setting up {{service}}

@@ -1,5 +1,8 @@
-#!/usr/bin/env bash
-set -euxo pipefail
+#!/usr/bin/env bash 
+set -euo pipefail
 
-source bin/virtualenv-activate || exit 1
-ansible "$@"
+source bin/virtualenv || exit 1
+
+echo $LOCAL_CACHE_DIR
+
+ansible $@

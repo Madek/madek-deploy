@@ -26,4 +26,5 @@
     - role: services
     - role: watchdog
     - role: reverse-proxy
+      tags: [reverse-proxy]
     - role: db-backups

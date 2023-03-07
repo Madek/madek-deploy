@@ -25,7 +25,7 @@ scripts:
       #!/usr/bin/env bash
       set -euxo pipefail
       cd deploy
-      bin/virtualenv-install
+      bin/virtualenv
 
   deploy-to-container:
     timeout: 20 Minutes

@@ -17,5 +17,5 @@
   ignore_errors: yes
 
 - name: Configure services
-  include: configure_services.yml
+  include_tasks: configure_services.yml
   with_dict: "{{madek_services}}"

@@ -19,11 +19,19 @@
     mode: 0755
 
 - template:
+    src: shared_custom.conf
+    dest: /etc/apache2/madek/shared_custom.conf
+    mode: 0644
+
+- template:
+    src: '{{inventory_dir}}/{{item.key}}'
+    dest: /etc/apache2/madek/{{item.value}}
+  with_dict: '{{reverse_proxy_custom_templates}}'
+
+- template:
     src: shared.conf
     dest: /etc/apache2/madek/shared.conf
     mode: 0644
-  tags:
-    - server_setup-munin
 
 - template:
     src: robots.txt

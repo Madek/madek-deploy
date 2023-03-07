@@ -92,3 +92,17 @@ madek_webapp_html_extra_head_end: |
   <style>
   {{ lookup('file', 'files/custom-css-demo.css') }}
   </style>
+
+
+
+reverse_proxy_custom_templates: 
+  'test.htpasswd':  'auth.htpasswd'
+
+reverse_proxy_custom_config: |
+  <LocationMatch ".*">
+      AuthType Basic
+      AuthName "ZHdK Madek Test"
+      AuthBasicProvider file
+      AuthUserFile "/etc/apache2/madek/auth.htpasswd"
+      Require valid-user
+  </LocationMatch>
