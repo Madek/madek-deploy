@@ -48,12 +48,12 @@ ntp_server: ntp.zhdk.ch
 ssh_keys:
   - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/ci-executor.madek')}}"
   - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/drtom')}}"
-  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/mfa')}}"
-  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/michael')}}"
   - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/nimaai')}}"
 
 removed_ssh_keys:
   - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/cislave_madek')}}"
+  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/mfa')}}"
+  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/michael')}}"
 
 madek_support_email: "support.madek@zhdk.ch"
 madek_webapp_embeds:
