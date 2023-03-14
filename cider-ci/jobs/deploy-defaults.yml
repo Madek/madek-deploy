@@ -38,7 +38,8 @@ context:
             script_key: unlock
         timeout: 3 hours
         body: |
-          set -eux
+          #!/usr/bin/env bash
+          set -euo pipefail
           cd deploy
           echo $(pwd)
           ls -R inventories

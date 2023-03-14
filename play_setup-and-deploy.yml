@@ -15,6 +15,7 @@
     - role: os-setup
     - role: dependencies
     - role: postgresql
+      tags: [postgresql]
     - role: apache-httpd
     - role: madek-user
     - role: get-archive

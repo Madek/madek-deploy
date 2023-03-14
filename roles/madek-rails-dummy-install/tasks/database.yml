@@ -5,8 +5,8 @@
         encoding: unicode
         host: 127.0.0.1
         pool: 25
-        port: {{database.port}}
-        database: {{database.name}}
+        port: 5415
+        database: madek
         username: {{database.user}}
         password: {{database.password}}
     dest: '{{madek_rails_dummy_path}}/config/database.yml'

@@ -17,4 +17,4 @@
     password: "{{database.password}}"
     role_attr_flags: CREATEDB,SUPERUSER
     login_user: root
-    port: "{{database.port}}"
+    port: 5415

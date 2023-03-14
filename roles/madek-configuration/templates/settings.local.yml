@@ -46,7 +46,7 @@ madek_support_email: '{{madek_support_email}}'
 database:
   adapter: "postgresql"
   classname: "org.postgresl.Driver"
-  subname: '//localhost:{{database.port}}/{{database.name}}'
+  subname: '//localhost:5415/madek'
   subprotocol: "postgresql"
   user: "{{database.user}}"
   password: "{{database.password}}"

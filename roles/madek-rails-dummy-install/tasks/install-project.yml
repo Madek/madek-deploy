@@ -1,6 +1,5 @@
 - name: remove possibly exisiting archive
   file:
-    path: '{{playbook_dir}}/tmp/legacy.tar.gz'
     state: absent
   delegate_to: localhost
 

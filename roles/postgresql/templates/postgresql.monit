@@ -1,7 +1,7 @@
 check process postgresql
-  matching "-D /var/lib/postgresql/10/main"
+  matching "-D /var/lib/postgresql/15/main"
   group database
-  start program = "/bin/systemctl start postgresql"
-  stop program = "/bin/systemctl stop postgresql"
+  start program = "/bin/systemctl start postgresql@15-main"
+  stop program = "/bin/systemctl stop postgresql@15-main"
 if 5 restarts within 10 cycles then timeout
-if failed port 5432 4 times within 6 cycles then restart
+if failed port 5415 4 times within 6 cycles then restart

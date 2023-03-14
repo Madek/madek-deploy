@@ -1,0 +1,83 @@
+- name: Read schema_migrations
+  shell:
+    cmd: >
+      /usr/lib/postgresql/10/bin/psql -d madek_production -c 
+      "SELECT 'Migration 420 is present' FROM schema_migrations WHERE version = '420'"
+  register: pg_upgrade_check_final_migration
+
+- debug:
+    var: pg_upgrade_check_final_migration
+
+- fail: 
+    msg: 'Migration 420 is NOT present; upgrade Madek to 3.35 or later; before upgrading to 3.35'
+  when: '"Migration 420 is present" not in pg_upgrade_check_final_migration.stdout'
+
+- name: stop services
+  service:
+    name: "{{item}}"
+    state: stopped
+  ignore_errors: true
+  loop:
+    - monit
+    - madek_admin-webapp
+    - madek_api
+    - madek_webapp
+
+- name: dump data
+  shell:
+    cmd: > 
+      /usr/lib/postgresql/10/bin/pg_dump 
+      --no-owner --format c 
+      --data-only -T schema_migrations -T ar_internal_metadata 
+      --dbname madek_production 
+      --file /tmp/madek_pg10_data.pgbin
+  async: 3600
+  poll: 1
+
+- include_tasks: install.yml
+
+- include_tasks: root_user.yml
+
+- name: copy initial schema
+  copy: 
+    src: "{{role_path}}/files/madek_000_structure.sql" 
+    dest: "/tmp/madek_000_structure.sql"
+
+- name: create database
+  shell: >
+    /usr/lib/postgresql/15/bin/createdb 
+    --port 5415 madek
+
+- name: restore schema
+  shell: >
+      /usr/lib/postgresql/15/bin/psql 
+      --port 5415 -d madek
+      -f /tmp/madek_000_structure.sql
+
+- name: restore data
+  shell:
+    cmd: > 
+      /usr/lib/postgresql/15/bin/pg_restore 
+      --port 5415 --dbname madek
+      --no-owner --format c --data-only
+      --disable-triggers
+      /tmp/madek_pg10_data.pgbin
+  async: 3600
+  poll: 1
+
+- name: purge pg10 
+  apt:
+    pkg:
+      - postgresql-10
+      - postgresql-client-10
+      - postgresql-11
+      - postgresql-client-11
+      - postgresql-12
+      - postgresql-client-12
+      - postgresql-13
+      - postgresql-client-13
+      - postgresql-14
+      - postgresql-client-14
+    purge: true
+    state: absent
+

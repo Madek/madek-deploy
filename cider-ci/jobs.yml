@@ -46,8 +46,8 @@
           "staging.madek.zhdk.ch": true
         environment_variables:
           DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_staging
-          DROP_DATABASE: "true"
-          RESTORE_STRUCTURE_AND_DATA: "true"
+          DROP_DATABASE: "false"
+          RESTORE_STRUCTURE_AND_DATA: "false"
 
 ### test - auto-deploy from master #################################################
 
@@ -70,8 +70,8 @@
           "test.madek.zhdk.ch": true
         environment_variables:
           DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test
-          DROP_DATABASE: "true"
-          RESTORE_STRUCTURE_AND_DATA: "true"
+          DROP_DATABASE: "false"
+          RESTORE_STRUCTURE_AND_DATA: "false"
 
 ### test-blank - auto-deploy from master ###########################################
 
@@ -111,8 +111,8 @@
           "test-blank.madek.zhdk.ch": true
         environment_variables:
           DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test-blank
-          DROP_DATABASE: "true"
-          RESTORE_STRUCTURE_AND_DATA: "true"
+          DROP_DATABASE: "false"
+          RESTORE_STRUCTURE_AND_DATA: "false"
 
         scripts:
           get-latest-data:
@@ -141,66 +141,6 @@
           DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test-blank
           DROP_DATABASE: "false"
           RESTORE_STRUCTURE_AND_DATA: "false"
-
-zzz_deploy_dev_mfa_aaa:
-  name: ⚒ Dev-Server mfa.ruby.zhdk.ch – Deploy Madek
-  include: cider-ci/jobs/deploy-dev-server-defaults.yml
-  context:
-    task_defaults:
-      exclusive_global_resources: { mfa.ruby.zhdk.ch: true }
-      environment_variables:
-        DEV_NAME: mfa
-
-zzz_deploy_dev_mfa_blank:
-  name: ⚒ Dev-Server mfa.ruby.zhdk.ch – Deploy Madek with Blank DB
-  include: cider-ci/jobs/deploy-dev-server-defaults.yml
-  context:
-    task_defaults:
-      exclusive_global_resources: { mfa.ruby.zhdk.ch: true }
-      environment_variables:
-        DEV_NAME: mfa
-        DROP_DATABASE: "true"
-
-zzz_deploy_dev_mfa_proddata:
-  name: ⚒ Dev-Server mfa.ruby.zhdk.ch – Deploy Madek with Prod Data
-  include: cider-ci/jobs/deploy-dev-server-defaults.yml
-  context:
-    task_defaults:
-      exclusive_global_resources: { mfa.ruby.zhdk.ch: true }
-      environment_variables:
-        DEV_NAME: mfa
-        DROP_DATABASE: "true"
-        RESTORE_STRUCTURE_AND_DATA: "true"
-
-zzz_deploy_dev_michal_aaa:
-  name: ⚒ Dev-Server michal.ruby.zhdk.ch – Deploy Madek
-  include: cider-ci/jobs/deploy-dev-server-defaults.yml
-  context:
-    task_defaults:
-      exclusive_global_resources: { michal.ruby.zhdk.ch: true }
-      environment_variables:
-        DEV_NAME: michal
-
-zzz_deploy_dev_michal_blank:
-  name: ⚒ Dev-Server michal.ruby.zhdk.ch – Deploy Madek with Blank DB
-  include: cider-ci/jobs/deploy-dev-server-defaults.yml
-  context:
-    task_defaults:
-      exclusive_global_resources: { michal.ruby.zhdk.ch: true }
-      environment_variables:
-        DEV_NAME: michal
-        DROP_DATABASE: "true"
-
-zzz_deploy_dev_michal_proddata:
-  name: ⚒ Dev-Server michal.ruby.zhdk.ch – Deploy Madek with Prod Data
-  include: cider-ci/jobs/deploy-dev-server-defaults.yml
-  context:
-    task_defaults:
-      exclusive_global_resources: { michal.ruby.zhdk.ch: true }
-      environment_variables:
-        DEV_NAME: michal
-        DROP_DATABASE: "true"
-        RESTORE_STRUCTURE_AND_DATA: "true"
 
 zzz_deploy_dev_nimaai_aaa:
   name: ⚒ Dev-Server nimaai.ruby.zhdk.ch – Deploy Madek

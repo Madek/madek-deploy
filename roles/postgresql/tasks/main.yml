@@ -3,8 +3,8 @@
 - package_facts:
     manager: auto
 
-- include_tasks: upgrade_95_to_10.yml
-  when: "'postgresql-9.5' in ansible_facts.packages"
+- include_tasks: upgrade_10_to_15.yml
+  when: "'postgresql-10' in ansible_facts.packages"
 
 - include_tasks: install.yml
 

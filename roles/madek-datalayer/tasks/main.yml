@@ -68,7 +68,7 @@
   register: madek_drop_db_task
   changed_when: not madek_drop_db_task.failed
   failed_when: |
-    madek_drop_db_task.failed and ('database "' ~ database.name ~ '" does not exist' not in madek_drop_db_task.stderr)
+    madek_drop_db_task.failed and ('database madek does not exist' not in madek_drop_db_task.stderr)
   tags: [drop-db]
 
 - name: Create DB
@@ -86,13 +86,15 @@
   register: madek_create_db_task
   changed_when: not madek_create_db_task.failed
   failed_when: |
-    madek_create_db_task.failed and ("Database '" ~ database.name ~ "' already exists" not in madek_create_db_task.stderr)
+    madek_create_db_task.failed and ("Database madek already exists" not in madek_create_db_task.stderr)
 
 - name: Restore structure and data
   become: true
   become_user: '{{madek_user}}'
-  shell: |
-    pg_restore --exit-on-error --single-transaction -x -O -d '{{database.name}}' '{{restore_structure_and_data_file}}'
+  shell: >
+    /usr/lib/postgresql/15/bin/pg_restore 
+    --port 5415 --exit-on-error --single-transaction -x -O 
+    -d madek '{{restore_structure_and_data_file}}'
   register: restore
   when: restore_structure_and_data
   changed_when: not ( restore.stdout is match("") )
@@ -142,11 +144,11 @@
     name: '{{database.user}}-readonly'
     role_attr_flags: LOGIN
     login_user: root
-  tags: [test]
+    port: 5415
 
-- name: grant read for {{database.user}}-readonly on {{database.name}}
+- name: grant read for {{database.user}}-readonly on madek
   postgresql_privs:
-    database: '{{database.name}}'
+    database: madek
     objs: TABLES
     privs: SELECT
     roles: '{{database.user}}-readonly'
@@ -154,11 +156,11 @@
     state: present
     type: default_privs
     login_user: root
-  tags: [test]
+    port: 5415
 
-- name: grand exec for {{database.user}}-readonly on {{database.name}}
+- name: grand exec for {{database.user}}-readonly on madek
   postgresql_privs:
-    database: '{{database.name}}'
+    database: madek
     objs: ALL_IN_SCHEMA
     privs: EXECUTE
     roles: '{{database.user}}-readonly'
@@ -166,4 +168,4 @@
     state: present
     type: function
     login_user: root
-  tags: [test]
+    port: 5415

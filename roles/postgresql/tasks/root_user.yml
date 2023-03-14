@@ -3,6 +3,7 @@
   become_user: postgres
   postgresql_user:
     name: root
+    port: 5415
     role_attr_flags: CREATEDB,SUPERUSER
     password: root
     encrypted: true
@@ -11,5 +12,6 @@
 - postgresql_db:
     name: root
     login_user: root
+    port: 5415
     owner: root
   name: Create the a database for root
