@@ -124,18 +124,30 @@ def build_api_browser_dir
   print "done, "
 end
 
+def build_auth
+  print "building auth ... "
+  FileUtils.mkdir_p "#{BUILD_DIR}/auth/"
+  exec! <<-CMD.strip_heredoc
+    #!/usr/bin/env bash
+    set -eu
+    cd #{SOURCE_DIR}/auth
+    ./bin/build
+  CMD
+  FileUtils.cp "#{SOURCE_DIR}/auth/madek-auth.jar", "#{BUILD_DIR}/auth/auth.jar"
+  print "done, "
+end
+
 def build_api
   print "building api ... "
   exec! <<-CMD.strip_heredoc
     #!/usr/bin/env bash
-    set -eux
+    set -eu
     cd #{SOURCE_DIR}/api
-    ./bin/uberjar
+    ./bin/build
   CMD
   FileUtils.cp "#{SOURCE_DIR}/api/madek-api.jar", "#{BUILD_DIR}/api/api.jar"
   print "done, "
 end
-
 
 
 def build_rails_services
@@ -181,6 +193,7 @@ def main
     build_rails_services
     build_api_documentation_dir
     build_api_browser_dir
+    build_auth
     build_api
     pack build_archive
     puts " done "

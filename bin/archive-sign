@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 
 cat madek.tar.gz | openssl dgst -sha256 -sign crypto/madek.secret.pem -out madek.tar.gz.sig
 
