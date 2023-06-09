@@ -112,9 +112,11 @@ madek_is_behind_gateway: false # set to true if host is behind a HTTP gateway / 
 ################################################################################
 
 madek_base_name: madek
-madek_webapp_port: 8880
 madek_admin_port: 8881
 madek_api_port: 8885
+madek_auth_port: 8882
+madek_webapp_port: 8880
+
 
 ################################################################################
 ### reset ######################################################################
@@ -184,6 +186,20 @@ madek_services:
   # because it otherwise eats all routes since it is not
   # scoped
   # FIXME: use array (hash key is not important anyways)
+  #
+
+  auth:
+    name: auth
+    type: custom
+    xmx: 512m
+    active: true
+    dir: /auth
+    http_port: "{{madek_auth_port}}"
+    context: /auth
+    main: madek.auth.main
+    monit_match: 'java.*madek\.auth\.main'
+    monit_check_urls:
+      - http://localhost:{{madek_auth_port}}/auth
 
   api:
     name: api

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eu
+set -euo pipefail
 mkdir -p tmp
 
 function cleanup {
@@ -8,4 +8,8 @@ function cleanup {
 trap cleanup EXIT
 cleanup
 
-cat madek.tar.gz | openssl dgst -verify crypto/madek.pub.pem -signature madek.tar.gz.sig
+if [[ -f madek.tar.gz ]] && [[ -f madek.tar.gz.sig ]]; then
+  cat madek.tar.gz | openssl dgst -verify crypto/madek.pub.pem -signature madek.tar.gz.sig
+else 
+  exit -1
+fi
