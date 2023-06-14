@@ -30,12 +30,12 @@
 "deploy_staging":
   include: cider-ci/jobs/deploy-defaults.yml
   name: "♟ Deploy to staging"
-  run_when:
-    "deploy at 2:30 UTC on branch release":
-      type: cron
-      value: "30 2 * * *"
-      branch_include_match: ^zhdk/staging$
-      rerun: true
+# run_when:
+#   "deploy at 2:30 UTC on branch release":
+#     type: cron
+#     value: "30 2 * * *"
+#     branch_include_match: ^zhdk/staging$
+#     rerun: true
   depends_on:
     deploy to container passed:
       { job_key: test-containers-deploy, type: job, states: [passed] }
