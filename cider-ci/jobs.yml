@@ -46,8 +46,8 @@
           "staging.madek.zhdk.ch": true
         environment_variables:
           DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_staging
-          DROP_DATABASE: "false"
-          RESTORE_STRUCTURE_AND_DATA: "false"
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "true"
 
 ### test - auto-deploy from master #################################################
 
@@ -70,8 +70,8 @@
           "test.madek.zhdk.ch": true
         environment_variables:
           DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test
-          DROP_DATABASE: "false"
-          RESTORE_STRUCTURE_AND_DATA: "false"
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "true"
 
 ### test-blank - auto-deploy from master ###########################################
 
@@ -111,8 +111,8 @@
           "test-blank.madek.zhdk.ch": true
         environment_variables:
           DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test-blank
-          DROP_DATABASE: "false"
-          RESTORE_STRUCTURE_AND_DATA: "false"
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "true"
 
         scripts:
           get-latest-data:
