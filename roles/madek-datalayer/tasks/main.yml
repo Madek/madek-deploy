@@ -99,6 +99,8 @@
   when: restore_structure_and_data
   changed_when: not ( restore.stdout is match("") )
   tags: [restore_structure_and_data]
+  async: 3600
+  poll: 1
 
 - name: Migrate
   become: true
