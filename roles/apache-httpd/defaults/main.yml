@@ -6,3 +6,4 @@ apache_httpd_enabled_modules:
   - rewrite
   - ssl
   - xsendfile
+  - unique_id
