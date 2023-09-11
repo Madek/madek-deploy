@@ -131,7 +131,9 @@ def build_auth
     #!/usr/bin/env bash
     set -eu
     cd #{SOURCE_DIR}/auth
-    ./bin/build
+    ./bin/env/nodejs-setup
+    npm ci
+  ./bin/build
   CMD
   FileUtils.cp "#{SOURCE_DIR}/auth/madek-auth.jar", "#{BUILD_DIR}/auth/auth.jar"
   print "done, "
