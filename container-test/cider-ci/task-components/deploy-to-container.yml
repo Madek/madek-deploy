@@ -23,9 +23,9 @@ scripts:
   virtualenv-prepare:
     body: |
       #!/usr/bin/env bash
-      set -euxo pipefail
+      set -euo pipefail
       cd deploy
-      bin/virtualenv
+      source bin/py-venv-activate || exit -1
 
   deploy-to-container:
     timeout: 20 Minutes

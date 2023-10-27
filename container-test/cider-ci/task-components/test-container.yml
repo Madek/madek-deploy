@@ -5,7 +5,7 @@ scripts:
         script_key: deploy-to-container
     body: |
       #!/usr/bin/env bash
-      set -eux
+      set -euo pipefail
 
       echo 'wait for HTTP'
       lxc exec ${CONTAINER_NAME} -- bash -c 'until curl -i --fail http://localhost/api/status; do sleep 3; done'

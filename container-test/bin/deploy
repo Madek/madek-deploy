@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eux
+set -euo pipefail
 
 bin/ansible-playbook -i container-test/inventory/hosts play_setup-and-deploy.yml
 bin/ansible-playbook \

@@ -1,2 +1,2 @@
-- include: monitor-services.yml
+- import_tasks: monitor-services.yml
   tags: [server_monitor-services]

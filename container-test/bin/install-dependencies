@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euxo
+set -euo pipefail
 
 # remove this packet if installed - its not needed and causes problems on Ubuntu
 apt purge -y -f open-iscsi || true

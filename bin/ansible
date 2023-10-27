@@ -1,8 +1,8 @@
 #!/usr/bin/env bash 
 set -euo pipefail
 
-source bin/virtualenv || exit 1
-
+DEPLOY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+source $DEPLOY_DIR/bin/py-venv-activate || exit 1
 echo $LOCAL_CACHE_DIR
 
 ansible $@

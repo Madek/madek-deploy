@@ -5,7 +5,7 @@
   failed_when: false
   with_dict: "{{madek_services}}"
 
-- include: setup-service.yml
+- include_tasks: setup-service.yml
   with_dict: "{{madek_services}}"
   tags: [deploy-setup-services]
 

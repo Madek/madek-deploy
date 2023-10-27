@@ -7,7 +7,7 @@ scripts:
     timeout: 20 Minutes
     body: |
       #!/usr/bin/env bash
-      set -euxo pipefail
+      set -euo pipefail
 
       cd deploy/container-test
 

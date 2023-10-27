@@ -20,8 +20,8 @@
       - git
       - htop
       - python3
-      - python3-venv
       - rsync
+      - sudo
     update_cache: yes
     cache_valid_time: 3600
 
@@ -74,11 +74,11 @@
 
 ### etckeeper #################################################################
 
-- include: Debuntu_etckeeper.yml
+- import_tasks: Debuntu_etckeeper.yml
 
 ### monit #####################################################################
 
-- include: Debuntu_monit.yml
+- import_tasks: Debuntu_monit.yml
   tags:
     - os-setup_monit
 

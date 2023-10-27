@@ -20,7 +20,7 @@
     dest: /etc/systemd/system/madek_{{service.name}}.service
   when: "service.active and service.type == 'custom'"
 
-- include: setup-rails-service.yml
+- include_tasks: setup-rails-service.yml
   when: "service.active and service.type == 'rails'"
 
 

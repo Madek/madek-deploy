@@ -4,8 +4,7 @@
     shell: /bin/bash
     system: yes
 
-- include_tasks: install-project.yml
-- include_tasks: install-ruby.yml
-- include_tasks: database.yml
-
-- include: service.yml
+- import_tasks: install-project.yml
+- import_tasks: install-ruby.yml
+- import_tasks: database.yml
+- import_tasks: service.yml

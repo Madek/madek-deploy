@@ -3,10 +3,26 @@
     pkg:
       - imagemagick
       - libimage-exiftool-perl
-      - ruby
       - nodejs
-      - openjdk-11-jdk
+      - ruby
     state: latest
     update_cache: yes
     cache_valid_time: 3600
 
+- name: Install OpenJDK 11 on Debian 10
+  apt:
+    pkg:
+      - openjdk-11-jdk
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+  when: (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "10")
+
+- name: Install OpenJDK 17 on all other than Debian 10
+  apt:
+    pkg:
+      - openjdk-17-jdk
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+  when: not (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "10")

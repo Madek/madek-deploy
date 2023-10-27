@@ -1,6 +1,6 @@
-- include: setup-apache2.yml
+- import_tasks: setup-apache2.yml
 
-- include: setup-certbot.yml
+- import_tasks: setup-certbot.yml
 
 - name: disable all madek sites
   shell: rm /etc/apache2/sites-enabled/madek_*
@@ -41,7 +41,7 @@
 - debug:
     var: madek_virtual_hosts
 
-- include: virtual-host.yml
+- include_tasks: virtual-host.yml
   with_indexed_items: "{{madek_virtual_hosts}}"
 
 - name: enable letsencrypt cert if present

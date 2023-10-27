@@ -3,7 +3,7 @@
 .mux.yml
 .project
 .retry
-.virtualenv
+.venv
 /.vagrant
 /tmp
 /log

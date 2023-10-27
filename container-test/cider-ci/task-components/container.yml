@@ -8,7 +8,7 @@ scripts:
         script_key: bundle
     body: |
       #!/usr/bin/env bash
-      set -eux
+      set -euo pipefail
 
       # lxc launch --ephemeral ubuntu:16.04 ${CONTAINER_NAME}
 
