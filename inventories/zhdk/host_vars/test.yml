@@ -2,7 +2,7 @@
 ### ansible stuff #############################################################
 ###############################################################################
 
-ansible_ssh_host: test.madek.zhdk.ch
+ansible_ssh_host: zhdk-madek-test.ruby.zhdk.ch
 ansible_ssh_user: root
 
 ###############################################################################
@@ -92,7 +92,6 @@ madek_webapp_html_extra_head_end: |
   <style>
   {{ lookup('file', 'files/custom-css-demo.css') }}
   </style>
-
 
 
 reverse_proxy_custom_templates: 
