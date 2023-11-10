@@ -9,4 +9,5 @@
     state: absent
   with_items: '{{removed_ssh_keys}}'
 
+- include_tasks: locales.yml
 - include_tasks: Debuntu.yml
