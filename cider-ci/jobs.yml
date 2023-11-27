@@ -49,6 +49,22 @@
           DROP_DATABASE: "true"
           RESTORE_STRUCTURE_AND_DATA: "true"
 
+"deploy_staging_no_restore":
+  include: cider-ci/jobs/deploy-defaults.yml
+  name: "♟ Deploy to staging WITHOUT DB-RESTORE!"
+  depends_on:
+    deploy to container passed:
+      { job_key: test-containers-deploy, type: job, states: [passed] }
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources:
+          "staging.madek.zhdk.ch": true
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_staging
+          DROP_DATABASE: "false"
+          RESTORE_STRUCTURE_AND_DATA: "false"
+
 ### test - auto-deploy from master #################################################
 
 "deploy_test":
