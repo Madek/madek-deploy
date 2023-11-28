@@ -1,0 +1,62 @@
+- copy:
+    src: "{{import_file_path}}"
+    dest: /tmp/madek-import
+  when: import_file_path is defined
+  name: copy import file
+
+- file:
+    path: /tmp/madek-scripts
+    state: directory
+  name: created /tmp/madek-scripts directory
+
+- copy:
+    src: "{{role_path}}/shared"
+    dest: /tmp/madek-scripts/shared/
+  name: copy shared script files
+
+- copy:
+    src: "{{script_file_path}}"
+    dest: /tmp/madek-scripts/script.rb
+  name: copy script file
+
+- file:
+    path: "{{logfile_path}}"
+    state: touch
+    owner: "{{madek_user}}"
+  name: create log file
+
+- shell: |
+    #!/bin/bash
+    set -eux
+    source ~/.asdf/asdf.sh
+
+    cd {{madek_webapp_dir}}
+
+    export RAILS_ENV=production
+    export IMPORT_FILE=/tmp/madek-import
+
+    bundle install > /dev/null
+    bundle exec rails runner /tmp/madek-scripts/script.rb 
+
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{madek_user}}"
+  register: result
+  name: run rails script
+
+- debug:
+    var: result.stdout_lines
+  name: debug result.stdout_lines
+
+- copy:
+    content: "{{ result.stdout }}"
+    dest: "{{logfile_path}}"
+  name: write result.stdout to log file
+
+- fetch:
+    src: "{{logfile_path}}"
+    dest: "{{playbook_dir}}/tmp/log/{{inventory_hostname}}/{{logfile_name}}"
+    fail_on_missing: yes
+    flat: yes
+  name: fetch log file

@@ -1,0 +1,8 @@
+# NOTE: those vars need to be set. they are listed here for reference but its recommended to define them on the command line,
+# example: $ bin/ansible-playbook -i ../zhdk-inventory/test-hosts execute-script_play.yml -e 'script_file=/tmp/myscript.rb'
+import_file_path: "{{ import_file }}"
+madek_webapp_dir: /madek/server/webapp
+madek_ruby_dir: "/home/{{madek_user}}/.asdf/installs/ruby/{{leihs_legacy_ruby_version.stdout}}"
+logfile_name: "leihs-script.{{ansible_date_time.iso8601_basic_short}}.log.txt"
+logfile_path: "/tmp/{{logfile_name}}"
+script_file_path: "{{ script_file | mandatory }}"

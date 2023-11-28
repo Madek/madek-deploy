@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+TARGET=${TARGET:-""}
+SCRIPT=${SCRIPT:-""}
+
+if [[ -z "$TARGET" ]]; then
+  echo "TARGET must be set to test, staging or prod."
+  exit 1
+fi
+
+if [[ -z "$SCRIPT" ]]; then
+  echo "SCRIPT must be set. Use relative or absolute path to the file."
+  exit 1
+else
+  SCRIPT="$(realpath $SCRIPT)"
+fi
+
+if test $TARGET = "test"; then
+  INVENTORY=$(realpath ./inventories/zhdk/hosts_test)
+elif test $TARGET = "staging"; then
+  INVENTORY=$(realpath ./inventories/zhdk/hosts_staging)
+elif test $TARGET = "prod"; then
+  INVENTORY=$(realpath ./inventories/zhdk/hosts_medienarchiv)
+else
+  echo "Unsupported TARGET. Must be one of: test, staging, prod."
+  exit 1
+fi
+
+echo "TARGET: $TARGET"
+echo "SCRIPT: $SCRIPT"
+echo "INVENTORY: $INVENTORY"
+echo ""
+
+./bin/ansible-playbook \
+  $(realpath execute-script_play.yml) \
+  -i $INVENTORY \
+  -e "script_file_path=$SCRIPT" \
+
+echo "DONE. See log output at ./tmp/$TARGET."
+
+# # vi: ft=sh
