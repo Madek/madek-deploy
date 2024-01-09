@@ -68,6 +68,7 @@ madek_master_secret: "{{test.madek_master_secret}}"
 # madek_welcome_title: false
 # madek_site_title: false
 
+
 madek_webapp_html_extra_body_start: |
   <!-- Piwik Image Tracker-->
   <img src="https://analytics.zhdk.ch/piwik.php?idsite=172&rec=1" style="border:0;position:fixed;top:0;left:0" alt="">
@@ -94,14 +95,31 @@ madek_webapp_html_extra_head_end: |
   </style>
 
 
-reverse_proxy_custom_templates: 
+reverse_proxy_custom_templates:
   'test.htpasswd':  'auth.htpasswd'
 
-reverse_proxy_custom_config: |
-  <LocationMatch ".*">
-      AuthType Basic
-      AuthName "ZHdK Madek Test"
-      AuthBasicProvider file
-      AuthUserFile "/etc/apache2/madek/auth.htpasswd"
-      Require valid-user
-  </LocationMatch>
+### Disable basic auth for now since it conflicts with the old API
+#
+#reverse_proxy_custom_config: |
+#  <LocationMatch ".*">
+#      AuthType Basic
+#      AuthName "ZHdK Madek Test"
+#      AuthBasicProvider file
+#      AuthUserFile "/etc/apache2/madek/auth.htpasswd"
+#      Require valid-user
+#  </LocationMatch>
+
+
+###############################################################################
+### Certs #####################################################################
+###############################################################################
+
+
+madek_virtual_hosts:
+  - hostname: "{{madek_external_hostname}}"
+    ip: "*"
+    ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-test.ruby.zhdk.ch.crt
+    ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-test.ruby.zhdk.ch.key
+    force_redirect_to_https: yes
+
+
