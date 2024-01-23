@@ -16,8 +16,21 @@ madek_external_hostname: test.madek.zhdk.ch
 ###############################################################################
 
 zhdk_integration: True
+zhdk_agw_api_id: madektest
 zhdk_agw_api_key: "{{zhdk_agw_api_test_key}}"
 zhdk_agw_api_url: "https://intern.zhdk.ch/?auth/{{zhdk_agw_api_test_app}}"
+agw_auth_private_key: "{{test.agw_auth_private_key}}"
+agw_auth_public_key: |
+  -----BEGIN PUBLIC KEY-----
+  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJCGE8RbZhtTj+93HMSkSKMbWv4/X
+  +87MRVYtJMoYSa3F9HONSSCkSbCNcpz4QBqLLcd4KCJGUFHCRowp4Trw0Q==
+  -----END PUBLIC KEY-----
+agw_auth_madek_public_key: |
+  -----BEGIN PUBLIC KEY-----
+  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEfv30vIA7yLtLDf2ISVCohxmh1Tby
+  4cPaxmCiXbFes2IqlYDDVk0hdk8q8/OFKKKfWGd90c7V6n9zJsr0Xs22ug==
+  -----END PUBLIC KEY-----
+
 
 ###############################################################################
 ### database (deployment) handlling ###########################################
@@ -95,19 +108,25 @@ madek_webapp_html_extra_head_end: |
   </style>
 
 
+###############################################################################
+### Custom Reverse Proxy Settings #############################################
+###############################################################################
+
+
 reverse_proxy_custom_templates:
   'test.htpasswd':  'auth.htpasswd'
 
-### Disable basic auth for now since it conflicts with the old API
-#
-#reverse_proxy_custom_config: |
-#  <LocationMatch ".*">
-#      AuthType Basic
-#      AuthName "ZHdK Madek Test"
-#      AuthBasicProvider file
-#      AuthUserFile "/etc/apache2/madek/auth.htpasswd"
-#      Require valid-user
-#  </LocationMatch>
+reverse_proxy_custom_config: |
+
+  ProxyPass /zhdk-agw  http://localhost:3333/zhdk-agw    nocanon retry=0
+
+  <LocationMatch ".*">
+      AuthType Basic
+      AuthName "ZHdK Madek Test"
+      AuthBasicProvider file
+      AuthUserFile "/etc/apache2/madek/auth.htpasswd"
+      Require valid-user
+  </LocationMatch>
 
 
 ###############################################################################
