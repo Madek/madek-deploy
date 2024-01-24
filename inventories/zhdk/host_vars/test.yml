@@ -120,9 +120,9 @@ reverse_proxy_custom_config: |
 
   ProxyPass /zhdk-agw  http://localhost:3333/zhdk-agw    nocanon retry=0
 
-  <LocationMatch ".*">
+  <LocationMatch "^(?!/api.*)" >
       AuthType Basic
-      AuthName "ZHdK Madek Test"
+      AuthName "ZHdK Madek {{madek_external_hostname}}"
       AuthBasicProvider file
       AuthUserFile "/etc/apache2/madek/auth.htpasswd"
       Require valid-user
@@ -140,5 +140,3 @@ madek_virtual_hosts:
     ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-test.ruby.zhdk.ch.crt
     ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-test.ruby.zhdk.ch.key
     force_redirect_to_https: yes
-
-

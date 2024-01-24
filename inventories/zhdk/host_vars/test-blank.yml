@@ -2,7 +2,7 @@
 ### ansible stuff #############################################################
 ###############################################################################
 
-ansible_ssh_host: test-blank.madek.zhdk.ch
+ansible_ssh_host: zhdk-madek-test-blank.ruby.zhdk.ch
 ansible_ssh_user: root
 
 ###############################################################################
@@ -18,6 +18,19 @@ madek_external_hostname: test-blank.madek.zhdk.ch
 zhdk_integration: True
 zhdk_agw_api_key: "{{zhdk_agw_api_test_key}}"
 zhdk_agw_api_url: "https://intern.zhdk.ch/?auth/{{zhdk_agw_api_test_app}}"
+agw_auth_private_key: "{{test.agw_auth_private_key}}"
+agw_auth_public_key: |
+  -----BEGIN PUBLIC KEY-----
+  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJCGE8RbZhtTj+93HMSkSKMbWv4/X
+  +87MRVYtJMoYSa3F9HONSSCkSbCNcpz4QBqLLcd4KCJGUFHCRowp4Trw0Q==
+  -----END PUBLIC KEY-----
+agw_auth_madek_public_key: |
+  -----BEGIN PUBLIC KEY-----
+  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEfv30vIA7yLtLDf2ISVCohxmh1Tby
+  4cPaxmCiXbFes2IqlYDDVk0hdk8q8/OFKKKfWGd90c7V6n9zJsr0Xs22ug==
+  -----END PUBLIC KEY-----
+
+
 
 shibboleth_sign_in_enabled: False # disabled because package is broken…
 
@@ -98,3 +111,40 @@ madek_webapp_html_extra_head_start: |
               ░  ░      ░
 
   -->
+
+
+###############################################################################
+### Custom Reverse Proxy Settings #############################################
+###############################################################################
+
+
+
+reverse_proxy_custom_templates:
+  'test.htpasswd':  'auth.htpasswd'
+
+reverse_proxy_custom_config: |
+
+
+  ProxyPass /zhdk-agw  http://localhost:3333/zhdk-agw    nocanon retry=0
+
+  <LocationMatch "^(?!/api.*)" >
+      AuthType Basic
+      AuthName "ZHdK Madek {{madek_external_hostname}}"
+      AuthBasicProvider file
+      AuthUserFile "/etc/apache2/madek/auth.htpasswd"
+      Require valid-user
+  </LocationMatch>
+
+
+###############################################################################
+### Certs #####################################################################
+###############################################################################
+
+
+madek_virtual_hosts:
+  - hostname: "{{madek_external_hostname}}"
+    ip: "*"
+    ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.crt
+    ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.key
+    force_redirect_to_https: yes
+

@@ -1,6 +1,7 @@
 - name: install locales-all
   apt:
     pkg:
+      - locales
       - locales-all
     update_cache: yes
     cache_valid_time: 3600
