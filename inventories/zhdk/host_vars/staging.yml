@@ -16,6 +16,7 @@ madek_external_hostname: staging.madek.zhdk.ch
 ###############################################################################
 
 zhdk_integration: True
+zhdk_agw_api_id: madektest
 zhdk_agw_api_key: "{{zhdk_agw_api_test_key}}"
 zhdk_agw_api_url: "https://intern.zhdk.ch/?auth/{{zhdk_agw_api_test_app}}"
 agw_auth_private_key: "{{test.agw_auth_private_key}}"
