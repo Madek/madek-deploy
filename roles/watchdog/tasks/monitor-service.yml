@@ -8,4 +8,5 @@
     src: service_monit
     dest: /etc/monit/conf.d/madek_{{service.name}}
     mode: 0600
+  when: "item.value.monitored == 'yes'"
 

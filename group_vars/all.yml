@@ -167,6 +167,9 @@ madek_admin_service_name: "{{madek_base_name}}_admin-webapp"
 madek_api_dir: "{{madek_server_dir}}/api"
 madek_api_service_name: "{{madek_base_name}}_api"
 
+madek_mail_dir: "{{madek_server_dir}}/mail"
+madek_mail_service_name: "{{madek_base_name}}_mail"
+
 madek_user_docs_dir: "{{madek_root_dir}}/user-docs"
 madek_user_docs_web_path: "/hilfe"
 
@@ -177,7 +180,7 @@ database:
   password: "{{madek_database_secret}}"
   hostname: localhost
   port: 5432
-  name: "{{madek_base_name}}_production"
+  name: "{{madek_base_name}}"
   pool: 5 # should be (service.max_threads_per_worker - 1)
 
 madek_services:
@@ -197,6 +200,7 @@ madek_services:
     http_port: "{{madek_auth_port}}"
     context: /auth
     main: madek.auth.main
+    monitored: yes
     monit_match: 'java.*madek\.auth\.main'
     monit_check_urls:
       - http://localhost:{{madek_auth_port}}/auth
@@ -209,6 +213,7 @@ madek_services:
     http_port: "{{madek_api_port}}"
     context: /api
     main: madek.api.main
+    monitored: yes
     monit_match: 'java.*madek\.api\.main'
     monit_check_urls:
       - http://localhost:{{madek_api_port}}/api/status
@@ -224,6 +229,7 @@ madek_services:
     context: "/admin"
     database: { user: "{{database.user}}", password: "{{database.password}}" }
     xmx: 512m
+    monitored: yes
     monit_match: 'puma.*\:{{madek_admin_port}}'
     monit_check_urls:
       - http://localhost:{{madek_admin_port}}/admin/status
@@ -240,6 +246,16 @@ madek_services:
     assets_sub_dir: /public/assets
     http_port: "{{madek_webapp_port}}"
     context: ""
+    monitored: yes
     monit_match: 'puma.*\:{{madek_webapp_port}}'
     monit_check_urls:
       - http://localhost:{{madek_webapp_port}}/status
+
+  mail:
+    name: mail
+    type: custom
+    active: true
+    dir: /mail
+    context: /mail
+    main: madek.mail.main
+    monitored: no

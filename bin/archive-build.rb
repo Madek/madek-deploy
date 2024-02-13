@@ -144,6 +144,18 @@ def build_api
   print "done, "
 end
 
+def build_mail
+  print "building mail ... "
+  FileUtils.mkdir_p "#{BUILD_DIR}/mail/"
+  exec! <<-CMD.strip_heredoc
+    #!/usr/bin/env bash
+    set -eu
+    cd #{SOURCE_DIR}/mail
+    ./bin/build
+  CMD
+  FileUtils.cp "#{SOURCE_DIR}/mail/madek-mail.jar", "#{BUILD_DIR}/mail/mail.jar"
+  print "done, "
+end
 
 def build_rails_services
   RAILS_SERVICES.each do |service|
@@ -190,6 +202,7 @@ def main
     build_api_browser_dir
     build_auth
     build_api
+    build_mail
     pack build_archive
     puts " done "
   end

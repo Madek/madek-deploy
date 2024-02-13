@@ -6,7 +6,7 @@
 
 "deploy_medienarchive":
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "♛ Deploy to medienarchiv"
+  name: "!!! DEPLOY TO MEDIENARCHIV !!!"
   depends_on:
     deploy to staging passed:
       { job_key: deploy_staging, type: job, states: [passed] }
@@ -29,16 +29,13 @@
 
 "deploy_staging":
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "♟ Deploy to staging"
+  name: "Deploy to staging"
   run_when:
     "deploy at 2:30 UTC on branch release":
       type: cron
       value: "30 2 * * *"
       branch_include_match: ^zhdk/staging$
       rerun: true
-  depends_on:
-    deploy to container passed:
-      { job_key: test-containers-deploy, type: job, states: [passed] }
   context:
     tasks:
       deploy:
@@ -51,10 +48,7 @@
 
 "deploy_staging_no_restore":
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "♟ Deploy to staging WITHOUT DB-RESTORE!"
-  depends_on:
-    deploy to container passed:
-      { job_key: test-containers-deploy, type: job, states: [passed] }
+  name: "Deploy to staging WITHOUT DB-RESTORE!"
   context:
     tasks:
       deploy:
@@ -69,7 +63,7 @@
 
 "deploy_test":
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "\uD83C\uDFE2 Deploy to test"
+  name: "Deploy to test"
   run_when: &RUN_ON_MASTER_AND_DO_NIGHTLY_RESET
     master branch:
       type: branch
@@ -89,11 +83,24 @@
           DROP_DATABASE: "true"
           RESTORE_STRUCTURE_AND_DATA: "true"
 
+"deploy_test_no_restore":
+  include: cider-ci/jobs/deploy-defaults.yml
+  name: "Deploy to test WITHOUT DB-RESTORE!"
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources:
+          "test.madek.zhdk.ch": true
+        environment_variables:
+          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test
+          DROP_DATABASE: "false"
+          RESTORE_STRUCTURE_AND_DATA: "false"
+
 ### test-blank - auto-deploy from master ###########################################
 
 "deploy_test-blank":
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "\uD83C\uDFE2 Deploy to test-blank"
+  name: "Deploy to test-blank"
   description: Deploy to test-blank incl. Re-Installation & First Time Setups ("Fresh Instance")
   run_when: *RUN_ON_MASTER_AND_DO_NIGHTLY_RESET
   context:
@@ -116,7 +123,7 @@
 
 "deploy_test-blank_like-test":
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "\uD83D\uDEA7 Deploy to test-blank like test!"
+  name: "Deploy to test-blank like test!"
   description: |
     Deploy to test-blank w/ prod data (for development).
     Note that previews etc won't work, but UPLOADING does!
@@ -144,7 +151,7 @@
 
 "deploy_test-blank_no_restore":
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "\uD83D\uDEA7 Deploy to test-blank WITHOUT DB-RESTORE!"
+  name: "Deploy to test-blank WITHOUT DB-RESTORE!"
   description: |
     Deploy to test-blank without touching the DB (for development).
     Note that previews etc won't work, but UPLOADING does!

@@ -27,4 +27,4 @@
     port: "{{item.value.http_port}}"
     timeout: 180
   with_dict: "{{madek_services}}"
-  when: "item.value.active"
+  when: "item.value.active and item.value.http_port is defined"
