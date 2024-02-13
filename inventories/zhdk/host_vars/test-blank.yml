@@ -18,12 +18,13 @@ madek_external_hostname: test-blank.madek.zhdk.ch
 zhdk_integration: True
 zhdk_agw_api_key: "{{zhdk_agw_api_test_key}}"
 zhdk_agw_api_url: "https://intern.zhdk.ch/?auth/{{zhdk_agw_api_test_app}}"
-agw_auth_private_key: "{{test.agw_auth_private_key}}"
+
 agw_auth_public_key: |
   -----BEGIN PUBLIC KEY-----
   MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJCGE8RbZhtTj+93HMSkSKMbWv4/X
   +87MRVYtJMoYSa3F9HONSSCkSbCNcpz4QBqLLcd4KCJGUFHCRowp4Trw0Q==
   -----END PUBLIC KEY-----
+
 agw_auth_madek_public_key: |
   -----BEGIN PUBLIC KEY-----
   MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEfv30vIA7yLtLDf2ISVCohxmh1Tby

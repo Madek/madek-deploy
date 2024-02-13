@@ -2,7 +2,7 @@
 ### ansible stuff #############################################################
 ###############################################################################
 
-ansible_ssh_host: medienarchiv.zhdk.ch
+ansible_ssh_host: zhdk-madek-prod.ruby.zhdk.ch
 ansible_ssh_user: root
 
 
@@ -18,17 +18,32 @@ madek_external_hostname: medienarchiv.zhdk.ch
 ###############################################################################
 
 zhdk_integration: True
+zhdk_agw_api_id: "{{zhdk_agw_api_prod_app}}"
 zhdk_agw_api_key: "{{zhdk_agw_api_prod_key}}"
 zhdk_agw_api_url: "https://intern.zhdk.ch/?auth/{{zhdk_agw_api_prod_app}}"
+
+agw_auth_public_key: |
+  -----BEGIN PUBLIC KEY-----
+  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJCGE8RbZhtTj+93HMSkSKMbWv4/X
+  +87MRVYtJMoYSa3F9HONSSCkSbCNcpz4QBqLLcd4KCJGUFHCRowp4Trw0Q==
+  -----END PUBLIC KEY-----
+
+agw_auth_madek_public_key: |
+  -----BEGIN PUBLIC KEY-----
+  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEfv30vIA7yLtLDf2ISVCohxmh1Tby
+  4cPaxmCiXbFes2IqlYDDVk0hdk8q8/OFKKKfWGd90c7V6n9zJsr0Xs22ug==
+  -----END PUBLIC KEY-----
+
 
 
 ###############################################################################
 ### database (deployment) handlling ###########################################
 ###############################################################################
 
+
 db_backups_enabled: True
 db_backups_dir: /opt/madekdata/backups
-# restore_structure_and_data: no
+restore_structure_and_data: False
 # madek_feature_toggle_admin_sql_reports: "on my own risk"
 
 
@@ -84,9 +99,24 @@ madek_webapp_html_extra_body_start: |
   <img src="https://analytics.zhdk.ch/piwik.php?idsite=174&rec=1" style="border:0;position:fixed;top:0;left:0" alt="">
   <!-- End Piwik -->
 
+
+###############################################################################
+### Custom Reverse Proxy Settings #############################################
+###############################################################################
+
+reverse_proxy_custom_config: |
+
+  ProxyPass /zhdk-agw  http://localhost:3333/zhdk-agw    nocanon retry=0
+
+
+###############################################################################
+### Certs #####################################################################
+###############################################################################
+
+
 madek_virtual_hosts:
   - hostname: "{{madek_external_hostname}}"
     ip: "*"
-    ssl_certificate_file: /etc/letsencrypt/live/medienarchiv.zhdk.ch/fullchain.pem
-    ssl_certificate_key_file: /etc/letsencrypt/live/medienarchiv.zhdk.ch/privkey.pem
+    ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-prod.ruby.zhdk.ch.crt
+    ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-prod.ruby.zhdk.ch.key
     force_redirect_to_https: yes
