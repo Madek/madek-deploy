@@ -133,6 +133,8 @@
   args:
     executable: /bin/bash
 
+- include_tasks: configure.yml 
+
 - name: create DB dir, change owner to root
   file:
     path: "{{madek_webapp_dir}}/db"
