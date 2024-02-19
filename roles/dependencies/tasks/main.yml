@@ -1,6 +1,7 @@
 - name: Install dependencies
   apt:
     pkg:
+      - ghostscript
       - imagemagick
       - libimage-exiftool-perl
       - nodejs
@@ -8,6 +9,14 @@
     state: latest
     update_cache: yes
     cache_valid_time: 3600
+
+- name: fix imagemagick configuration to allow PDF preview generation
+  lineinfile:
+    path: /etc/ImageMagick-6/policy.xml
+    state: present
+    search_string: '<policy domain="coder" rights="none" pattern="PDF" />'
+    line: '  <policy domain="coder" rights="read | write" pattern="PDF" />'
+    insertafter: 'ghostscript format types'
 
 - name: Install OpenJDK 11 on Debian 10
   apt:
