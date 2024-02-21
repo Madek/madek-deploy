@@ -109,3 +109,37 @@ Importing Data
 Example
 
     rsync -e ssh -Pav root@madek.*************.**:/var/local/madek-file-storage/* /opt/madekdata/
+
+
+### Secrets Encryption (ZHdK)
+
+This is handled via https://github.com/elasticdog/transcrypt.
+
+The `transcrypt` bash  script is stored within this repo: `./bin/transcrypt`.
+
+To unlock the encrypted files run `./bin/unlock`.
+
+Unlocking is rarely necessary. Some cases include
+* deployments to a ZHdK Server,
+* changing ZHdK Secrets.
+
+
+Run `./bin/transcrypt --flush-credentials` to bring the files back to their
+encrypted state.
+
+
+#### Key Rollover
+
+See https://github.com/elasticdog/transcrypt?tab=readme-ov-file#rekeying for key rollover.
+
+We store the symmetric key via gpg in the project. Run the following to encrypt a new key:
+
+    gpg -a --encrypt \
+        -r Thomas.Schank@zhdk.ch \
+        -r ci-exec-user@ci-executor-madek-2024 \
+        -r jan.pistor@zhdk.ch \
+        -r manuel.radl@zhdk.ch \
+        -r matus.kmit@zhdk.ch \
+        -r urs.vanbinsbergen@zhdk.ch \
+        .transcrypt_key.txt
+

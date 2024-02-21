@@ -12,13 +12,10 @@ tasks:
         include_match: ^.*$
     traits:
       asdf: true
-      git-crypt: yes
       madek-repo-decryption: yes
     scripts:
       unlock:
-        body: |
-          git crypt unlock
-          git submodule foreach 'git crypt unlock || exit 0'
+        body: ./deploy/bin/unlock
       bundle:
         exclusive_executor_resource: asdf-ruby
         timeout: 20 Minutes

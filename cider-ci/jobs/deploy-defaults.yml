@@ -19,7 +19,6 @@ context:
       RESTORE_STRUCTURE_AND_DATA_FILE: /opt/madekdata/backups/latest.pgbin
 
     traits:
-      git-crypt: yes
       ci-executor.madek: yes
 
     git_options:
@@ -28,9 +27,7 @@ context:
 
     scripts:
       unlock:
-        body: |
-          git crypt unlock
-          git submodule foreach 'git crypt unlock || exit 0'
+        body: ./deploy/bin/unlock
       deploy:
         start_when:
           unlocked:
