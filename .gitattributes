@@ -1,2 +1,2 @@
-*secret* filter=git-crypt diff=git-crypt
-*.htpasswd filter=git-crypt diff=git-crypt
+*secret* filter=crypt diff=crypt merge=crypt
+*.htpasswd filter=crypt diff=crypt merge=crypt

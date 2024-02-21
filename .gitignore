@@ -1,12 +1,11 @@
-#*tar.gz*
+*key.txt
 *retry
 .mux.yml
 .project
 .retry
 .venv
 /.vagrant
-/tmp
 /log
+/tmp
 madek.tar.gz
 master_secret.txt
-vagrant-ssh-config
