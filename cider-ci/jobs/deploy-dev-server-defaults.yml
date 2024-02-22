@@ -22,14 +22,16 @@ context:
         cleanup-server:
           # NOTE: this cleanup is only needed when switching between Madek & Leihs and thusly not part of the general deploy
           body: |
-            set -eux
+            #!/usr/bin/env bash
+            set -euo pipefail
             ssh root@${DEV_NAME}.ruby.zhdk.ch -- \
               rm -rf /etc/apache2/sites-enabled/*
 
         # NOTE: this runs even when not needed, but it takes less than 10seconds so lets keep the config simple
         copy-db-dump-to-server:
           body: |
-            set -eux
+            #!/usr/bin/env bash
+            set -euo pipefail
             rsync -Lh --stats root@staging.madek.zhdk.ch:/opt/madekdata/backups/latest.pgbin /tmp/madek_db_latest.pgbin
             rsync -Lh --stats /tmp/madek_db_latest.pgbin root@${DEV_NAME}.ruby.zhdk.ch:"${RESTORE_STRUCTURE_AND_DATA_FILE}"
 

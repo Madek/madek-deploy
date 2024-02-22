@@ -27,7 +27,7 @@
 
 - shell: |
     #!/bin/bash
-    set -eux
+    set -euo pipefail
     source ~/.asdf/asdf.sh
 
     cd {{madek_webapp_dir}}
@@ -36,7 +36,7 @@
     export IMPORT_FILE=/tmp/madek-import
 
     bundle install > /dev/null
-    bundle exec rails runner /tmp/madek-scripts/script.rb 
+    bundle exec rails runner /tmp/madek-scripts/script.rb
 
   args:
     executable: /bin/bash

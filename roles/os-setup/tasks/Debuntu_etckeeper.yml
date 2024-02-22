@@ -27,7 +27,7 @@
 - name: setup /etc to be tracked by etc keeper and initialize
   shell: |
     #!/usr/bin/env bash
-    set -eux
+    set -euo pipefail
     cd /etc
     if [ ! -d .git ]; then
       git config --global user.email 'root@localhost'

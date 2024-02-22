@@ -24,7 +24,7 @@ scripts:
     timeout: 1 Hour
     body: |
       #!/usr/bin/env bash
-      set -eux
+      set -euo pipefail
       lxc list
       lxc info ${CONTAINER_NAME}
       lxc delete --force ${CONTAINER_NAME}

@@ -5,7 +5,8 @@
       become: true
       become_user: root
       shell: |
-        set -eux
+        #!/usr/bin/env bash
+        set -euo pipefail
         sudo -u "{{madek_user}}" -- bash -eux -c '
           cd {{madek_webapp_dir}}
           export RAILS_ENV=production

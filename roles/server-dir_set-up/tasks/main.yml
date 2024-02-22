@@ -10,10 +10,13 @@
 
 - name: unpack and move archive in place
   shell: |
-    set -eux
+    #!/usr/bin/env bash
+    set -euo pipefail
     cd {{madek_root_dir}}
     tar xf /tmp/madek.tar.gz
     mv {{madek_root_dir}}/madek {{madek_server_dir}}
+  args:
+    executable: /bin/bash
 
 - name: add deploy info to file
   lineinfile:

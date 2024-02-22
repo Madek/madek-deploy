@@ -26,7 +26,7 @@
   become_user: "{{ asdf_user }}"
   shell: |
     #!/bin/bash
-    set -eux
+    set -euo pipefail
     if [ ! -d ~/.asdf ]; then
       git clone https://github.com/asdf-vm/asdf.git {{asdf_root_dir}}
     fi

@@ -21,7 +21,7 @@ tasks:
         timeout: 20 Minutes
         body: |
           #!/usr/bin/env bash
-          set -euxo pipefail
+          set -euo pipefail
           if [[ ! -d ~/.asdf/plugins/ruby ]]; then
             asdf plugin add ruby https://github.com/asdf-vm/asdf-ruby.git
           else
@@ -36,7 +36,9 @@ tasks:
             script_key: bundle
         timeout: 10 Minutes
         body: |
-          set -eux
+          #!/usr/bin/env bash
+          set -euo pipefail
+          set -x
           cd deploy
           ./bin/archive-build
           ./bin/archive-sign

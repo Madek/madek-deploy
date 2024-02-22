@@ -6,7 +6,7 @@ scripts:
     timeout: 10 Minutes
     body: |
       #!/usr/bin/env bash
-      set -eux
+      set -euo pipefail
       lxc exec ${CONTAINER_NAME} -- bash -c "ifconfig || ip a s ; cat /etc/os-release"
 
       # the next command will not work if we invoke it too quickly after
@@ -37,7 +37,7 @@ scripts:
 
     body: |
       #!/usr/bin/env bash
-      set -eux
+      set -euo pipefail
 
       CONTAINER_IP=$(lxc list --format=json ${CONTAINER_NAME} | jq -r ".[].state.network.eth0.addresses | .[0].address")
 

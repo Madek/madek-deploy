@@ -92,7 +92,7 @@ def copy_git_repo_files source_dir_name, target_dir_name = source_dir_name
   Dir.exist?(sub_source_dir) || raise("No directory #{sub_source_dir}")
   exec! <<-CMD.strip_heredoc
     #!/usr/bin/env bash
-    set -eux
+    set -eu
     cd #{sub_source_dir}
     #{DEPLOY_DIR}/bin/git-archive-all -- - \
       | tar x --directory #{BUILD_DIR}/#{target_dir_name}
@@ -149,6 +149,7 @@ def build_mail
   FileUtils.mkdir_p "#{BUILD_DIR}/mail/"
   exec! <<-CMD.strip_heredoc
     #!/usr/bin/env bash
+    # set -euo pipefail
     set -eu
     cd #{SOURCE_DIR}/mail
     ./bin/build
@@ -169,7 +170,8 @@ def pack build_archive
   print "pack archive ... "
   exec! <<-CMD.strip_heredoc
     #!/usr/bin/env bash
-    set -eux
+    # set -euo pipefail
+    set -eu
     cd #{BUILD_DIR}
     cd ..
     tar cfz #{DEPLOY_DIR}/#{build_archive} #{APP_NAME}
