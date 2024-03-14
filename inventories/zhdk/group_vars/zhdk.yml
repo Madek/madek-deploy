@@ -60,6 +60,9 @@ madek_webapp_embeds:
   enable_opengraph: true
   twitter_cards_site: "@zhdk"
 
+
+madek_is_behind_gateway: true
+
 # embed player logo (ZHdK)
 madek_webapp_html_extra_head_end: |
   <style>
