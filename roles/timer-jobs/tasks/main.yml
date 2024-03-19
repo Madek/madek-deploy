@@ -1,0 +1,27 @@
+- template:
+    src: madek-webapp-nightly-cron.service
+    dest: /etc/systemd/system/madek-webapp-nightly-cron.service
+    mode: 0644
+  name: install madek-webapp-nightly-cron.service
+
+- template:
+    src: madek-webapp-nightly-cron.timer
+    dest: /etc/systemd/system/madek-webapp-nightly-cron.timer
+    mode: 0644
+  name: install madek-webapp-nightly-cron.timer
+
+- template:
+    src: madek-webapp-weekly-cron.service
+    dest: /etc/systemd/system/madek-webapp-weekly-cron.service
+    mode: 0644
+  name: install madek-webapp-weekly-cron.service
+
+- template:
+    src: madek-webapp-weekly-cron.timer
+    dest: /etc/systemd/system/madek-webapp-weekly-cron.timer
+    mode: 0644
+  name: install madek-webapp-weekly-cron.timer
+
+- command: systemctl daemon-reload
+  changed_when: false
+  name: reload systemctl

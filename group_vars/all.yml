@@ -32,6 +32,11 @@ mini_profiler_enabled: no
 
 madek_send_mails: no
 
+madek_run_nightly_tasks_on: "*-*-* 03:00:00"
+madek_run_nightly_tasks_randomized_delay_max_seconds: 3600
+madek_run_weekly_tasks_on: "Mon *-*-* 04:00:00"
+madek_run_weekly_tasks_randomized_delay_max_seconds: 3600
+
 ################################################################################
 ### API ########################################################################
 ################################################################################
