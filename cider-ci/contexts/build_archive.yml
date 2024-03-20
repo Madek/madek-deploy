@@ -40,6 +40,7 @@ tasks:
           set -euo pipefail
           set -x
           cd deploy
+          ./bin/env/java-setup
           ./bin/archive-build
           ./bin/archive-sign
           cp madek.tar.gz* ../.
