@@ -57,5 +57,3 @@
   service:
     name: apache2
     state: restarted
-  tags:
-    - server_setup-munin
