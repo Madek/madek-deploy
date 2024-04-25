@@ -7,6 +7,19 @@
     owner: '{{madek_user}}'
     group: '{{madek_user}}'
 
+- name: install ruby
+  shell: |
+    #/usr/bin/env bash
+    set -euo pipefail
+    cd {{service_dir}}
+    source ~/.asdf/asdf.sh
+    asdf install ruby
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{madek_user}}"
+  become_method: sudo
+
 - name: bundle
   shell: |
     #/usr/bin/env bash
