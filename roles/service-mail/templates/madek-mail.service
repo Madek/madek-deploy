@@ -1,0 +1,33 @@
+[Unit]
+Description=Madek Mail Service
+After=syslog.target
+After=network.target
+
+BindsTo=madek-datalayer.service
+After=madek-datalayer.service
+PartOf=madek-datalayer.service
+
+StartLimitIntervalSec=180
+StartLimitBurst=6
+
+
+[Service]
+WorkingDirectory={{madek_mail_dir}}
+User={{madek_mail_user}}
+Group={{madek_mail_user}}
+
+Restart=on-failure
+Restart=always
+RestartSec=5
+
+Environment=TMPDIR={{madek_tmp_dir}}
+Environment=PGUSER={{database.user}}
+Environment=PGPASSWORD={{database.password}}
+Environment=PGPORT=5415
+ExecStart=/usr/bin/env java "-Xmx{{ madek_mail_xmx }}m" \
+  -jar madek-mail.jar run
+
+[Install]
+WantedBy=multi-user.target
+
+# vi: ft=systemd

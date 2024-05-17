@@ -12,9 +12,4 @@
     owner: "{{madek_user}}"
   register: secret
 
-- name: Configure settings.local for {{service.name}}
-  template:
-    src: settings.local.yml
-    dest: "{{madek_server_dir}}/config/settings.local.yml"
-    mode: 0755
-    owner: "{{madek_user}}"
+

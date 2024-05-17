@@ -1,0 +1,18 @@
+- name: setup directories
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    group: "{{ item.owner }}"
+    mode: 0755
+  loop:
+    - { path: "{{madek_mail_dir}}", owner: root }
+
+- name: copy jar
+  copy:
+    src: "{{playbook_dir}}/../mail/madek-mail.jar"
+    dest: "{{madek_mail_dir}}/madek-mail.jar"
+    owner: root
+    mode: 0644
+
+

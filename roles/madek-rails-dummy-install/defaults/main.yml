@@ -1,3 +1,5 @@
+include: "{{playbook_dir}}/defaults.yml"
+
 madek_rails_dummy_path: /madek/dummy
 madek_rails_dummy_HTTP_PORT: 3000
 madek_rails_dummy_ruby_version: '{{ madek_ruby_versions.dummy }}'

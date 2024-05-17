@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ maintenance_page_title | default("Madek Maintenance") }}</title>
+  <style>
+    body {
+      background: #f7f7f7;
+      text-align: center;
+      font-size: 1.5rem;
+      line-height: 1.35;
+      color: rgba(0, 0, 0, 0.8);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    }
+
+    main { height: 100vh; width: 100%; display: table; }
+    article { padding: 2rem; display: table-cell; vertical-align: middle; }
+
+    h1 { font-size: 3rem; margin: 0; }
+    hr { color: inherit; background-color: currentColor; border: 0; opacity: .2; margin: 2rem auto; height: 1px; width: 75%; }
+    p.details { font-size: 1.125rem }
+  </style>
+</head>
+<body>
+
+<main>
+  <article>
+    <h1>{{ maintenance_page_heading | default("Madek will be back soon!") }}</h1>
+
+    {% if maintenance_page_body_paragraphs_html %}
+    {% for line in maintenance_page_body_paragraphs_html %}
+    <p>{{ line }}</p>
+    {% endfor %}
+    {% endif %}
+
+    {% if maintenance_page_status_page_url %}
+    <hr>
+    <p class="details">
+      Status: <a target="_blank" href="{{maintenance_page_status_page_url}}">{{maintenance_page_status_page_url}}</a>
+    </p>
+    {% endif %}
+
+  </article>
+</main>
+
+</body>
+</html>
+
+
+

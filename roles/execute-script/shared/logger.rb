@@ -1,4 +1,4 @@
-$logger = Logger.new(File.join('/tmp', 'leihs-script.log'))
+$logger = Logger.new(File.join('/tmp', 'madek-script.log'))
 $logger.level = Logger::INFO
 
 def log(message = '', log_level = 'info', stdout = false)

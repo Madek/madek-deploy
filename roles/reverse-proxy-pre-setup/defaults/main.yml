@@ -1,0 +1,17 @@
+include: "{{playbook_dir}}/defaults.yml"
+
+apache2_modules:
+  - cache
+  - cache_disk
+  - cache_socache
+  - cgid
+  - expires
+  - headers
+  - proxy
+  - proxy_http
+  - remoteip
+  - rewrite
+  - socache_shmcb
+  - ssl
+  - unique_id
+  - xsendfile

@@ -1,0 +1,17 @@
+- name: remove maintenance page vhost config
+  file:
+    path: /etc/apache2/sites-enabled/madek-maintenance.conf
+    state: absent
+
+- name: remove maintenance page directory
+  file:
+    path: /var/www/madek-maintenance
+    state: absent
+
+- name: disable all madek sites
+  shell: rm -rf /etc/apache2/sites-enabled/madek*
+
+- name: purge madek configurations
+  file:
+    path: /etc/apache2/madek
+    state: absent

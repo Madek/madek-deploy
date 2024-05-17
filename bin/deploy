@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DEPLOY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pwd -P)"
+cd $DEPLOY_DIR
+
+
+${DEPLOY_DIR}/bin/ansible-playbook play_setup-and-deploy.yml "$@"
+
+# vi: ft=sh

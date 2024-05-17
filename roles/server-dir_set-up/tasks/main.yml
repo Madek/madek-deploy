@@ -8,22 +8,27 @@
     path: "{{madek_root_dir}}"
     state: directory
 
-- name: unpack and move archive in place
-  shell: |
-    #!/usr/bin/env bash
-    set -euo pipefail
-    cd {{madek_root_dir}}
-    tar xf /tmp/madek.tar.gz
-    mv {{madek_root_dir}}/madek {{madek_server_dir}}
-  args:
-    executable: /bin/bash
+- name: make sure madek config root dir is present
+  file:
+    path: "{{madek_root_dir}}/server/config"
+    state: directory
 
-- name: add deploy info to file
-  lineinfile:
-    dest: "{{madek_server_dir}}/config/deploy-info.yml"
-    insertafter: "^---$"
-    line: 'deployed: { time: "{{ ansible_date_time.iso8601 }}"}'
-    # validate: python3 -c 'from yaml import load, Loader; load(open(‘%s’), Loader=Loader)'
+#- name: unpack and move archive in place
+#  shell: |
+#    #!/usr/bin/env bash
+#    set -euo pipefail
+#    cd {{madek_root_dir}}
+#    tar xf /tmp/madek.tar.gz
+#    mv {{madek_root_dir}}/madek {{madek_server_dir}}
+#  args:
+#    executable: /bin/bash
+
+#- name: add deploy info to file
+#  lineinfile:
+#    dest: "{{madek_server_dir}}/config/deploy-info.yml"
+#    insertafter: "^---$"
+#    line: 'deployed: { time: "{{ ansible_date_time.iso8601 }}"}'
+#    # validate: python3 -c 'from yaml import load, Loader; load(open(‘%s’), Loader=Loader)'
 
 - name: change owner
   file:

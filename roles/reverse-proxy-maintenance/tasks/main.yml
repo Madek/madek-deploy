@@ -1,0 +1,29 @@
+- name: disable all madek sites
+  shell: rm -rf /etc/apache2/sites-enabled/madek*
+
+- name: maintenance page directory
+  file:
+    path: /etc/apache2/madek-maintenance
+    state: directory
+    mode: 0755
+
+- name: maintenance page directory
+  file:
+    path: /var/www/madek-maintenance
+    state: directory
+    mode: 0755
+
+- name: maintenance page HTML
+  template:
+    src: maintenance-page.html
+    dest: /var/www/madek-maintenance/503.html
+    mode: 0644
+
+- include_tasks: virtual-host.yml
+  with_indexed_items: "{{madek_virtual_hosts}}"
+
+
+- name: restart reverse-proxy
+  service:
+    name: apache2
+    state: restarted

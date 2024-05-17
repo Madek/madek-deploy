@@ -1,1 +1,3 @@
+include: "{{playbook_dir}}/defaults.yml"
+
 admin_login: admin

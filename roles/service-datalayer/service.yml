@@ -1,0 +1,31 @@
+- name: register ruby version
+  shell: |
+    set -euo pipefail
+    source ~/.asdf/asdf.sh
+    cd {{madek_datalayer_dir}}
+    asdf current ruby | awk '{print $2}'
+  args:
+    chdir: "{{madek_datalayer_dir}}"
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{madek_datalayer_user}}"
+  become_method: sudo
+  register: madek_datalayer_ruby_version
+
+
+- name: copy service template
+  template:
+    src: madek-datalayer.service
+    dest: /etc/systemd/system/madek-datalayer.service
+    mode: 0644
+
+- name: reload systemctl
+  systemd:
+    daemon_reload: yes
+
+- name: start service
+  service:
+    name: madek-datalayer
+    state: restarted
+    enabled: yes

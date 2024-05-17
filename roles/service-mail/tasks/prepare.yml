@@ -1,0 +1,15 @@
+- name: stop mail-service
+  service:
+    name: madek-mail
+    state: stopped
+  failed_when: false
+
+- name: make sure mail user exists
+  user:
+    name: "{{madek_mail_user}}"
+    comment: "Madek Mail Service"
+    shell: /bin/false
+    system: yes
+    state: present
+
+

@@ -1,0 +1,4 @@
+madek_mail_dir: "/madek/server/mail"
+madek_mail_name: "{{madek_base_name}}_mail"
+madek_mail_user: madek-mail
+madek_mail_xmx: 256

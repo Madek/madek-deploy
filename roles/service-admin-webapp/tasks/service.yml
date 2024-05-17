@@ -1,0 +1,36 @@
+- name: register ruby version
+  shell: |
+    set -euo pipefail
+    source ~/.asdf/asdf.sh
+    cd {{madek_admin_webapp_dir}}
+    asdf current ruby | awk '{print $2}'
+  args:
+    chdir: "{{madek_admin_webapp_dir}}"
+    executable: /bin/bash
+  become: yes
+  become_user: "{{madek_admin_webapp_user}}"
+  become_method: sudo
+  register: madek_admin_webapp_ruby_version
+
+- name: template puma config
+  template:
+    owner: "{{madek_admin_webapp_user}}"
+    src: puma.rb
+    dest: '{{madek_admin_webapp_dir}}/config/puma.rb'
+    mode: 0644
+
+- template:
+    src: madek-admin-webapp.service
+    dest: /etc/systemd/system/madek-admin-webapp.service
+    mode: 0644
+  name: copy  madek-admin-webapp.service
+
+- command: systemctl daemon-reload
+  changed_when: false
+  name: reload systemctl
+
+- name: start madek-admin-webapp
+  service:
+    name: madek-admin-webapp
+    enabled: yes
+    state: started
