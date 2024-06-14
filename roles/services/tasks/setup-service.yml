@@ -23,5 +23,6 @@
 - include_tasks: setup-rails-service.yml
   when: "service.active and service.type == 'rails'"
 
-
+- include_tasks: setup-cron-service.yml
+  when: "not service.active and service.type == 'cron'"
 

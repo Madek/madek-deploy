@@ -260,3 +260,13 @@ madek_services:
     context: /mail
     main: madek.mail.main
     monitored: no
+
+  delete_soft_deleted_resources:
+    name: delete_soft_deleted_resources
+    desc: Delete Soft-Deleted Resources
+    type: cron
+    active: false
+    dir: /webapp
+    schedule: "*-*-* 03:00:00"
+    randomized_delay_sec: 3600
+    monitored: no
