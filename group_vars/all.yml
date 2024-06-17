@@ -32,6 +32,11 @@ mini_profiler_enabled: no
 
 madek_send_mails: no
 
+madek_run_nightly_tasks_on: "*-*-* 03:00:00"
+madek_run_nightly_tasks_randomized_delay_max_seconds: 3600
+madek_run_weekly_tasks_on: "Mon *-*-* 04:00:00"
+madek_run_weekly_tasks_randomized_delay_max_seconds: 3600
+
 ################################################################################
 ### API ########################################################################
 ################################################################################
@@ -259,14 +264,4 @@ madek_services:
     dir: /mail
     context: /mail
     main: madek.mail.main
-    monitored: no
-
-  delete_soft_deleted_resources:
-    name: delete_soft_deleted_resources
-    desc: Delete Soft-Deleted Resources
-    type: cron
-    active: false
-    dir: /webapp
-    schedule: "*-*-* 03:00:00"
-    randomized_delay_sec: 3600
     monitored: no

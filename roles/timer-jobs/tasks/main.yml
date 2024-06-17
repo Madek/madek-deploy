@@ -1,0 +1,39 @@
+- template:
+    src: madek-produce-daily-emails-cron.service
+    dest: /etc/systemd/system/madek-produce-daily-emails-cron.service
+    mode: 0644
+  name: install madek-produce-daily-emails-cron.service
+
+- template:
+    src: madek-produce-daily-emails-cron.timer
+    dest: /etc/systemd/system/madek-produce-daily-emails-cron.timer
+    mode: 0644
+  name: install madek-produce-daily-emails-cron.timer
+
+- template:
+    src: madek-produce-weekly-emails-cron.service
+    dest: /etc/systemd/system/madek-produce-weekly-emails-cron.service
+    mode: 0644
+  name: install madek-produce-weekly-emails-cron.service
+
+- template:
+    src: madek-produce-weekly-emails-cron.timer
+    dest: /etc/systemd/system/madek-produce-weekly-emails-cron.timer
+    mode: 0644
+  name: install madek-produce-weekly-emails-cron.timer
+
+- template:
+  src: madek-delete-soft-deleted-resources-cron.service
+  dest: /etc/systemd/system/madek-delete-soft-deleted-resources-cron.service
+  mode: 0644
+  name: install madek-delete-soft-deleted-resources-cron.service
+
+- template:
+  src: madek-delete-soft-deleted-resources-cron.timer
+  dest: /etc/systemd/system/madek-delete-soft-deleted-resources-cron.timer
+  mode: 0644
+  name: install madek-delete-soft-deleted-resources-cron.timer
+
+- command: systemctl daemon-reload
+  changed_when: false
+  name: reload systemctl

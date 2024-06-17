@@ -26,6 +26,7 @@
     - role: madek-configuration
     - role: madek-datalayer
     - role: services
+    - role: timer-jobs
     - role: watchdog
     - role: reverse-proxy
       tags: [reverse-proxy]
