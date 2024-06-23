@@ -1,0 +1,5 @@
+restrict_access_via_basic_auth: false
+restrict_access_via_basic_auth_passwords: {}
+reverse_proxy_ip_hash_seed: Null
+reverse_proxy_use_x_forwarded_for: false
+reverse_proxy_cache_front_page: false

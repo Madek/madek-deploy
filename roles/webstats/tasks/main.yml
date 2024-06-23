@@ -1,0 +1,110 @@
+- name: Install required packages
+  apt:
+    pkg:
+    - apache2
+    - awstats
+    - python3-passlib
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+  tags: [internet]
+
+- apache2_module:
+    state: present
+    name: cgid
+
+### awstats.conf
+
+- name: set LogFile in /etc/awstats/awstats.conf
+  lineinfile:
+    path: /etc/awstats/awstats.conf
+    regexp: '^LogFile='
+    line: LogFile="/var/log/apache2/madek_{{inventory_hostname}}_access.log"
+
+- name: set LogFile in /etc/awstats/awstats.conf
+  lineinfile:
+    path: /etc/awstats/awstats.conf
+    regexp: '^LogFormat'
+    # line: LogFormat = "%host %otherquot %logname %time1 %methodurl %code %bytesd %refererquot %uaquot %otherquot"
+    # line: LogFormat = 1
+    line: LogFormat = "%other %other %logname %time1 %methodurl %code %bytesd %refererquot %uaquot %otherquot %host"
+
+- name: set domain name in /etc/awstats/awstats.conf
+  lineinfile:
+    path: /etc/awstats/awstats.conf
+    regexp: '^SiteDomain='
+    line: SiteDomain="{{madek_external_hostname}}"
+
+- name: set iconts dir in /etc/awstats/awstats.conf
+  lineinfile:
+    path: /etc/awstats/awstats.conf
+    regexp: '^DirIcons='
+    line: DirIcons="/webstats/icons"
+
+- name: ignore /webstats itself
+  lineinfile:
+    path: /etc/awstats/awstats.conf
+    regexp: '^SkipFiles='
+    line: SkipFiles="REGEX[^\/webstats] REGEX[^\/awstats.pl]"
+
+
+###
+
+- name: configure webstats in the reverse proxy if enabled
+  template:
+    src: webstats.conf
+    dest: /etc/apache2/madek/conf.d/madek_100_webstats.conf
+    mode: 0644
+  when: webstats_enabled
+
+- name: remove configuration if webstats are not enabled
+  file:
+    path: /etc/apache2/madek/conf.d/madek_100_webstats.conf
+    state: absent
+  when: not webstats_enabled
+
+- name: remove unwanted passwords
+  htpasswd:
+    path: /etc/madek/webstats.htpasswd
+    name: "{{ item }}"
+    password: test
+    crypt_scheme: plaintext
+  loop: "{{ webstats_passwords_remove }}"
+
+- name: set htaccess passwords for basic auth
+  htpasswd:
+    path: /etc/madek/webstats.htpasswd
+    name: "{{item.key}}"
+    password: "{{item.value}}"
+  with_dict: "{{ webstats_passwords_set }}"
+
+- name: www-data needs to be able to read the logs
+  file:
+    path: /var/log/apache2
+    state: directory
+    mode: o+r
+
+- name: reload reverse-proxy
+  service:
+    name: apache2
+    state: reloaded
+
+
+### set permissions and update stats ##########################################
+
+- name: set permissions
+  file:
+    path: /var/log/apache2/
+    mode: o+X
+    state: directory
+
+- name: update stats once
+  become: yes
+  become_user: www-data
+  shell: /usr/share/awstats/tools/update.sh
+  ignore_errors: true
+
+
+
+
+

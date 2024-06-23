@@ -1,0 +1,19 @@
+madek_api_v2_service_name: "{{madek_base_name}}_api"
+madek_api_v2_dir: /madek/server/api-v2
+madek_api_v2_user: madek-api-v2
+madek_api_v2_service_xmx: 256
+
+
+# TODO clean this up
+#
+
+# active: true
+# dir: /api
+# http_port: "{{madek_api_v2_port}}"
+# context: /api
+# main: madek.api.main
+# monitored: yes
+# monit_match: 'java.*madek\.api\.main'
+# monit_check_urls:
+#   - http://localhost:{{madek_api_v2_port}}/api
+

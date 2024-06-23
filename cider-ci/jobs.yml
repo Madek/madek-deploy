@@ -3,29 +3,34 @@
 ###############################################################################
 
 ### medienarchiv ##############################################################
+#
+# disabled until new deployment is considred stable
+#
 
-"deploy_medienarchive":
-  include: cider-ci/jobs/deploy-defaults.yml
-  name: "!!! DEPLOY TO MEDIENARCHIV !!!"
-  depends_on:
-    deploy to staging passed:
-      { job_key: deploy_staging, type: job, states: [passed] }
-    "we are on zhdk/deploy": { type: branch, include_match: '^zhdk\/deploy$' }
-  run_when:
-    "deploy at 3:30 UTC on branch zhdk/deploy":
-      type: cron
-      value: "30 3 * * *"
-      branch_include_match: ^zhdk/deploy$
-  context:
-    tasks:
-      deploy:
-        exclusive_global_resources:
-          "medienarchiv.zhdk.ch": true
-        environment_variables:
-          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_medienarchiv
-          # defaults but let's make it very clear here:
-          DROP_DATABASE: "false"
-          RESTORE_STRUCTURE_AND_DATA: "false"
+#"deploy_medienarchive":
+#  include: cider-ci/jobs/deploy-defaults.yml
+#  name: "!!! DEPLOY TO MEDIENARCHIV !!!"
+#  depends_on:
+#    deploy to staging passed:
+#      { job_key: deploy_staging, type: job, states: [passed] }
+#    "we are on zhdk/deploy": { type: branch, include_match: '^zhdk\/deploy$' }
+#  run_when:
+#    "deploy at 3:30 UTC on branch zhdk/deploy":
+#      type: cron
+#      value: "30 3 * * *"
+#      branch_include_match: ^zhdk/deploy$
+#  context:
+#    tasks:
+#      deploy:
+#        exclusive_global_resources:
+#          "medienarchiv.zhdk.ch": true
+#        environment_variables:
+#          # defaults but let's make it very clear here:
+#          DROP_DATABASE: "false"
+#          RESTORE_STRUCTURE_AND_DATA: "false"
+
+
+### staging ###################################################################
 
 "deploy_staging":
   include: cider-ci/jobs/deploy-defaults.yml
@@ -42,7 +47,7 @@
         exclusive_global_resources:
           "staging.madek.zhdk.ch": true
         environment_variables:
-          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_staging
+          LIMIT_HOST: staging
           DROP_DATABASE: "true"
           RESTORE_STRUCTURE_AND_DATA: "true"
 
@@ -55,7 +60,7 @@
         exclusive_global_resources:
           "staging.madek.zhdk.ch": true
         environment_variables:
-          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_staging
+          LIMIT_HOST: staging
           DROP_DATABASE: "false"
           RESTORE_STRUCTURE_AND_DATA: "false"
 
@@ -79,7 +84,7 @@
         exclusive_global_resources:
           "test.madek.zhdk.ch": true
         environment_variables:
-          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test
+          LIMIT_HOST: test
           DROP_DATABASE: "true"
           RESTORE_STRUCTURE_AND_DATA: "true"
 
@@ -92,62 +97,12 @@
         exclusive_global_resources:
           "test.madek.zhdk.ch": true
         environment_variables:
-          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test
+          LIMIT_HOST: test
           DROP_DATABASE: "false"
           RESTORE_STRUCTURE_AND_DATA: "false"
 
-### test-blank - auto-deploy from master ###########################################
-
-"deploy_test-blank":
-  include: cider-ci/jobs/deploy-defaults.yml
-  name: "Deploy to test-blank"
-  description: Deploy to test-blank incl. Re-Installation & First Time Setups ("Fresh Instance")
-  run_when: *RUN_ON_MASTER_AND_DO_NIGHTLY_RESET
-  context:
-    tasks:
-      deploy:
-        exclusive_global_resources:
-          "test-blank.madek.zhdk.ch": true
-        environment_variables:
-          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test-blank
-          DROP_DATABASE: "true"
-          RESTORE_STRUCTURE_AND_DATA: "false"
-        scripts:
-          first_time_setup:
-            start_when:
-              deployed:
-                script_key: deploy
-            body: cd deploy && bin/ansible-playbook -i inventories/zhdk/hosts_test-blank play_first-time-setup.yml
 
 ### test-blank with prod data (for development) ###################################
-
-"deploy_test-blank_like-test":
-  include: cider-ci/jobs/deploy-defaults.yml
-  name: "Deploy to test-blank like test!"
-  description: |
-    Deploy to test-blank w/ prod data (for development).
-    Note that previews etc won't work, but UPLOADING does!
-  context:
-    tasks:
-      deploy:
-        exclusive_global_resources:
-          "test-blank.madek.zhdk.ch": true
-        environment_variables:
-          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test-blank
-          DROP_DATABASE: "true"
-          RESTORE_STRUCTURE_AND_DATA: "true"
-
-        scripts:
-          get-latest-data:
-            body: |
-              #!/bin/sh -exu
-              ssh root@test-blank.madek.zhdk.ch 'mkdir -p /opt/madekdata/backups'
-              rsync -LavPh root@test.madek.zhdk.ch:/opt/madekdata/backups/latest.pgbin latest.pgbin
-              rsync -LavPh latest.pgbin root@test-blank.madek.zhdk.ch:/opt/madekdata/backups/latest.pgbin
-
-          deploy:
-            start_when:
-              got latest data: { script_key: get-latest-data }
 
 "deploy_test-blank_no_restore":
   include: cider-ci/jobs/deploy-defaults.yml
@@ -161,69 +116,154 @@
         exclusive_global_resources:
           "test-blank.madek.zhdk.ch": true
         environment_variables:
-          DEPLOY_TARGET_INVENTORY: inventories/zhdk/hosts_test-blank
+          LIMIT_HOST: test-blank
           DROP_DATABASE: "false"
           RESTORE_STRUCTURE_AND_DATA: "false"
 
-zzz_deploy_dev_nimaai_aaa:
-  name: ⚒ Dev-Server nimaai.ruby.zhdk.ch – Deploy Madek
-  include: cider-ci/jobs/deploy-dev-server-defaults.yml
-  context:
-    task_defaults:
-      exclusive_global_resources: { nimaai.ruby.zhdk.ch: true }
-      environment_variables:
-        DEV_NAME: nimaai
 
-zzz_deploy_dev_nimaai_blank:
-  name: ⚒ Dev-Server nimaai.ruby.zhdk.ch – Deploy Madek with Blank DB
-  include: cider-ci/jobs/deploy-dev-server-defaults.yml
-  context:
-    task_defaults:
-      exclusive_global_resources: { nimaai.ruby.zhdk.ch: true }
-      environment_variables:
-        DEV_NAME: nimaai
-        DROP_DATABASE: "true"
 
-zzz_deploy_dev_nimaai_proddata:
-  name: ⚒ Dev-Server nimaai.ruby.zhdk.ch – Deploy Madek with Prod Data
-  include: cider-ci/jobs/deploy-dev-server-defaults.yml
-  context:
-    task_defaults:
-      exclusive_global_resources: { nimaai.ruby.zhdk.ch: true }
-      environment_variables:
-        DEV_NAME: nimaai
-        DROP_DATABASE: "true"
-        RESTORE_STRUCTURE_AND_DATA: "true"
+### dev jan #######################################################################
 
-zzz_deploy_dev_tom_aaa:
-  name: ⚒ Dev-Server tom.ruby.zhdk.ch – Deploy Madek
-  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+deploy_dev_jan_with_data_reset:
+  name: ⚒ Dev Deploy - jan-madek.ruby.zhdk.ch / https://jan.madek.rubydev.zhdk.ch - with Prod-Data
+  include: cider-ci/jobs/deploy-defaults.yml
   context:
-    task_defaults:
-      exclusive_global_resources: { tom.ruby.zhdk.ch: true }
-      environment_variables:
-        DEV_NAME: tom
+    tasks:
+      deploy:
+        exclusive_global_resources: { jan-madek.ruby.zhdk.ch: true }
+        environment_variables:
+          LIMIT_HOST: jan
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "true"
 
-zzz_deploy_dev_tom_blank:
-  name: ⚒ Dev-Server tom.ruby.zhdk.ch – Deploy Madek with Blank DB
-  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+
+
+deploy_dev_jan_without_data_reset:
+  name: ⚒ Dev Deploy - jan-madek.ruby.zhdk.ch / https://jan.madek.rubydev.zhdk.ch - without Prod-Data
+  include: cider-ci/jobs/deploy-defaults.yml
   context:
-    task_defaults:
-      exclusive_global_resources: { tom.ruby.zhdk.ch: true }
-      environment_variables:
-        DEV_NAME: tom
-        DROP_DATABASE: "true"
+    tasks:
+      deploy:
+        exclusive_global_resources: { jan-madek.ruby.zhdk.ch: true }
+        environment_variables:
+          LIMIT_HOST: jan
+          DROP_DATABASE: "false"
+          RESTORE_STRUCTURE_AND_DATA: "false"
 
-zzz_deploy_dev_tom_proddata:
-  name: ⚒ Dev-Server tom.ruby.zhdk.ch – Deploy Madek with Prod Data
-  include: cider-ci/jobs/deploy-dev-server-defaults.yml
+### dev manuel ####################################################################
+
+
+deploy_dev_manuel_with_data_reset:
+  name: ⚒ Dev Deploy - manuel-madek.ruby.zhdk.ch / https://manuel.madek.rubydev.zhdk.ch - with Prod-Data
+  include: cider-ci/jobs/deploy-defaults.yml
   context:
-    task_defaults:
-      exclusive_global_resources: { tom.ruby.zhdk.ch: true }
-      environment_variables:
-        DEV_NAME: tom
-        DROP_DATABASE: "true"
-        RESTORE_STRUCTURE_AND_DATA: "true"
+    tasks:
+      deploy:
+        exclusive_global_resources: { manuel-madek.ruby.zhdk.ch: true }
+        environment_variables:
+          LIMIT_HOST: manuel
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "true"
 
-# includes
-include: cider-ci/jobs/deploy-spiel1.yml
+
+
+deploy_dev_manuel_without_data_reset:
+  name: ⚒ Dev Deploy - manuel-madek.ruby.zhdk.ch / https://manuel.madek.rubydev.zhdk.ch - without Prod-Data
+  include: cider-ci/jobs/deploy-defaults.yml
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources: { manuel-madek.ruby.zhdk.ch: true }
+        environment_variables:
+          LIMIT_HOST: manuel
+          DROP_DATABASE: "false"
+          RESTORE_STRUCTURE_AND_DATA: "false"
+
+
+### dev nimaai ####################################################################
+
+
+deploy_dev_nimaai_with_data_reset:
+  name: ⚒ Dev Deploy - nimaai-madek.ruby.zhdk.ch / https://tom.madek.rubydev.zhdk.ch - with Prod-Data
+  include: cider-ci/jobs/deploy-defaults.yml
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources: { nimaai-madek.ruby.zhdk.ch: true }
+        environment_variables:
+          LIMIT_HOST: nimaai
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "true"
+
+
+deploy_dev_nimaai_without_data_reset:
+  name: ⚒ Dev Deploy - nimaai-madek.ruby.zhdk.ch / https://tom.madek.rubydev.zhdk.ch - without Prod-Data
+  include: cider-ci/jobs/deploy-defaults.yml
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources: { nimaai-madek.ruby.zhdk.ch: true }
+        environment_variables:
+          LIMIT_HOST: nimaai
+          DROP_DATABASE: "false"
+          RESTORE_STRUCTURE_AND_DATA: "false"
+
+
+### dev tom #######################################################################
+
+
+deploy_dev_tom_with_data_reset:
+  name: ⚒ Dev Deploy - tom-madek.ruby.zhdk.ch / https://tom.madek.rubydev.zhdk.ch - with Prod-Data
+  include: cider-ci/jobs/deploy-defaults.yml
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources: { tom-madek.ruby.zhdk.ch: true }
+        environment_variables:
+          LIMIT_HOST: tom
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "true"
+
+
+
+deploy_dev_tom_without_data_reset:
+  name: ⚒ Dev Deploy - tom-madek.ruby.zhdk.ch / https://tom.madek.rubydev.zhdk.ch - without Prod-Data
+  include: cider-ci/jobs/deploy-defaults.yml
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources: { tom-madek.ruby.zhdk.ch: true }
+        environment_variables:
+          LIMIT_HOST: tom
+          DROP_DATABASE: "false"
+          RESTORE_STRUCTURE_AND_DATA: "false"
+
+
+### dev uvb #######################################################################
+
+
+deploy_dev_uvb_with_data_reset:
+  name: ⚒ Dev Deploy - uvb-madek.ruby.zhdk.ch / https://tom.madek.rubydev.zhdk.ch - with Prod-Data
+  include: cider-ci/jobs/deploy-defaults.yml
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources: { uvb-madek.ruby.zhdk.ch: true }
+        environment_variables:
+          LIMIT_HOST: uvb
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "true"
+
+
+
+deploy_dev_uvb_without_data_reset:
+  name: ⚒ Dev Deploy - uvb-madek.ruby.zhdk.ch / https://tom.madek.rubydev.zhdk.ch - without Prod-Data
+  include: cider-ci/jobs/deploy-defaults.yml
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources: { uvb-madek.ruby.zhdk.ch: true }
+        environment_variables:
+          LIMIT_HOST: uvb
+          DROP_DATABASE: "false"
+          RESTORE_STRUCTURE_AND_DATA: "false"

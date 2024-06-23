@@ -7,22 +7,19 @@
 - name: remove monit madek service watchdog
   shell: rm -rf /etc/monit/conf.d/cider-ci_*  /etc/monit/conf.d/madek_*
 
-- name: make sure service {{item.value.name}} is stopped
-  service:
-    name: madek_{{item.value.name}}
-    state: stopped
+- name: stop all madek services
+  shell: systemctl stop madek*
   failed_when: false
-  with_dict: "{{madek_services}}"
 
 - name: remove madek units
-  shell: rm -f /etc/systemd/system/madek_{{item.value.name}}
-  failed_when: false
-  with_dict: "{{madek_services}}"
+  shell: rm -f /etc/systemd/system/madek*
 
 - name: reload systemd
   shell: systemctl daemon-reload
-  failed_when: false
 
 - name: kill all remaining processes of the user madek
-  shell: pkill -u {{madek_user}}
+  shell: pkill -u {{item}}
+  with_items:
+    - madek
+    - madek-auth
   failed_when: false

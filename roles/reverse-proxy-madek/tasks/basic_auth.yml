@@ -1,0 +1,27 @@
+- name: install passlib
+  apt:
+    pkg:
+      - python3-passlib
+    state: latest
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: set htaccess passwords for basic auth
+  htpasswd:
+    path: /etc/madek/madek.htpasswd
+    name: "{{item.key}}"
+    password: "{{item.value}}"
+  with_dict: "{{ restrict_access_via_basic_auth_passwords }}"
+
+- name: protect via basic auth
+  template:
+    src: basic_auth.conf
+    dest: /etc/apache2/madek/conf.d/madek_950_basic_auth.conf
+    mode: 0644
+  when: restrict_access_via_basic_auth
+
+- name: remove configuration if basic auth is not enabled
+  file:
+    path: /etc/apache2/madek/conf.d/madek_950_basic_auth.conf
+    state: absent
+  when: not restrict_access_via_basic_auth

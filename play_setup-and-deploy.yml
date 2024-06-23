@@ -4,30 +4,57 @@
     - name: install system python
       raw: apt install -y python3
 
-- hosts: localhost
-  roles:
-    - role: find_or_build_archive
+#- hosts: localhost
+#  roles:
+#    - role: find_or_build_archive
+
+
+# TODO ReverseProxy like in Leihs
 
 - hosts: madek
   roles:
+    - role: defaults
+      tags: [always]
     - role: os-check
     - role: pre-cleanup
+      tags: [pre-cleanup]
     - role: os-setup
     - role: dependencies
       tags: ['dependencies']
+    - role: reverse-proxy-pre-setup
+      tags: [reverse-proxy, reverse-proxy-pre-setup]
     - role: postgresql
       tags: [postgresql]
     - role: apache-httpd
+    - role: reverse-proxy-maintenance
+      tags: [reverse-proxy-maintenance, maintenance]
     - role: madek-user
-    - role: get-archive
+#   - role: get-archive
     - role: server-dir_set-up
     - role: asdf
       asdf_user: '{{madek_user}}'
     - role: madek-configuration
-    - role: madek-datalayer
-    - role: services
-    - role: timer-jobs
-    - role: watchdog
-    - role: reverse-proxy
-      tags: [reverse-proxy]
-    - role: db-backups
+    - role: service-datalayer
+      tags: [service-datalayer]
+    - role: service-admin-webapp
+      tags: [service-admin-webapp]
+    - role: service-webapp
+      tags: [service-webapp]
+    - role: service-auth
+      tags:  [service-auth]
+    - role: service-mail
+      tags:  [service-mail]
+    - role: ../api/deploy/roles/install
+      tags:  [service-api]
+    - role: service-api-v2
+      tags:  [service-api-v2]
+    - role: webstats
+      tags: [webstats]
+    - role: reverse-proxy-madek
+      tags: [reverse-proxy-madek]
+#   - role: madek-datalayer
+#   - role: services
+#   - role: watchdog
+#   - role: reverse-proxy
+#     tags: [reverse-proxy]
+#   - role: db-backups

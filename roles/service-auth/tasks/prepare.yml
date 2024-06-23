@@ -1,0 +1,15 @@
+- name: stop auth-service
+  service:
+    name: madek-auth
+    state: stopped
+  failed_when: false
+
+- name: make sure auth-service user exists
+  user:
+    name: "{{madek_auth_service_user}}"
+    comment: "Madek Auth Service"
+    shell: /bin/false
+    system: yes
+    state: present
+
+

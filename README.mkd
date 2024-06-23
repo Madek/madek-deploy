@@ -42,7 +42,7 @@ See the `./inventories` directory for examples.
 
 ### Install or Upgrade Madek
 
-    bin/ansible-playbook -i $MY_INVENTORY_PATH  play_setup-and-deploy.yml
+    bin/depoy -i $MY_INVENTORY_PATH
 
 
 ### Create a Admin User and set the Password

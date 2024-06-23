@@ -1,0 +1,38 @@
+- name: stop madek services
+  service:
+    name: '{{item}}'
+    state: stopped
+  with_items:
+    - madek-webapp
+    - madek-admin-webapp
+    - madek-auth
+  ignore_errors: yes
+
+- name: Drop DB
+  postgresql_db:
+    name: '{{database.name}}'
+    state: absent
+    port: '{{database.port}}'
+    login_user: root
+
+- name: Create DB
+  postgresql_db:
+    name: '{{database.name}}'
+    state: present
+    owner: '{{database.user}}'
+    port: '{{database.port}}'
+    login_user: root
+
+- name: Restore structure and data
+  become: true
+  become_user: '{{database.user}}'
+  shell: >
+    /usr/lib/postgresql/15/bin/pg_restore
+    --port 5415 --exit-on-error --single-transaction -x -O
+    -d madek '{{restore_structure_and_data_file}}'
+  register: restore
+  when: restore_structure_and_data
+  changed_when: not ( restore.stdout is match("") )
+  tags: [restore_structure_and_data]
+  async: 3600
+  poll: 1

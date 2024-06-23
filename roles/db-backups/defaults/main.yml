@@ -1,3 +1,5 @@
+include: "{{playbook_dir}}/defaults.yml"
+
 db_backups_enabled: False
 db_backups_dir: /var/local/madek/backups
 

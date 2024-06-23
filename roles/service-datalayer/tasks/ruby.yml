@@ -1,0 +1,41 @@
+- name: setup asdf
+  include_role:
+    name: asdf
+  vars:
+    asdf_user: '{{madek_datalayer_user}}'
+
+- name: setup asdf ruby
+  include_role:
+    name: asdf-ruby
+  vars:
+    asdf_user: '{{madek_datalayer_user}}'
+
+- name: install ruby
+  shell: |
+    #!/bin/bash
+    set -euo pipefail
+    source ~/.asdf/asdf.sh
+    cd {{madek_datalayer_dir}}
+    asdf install ruby
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{madek_datalayer_user}}"
+  become_method: sudo
+  async: 3600
+  poll: 10
+
+
+
+- name: bundle ruby
+  shell: |
+    #!/bin/bash
+    set -euo pipefail
+    source ~/.asdf/asdf.sh
+    cd {{madek_datalayer_dir}}
+    bundle install
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{madek_datalayer_user}}"
+  become_method: sudo

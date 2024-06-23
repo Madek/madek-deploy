@@ -1,3 +1,5 @@
+include: "{{playbook_dir}}/defaults.yml"
+
 apache2_modules:
   - expires
   - headers

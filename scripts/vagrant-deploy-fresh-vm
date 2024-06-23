@@ -1,5 +1,0 @@
-#!/bin/sh -exu
-
-vagrant destroy -f
-
-./scripts/vagrant-deploy -v

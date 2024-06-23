@@ -1,0 +1,42 @@
+- name: setup asdf
+  include_role:
+    name: asdf
+  vars:
+    asdf_user: '{{user | mandatory}}'
+
+- name: setup asdf ruby
+  include_role:
+    name: asdf-ruby
+  vars:
+    asdf_user: '{{user | mandatory}}'
+
+- name: install ruby
+  shell: |
+    #!/bin/bash
+    set -euo pipefail
+    set -x
+    source ~/.asdf/asdf.sh
+    cd {{working_dir | mandatory}}
+    asdf install ruby
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{user | mandatory}}"
+  become_method: sudo
+  async: 3600
+  poll: 10
+
+
+- name: bundle ruby
+  shell: |
+    #!/bin/bash
+    set -euo pipefail
+    set -x
+    source ~/.asdf/asdf.sh
+    cd {{working_dir | mandatory}}
+    bundle install
+  args:
+    executable: /bin/bash
+  become: yes
+  become_user: "{{user | mandatory}}"
+  become_method: sudo

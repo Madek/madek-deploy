@@ -1,0 +1,9 @@
+- name: adjust default permissions in logrotate
+  lineinfile:
+    dest: /etc/logrotate.d/apache2
+    regexp: ^(\s+)create(\s+\d\d)\d(.*)
+    line: '\g<1>create\g<2>4\g<3>'
+    backrefs: yes
+
+- name: adjust existing logs permissions
+  shell: find /var/log/apache2 -type f -exec chmod 644 {} \;

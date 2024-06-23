@@ -16,6 +16,14 @@
   # go back to file module and remove this or remove comments and keep the hack
   ignore_errors: yes
 
-- name: Configure services
-  include_tasks: configure_services.yml
-  with_dict: "{{madek_services}}"
+#- name: Configure services
+#  include_tasks: configure_services.yml
+#  with_dict: "{{madek_services}}"
+#
+
+- name: Set settings.local
+  template:
+    src: settings.local.yml
+    dest: "{{madek_server_dir}}/config/settings.local.yml"
+    mode: 0755
+    owner: "{{madek_user}}"

@@ -7,4 +7,4 @@ cd $DEPLOY_DIR
 
 TRANSCRYPT_KEY=$(cat $DEPLOY_DIR/.transcrypt_key.txt.asc | gpg -d -q)
 
-$DEPLOY_DIR/bin/transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_KEY}"
+$DEPLOY_DIR/bin/transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_KEY}" --force

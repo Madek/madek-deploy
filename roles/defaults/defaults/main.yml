@@ -1,0 +1,198 @@
+###############################################################################
+# Madek Default Deployment Variables
+################################################################################
+
+# This file includes the most important variables for the deployment of Madek.
+
+# This file is located in deployment/roles/defaults/main.yml. To include
+# variables and give them low precedence every playbook should included this
+# role like in the following example:
+#
+#  - hosts: madek
+#    roles:
+#      - role: defaults
+#        tags: [always]
+#
+
+
+################################################################################
+### global defaults ############################################################
+################################################################################
+
+madek_external_base_url: https://{{ madek_external_hostname }}
+madek_external_hostname: "{{ ansible_default_ipv4.address }}"
+
+ssh_keys: []
+removed_ssh_keys: []
+
+zhdk_integration: False
+shibboleth_sign_in_enabled: False
+
+server_timezone: Etc/UTC
+rails_timezone: UTC
+
+force_local_build: false
+
+madek_archive_base_url: null
+madek_support_email: null
+
+server_journald_forward_to_syslog: "no"
+
+mini_profiler_enabled: no
+
+madek_send_mails: no
+
+madek_run_nightly_tasks_on: "*-*-* 03:00:00"
+madek_run_nightly_tasks_randomized_delay_max_seconds: 3600
+madek_run_weekly_tasks_on: "Mon *-*-* 04:00:00"
+madek_run_weekly_tasks_randomized_delay_max_seconds: 3600
+
+################################################################################
+### API ########################################################################
+################################################################################
+
+api_cors_enabled: True
+
+################################################################################
+### Zencoder Encoding Settings #################################################
+################################################################################
+
+zencoder_enabled: False
+zencoder_api_key: NULL
+zencoder_test_mode: True
+zencoder_video_output_formats:
+  webm:
+    {
+      format: "webm",
+      label: "webm",
+      quality: 4,
+      speed: 2,
+      width: 620,
+      thumbnails: true,
+    }
+  mp4: { format: "mp4", label: "mp4", video_codec: "h264", width: 620 }
+
+zencoder_video_thumbnails_defaults: { interval: 60, width: 620, format: "jpg" }
+
+zencoder_audio_output_formats:
+  mp3: { format: "mp3", audio_codec: "mp3", skip_video: true }
+
+################################################################################
+### storage ####################################################################
+################################################################################
+
+madek_storage_dir: /var/local/madek-file-storage
+madek_file_storage_dir: "{{madek_storage_dir}}/originals"
+madek_thumbnail_storage_dir: "{{madek_storage_dir}}/thumbnails"
+
+# uploaded files will be temporarily stored here too:
+madek_tmp_dir: "/tmp/madek"
+
+setup_storage_directories: true
+
+################################################################################
+### secrets ####################################################################
+################################################################################
+
+madek_master_secret: "{{ lookup('password', inventory_dir + '/' + 'master_secret.txt chars=ascii_letters,digits,hexdigits length=40') }}"
+madek_database_secret: "{{['database', madek_master_secret ] | join() | hash('sha256') }}"
+
+################################################################################
+### feature toggles ############################################################
+################################################################################
+
+# alpha feature, NOT for production! enable it by setting it to "on my own risk"
+madek_feature_toggle_admin_sql_reports: false
+
+###############################################################################
+### http server & reverse proxy ###############################################
+#################################################################################
+
+reverse_proxy_clean_slate: false
+
+madek_virtual_hosts:
+  - hostname: "localhost"
+    ip: "localhost"
+    logfile_infix: "localhost"
+    force_redirect_to_https: no
+  - hostname: NULL
+    ip: "*"
+    ssl_certificate_file: /etc/ssl/certs/ssl-cert-snakeoil.pem
+    ssl_certificate_key_file: /etc/ssl/private/ssl-cert-snakeoil.key
+    force_redirect_to_https: no
+
+madek_disallow_search_engine_crawlers: no
+madek_block_useragents: []
+
+# a list of aggressive bots which impact performance of the server
+madek_block_useragents:
+  - Bytespider
+  - ClaudeBot
+
+madek_is_behind_gateway: false # set to true if host is behind a HTTP gateway / reverse proxy
+
+################################################################################
+### services ###################################################################
+################################################################################
+
+madek_base_name: madek
+madek_admin_webapp_port: 8881
+madek_api_port: 8885
+madek_api_v2_port: 8886
+madek_auth_port: 8882
+madek_webapp_port: 8880
+
+
+################################################################################
+### reset ######################################################################
+################################################################################
+
+drop_database: false
+restore_structure_and_data: false
+
+################################################################################
+### webapp ######################################################################
+################################################################################
+
+madek_webapp_html_extra_head_start: ""
+madek_webapp_html_extra_head_end: ""
+madek_webapp_html_extra_body_start: ""
+madek_webapp_html_extra_body_end: ""
+madek_webapp_embeds:
+  enable_opengraph: true
+  twitter_cards_site: false
+
+###############################################################################
+###############################################################################
+###############################################################################
+
+rails_env: production
+secret_key_base: "{{madek_master_secret}}"
+madek_configuration_management_url: "http://localhost:{{madek_webapp_port}}/configuration_management_backdoor/invoke"
+
+madek_user: "{{madek_base_name}}"
+madek_user_home: "/home/{{madek_user}}"
+
+madek_root_dir: "/{{madek_base_name}}"
+madek_server_dir: "{{madek_root_dir}}/server"
+
+
+madek_webapp_dir: "{{madek_server_dir}}/webapp"
+
+
+# database
+postgres_version: 15 # major version, NOTE: this variable is not used yet everywhere
+database:
+  user: "{{madek_user}}"
+  password: "{{madek_database_secret}}"
+  hostname: localhost
+  port: 5415
+  name: "{{madek_base_name}}"
+  pool: 5 # maybe (service.max_threads_per_worker - 1)
+
+
+### webstats ###################################################################
+
+webstats_enabled: false
+webstats_passwords_remove: [] # list of usernames to be removed
+webstats_passwords_set : {} # add unsername => password; note that unset passwords will not be removed automatically

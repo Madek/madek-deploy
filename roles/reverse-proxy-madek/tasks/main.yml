@@ -1,0 +1,33 @@
+- template:
+    src: custom.conf
+    dest: /etc/apache2/madek/conf.d/madek_900_custom.conf
+    mode: 0644
+
+- template:
+    src: main.conf
+    dest: /etc/apache2/madek/conf.d/madek_100_main.conf
+    mode: 0644
+
+- template:
+    src: shibboleth.conf
+    dest: /etc/apache2/madek/conf.d/madek_100_shibboleth.conf
+    mode: 0644
+  when: shibboleth_sign_in_enabled
+
+- include_tasks: virtual-host.yml
+  with_indexed_items: "{{madek_virtual_hosts}}"
+
+- include_tasks: basic_auth.yml
+
+- template:
+    src: robots.txt
+    dest: "{{ madek_webapp_dir }}/public/robots.txt"
+    mode: 0644
+
+- name: disable all madek maintenance sites
+  shell: rm -rf /etc/apache2/sites-enabled/madek-maintenance*
+
+- name: reload reverse-proxy
+  service:
+    name: apache2
+    state: reloaded

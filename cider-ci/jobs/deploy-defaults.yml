@@ -1,43 +1,54 @@
 depends_on:
-  build:
+  integration-tests-preflight-check:
     type: job
-    job_key: build
+    job_key: integration-tests-preflight-check
     states: [passed]
 
 context:
 
-  task_defaults:
+  tasks:
 
-    max_trials: 1
+    deploy:
 
-    aggregate_state: satisfy-last
+      max_trials: 1
 
-    environment_variables:
-      LANG: "en_US.UTF-8"
-      DROP_DATABASE: 'false'
-      RESTORE_STRUCTURE_AND_DATA: 'false'
-      RESTORE_STRUCTURE_AND_DATA_FILE: /opt/madekdata/backups/latest.pgbin
+      aggregate_state: satisfy-last
 
-    traits:
-      ci-executor.madek: yes
+      environment_variables:
+        DROP_DATABASE: 'false'
+        RESTORE_STRUCTURE_AND_DATA: 'false'
+        RESTORE_STRUCTURE_AND_DATA_FILE: /opt/madekdata/backups/latest.pgbin
 
-    git_options:
-      submodules:
-        include_match: ^.*$
+      traits:
+        ci-executor.madek: yes
 
-    scripts:
-      unlock:
-        body: ./deploy/bin/unlock
-      deploy:
-        start_when:
-          unlocked:
-            script_key: unlock
-        timeout: 3 hours
-        body: |
-          #!/usr/bin/env bash
-          set -euo pipefail
-          cd deploy
-          echo $(pwd)
-          ls -R inventories
-          time bin/ansible-playbook -i ${DEPLOY_TARGET_INVENTORY} play_setup-and-deploy.yml \
-             --extra-vars "{\"drop_database\": ${DROP_DATABASE}, \"restore_structure_and_data\": ${RESTORE_STRUCTURE_AND_DATA}, \"restore_structure_and_data_file\": ${RESTORE_STRUCTURE_AND_DATA_FILE}}"
+      git_options:
+        submodules:
+          include_match: ^.*$
+
+      scripts:
+        unlock:
+          body: ./deploy/bin/unlock
+        deploy:
+          start_when:
+            unlocked:
+              script_key: unlock
+          timeout: 3 hours
+          body: |
+            #!/usr/bin/env bash
+            set -euo pipefail
+            set -x
+
+            echo "ENVIRONMENT VARIABLES: >>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+            env | sort
+            echo "ENVIRONMENT VARIABLES: <<<<<<<<<<<<<<<<<<<>>>>>>>>>"
+            echo ""
+            set -x
+            cd deploy
+            echo $(pwd)
+            time ./bin/deploy \
+              --inventory inventories/zhdk/hosts.yml \
+              --limit $LIMIT_HOST \
+              --extra-vars "{\"drop_database\": ${DROP_DATABASE}}" \
+              --extra-vars "{\"restore_structure_and_data\": ${RESTORE_STRUCTURE_AND_DATA}}" \
+              --extra-vars "{\"restore_structure_and_data_file\": ${RESTORE_STRUCTURE_AND_DATA_FILE}}"

@@ -1,3 +1,5 @@
+include: "{{playbook_dir}}/defaults.yml"
+
 madek_vim_mode: false
 
 server_timezone: Etc/UTC
