@@ -1,4 +1,0 @@
-- user:
-    name: '{{madek_webapp_user}}'
-    system: yes
-  name: create madek-webapp user

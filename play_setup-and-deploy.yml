@@ -38,14 +38,14 @@
       tags: [service-datalayer]
     - role: service-admin-webapp
       tags: [service-admin-webapp]
-    - role: service-webapp
-      tags: [service-webapp]
+    - role: ../webapp/deploy/roles/install
+      tags: [webapp]
     - role: service-auth
       tags:  [service-auth]
     - role: service-mail
       tags:  [service-mail]
     - role: ../api/deploy/roles/install
-      tags:  [service-api]
+      tags:  [api]
     - role: service-api-v2
       tags:  [service-api-v2]
     - role: webstats

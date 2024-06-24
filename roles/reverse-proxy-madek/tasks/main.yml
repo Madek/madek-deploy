@@ -1,3 +1,9 @@
+- name: document root directory
+  file:
+    path: /var/www/madek
+    state: directory
+    mode: 0755
+
 - template:
     src: custom.conf
     dest: /etc/apache2/madek/conf.d/madek_900_custom.conf
@@ -21,7 +27,7 @@
 
 - template:
     src: robots.txt
-    dest: "{{ madek_webapp_dir }}/public/robots.txt"
+    dest: "/var/www/madek/robots.txt"
     mode: 0644
 
 - name: disable all madek maintenance sites

@@ -1,8 +1,0 @@
-- name: build
-  shell: |
-    #!/usr/bin/env bash
-    set -euo pipefail
-    {{role_path}}/../../../webapp/bin/build
-  delegate_to: localhost
-  args:
-    executable: /bin/bash
