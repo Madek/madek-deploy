@@ -3,25 +3,28 @@
     path: "{{madek_server_dir}}"
     state: absent
 
+- name: remove create madek server dir
+  file:
+    path: "{{madek_server_dir}}"
+    state: directory
+    mode: 0755
+
 - name: make sure madek root dir is present
   file:
     path: "{{madek_root_dir}}"
     state: directory
 
-- name: make sure madek config root dir is present
+- name: make sure /etc/madek/config root dir is present
   file:
-    path: "{{madek_root_dir}}/server/config"
+    path: "/etc/madek/config"
     state: directory
+    mode: 0755
 
-#- name: unpack and move archive in place
-#  shell: |
-#    #!/usr/bin/env bash
-#    set -euo pipefail
-#    cd {{madek_root_dir}}
-#    tar xf /tmp/madek.tar.gz
-#    mv {{madek_root_dir}}/madek {{madek_server_dir}}
-#  args:
-#    executable: /bin/bash
+- name: create symlink from server/config to /etc/madek/config
+  file:
+    src: "/etc/madek/config"
+    dest: "{{madek_server_dir}}/config"
+    state: link
 
 #- name: add deploy info to file
 #  lineinfile:
@@ -37,3 +40,13 @@
     group: "{{madek_user}}"
     state: directory
     recurse: yes
+
+- name: Setup storage directories
+  shell: 'mkdir -p "{{item}}" && chown -R "{{madek_user}}":"{{madek_user}}" "{{item}}"'
+  with_items:
+    - "{{madek_file_storage_dir}}"
+    - "{{madek_thumbnail_storage_dir}}"
+    - "{{madek_tmp_dir}}"
+  when: setup_storage_directories
+
+

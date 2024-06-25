@@ -25,15 +25,17 @@
     - role: reverse-proxy-maintenance
       tags: [reverse-proxy-maintenance, maintenance]
     - role: madek-user
-    - role: server-dir_set-up
+    - role: server-dirs
+      tags: [server-dirs]
     - role: asdf
       asdf_user: '{{madek_user}}'
-    - role: madek-configuration
+    - role: server-config
+      tags: [server-config]
     - role: service-datalayer
       tags: [service-datalayer]
     - role: service-admin-webapp
       tags: [service-admin-webapp]
-    - role: ../webapp/deploy/roles/install
+    - role: ../webapp/deploy/roles/deploy
       tags: [webapp]
     - role: service-auth
       tags:  [service-auth]
@@ -41,8 +43,8 @@
       tags:  [service-mail]
     - role: ../api/deploy/roles/install
       tags:  [api]
-    - role: service-api-v2
-      tags:  [service-api-v2]
+    - role: ../api-v2/deploy/roles/deploy
+      tags:  [api-v2]
     - role: webstats
       tags: [webstats]
     - role: reverse-proxy-madek

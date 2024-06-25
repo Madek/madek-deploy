@@ -1,0 +1,12 @@
+- name: Set settings.local
+  template:
+    src: settings.local.yml
+    dest: "{{madek_server_dir}}/config/settings.local.yml"
+    mode: 0755
+    owner: "{{madek_user}}"
+
+- name: Set pg.env
+  template:
+    src: pg.env
+    dest: "/etc/madek/pg.env"
+    mode: 0755
