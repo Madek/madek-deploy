@@ -1,4 +1,0 @@
-drop_database: false
-restore_structure_and_data: false
-restore_structure_and_data_file: /opt/madekdata/backups/latest.pgbin
-

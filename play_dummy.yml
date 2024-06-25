@@ -1,9 +1,0 @@
-- hosts: madek
-
-  roles:
-    - role: os-setup
-    - role: ruby-setup
-    - role: watchdog
-
-    - role: postgresql
-    - role: madek-rails-dummy-install

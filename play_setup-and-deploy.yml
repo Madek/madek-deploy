@@ -4,10 +4,6 @@
     - name: install system python
       raw: apt install -y python3
 
-#- hosts: localhost
-#  roles:
-#    - role: find_or_build_archive
-
 
 # TODO ReverseProxy like in Leihs
 
@@ -29,7 +25,6 @@
     - role: reverse-proxy-maintenance
       tags: [reverse-proxy-maintenance, maintenance]
     - role: madek-user
-#   - role: get-archive
     - role: server-dir_set-up
     - role: asdf
       asdf_user: '{{madek_user}}'
@@ -52,9 +47,4 @@
       tags: [webstats]
     - role: reverse-proxy-madek
       tags: [reverse-proxy-madek]
-#   - role: madek-datalayer
-#   - role: services
-#   - role: watchdog
-#   - role: reverse-proxy
-#     tags: [reverse-proxy]
-#   - role: db-backups
+    - role: db-backups

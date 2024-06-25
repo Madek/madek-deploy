@@ -1,3 +1,0 @@
-include: "{{playbook_dir}}/defaults.yml"
-
-verify_madek_archive: true

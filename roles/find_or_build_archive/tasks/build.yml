@@ -1,4 +1,0 @@
-- name: build release archive
-  shell: ./bin/archive-build
-  tags: [debug]
-

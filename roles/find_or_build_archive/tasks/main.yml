@@ -1,5 +1,0 @@
-- include_tasks: search_download_archive.yml
-  when: not force_local_build
-
-- include_tasks: build.yml
-  when: force_local_build or (download_urls is not defined)
