@@ -46,7 +46,6 @@ scripts:
       bin/ansible-playbook \
         -i container-test/inventory/hosts \
         -e "ansible_ssh_host=${CONTAINER_IP}" \
-        -e '{"verify_madek_archive": false, "force_local_build": true}' \
         play_setup-and-deploy.yml
 
       bin/ansible-playbook \

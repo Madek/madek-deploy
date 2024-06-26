@@ -4,7 +4,6 @@ zhdk_integration: {{zhdk_integration}}
 {% if zhdk_integration %}
 zhdk_agw_api_url: {{zhdk_agw_api_url}}
 zhdk_agw_api_key: {{zhdk_agw_api_key}}
-zhdk_admin_ids: {{zhdk_admin_ids}}
 {% endif %}
 
 shibboleth_sign_in_enabled: {{shibboleth_sign_in_enabled}}

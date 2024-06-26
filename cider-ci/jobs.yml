@@ -104,9 +104,40 @@
 
 ### test-blank with prod data (for development) ###################################
 
-"deploy_test-blank_no_restore":
+"deploy_test-blank_reset":
   include: cider-ci/jobs/deploy-defaults.yml
-  name: "Deploy to test-blank WITHOUT DB-RESTORE!"
+  name: "Deploy to test-blank with db-reset!"
+  description: |
+    Deploy to test-blank without touching the DB (for development).
+    Note that previews etc won't work, but UPLOADING does!
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources:
+          "test-blank.madek.zhdk.ch": true
+        environment_variables:
+          LIMIT_HOST: test-blank
+          DROP_DATABASE: "true"
+          RESTORE_STRUCTURE_AND_DATA: "false"
+        scripts:
+          setup:
+            start_when:
+              deployed:
+                script_key: deploy
+            body: |
+              #!/usr/bin/env bash
+              set -euo pipefail
+              cd deploy
+              echo $(pwd)
+              ./bin/ansible-playbook play_first-time-setup.yml \
+                --inventory inventories/zhdk/hosts.yml \
+                --limit $LIMIT_HOST
+
+
+
+"deploy_test-blank_no_reset":
+  include: cider-ci/jobs/deploy-defaults.yml
+  name: "Deploy to test-blank without db-reset!"
   description: |
     Deploy to test-blank without touching the DB (for development).
     Note that previews etc won't work, but UPLOADING does!

@@ -5,4 +5,4 @@ DEPLOY_DIR="$(cd -- "$(dirname "${BASH_SOURCE}")" ; cd .. > /dev/null 2>&1 && pw
 
 cd $DEPLOY_DIR
 
-./bin/ansible-playbook -i inventories/vm/hosts.yml play_setup-and-deploy.yml  -e '{"force_local_build": true}'
+./bin/ansible-playbook -i inventories/vm/hosts.yml play_setup-and-deploy.yml

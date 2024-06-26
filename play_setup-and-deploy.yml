@@ -1,9 +1,11 @@
 - hosts: madek
   gather_facts: False
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    ansible_ssh_user: root
   pre_tasks:
     - name: install system python
       raw: apt install -y python3
-
 
 # TODO ReverseProxy like in Leihs
 
@@ -32,7 +34,7 @@
     - role: server-config
       tags: [server-config]
     - role: service-datalayer
-      tags: [service-datalayer]
+      tags: [datalayer]
     - role: service-admin-webapp
       tags: [service-admin-webapp]
     - role: ../webapp/deploy/roles/deploy

@@ -1,5 +1,7 @@
 - hosts: madek
 
   roles:
+    - role: defaults
+      tags: [always]
     - role: create-admin
     - role: madek-set-default-config

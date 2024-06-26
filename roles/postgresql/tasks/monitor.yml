@@ -1,9 +1,0 @@
-- name: configure database watchdog
-  template:
-    src: postgresql.monit
-    dest: /etc/monit/conf.d/postgresql
-
-- name: reload monit
-  service:
-    name: monit
-    state: reloaded

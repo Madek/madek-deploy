@@ -1,0 +1,9 @@
+- file:
+    path: /etc/monit/conf.d/postgresql
+    state: absent
+
+- name: reload monit
+  service:
+    name: monit
+    state: reloaded
+  failed_when: false

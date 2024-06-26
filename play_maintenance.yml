@@ -2,6 +2,9 @@
   hosts: madek
 
   tasks:
+    - include_role:
+        name: defaults
+
     - name: test connection
       ping:
 

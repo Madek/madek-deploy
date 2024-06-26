@@ -1,0 +1,76 @@
+###############################################################################
+### reverse proxy #############################################################
+###############################################################################
+
+madek_disallow_search_engine_crawlers: yes
+
+
+###############################################################################
+### transcoding settings ######################################################
+###############################################################################
+
+
+zencoder_test_mode: True
+
+
+
+##############################################################################
+### services ##################################################################
+###############################################################################
+
+api_v2: True
+
+
+
+### webapp #####################################################################
+
+madek_webapp_html_extra_head_end: |
+  <style>
+  {{ lookup('file', 'inventories/zhdk/files/logo-style-zhdk.css') }}
+  </style>
+  <!-- FROM HERE OVERRIDE only test.madek -->
+
+  <!-- uploader notice: -->
+  <style>
+    [data-react-class="UI.Views.My.Uploader"]:before {
+      color: red; font: bolder 3em monospace;
+      content: 'NOTE! THIS IS A TEST SERVER! UPLOAD DOES NOT WORK!';
+    }
+  </style>
+
+  <!-- custom CSS demo -->
+  <style>
+  {{ lookup('file', 'files/custom-css-demo.css') }}
+  </style>
+
+
+
+
+
+
+
+madek_disallow_search_engine_crawlers: yes
+
+db_backups_enabled: False
+restore_structure_and_data: yes
+
+setup_storage_directories: no # dont do it, files are mounted read-only!
+
+zencoder_test_mode: True
+
+
+
+zhdk_agw_api_id: madektest
+zhdk_agw_api_key: "{{zhdk_agw_api_test_key}}"
+zhdk_agw_api_url: "https://intern.zhdk.ch/?auth/{{zhdk_agw_api_test_app}}"
+
+restrict_access_via_basic_auth: true
+restrict_access_via_basic_auth_passwords:
+  Madek: "{{madek_zhdk_basic_auth_password}}"
+
+webstats_enabled: True
+webstats_passwords_set:
+  Madek: "{{madek_zhdk_basic_auth_password}}"
+
+
+madek_feature_toggle_admin_sql_reports: "on my own risk"

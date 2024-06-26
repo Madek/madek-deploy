@@ -1,11 +1,59 @@
-zhdk_integration: True # turns on AGW support + custom ldap groups handling
-zhdk_admin_ids: [
-    8817, # poettli
-    182749, # tschank
-    189987, # mkmit
-    196200, # malbrech
-    158882, # lsotrug
-  ]
+################################################################################
+### global settings ############################################################
+################################################################################
+
+madek_support_email: "support.madek@zhdk.ch"
+
+
+
+###############################################################################
+### reverse proxy #############################################################
+###############################################################################
+
+reverse_proxy_use_x_forwarded_for: true
+
+
+madek_virtual_hosts:
+- hostname: "{{madek_external_hostname}}"
+  ip: "*"
+  ssl_certificate_file: '/etc/ssl/localcerts/zhdk-madek-{{inventory_hostname}}.ruby.zhdk.ch.crt'
+  ssl_certificate_key_file: '/etc/ssl/localcerts/zhdk-madek-{{inventory_hostname}}.ruby.zhdk.ch.key'
+  force_redirect_to_https: yes
+
+
+reverse_proxy_custom_config: |
+
+  ProxyPass /zhdk-agw  http://localhost:3333/zhdk-agw    nocanon retry=0
+
+
+
+###############################################################################
+### storage settings ##########################################################
+###############################################################################
+
+madek_storage_dir: /opt/madekdata
+madek_file_storage_dir: /opt/madekdata/attachments
+madek_thumbnail_storage_dir: /opt/madekdata/attachments
+
+
+
+###############################################################################
+### database and db backups ###################################################
+###############################################################################
+
+db_backups_dir: "{{madek_storage_dir}}/backups"
+restore_structure_and_data_file: "{{db_backups_dir}}/latest.pgbin"
+
+
+
+###############################################################################
+### transcoding settings ######################################################
+###############################################################################
+
+
+zencoder_api_key: "{{zhdk_zencoder_api_key}}"
+zencoder_enabled: True
+
 
 zencoder_video_output_formats:
   webm:
@@ -43,25 +91,17 @@ zencoder_audio_output_formats:
   vorbis: { format: "ogg", audio_codec: "vorbis", skip_video: true }
   mp3: { format: "mp3", audio_codec: "mp3", skip_video: true }
 
-ntp_server: ntp.zhdk.ch
 
-ssh_keys:
-  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/ci-executor.madek')}}"
-  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/drtom')}}"
-  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/nimaai')}}"
 
-removed_ssh_keys:
-  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/cislave_madek')}}"
-  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/michael')}}"
-  - "{{lookup('file', './inventories/zhdk/shared/ssh_keys/mfa')}}"
+###############################################################################
+### embed, html and css customization #########################################
+###############################################################################
 
-madek_support_email: "support.madek@zhdk.ch"
+
 madek_webapp_embeds:
   enable_opengraph: true
   twitter_cards_site: "@zhdk"
 
-
-madek_is_behind_gateway: true
 
 # embed player logo (ZHdK)
 madek_webapp_html_extra_head_end: |
@@ -69,12 +109,33 @@ madek_webapp_html_extra_head_end: |
   {{ lookup('file', 'inventories/zhdk/files/logo-style-zhdk.css') }}
   </style>
 
-# for UI forms, "bundle" these keys
-# feature is experimental, if stable this config should go into AppSettings (DB!)
-ui_bundle_context_keys:
-  - {
-      group: "media_content:portrayed_object_location",
-      prefix: "media_content:portrayed_object_",
-    }
-  - { group: "media_object:creator", prefix: "media_object:creator_" }
-  - { group: "madek_core:copyright_notice", prefix: "madek_core:copyright_" }
+
+
+###############################################################################
+###  zhdk config ##############################################################
+###############################################################################
+
+
+# there is one reference of this in the webapp (apart from the now retiered awg engine)
+zhdk_integration: True # turns on AGW support + custom ldap groups handling
+
+madek_support_email: "support.madek@zhdk.ch"
+
+zhdk_agw_api_id: madektest
+zhdk_agw_api_key: "{{zhdk_agw_api_test_key}}"
+zhdk_agw_api_url: "https://intern.zhdk.ch/?auth/{{zhdk_agw_api_test_app}}"
+
+agw_auth_public_key: |
+  -----BEGIN PUBLIC KEY-----
+  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEJCGE8RbZhtTj+93HMSkSKMbWv4/X
+  +87MRVYtJMoYSa3F9HONSSCkSbCNcpz4QBqLLcd4KCJGUFHCRowp4Trw0Q==
+  -----END PUBLIC KEY-----
+
+agw_auth_madek_public_key: |
+  -----BEGIN PUBLIC KEY-----
+  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEfv30vIA7yLtLDf2ISVCohxmh1Tby
+  4cPaxmCiXbFes2IqlYDDVk0hdk8q8/OFKKKfWGd90c7V6n9zJsr0Xs22ug==
+  -----END PUBLIC KEY-----
+
+
+

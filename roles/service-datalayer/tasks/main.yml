@@ -6,6 +6,8 @@
 - include_tasks: project.yml
 - include_tasks: ruby.yml
 - include_tasks: config.yml
+- include_tasks: drop-database.yml
+  when: drop_database
 - include_tasks: create-and-seed.yml
 - include_tasks: restore.yml
   when: restore_structure_and_data
