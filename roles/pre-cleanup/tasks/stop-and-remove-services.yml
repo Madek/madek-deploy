@@ -8,11 +8,19 @@
   shell: rm -rf /etc/monit/conf.d/cider-ci_*  /etc/monit/conf.d/madek_*
 
 - name: stop all madek services
-  shell: systemctl stop madek*
+  service:
+    name: madek-{{item}}
+    enabled: no
+    state: stopped
+  with_items:
+    - admin-webapp
+    - api
+    - api-v2
+    - auth
+    - datalayer
+    - mail
+    - webapp
   failed_when: false
-
-- name: remove madek units
-  shell: rm -f /etc/systemd/system/madek*
 
 - name: reload systemd
   shell: systemctl daemon-reload
