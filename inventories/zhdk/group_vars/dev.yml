@@ -1,8 +1,1 @@
 madek_external_hostname: '{{inventory_hostname}}.madek.rubydev.zhdk.ch'
-
-madek_virtual_hosts:
-- hostname: "{{madek_external_hostname}}"
-  ip: "*"
-  ssl_certificate_file: '/etc/ssl/localcerts/{{ansible_host}}.crt'
-  ssl_certificate_key_file: '/etc/ssl/localcerts/{{ansible_host}}.key'
-  force_redirect_to_https: yes

@@ -16,8 +16,8 @@ reverse_proxy_use_x_forwarded_for: true
 madek_virtual_hosts:
 - hostname: "{{madek_external_hostname}}"
   ip: "*"
-  ssl_certificate_file: '/etc/ssl/localcerts/zhdk-madek-{{inventory_hostname}}.ruby.zhdk.ch.crt'
-  ssl_certificate_key_file: '/etc/ssl/localcerts/zhdk-madek-{{inventory_hostname}}.ruby.zhdk.ch.key'
+  ssl_certificate_file: '/etc/ssl/localcerts/{{ansible_host}}.crt'
+  ssl_certificate_key_file: '/etc/ssl/localcerts/{{ansible_host}}.key'
   force_redirect_to_https: yes
 
 

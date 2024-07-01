@@ -19,8 +19,8 @@
 ### global settings ############################################################
 ################################################################################
 
-madek_external_base_url: https://{{ madek_external_hostname }}
 madek_external_hostname: "{{ ansible_default_ipv4.address }}"
+madek_external_base_url: https://{{ madek_external_hostname }}
 
 madek_support_email: null
 
