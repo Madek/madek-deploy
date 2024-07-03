@@ -36,11 +36,11 @@
     - role: service-datalayer
       tags: [datalayer]
     - role: service-admin-webapp
-      tags: [service-admin-webapp]
+      tags: [admin-webapp]
     - role: ../webapp/deploy/roles/deploy
       tags: [webapp]
-    - role: service-auth
-      tags:  [service-auth]
+    - role: ../auth/deploy/roles/deploy
+      tags:  [auth]
     - role: service-mail
       tags:  [service-mail]
     - role: ../api/deploy/roles/install

@@ -11,7 +11,9 @@
     daemon_reload: yes
   failed_when: false
 
-- name: (re)start mail-service
+- name: enabled and (re)start mail-service
   service:
+    enabled: yes
     name: madek-mail
     state: restarted
+

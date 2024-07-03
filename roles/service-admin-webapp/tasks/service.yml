@@ -29,8 +29,15 @@
   changed_when: false
   name: reload systemctl
 
-- name: start madek-admin-webapp
+- name: enable and (re)start madek-admin-webapp
   service:
     name: madek-admin-webapp
     enabled: yes
-    state: started
+    state: restarted
+
+- name: wait for madek-admin-webapp to be ready
+  wait_for:
+    port: "{{madek_admin_webapp_port}}"
+    delay: 5
+    timeout: 60
+
