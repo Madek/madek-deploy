@@ -20,6 +20,7 @@
     state: directory
     mode: 0755
 
+
 - name: create symlink from server/config to /etc/madek/config
   file:
     src: "/etc/madek/config"

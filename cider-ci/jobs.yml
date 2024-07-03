@@ -215,7 +215,7 @@ deploy_dev_manuel_without_data_reset:
 
 
 deploy_dev_nimaai_with_data_reset:
-  name: ⚒ Dev Deploy - nimaai-madek.ruby.zhdk.ch / https://tom.madek.rubydev.zhdk.ch - with Prod-Data
+  name: ⚒ Dev Deploy - nimaai-madek.ruby.zhdk.ch / https://nimaai.madek.rubydev.zhdk.ch - with Prod-Data
   include: cider-ci/jobs/deploy-defaults.yml
   context:
     tasks:
@@ -228,7 +228,7 @@ deploy_dev_nimaai_with_data_reset:
 
 
 deploy_dev_nimaai_without_data_reset:
-  name: ⚒ Dev Deploy - nimaai-madek.ruby.zhdk.ch / https://tom.madek.rubydev.zhdk.ch - without Prod-Data
+  name: ⚒ Dev Deploy - nimaai-madek.ruby.zhdk.ch / https://nimaai.madek.rubydev.zhdk.ch - without Prod-Data
   include: cider-ci/jobs/deploy-defaults.yml
   context:
     tasks:
@@ -274,7 +274,7 @@ deploy_dev_tom_without_data_reset:
 
 
 deploy_dev_uvb_with_data_reset:
-  name: ⚒ Dev Deploy - uvb-madek.ruby.zhdk.ch / https://tom.madek.rubydev.zhdk.ch - with Prod-Data
+  name: ⚒ Dev Deploy - uvb-madek.ruby.zhdk.ch / https://uvb.madek.rubydev.zhdk.ch - with Prod-Data
   include: cider-ci/jobs/deploy-defaults.yml
   context:
     tasks:
@@ -288,7 +288,7 @@ deploy_dev_uvb_with_data_reset:
 
 
 deploy_dev_uvb_without_data_reset:
-  name: ⚒ Dev Deploy - uvb-madek.ruby.zhdk.ch / https://tom.madek.rubydev.zhdk.ch - without Prod-Data
+  name: ⚒ Dev Deploy - uvb-madek.ruby.zhdk.ch / https://uvb.madek.rubydev.zhdk.ch - without Prod-Data
   include: cider-ci/jobs/deploy-defaults.yml
   context:
     tasks:

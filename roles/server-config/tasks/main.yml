@@ -10,3 +10,33 @@
     src: pg.env
     dest: "/etc/madek/pg.env"
     mode: 0755
+
+- name: create releases.yml and deploy-info.yml
+  shell:
+    cmd: |
+      #/usr/bin/env bash
+      set -euo pipefail
+      {{role_path}}/../../../bin/create-releases-and-deploy-info
+  args:
+    executable: /bin/bash
+  delegate_to: localhost
+
+- name: copy releases.yml and deploy-info.yml
+  copy:
+    src: "{{role_path}}/../../../config/{{item}}"
+    dest: "{{madek_server_dir}}/config/{{item}}"
+    mode: 0755
+    owner: "{{madek_user}}"
+    group: "{{madek_user}}"
+  with_items:
+    - releases.yml
+    - deploy-info.yml
+
+- name: remove releases.yml and deploy-info.yml
+  file:
+    state: absent
+    path: "{{role_path}}/../../../config/{{item}}"
+  delegate_to: localhost
+  with_items:
+    - releases.yml
+    - deploy-info.yml
