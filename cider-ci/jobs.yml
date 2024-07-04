@@ -2,32 +2,27 @@
 ### Deploy jobs ###############################################################
 ###############################################################################
 
-### medienarchiv ##############################################################
-#
-# disabled until new deployment is considred stable
-#
-
-#"deploy_medienarchive":
-#  include: cider-ci/jobs/deploy-defaults.yml
-#  name: "!!! DEPLOY TO MEDIENARCHIV !!!"
-#  depends_on:
-#    deploy to staging passed:
-#      { job_key: deploy_staging, type: job, states: [passed] }
-#    "we are on zhdk/deploy": { type: branch, include_match: '^zhdk\/deploy$' }
-#  run_when:
-#    "deploy at 3:30 UTC on branch zhdk/deploy":
-#      type: cron
-#      value: "30 3 * * *"
-#      branch_include_match: ^zhdk/deploy$
-#  context:
-#    tasks:
-#      deploy:
-#        exclusive_global_resources:
-#          "medienarchiv.zhdk.ch": true
-#        environment_variables:
-#          # defaults but let's make it very clear here:
-#          DROP_DATABASE: "false"
-#          RESTORE_STRUCTURE_AND_DATA: "false"
+"deploy_medienarchive":
+  include: cider-ci/jobs/deploy-defaults.yml
+  name: "!!! DEPLOY TO MEDIENARCHIV !!!"
+  depends_on:
+    deploy to staging passed:
+      { job_key: deploy_staging, type: job, states: [passed] }
+    "we are on zhdk/deploy": { type: branch, include_match: '^zhdk\/deploy$' }
+  run_when:
+    "deploy at 3:30 UTC on branch zhdk/deploy":
+      type: cron
+      value: "30 3 * * *"
+      branch_include_match: ^zhdk/deploy$
+  context:
+    tasks:
+      deploy:
+        exclusive_global_resources:
+          "medienarchiv.zhdk.ch": true
+        environment_variables:
+          # defaults but let's make it very clear here:
+          DROP_DATABASE: "false"
+          RESTORE_STRUCTURE_AND_DATA: "false"
 
 
 ### staging ###################################################################
