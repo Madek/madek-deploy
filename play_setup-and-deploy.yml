@@ -33,6 +33,7 @@
       asdf_user: '{{madek_user}}'
     - role: server-config
       tags: [server-config]
+    # todo check db backup on deploy
     - role: service-datalayer
       tags: [datalayer]
     - role: service-admin-webapp

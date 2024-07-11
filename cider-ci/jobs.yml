@@ -21,6 +21,7 @@
           "medienarchiv.zhdk.ch": true
         environment_variables:
           # defaults but let's make it very clear here:
+          LIMIT_HOST: prod
           DROP_DATABASE: "false"
           RESTORE_STRUCTURE_AND_DATA: "false"
 
