@@ -27,6 +27,7 @@ madek_disallow_search_engine_crawlers: no
 # owner and permissions settings very slow, enable only if needed
 
 setup_storage_directories: false
+madek_tmp_dir: /opt/madekdata/tmp
 
 
 ###############################################################################
