@@ -29,5 +29,6 @@ ExecStart=/usr/bin/env java "-Xmx{{ madek_mail_xmx }}m" \
 
 [Install]
 WantedBy=multi-user.target
+WantedBy=madek-datalayer.service
 
 # vi: ft=systemd

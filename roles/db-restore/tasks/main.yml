@@ -2,6 +2,7 @@
   service:
     name: '{{item}}'
     state: stopped
+    enabled: false
   with_items:
     - madek-webapp
     - madek-admin-webapp

@@ -27,5 +27,6 @@ ExecStart={{madek_datalayer_ruby_dir}}/bin/ruby -S \
 
 [Install]
 WantedBy=multi-user.target
+WantedBy=postgresql@{{postgres_version}}-main.service
 
 # vi: ft=sh
