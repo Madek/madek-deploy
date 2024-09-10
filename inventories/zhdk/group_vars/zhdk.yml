@@ -137,5 +137,11 @@ agw_auth_madek_public_key: |
   4cPaxmCiXbFes2IqlYDDVk0hdk8q8/OFKKKfWGd90c7V6n9zJsr0Xs22ug==
   -----END PUBLIC KEY-----
 
-
-
+madek_block_useragents:
+  - AhrefsBot
+  - BLEXBot
+  - Bytespider
+  - ClaudeBot
+  - PiplBot
+  - SemrushBot
+  - seo4ajax
