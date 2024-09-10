@@ -49,6 +49,8 @@ zencoder_test_mode: False
 ### services ##################################################################
 ###############################################################################
 
+madek_webapp_puma_worker_killer_enabled: false
+
 madek_webapp_html_extra_body_start: |
   <!-- Piwik Image Tracker-->
   <img src="https://analytics.zhdk.ch/piwik.php?idsite=174&rec=1" style="border:0;position:fixed;top:0;left:0" alt="">
