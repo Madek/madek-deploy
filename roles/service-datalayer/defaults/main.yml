@@ -1,4 +1,4 @@
-madek_datalayer_user: madek-datalayer
+madek_datalayer_user: "{{madek_user}}"
 madek_datalayer_dir: "{{madek_root_dir}}/server/datalayer"
 madek_datalayer_ruby_dir: "/home/{{madek_datalayer_user}}/.asdf/installs/ruby/{{madek_datalayer_ruby_version.stdout}}"
 drop_database: false

@@ -123,8 +123,10 @@
             body: |
               #!/usr/bin/env bash
               set -euo pipefail
+
               cd deploy
               echo $(pwd)
+
               ./bin/ansible-playbook play_first-time-setup.yml \
                 --inventory inventories/zhdk/hosts.yml \
                 --limit $LIMIT_HOST

@@ -37,15 +37,15 @@ context:
           body: |
             #!/usr/bin/env bash
             set -euo pipefail
-            set -x
 
             echo "ENVIRONMENT VARIABLES: >>>>>>>>>>>>>>>>>>>>>>>>>>>>"
             env | sort
             echo "ENVIRONMENT VARIABLES: <<<<<<<<<<<<<<<<<<<>>>>>>>>>"
             echo ""
-            set -x
+
             cd deploy
             echo $(pwd)
+
             time ./bin/deploy \
               --inventory inventories/zhdk/hosts.yml \
               --limit $LIMIT_HOST \

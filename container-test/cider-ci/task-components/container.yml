@@ -29,3 +29,5 @@ scripts:
       lxc info ${CONTAINER_NAME}
       lxc delete --force ${CONTAINER_NAME}
       lxc list
+
+

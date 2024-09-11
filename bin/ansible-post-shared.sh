@@ -1,4 +1,4 @@
 
-./bin/transcrypt --flush-credentials --yes
+# ./bin/transcrypt --flush-credentials --yes
 
 # vi: ft=sh
