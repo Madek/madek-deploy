@@ -2,7 +2,7 @@
 ### global settings ############################################################
 ################################################################################
 
-madek_support_email: "support.madek@zhdk.ch"
+madek_support_email: "support.medienarchiv@zhdk.ch"
 
 
 
@@ -119,7 +119,7 @@ madek_webapp_html_extra_head_end: |
 # there is one reference of this in the webapp (apart from the now retiered awg engine)
 zhdk_integration: True # turns on AGW support + custom ldap groups handling
 
-madek_support_email: "support.madek@zhdk.ch"
+madek_support_email: "support.medienarchiv@zhdk.ch"
 
 zhdk_agw_api_id: madektest
 zhdk_agw_api_key: "{{zhdk_agw_api_test_key}}"
