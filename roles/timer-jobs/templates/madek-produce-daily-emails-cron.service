@@ -8,7 +8,6 @@ Type=oneshot
 WorkingDirectory={{madek_webapp_dir}}
 User={{madek_user}}
 Group={{madek_user}}
-Environment=LEIHS_SECRET={{madek_master_secret}}
 Environment=PATH={{ruby_dir}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
