@@ -10,6 +10,7 @@
         sudo -u "{{madek_user}}" -- bash -eux -c '
           cd {{madek_webapp_dir}}
           export RAILS_ENV=production
+          export SECRET_KEY_BASE_DUMMY=1
           /usr/local/bin/chruby-exec ruby-{{madek_ruby_versions.webapp}} -- \
             bundle exec rake db:pg:structure_and_data:dump FILE=/tmp/madek.pgbin
         '

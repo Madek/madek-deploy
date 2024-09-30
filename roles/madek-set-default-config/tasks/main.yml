@@ -7,6 +7,7 @@
     source ~/.asdf/asdf.sh
     cd {{madek_webapp_dir}}
     export RAILS_ENV={{rails_env}}
+    export SECRET_KEY_BASE_DUMMY=1
     bundle exec rake db:pg:terminate_connections db:defaults
   args:
     executable: /bin/bash
