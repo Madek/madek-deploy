@@ -84,5 +84,5 @@ madek_webapp_html_extra_head_start: |
 admin_login: admin
 admin_password: "{{test_blank.admin_password}}"
 
-
+restrict_access_via_basic_auth: false
 
