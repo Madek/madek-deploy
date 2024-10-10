@@ -48,6 +48,8 @@
       tags:  [api]
     - role: ../api-v2/deploy/roles/deploy
       tags:  [api-v2]
+    - role: timer-jobs
+      tags:  [timer-jobs]
     - role: webstats
       tags: [webstats]
     - role: reverse-proxy-madek

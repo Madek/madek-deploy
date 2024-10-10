@@ -15,3 +15,10 @@ madek_virtual_hosts:
     ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-test.ruby.zhdk.ch.crt
     ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-test.ruby.zhdk.ch.key
     force_redirect_to_https: yes
+
+###############################################################################
+### other #####################################################################
+###############################################################################
+
+madek_run_produce_daily_emails_on: "*-*-* 15:00:00"
+madek_run_produce_weekly_emails_on: "*-*-* 15:00:00"

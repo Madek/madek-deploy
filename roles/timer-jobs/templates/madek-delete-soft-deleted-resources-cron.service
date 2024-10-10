@@ -8,9 +8,9 @@ Type=oneshot
 WorkingDirectory={{madek_webapp_dir}}
 User={{madek_user}}
 Group={{madek_user}}
-Environment=PATH={{ruby_dir}}/bin:/usr/local/bin:/usr/bin:/bin
+Environment=PATH={{madek_webapp_ruby_dir}}/bin:/usr/local/bin:/usr/bin:/bin
 Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
 Environment=RAILS_SERVE_STATIC_FILES=Yes
 Environment=SECRET_KEY_BASE={{secret_key_base}}
-ExecStart={{ruby_dir}}/bin/ruby -S bundle exec rake madek:delete_soft_deleted_resources
+ExecStart={{madek_webapp_ruby_dir}}/bin/ruby -S bundle exec rake madek:delete_soft_deleted_resources

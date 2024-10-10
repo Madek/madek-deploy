@@ -2,8 +2,8 @@
 Description=Delete Soft-Deleted Resources Cron Service Timer
 
 [Timer]
-OnCalendar={{madek_run_nightly_tasks_on}}
-RandomizedDelaySec={{madek_run_nightly_tasks_randomized_delay_max_seconds}}
+OnCalendar={{madek_run_delete_soft_deleted_resources_on}}
+RandomizedDelaySec={{madek_run_tasks_randomized_delay_max_seconds}}
 Persistent=true
 
 [Install]
