@@ -192,7 +192,7 @@ madek_webapp_embeds:
   twitter_cards_site: false
 
 
-### other ######################################################################
+### timer job settings #########################################################
 
 madek_run_delete_soft_deleted_resources_on: "*-*-* 03:00:00"
 madek_run_produce_daily_emails_on: "*-*-* 03:00:00"

@@ -1,39 +1,31 @@
-- template:
-    src: madek-produce-daily-emails-cron.service
-    dest: /etc/systemd/system/madek-produce-daily-emails-cron.service
+- name: install cron job services
+  template: 
+    src: "{{item}}.service"
+    dest: "/etc/systemd/system/{{item}}.service"
     mode: 0644
-  name: install madek-produce-daily-emails-cron.service
+  with_items: "{{ timer_job_names }}"
 
-- template:
-    src: madek-produce-daily-emails-cron.timer
-    dest: /etc/systemd/system/madek-produce-daily-emails-cron.timer
+- name: install cron job timers
+  template: 
+    src: "{{item}}.timer"
+    dest: "/etc/systemd/system/{{item}}.timer"
     mode: 0644
-  name: install madek-produce-daily-emails-cron.timer
+  with_items: "{{ timer_job_names }}"
 
-- template:
-    src: madek-produce-weekly-emails-cron.service
-    dest: /etc/systemd/system/madek-produce-weekly-emails-cron.service
-    mode: 0644
-  name: install madek-produce-weekly-emails-cron.service
-
-- template:
-    src: madek-produce-weekly-emails-cron.timer
-    dest: /etc/systemd/system/madek-produce-weekly-emails-cron.timer
-    mode: 0644
-  name: install madek-produce-weekly-emails-cron.timer
-
-- template:
-    src: madek-delete-soft-deleted-resources-cron.service
-    dest: /etc/systemd/system/madek-delete-soft-deleted-resources-cron.service
-    mode: 0644
-  name: install madek-delete-soft-deleted-resources-cron.service
-
-- template:
-    src: madek-delete-soft-deleted-resources-cron.timer
-    dest: /etc/systemd/system/madek-delete-soft-deleted-resources-cron.timer
-    mode: 0644
-  name: install madek-delete-soft-deleted-resources-cron.timer
-
-- command: systemctl daemon-reload
+- name: reload systemctl
+  command: systemctl daemon-reload
   changed_when: false
-  name: reload systemctl
+
+- name: ensure cron job services are stopped and disabled
+  service:
+    name: '{{item}}.service'
+    state: stopped
+    enabled: false
+  with_items: "{{ timer_job_names }}"
+
+- name: enable and start cron job timers
+  service:
+    name: '{{item}}.timer'
+    state: started
+    enabled: true
+  with_items: "{{ timer_job_names }}"
