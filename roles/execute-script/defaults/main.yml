@@ -1,5 +1,3 @@
-include: "{{playbook_dir}}/defaults.yml"
-
 # NOTE: those vars need to be set. they are listed here for reference but its recommended to define them on the command line,
 # example: $ bin/ansible-playbook -i ../zhdk-inventory/test-hosts execute-script_play.yml -e 'script_file=/tmp/myscript.rb'
 import_file_path: "{{ import_file }}"

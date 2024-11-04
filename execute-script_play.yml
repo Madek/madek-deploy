@@ -3,4 +3,6 @@
 
 - hosts: madek
   roles:
+    - role: defaults
+      tags: [always]
     - role: execute-script

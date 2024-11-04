@@ -34,6 +34,7 @@
 
     export RAILS_ENV=production
     export IMPORT_FILE=/tmp/madek-import
+    export SECRET_KEY_BASE={{secret_key_base}}
 
     bundle install > /dev/null
     bundle exec rails runner /tmp/madek-scripts/script.rb

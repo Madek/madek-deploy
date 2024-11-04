@@ -16,27 +16,26 @@ else
   SCRIPT="$(realpath $SCRIPT)"
 fi
 
-if test $TARGET = "test"; then
-  INVENTORY=$(realpath ./inventories/zhdk/hosts_test)
-elif test $TARGET = "staging"; then
-  INVENTORY=$(realpath ./inventories/zhdk/hosts_staging)
-elif test $TARGET = "prod"; then
-  INVENTORY=$(realpath ./inventories/zhdk/hosts_medienarchiv)
-else
-  echo "Unsupported TARGET. Must be one of: test, staging, prod."
-  exit 1
-fi
+INVENTORY=$(realpath ./inventories/zhdk/hosts.yml)
 
 echo "TARGET: $TARGET"
 echo "SCRIPT: $SCRIPT"
 echo "INVENTORY: $INVENTORY"
 echo ""
 
+if [[ $TARGET == "prod" ]]; then
+  read -p "EXECUTING ON PROD! Continue? (y/n) " response
+  if [[ "$response" != "y" ]]; then
+    exit
+  fi
+fi
+
 ./bin/ansible-playbook \
   $(realpath execute-script_play.yml) \
   -i $INVENTORY \
-  -e "script_file_path=$SCRIPT" \
+  -l $TARGET \
+  -e "script_file=$SCRIPT" \
 
-echo "DONE. See log output at ./tmp/$TARGET."
+echo "DONE. See log output at ./tmp/log/$TARGET."
 
 # # vi: ft=sh
