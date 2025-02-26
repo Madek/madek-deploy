@@ -64,3 +64,7 @@ madek_webapp_html_extra_body_start: |
 zhdk_agw_api_id: "{{zhdk_agw_api_prod_app}}"
 zhdk_agw_api_key: "{{zhdk_agw_api_prod_key}}"
 zhdk_agw_api_url: "https://intern.zhdk.ch/?auth/{{zhdk_agw_api_prod_app}}"
+
+webstats_enabled: True
+webstats_passwords_set:
+  Madek: "{{madek_zhdk_basic_auth_password}}"
