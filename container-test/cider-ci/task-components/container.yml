@@ -1,5 +1,5 @@
 traits:
-  LXD: yes
+  incus: yes
 
 scripts:
   create-container:
@@ -9,11 +9,8 @@ scripts:
     body: |
       #!/usr/bin/env bash
       set -euo pipefail
-
-      # lxc launch --ephemeral ubuntu:16.04 ${CONTAINER_NAME}
-
-      lxc launch --ephemeral ${LXC_BASE_IMAGE} ${CONTAINER_NAME}
-      lxc list
+      incus launch --ephemeral ${CONTAINER_BASE_IMAGE} ${CONTAINER_NAME}
+      incus list
 
   destroy-container:
     start_when:
@@ -25,9 +22,9 @@ scripts:
     body: |
       #!/usr/bin/env bash
       set -euo pipefail
-      lxc list
-      lxc info ${CONTAINER_NAME}
-      lxc delete --force ${CONTAINER_NAME}
-      lxc list
+      incus list
+      incus info ${CONTAINER_NAME}
+      incus delete --force ${CONTAINER_NAME}
+      incus list
 
 

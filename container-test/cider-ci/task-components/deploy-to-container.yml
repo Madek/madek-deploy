@@ -7,17 +7,17 @@ scripts:
     body: |
       #!/usr/bin/env bash
       set -euo pipefail
-      lxc exec ${CONTAINER_NAME} -- bash -c "ifconfig || ip a s ; cat /etc/os-release"
+      incus exec ${CONTAINER_NAME} -- bash -c "ifconfig || ip a s ; cat /etc/os-release"
 
       # the next command will not work if we invoke it too quickly after
       # booting the machine
       sleep 30
-      CONTAINER_IP=$(lxc list --format=json ${CONTAINER_NAME} | jq -r ".[].state.network.eth0.addresses | .[0].address")
+      CONTAINER_IP=$(incus list --format=json ${CONTAINER_NAME} | jq -r ".[].state.network.eth0.addresses | .[0].address")
       until ping -c1 -W1 ${CONTAINER_IP}; do sleep 3; done
 
-      lxc exec ${CONTAINER_NAME} -- bash - < ${CIDER_CI_WORKING_DIR}/deploy/container-test/bin/install-dependencies
+      incus exec ${CONTAINER_NAME} -- bash - < ${CIDER_CI_WORKING_DIR}/deploy/container-test/bin/install-dependencies
 
-      lxc exec ${CONTAINER_NAME} -- \
+      incus exec ${CONTAINER_NAME} -- \
         /bin/sh -c "mkdir -p /root/.ssh && echo '$(cat ~/.ssh/id_rsa.pub)' >> /root/.ssh/authorized_keys"
 
   virtualenv-prepare:
@@ -38,8 +38,7 @@ scripts:
     body: |
       #!/usr/bin/env bash
       set -euo pipefail
-
-      CONTAINER_IP=$(lxc list --format=json ${CONTAINER_NAME} | jq -r ".[].state.network.eth0.addresses | .[0].address")
+      CONTAINER_IP=$(incus list --format=json ${CONTAINER_NAME} | jq -r ".[].state.network.eth0.addresses | .[0].address")
 
       cd deploy
 

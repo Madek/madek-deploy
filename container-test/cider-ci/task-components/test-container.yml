@@ -8,25 +8,25 @@ scripts:
       set -euo pipefail
 
       echo 'wait for HTTP'
-      lxc exec ${CONTAINER_NAME} -- bash -c 'until curl -i --fail http://localhost/api/status; do sleep 3; done'
+      incus exec ${CONTAINER_NAME} -- bash -c 'until curl -i --fail http://localhost/api/status; do sleep 3; done'
 
       echo 'application statuses'
-      lxc exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost/api/status
-      lxc exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost/admin/status
-      lxc exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost/status
+      incus exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost/api/status
+      incus exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost/admin/status
+      incus exec ${CONTAINER_NAME} -- curl -s -i --fail http://localhost/status
 
       echo 'login page'
-      lxc exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost
+      incus exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost
 
       echo 'explore page'
-      lxc exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost/explore
+      incus exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost/explore
 
       echo 'api documentation'
-      lxc exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost/api/docs/index.html
+      incus exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost/api/docs/index.html
 
       echo 'api browser via /api/browser/'
-      lxc exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost/api/browser/
+      incus exec ${CONTAINER_NAME} -- curl -s -I --fail http://localhost/api/browser/
 
-      lxc exec ${CONTAINER_NAME} -- monit status
+      incus exec ${CONTAINER_NAME} -- monit status
 
       echo OK
