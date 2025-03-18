@@ -55,3 +55,4 @@
     - role: reverse-proxy-madek
       tags: [reverse-proxy-madek]
     - role: db-backups
+      tags: [db-backups]

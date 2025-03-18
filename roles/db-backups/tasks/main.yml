@@ -1,18 +1,71 @@
-- template: >
-    src=dump.sh
-    dest=/etc/cron.daily/madek-db-backup-{{rails_env}}
-    mode=0755
-  when: db_backups_enabled
+# remove old db backup configuration files
 
-- file: >
-    path=/etc/cron.daily/madek-db-backup-{{rails_env}}
-    state=absent
-  when: not db_backups_enabled
+- file:
+    path: /etc/cron.daily/madek-db-backup-production
+    state: absent
 
+- name: set BACKUPS start marker
+  lineinfile:
+    path: /etc/madek/config.env
+    state: present
+    line: "### BACKUPS ########################################"
+    create: yes
 
-# remove old data dump
+- name: set keep days
+  lineinfile:
+    path: /etc/madek/config.env
+    state: present
+    insertafter: "### BACKUPS ########################################"
+    line: "MADEK_DB_BACKUPS_KEEP_DAYS={{ madek_db_backup_keep_days }}"
+    search_string: "MADEK_DB_BACKUPS_KEEP_DAYS="
+    create: yes
 
-- file: >
-    path=/etc/cron.daily/madek-db-data-dump-{{rails_env}}
-    state=absent
+- name: set directory
+  lineinfile:
+    path: /etc/madek/config.env
+    state: present
+    insertafter: "### BACKUPS ########################################"
+    line: "MADEK_DB_BACKUPS_DIRECTORY={{ db_backups_dir }}"
+    search_string: "MADEK_DB_BACKUPS_DIRECTORY="
+    create: yes
 
+- name: create /madek/bin
+  file:
+    path: /madek/bin
+    state: directory
+    mode: 0755
+
+- name: install backup script
+  template:
+    src: madek-db-backup
+    dest: /madek/bin/madek-db-backup
+    mode: 0755
+
+### service
+
+- name: install backup service
+  template:
+    src: madek-db-backup.service
+    dest: /etc/systemd/system/madek-db-backup.service
+    mode: 0644
+
+- name: install backup timer
+  template:
+    src: madek-db-backup.timer
+    dest: /etc/systemd/system/madek-db-backup.timer
+    mode: 0644
+
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: disable|enable backup timer
+  systemd:
+    name: madek-db-backup.timer
+    enabled: "{{'yes' if db_backups_enabled else 'no'}}"
+    state: "{{'started' if db_backups_enabled else 'stopped'}}"
+
+- name: disable|enable backup service
+  systemd:
+    name: madek-db-backup.service
+    enabled: "{{'yes' if db_backups_enabled else 'no'}}"

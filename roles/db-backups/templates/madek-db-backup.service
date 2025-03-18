@@ -1,0 +1,9 @@
+[Unit]
+Description=Madek Daily Backup
+
+[Service]
+SyslogIdentifier=madek-db-backup
+Type=oneshot
+EnvironmentFile=/etc/madek/config.env
+WorkingDirectory=/madek
+ExecStart=/madek/bin/madek-db-backup

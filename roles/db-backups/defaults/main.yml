@@ -1,5 +1,8 @@
-include: "{{playbook_dir}}/defaults.yml"
-
 db_backups_enabled: False
 db_backups_dir: /var/local/madek/backups
+madek_db_backup_keep_days: 7
 
+db_backups_enabled: True
+db_backups_dir: /tmp
+
+include: "{{playbook_dir}}/defaults.yml"
