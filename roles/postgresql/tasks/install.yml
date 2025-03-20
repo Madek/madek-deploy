@@ -1,10 +1,9 @@
-- name: install PG15 
+- name: install PG15
   apt:
     pkg:
       - postgresql-15
       - postgresql-client-15
       - python3-psycopg2
-      - postgresql-contrib
       - libpq-dev
     state: present
     update_cache: yes
@@ -12,10 +11,10 @@
   async: 300
   poll: 1
 
-- name: configure default port 
+- name: configure default port
   lineinfile:
     dest: /etc/postgresql/15/main/postgresql.conf
-    regex: ^port = 
+    regex: ^port =
     line: port = 5415
   register: pg15_port
 

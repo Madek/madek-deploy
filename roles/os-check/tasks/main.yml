@@ -1,7 +1,7 @@
 - name: fail os check
   fail:
     msg: >
-      The supported operating systems are Ubuntu 20.04 and 22.04, and Debian 10 and 11.
+      The supported operating systems are Ubuntu >= 20.04  and Debian >= 10
   when: >
     not
     (((ansible_distribution == "Ubuntu") and (ansible_distribution_version is version('20.04', '>=')))
