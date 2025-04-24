@@ -1,6 +1,9 @@
 [Unit]
 Description=Madek Daily Backup Timer
 
+BindsTo=madek-datalayer.service
+
+
 [Timer]
 OnCalendar=*-*-* 00:15:00
 RandomizedDelaySec=1800
@@ -8,3 +11,4 @@ Persistent=true
 
 [Install]
 WantedBy=timers.target
+WantedBy=madek-datalayer.service

@@ -1,6 +1,10 @@
 [Unit]
 Description=Madek Daily Backup
 
+BindsTo=madek-datalayer.service
+After=madek-datalayer.service
+PartOf=madek-datalayer.service
+
 [Service]
 SyslogIdentifier=madek-db-backup
 Type=oneshot
