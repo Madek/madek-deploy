@@ -1,25 +1,41 @@
+- name: find old madek apache site files
+  find:
+    paths: /etc/apache2/sites-enabled/
+    patterns: "madek*.conf"
+    use_regex: true
+    recurse: no
+  register: madek_apache_site_files
+
+- name: remove old madek apache site files
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ madek_apache_site_files.files }}"
+
+########################################################################
+
 - set_fact:
     index: '{{item.0}}'
     virtual_host: '{{item.1}}'
 
 - template:
     src: http.conf
-    dest: /etc/apache2/madek/{{index}}_http.conf
+    dest: /etc/apache2/madek/{{virtual_host.hostname}}_http.conf
     mode: 0644
 
 - file:
     state: link
-    src: /etc/apache2/madek/{{index}}_http.conf
-    dest: /etc/apache2/sites-enabled/madek_{{index}}_http.conf
+    src: /etc/apache2/madek/{{virtual_host.hostname}}_http.conf
+    dest: /etc/apache2/sites-enabled/madek_{{virtual_host.hostname}}_http.conf
 
 - template:
     src: https.conf
-    dest: /etc/apache2/madek/{{index}}_https.conf
+    dest: /etc/apache2/madek/{{virtual_host.hostname}}_https.conf
     mode: 0644
   when: virtual_host.ssl_certificate_file is defined
 
 - file:
     state: link
-    src: /etc/apache2/madek/{{index}}_https.conf
-    dest: /etc/apache2/sites-enabled/madek_{{index}}_https.conf
+    src: /etc/apache2/madek/{{virtual_host.hostname}}_https.conf
+    dest: /etc/apache2/sites-enabled/madek_{{virtual_host.hostname}}_https.conf
   when: virtual_host.ssl_certificate_file is defined

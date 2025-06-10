@@ -4,6 +4,27 @@
     state: directory
     mode: 0755
 
+- name: finde old madek apache configuration files
+  find:
+    paths: /etc/apache2/madek/
+    patterns: "*.conf"
+    use_regex: true
+    recurse: no
+  register: madek_apache_conf_files
+
+- name: remove old madek apache configuration files
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ madek_apache_conf_files.files }}"
+
+
+- name: madek apache configuration directory
+  file:
+    path: /etc/apache2/madek/conf.d
+    state: directory
+    mode: 0755
+
 - template:
     src: custom.conf
     dest: /etc/apache2/madek/conf.d/madek_900_custom.conf
