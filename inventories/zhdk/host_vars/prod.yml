@@ -10,8 +10,30 @@ madek_master_secret: "{{medienarchiv.madek_master_secret}}"
 
 
 madek_virtual_hosts:
-  - hostname: "{{madek_external_hostname}}"
-    ip: "*"
+
+  - hostname: 'medienarchiv.zhdk.ch'
+    ip: '*'
+    ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-prod.ruby.zhdk.ch.crt
+    ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-prod.ruby.zhdk.ch.key
+    force_redirect_to_https: yes
+
+    custom_config: |
+
+        # to redirect to zhdk.medienarchiv.ch enable:
+
+        # RewriteEngine On
+        # rewritecond expr "! -r '10.0.0.0/8'"
+        # rewritecond %{remote_addr} !=185.17.69.92
+        # rewritecond %{remote_addr} !=195.176.247.181
+        # rewritecond %{remote_addr} !=213.144.130.166
+        # rewritecond %{remote_addr} !=195.176.247.199
+        # rewritecond "%{request_uri}?%{query_string}" !^/files/([a-fa-f0-9\-]+)\?access_token=([a-fa-f0-9\-]+)$
+        # rewritecond "%{request_uri}"  !^/zencoder_jobs/(.*)$
+        # RewriteRule ^(.*)$ https://zhdk.medienarchiv.ch$1 [R=307,L]
+
+
+  - hostname: 'zhdk.medienarchiv.ch'
+    ip: '*'
     ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-prod.ruby.zhdk.ch.crt
     ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-prod.ruby.zhdk.ch.key
     force_redirect_to_https: yes

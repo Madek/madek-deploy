@@ -15,8 +15,38 @@ madek_virtual_hosts:
     ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.crt
     ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.key
     force_redirect_to_https: yes
+    custom_config: |
 
+        # RewriteEngine On
+        # RewriteCond expr "! -R '10.0.0.0/8'"
+        # RewriteCond %{REMOTE_ADDR} !=185.17.69.92
+        # RewriteCond %{REMOTE_ADDR} !=195.176.247.181
+        # RewriteCond %{REMOTE_ADDR} !=213.144.130.166
+        # RewriteCond %{REMOTE_ADDR} !=195.176.247.199
+        # RewriteCond "%{REQUEST_URI}?%{QUERY_STRING}" !^/files/([a-fA-F0-9\-]+)\?access_token=([a-fA-F0-9\-]+)$
+        # RewriteCond "%{REQUEST_URI}"  !^/zencoder_jobs/(.*)$
+        # RewriteRule ^(.*)$ https://www.medienarchiv-cf-test.org$1 [R=307,L]
 
+  - hostname: "cftest.madek.zhdk.ch"
+    ip: "*"
+    ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.crt
+    ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.key
+    force_redirect_to_https: yes
+    custom_config: |
+
+        # RewriteEngine On
+        # RewriteCond expr "! -R '10.0.0.0/8'"
+        # RewriteCond %{REMOTE_ADDR} !=185.17.69.92
+        # RewriteCond %{REMOTE_ADDR} !=195.176.247.181
+        # RewriteCond %{REMOTE_ADDR} !=213.144.130.166
+        # RewriteCond %{REMOTE_ADDR} !=195.176.247.199
+        # RewriteRule ^(.*)$ https://www.medienarchiv-cf-test.org$1 [R=307,L]
+
+  - hostname: "www.medienarchiv-cf-test.org"
+    ip: "*"
+    ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.crt
+    ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.key
+    force_redirect_to_https: yes
 
 ###############################################################################
 ### storage settings ##########################################################
