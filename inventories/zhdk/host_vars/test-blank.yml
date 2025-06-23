@@ -17,6 +17,28 @@ madek_virtual_hosts:
     force_redirect_to_https: yes
 
 
+  - hostname: "cftest.madek.zhdk.ch"
+    ip: "*"
+    ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.crt
+    ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.key
+    force_redirect_to_https: yes
+    custom_config: |
+        RewriteEngine On
+        # tom test 
+        RewriteCond %{REMOTE_ADDR} !=213.144.130.166
+        # snowflake
+        RewriteCond %{REMOTE_ADDR} !=185.17.69.92  
+        # zhdk internal network, seems not to be effective in some (many?, all?) cases
+        RewriteCond expr "! -R '10.0.0.0/8'" 
+        # gateway
+        RewriteCond %{REMOTE_ADDR} !=194.15.111.127
+        RewriteRule ^(.*)$ https://www.medienarchiv-cf-test.org$1 [R=307,L]
+
+  - hostname: "www.medienarchiv-cf-test.org"
+    ip: "*"
+    ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.crt
+    ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.key
+    force_redirect_to_https: yes
 
 ###############################################################################
 ### storage settings ##########################################################

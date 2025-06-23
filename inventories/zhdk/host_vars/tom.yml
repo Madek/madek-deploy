@@ -1,1 +1,35 @@
-external_hostname: www.medienarchiv-cf-test.org
+# https://intern.zhdk.ch/?agw/admin
+
+restrict_access_via_basic_auth: false
+reverse_proxy_cache_front_page: true
+
+madek_virtual_hosts:
+
+  - hostname: "{{madek_external_hostname}}"
+    ip: "*"
+    ssl_certificate_file: '/etc/ssl/localcerts/{{ansible_host}}.crt'
+    ssl_certificate_key_file: '/etc/ssl/localcerts/{{ansible_host}}.key'
+    force_redirect_to_https: yes
+
+  - hostname: "cftest.madek.zhdk.ch"
+    ip: "*"
+    ssl_certificate_file: '/etc/ssl/localcerts/{{ansible_host}}.crt'
+    ssl_certificate_key_file: '/etc/ssl/localcerts/{{ansible_host}}.key'
+    force_redirect_to_https: yes
+    custom_config: |
+        RewriteEngine On
+        RewriteCond %{REMOTE_ADDR} !=213.144.130.166 [OR]
+        RewriteCond expr "! -R '10.0.0.0/8'"
+        RewriteRule ^(.*)$ https://www.medienarchiv-cf-test.org$1 [R=307,L]
+
+  - hostname: "www.medienarchiv-cf-test.org"
+    ip: "*"
+    ssl_certificate_file: '/etc/ssl/localcerts/{{ansible_host}}.crt'
+    ssl_certificate_key_file: '/etc/ssl/localcerts/{{ansible_host}}.key'
+    force_redirect_to_https: yes
+    custom_config: |
+        RewriteEngine On
+        RewriteCond %{REMOTE_ADDR} ==213.144.130.166 [OR]
+        RewriteCond %{REMOTE_ADDR} ==195.176.29.132
+        RewriteRule ^(.*)$ https://cftest.madek.zhdk.ch$1 [R=307,L]
+
