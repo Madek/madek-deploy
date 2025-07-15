@@ -19,17 +19,44 @@ madek_virtual_hosts:
 
     custom_config: |
 
-        # to redirect to zhdk.medienarchiv.ch enable:
+        RewriteEngine On
 
-        # RewriteEngine On
-        # rewritecond expr "! -r '10.0.0.0/8'"
-        # rewritecond %{remote_addr} !=185.17.69.92
-        # rewritecond %{remote_addr} !=195.176.247.181
-        # rewritecond %{remote_addr} !=213.144.130.166
-        # rewritecond %{remote_addr} !=195.176.247.199
-        # rewritecond "%{request_uri}?%{query_string}" !^/files/([a-fa-f0-9\-]+)\?access_token=([a-fa-f0-9\-]+)$
-        # rewritecond "%{request_uri}"  !^/zencoder_jobs/(.*)$
-        # RewriteRule ^(.*)$ https://zhdk.medienarchiv.ch$1 [R=307,L]
+
+        ### CORS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+        Header always set Access-Control-Allow-Origin "*"
+        Header always set Access-Control-Allow-Headers "Authorization"
+        Header always set Access-Control-Allow-Methods "GET"
+        Header always set Access-Control-Expose-Headers "Content-Security-Policy, Location"
+        Header always set Access-Control-Max-Age "600"
+
+        RewriteCond %{REQUEST_METHOD} OPTIONS
+        RewriteRule ^(.*)$ $1 [R=200,L]
+
+        ### CORS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+
+
+        ### redirect to zhdk.medienarchiv.ch >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+        # zhdk server network:
+        RewriteCond expr "! -R '195.176.247.0/24'"
+
+        # snowflake IPs:
+        RewriteCond %{REMOTE_ADDR} !=185.17.69.92
+        RewriteCond %{REMOTE_ADDR} !=185.17.69.91
+        RewriteCond %{REMOTE_ADDR} !=91.199.98.56
+
+        # static test IP:
+        RewriteCond %{REMOTE_ADDR} !=213.144.130.166
+
+        # video encoding via Zencoder:
+        RewriteCond "%{REQUEST_URI}?%{QUERY_STRING}" !^/files/([a-fA-F0-9\-]+)\?access_token=([a-fA-F0-9\-]+)$
+        RewriteCond "%{REQUEST_URI}"  !^/zencoder_jobs/(.*)$
+
+        RewriteRule ^(.*)$ https://zhdk.medienarchiv.ch$1 [R=307,L]
+
+        ### redirect to zhdk.medienarchiv.ch <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
   - hostname: 'zhdk.medienarchiv.ch'
@@ -37,6 +64,24 @@ madek_virtual_hosts:
     ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-prod.ruby.zhdk.ch.crt
     ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-prod.ruby.zhdk.ch.key
     force_redirect_to_https: yes
+
+    custom_config: |
+
+        RewriteEngine On
+
+        ### CORS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+        Header always set Access-Control-Allow-Origin "*"
+        Header always set Access-Control-Allow-Headers "Authorization"
+        Header always set Access-Control-Allow-Methods "GET"
+        Header always set Access-Control-Expose-Headers "Content-Security-Policy, Location"
+        Header always set Access-Control-Max-Age "600"
+
+        RewriteCond %{REQUEST_METHOD} OPTIONS
+        RewriteRule ^(.*)$ $1 [R=200,L]
+
+        ### CORS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 madek_disallow_search_engine_crawlers: no
 
