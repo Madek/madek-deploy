@@ -2,3 +2,4 @@ timer_job_names:
   - madek-produce-daily-emails-cron
   - madek-produce-weekly-emails-cron
   - madek-delete-soft-deleted-resources-cron
+  - madek-sitemap-refresh-cron
