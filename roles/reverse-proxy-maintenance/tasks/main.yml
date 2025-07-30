@@ -1,5 +1,39 @@
-- name: disable all madek sites
-  shell: rm -rf /etc/apache2/sites-enabled/madek*
+- name: find existing apache enabled site files
+  find:
+    paths: /etc/apache2/sites-enabled/
+    file_type: any
+    patterns:
+     - "^madek.*$"
+    use_regex: yes
+  register: madek_apache_site_enabled_files
+
+- name: remove madek site_enabled configuration files
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ madek_apache_site_enabled_files.files }}"
+
+
+- name: find existing apache available site files
+  find:
+    paths: /etc/apache2/sites-available/
+    file_type: any
+    patterns:
+     - "^madek.*$"
+    use_regex: yes
+  register: madek_apache_site_available_files
+
+- name: remove madek site_available configuration files
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ madek_apache_site_available_files.files }}"
+
+- name: madek apache configuration directory
+  file:
+    path: /etc/apache2/madek/conf.d
+    state: directory
+    mode: 0755
 
 - name: maintenance page directory
   file:

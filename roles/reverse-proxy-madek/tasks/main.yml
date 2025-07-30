@@ -1,23 +1,39 @@
-- name: document root directory
+- name: find existing apache enabled site files
+  find:
+    paths: /etc/apache2/sites-enabled/
+    file_type: any
+    patterns:
+     - "^madek.*$"
+    use_regex: yes
+  register: madek_apache_site_enabled_files
+
+- name: remove madek site_enabled configuration files
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ madek_apache_site_enabled_files.files }}"
+
+
+- name: find existing apache available site files
+  find:
+    paths: /etc/apache2/sites-available/
+    file_type: any
+    patterns:
+     - "^madek.*$"
+    use_regex: yes
+  register: madek_apache_site_available_files
+
+- name: remove madek site_available configuration files
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ madek_apache_site_available_files.files }}"
+
+- name: create document root directory
   file:
     path: /var/www/madek
     state: directory
     mode: 0755
-
-- name: finde old madek apache configuration files
-  find:
-    paths: /etc/apache2/madek/
-    patterns: "*.conf"
-    use_regex: true
-    recurse: no
-  register: madek_apache_conf_files
-
-- name: remove old madek apache configuration files
-  file:
-    path: "{{ item.path }}"
-    state: absent
-  with_items: "{{ madek_apache_conf_files.files }}"
-
 
 - name: madek apache configuration directory
   file:

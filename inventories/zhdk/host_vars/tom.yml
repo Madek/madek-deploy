@@ -1,7 +1,6 @@
 # https://intern.zhdk.ch/?agw/admin
 
 restrict_access_via_basic_auth: false
-reverse_proxy_cache_front_page: true
 
 madek_virtual_hosts:
 
