@@ -43,8 +43,9 @@ madek_virtual_hosts:
         RewriteCond expr "! -R '195.176.247.0/24'"
 
         # snowflake IPs:
-        RewriteCond %{REMOTE_ADDR} !=185.17.69.92
+        RewriteCond %{REMOTE_ADDR} !=185.17.69.82
         RewriteCond %{REMOTE_ADDR} !=185.17.69.91
+        RewriteCond %{REMOTE_ADDR} !=185.17.69.92
         RewriteCond %{REMOTE_ADDR} !=91.199.98.56
 
         # static test IP:
