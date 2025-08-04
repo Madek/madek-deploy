@@ -15,25 +15,6 @@ madek_virtual_hosts:
     ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.crt
     ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.key
     force_redirect_to_https: yes
-    custom_config: |
-
-        RewriteEngine On
-
-        ### CORS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-        Header always set Access-Control-Allow-Origin "*"
-        Header always set Access-Control-Allow-Headers "Authorization"
-        Header always set Access-Control-Allow-Methods "GET"
-        Header always set Access-Control-Expose-Headers "Content-Security-Policy, Location"
-        Header always set Access-Control-Max-Age "600"
-
-        RewriteCond %{REQUEST_METHOD} OPTIONS
-        RewriteRule ^(.*)$ $1 [R=200,L]
-
-        ### CORS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-
-
 
 
   - hostname: "cftest.madek.zhdk.ch"
@@ -44,21 +25,6 @@ madek_virtual_hosts:
     custom_config: |
 
         RewriteEngine On
-
-
-        ### CORS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-        Header always set Access-Control-Allow-Origin "*"
-        Header always set Access-Control-Allow-Headers "Authorization"
-        Header always set Access-Control-Allow-Methods "GET"
-        Header always set Access-Control-Expose-Headers "Content-Security-Policy, Location"
-        Header always set Access-Control-Max-Age "600"
-
-        RewriteCond %{REQUEST_METHOD} OPTIONS
-        RewriteRule ^(.*)$ $1 [R=200,L]
-
-        ### CORS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
 
 
         ### redirect to www.medienarchiv-cf-test.org >>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -90,23 +56,6 @@ madek_virtual_hosts:
     ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.crt
     ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.key
     force_redirect_to_https: yes
-
-    custom_config: |
-
-        RewriteEngine On
-
-        ### CORS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-        Header always set Access-Control-Allow-Origin "*"
-        Header always set Access-Control-Allow-Headers "Authorization"
-        Header always set Access-Control-Allow-Methods "GET"
-        Header always set Access-Control-Expose-Headers "Content-Security-Policy, Location"
-        Header always set Access-Control-Max-Age "600"
-
-        RewriteCond %{REQUEST_METHOD} OPTIONS
-        RewriteRule ^(.*)$ $1 [R=200,L]
-
-        ### CORS <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 
