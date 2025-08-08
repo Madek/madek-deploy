@@ -31,18 +31,35 @@ madek_virtual_hosts:
 
         # zhdk server network:
         RewriteCond expr "! -R '195.176.247.0/24'"
+        RewriteCond expr "! -R '10.0.0.0/8'"
 
         # snowflake IPs:
-        RewriteCond %{REMOTE_ADDR} !=185.17.69.92
+        RewriteCond %{REMOTE_ADDR} !=185.17.69.82
         RewriteCond %{REMOTE_ADDR} !=185.17.69.91
+        RewriteCond %{REMOTE_ADDR} !=185.17.69.92
         RewriteCond %{REMOTE_ADDR} !=91.199.98.56
 
         # static test IP:
         RewriteCond %{REMOTE_ADDR} !=213.144.130.166
+        RewriteCond expr "! -R '2001:1620:9a6::/48'"
 
         # video encoding via Zencoder:
         RewriteCond "%{REQUEST_URI}?%{QUERY_STRING}" !^/files/([a-fA-F0-9\-]+)\?access_token=([a-fA-F0-9\-]+)$
         RewriteCond "%{REQUEST_URI}"  !^/zencoder_jobs/(.*)$
+
+        # do not redirect googlebot IPs:
+        {% set googlebot_data = lookup('url', 'https://developers.google.com/search/apis/ipranges/googlebot.json', split_lines=False) | from_json %}
+        {% set googlebot_ips = googlebot_data.prefixes | selectattr('ipv4Prefix', 'defined') | map(attribute='ipv4Prefix') | list + googlebot_data.prefixes | selectattr('ipv6Prefix', 'defined') | map(attribute='ipv6Prefix') | list %}
+        {% for ip in googlebot_ips %}
+        RewriteCond expr "! -R '{{ ip }}'"
+        {% endfor %}
+
+        # do not redirect bingbot IPs:
+        {% set bingbot_data = lookup('url', 'https://www.bing.com/toolbox/bingbot.json', split_lines=False) | from_json %}
+        {% set bingbot_ips = bingbot_data.prefixes | selectattr('ipv4Prefix', 'defined') | map(attribute='ipv4Prefix') | list + bingbot_data.prefixes | selectattr('ipv6Prefix', 'defined') | map(attribute='ipv6Prefix') | list %}
+        {% for ip in bingbot_ips %}
+        RewriteCond expr "! -R '{{ ip }}'"
+        {% endfor %}
 
         # Rewrite to CF:
         RewriteRule ^(.*)$ https://www.medienarchiv-cf-test.org$1 [R=307,L]
@@ -50,12 +67,50 @@ madek_virtual_hosts:
         ### redirect to www.medienarchiv-cf-test.org <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
-
   - hostname: "www.medienarchiv-cf-test.org"
     ip: "*"
     ssl_certificate_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.crt
     ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-test-blank.ruby.zhdk.ch.key
     force_redirect_to_https: yes
+
+    custom_config: |
+
+        RewriteEngine On
+
+        # static test IP:
+        RewriteCond expr "-R '213.144.130.166/32'" [OR]
+        RewriteCond expr "-R '2001:1620:9a6::/48'" [OR]
+
+        # zhdk server network:
+        RewriteCond expr "-R '195.176.247.0/24'" [OR]
+        RewriteCond expr "-R '10.0.0.0/8'" [OR]
+
+        # EXPERIMENTAL TO BE TESTED: 
+        # zhdk external IP for HTTP
+        RewriteCond expr "-R '195.176.29.132/32'" [OR]
+
+
+        # force googlebot IPs to use cftest.madek.zhdk.ch:
+        {% set googlebot_data = lookup('url', 'https://developers.google.com/search/apis/ipranges/googlebot.json', split_lines=False) | from_json %}
+        {% set googlebot_ips = googlebot_data.prefixes | selectattr('ipv4Prefix', 'defined') | map(attribute='ipv4Prefix') | list + googlebot_data.prefixes | selectattr('ipv6Prefix', 'defined') | map(attribute='ipv6Prefix') | list %}
+        {% for ip in googlebot_ips %}
+        RewriteCond expr "-R '{{ ip }}'" [OR]
+        {% endfor %}
+
+        # force bingbot IPs to use cftest.madek.zhdk.ch:
+        {% set bingbot_data = lookup('url', 'https://www.bing.com/toolbox/bingbot.json', split_lines=False) | from_json %}
+        {% set bingbot_ips = bingbot_data.prefixes | selectattr('ipv4Prefix', 'defined') | map(attribute='ipv4Prefix') | list + bingbot_data.prefixes | selectattr('ipv6Prefix', 'defined') | map(attribute='ipv6Prefix') | list %}
+        {% for ip in bingbot_ips %}
+        RewriteCond expr "-R '{{ ip }}'" [OR]
+        {% endfor %}
+
+
+        # DO NOT REMOVE THIS CONDITION AND KEEP IT AS LAST CONDITION!
+        # the last condition must not be terminated by an [OR]
+        # ::/128 "unspecified address" (equivalent to 0.0.0.0 in IPv4)
+        RewriteCond expr "-R '::/128'"
+
+        RewriteRule ^(.*)$ https://cftest.madek.zhdk.ch$1 [R=308,L]
 
 
 

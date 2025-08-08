@@ -17,8 +17,29 @@ madek_virtual_hosts:
     force_redirect_to_https: yes
     custom_config: |
         RewriteEngine On
-        RewriteCond %{REMOTE_ADDR} !=213.144.130.166 [OR]
-        RewriteCond expr "! -R '10.0.0.0/8'"
+
+        # zhdk server network:
+        RewriteCond expr "! -R '195.176.247.0/24'"
+
+        # snowflake IPs:
+        RewriteCond %{REMOTE_ADDR} !=185.17.69.82
+        RewriteCond %{REMOTE_ADDR} !=185.17.69.91
+        RewriteCond %{REMOTE_ADDR} !=185.17.69.92
+        RewriteCond %{REMOTE_ADDR} !=91.199.98.56
+
+        # static test IP:
+        RewriteCond %{REMOTE_ADDR} !=213.144.130.166
+
+        # video encoding via Zencoder:
+        RewriteCond "%{REQUEST_URI}?%{QUERY_STRING}" !^/files/([a-fA-F0-9\-]+)\?access_token=([a-fA-F0-9\-]+)$
+        RewriteCond "%{REQUEST_URI}"  !^/zencoder_jobs/(.*)$
+
+        # googlebot IPs:
+        {% set googlebot_ips = lookup('file', 'googlebot_ips.json') | from_json %}
+        {% for ip in googlebot_ips %}
+        RewriteCond expr "! -R '{{ ip }}'"
+        {% endfor %}
+
         RewriteRule ^(.*)$ https://www.medienarchiv-cf-test.org$1 [R=307,L]
 
   - hostname: "www.medienarchiv-cf-test.org"
@@ -27,8 +48,19 @@ madek_virtual_hosts:
     ssl_certificate_key_file: '/etc/ssl/localcerts/{{ansible_host}}.key'
     force_redirect_to_https: yes
     custom_config: |
+
         RewriteEngine On
         RewriteCond %{REMOTE_ADDR} ==213.144.130.166 [OR]
-        RewriteCond %{REMOTE_ADDR} ==195.176.29.132
+
+        # zhdk server network:
+        RewriteCond expr "! -R '195.176.247.0/24'" [OR]
+
+        # googlebot IPs:
+        {% set googlebot_ips = lookup('file', 'googlebot_ips.json') | from_json %}
+        {% for ip in googlebot_ips %}
+        RewriteCond expr "-R '{{ ip }}'" [OR]
+        {% endfor %}
+
+
         RewriteRule ^(.*)$ https://cftest.madek.zhdk.ch$1 [R=307,L]
 
