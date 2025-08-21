@@ -85,7 +85,7 @@ madek_virtual_hosts:
         RewriteCond expr "-R '195.176.247.0/24'" [OR]
         RewriteCond expr "-R '10.0.0.0/8'" [OR]
 
-        # EXPERIMENTAL TO BE TESTED: 
+        # EXPERIMENTAL TO BE TESTED:
         # zhdk external IP for HTTP
         RewriteCond expr "-R '195.176.29.132/32'" [OR]
 

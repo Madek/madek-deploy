@@ -159,6 +159,14 @@ madek_virtual_hosts:
         RewriteRule ^(.*)$ https://cftest.madek.zhdk.ch$1 [R=308,L]
 
 
+###############################################################################
+### sync config and secrets ###################################################
+###############################################################################
+
+madek_zapi_sync_api_token: '{{zhdk_sync_api_token}}'
+madek_zapi_sync_secret: '{{zapi_sync_test_key}}'
+
+
 
 ###############################################################################
 ### other #####################################################################
@@ -166,8 +174,6 @@ madek_virtual_hosts:
 
 madek_run_produce_daily_emails_on: "*-*-* 15:00:00"
 madek_run_produce_weekly_emails_on: "*-*-* 15:00:00"
-
-
 
 
 

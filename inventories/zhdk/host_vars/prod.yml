@@ -161,3 +161,14 @@ zhdk_agw_api_url: "https://intern.zhdk.ch/?auth/{{zhdk_agw_api_prod_app}}"
 webstats_enabled: True
 webstats_passwords_set:
   Madek: "{{madek_prod_webstats_password}}"
+
+
+
+###############################################################################
+### sync config and secrets ###################################################
+###############################################################################
+
+madek_zapi_sync_api_token: '{{zhdk_sync_api_token}}'
+madek_zapi_sync_secret: '{{zapi_sync_prod_key}}'
+
+
