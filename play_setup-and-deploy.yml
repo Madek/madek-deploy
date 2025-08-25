@@ -54,5 +54,7 @@
       tags: [webstats]
     - role: reverse-proxy-madek
       tags: [reverse-proxy-madek]
+    - role: ../webapp/deploy/roles/sitemap
+      tags: [sitemap]
     - role: db-backups
       tags: [db-backups]
