@@ -67,6 +67,13 @@
     dest: "/var/www/madek/robots.txt"
     mode: 0644
 
+- name: create symlink for sitemaps
+  file:
+    state: link
+    src: /madek/server/webapp/public/sitemaps
+    dest: /var/www/madek/sitemaps
+    force: yes
+
 - name: disable all madek maintenance sites
   shell: rm -rf /etc/apache2/sites-enabled/madek-maintenance*
 

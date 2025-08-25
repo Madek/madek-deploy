@@ -12,3 +12,5 @@ Disallow: /*?*list%5Bfilter%5D=*
 Disallow: /api/*
 Allow: /api/docs/*
 {% endif %}
+
+Sitemap: {{ madek_external_base_url }}/sitemaps/sitemap.xml.gz
