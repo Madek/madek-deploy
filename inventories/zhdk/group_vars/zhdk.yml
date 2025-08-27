@@ -119,6 +119,8 @@ madek_webapp_html_extra_head_end: |
 # there is one reference of this in the webapp (apart from the now retiered awg engine)
 zhdk_integration: True # turns on AGW support + custom ldap groups handling
 
+madek_entra_tenant_sync_name: "zhdk"
+
 madek_support_email: "support.medienarchiv@zhdk.ch"
 
 zhdk_agw_api_id: madektest
@@ -145,3 +147,5 @@ madek_block_useragents:
   - PiplBot
   - SemrushBot
   - seo4ajax
+
+

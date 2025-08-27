@@ -1,0 +1,43 @@
+core:
+  group-create-defaults: {}
+  group-filter-blacklist-regexes:
+    - 'App_.*'
+    - 'Verteilerliste.*'
+    - 'Webadmin'
+  group-filter-whitelist-regex: .*
+  group-update-defaults: {}
+  institution: zhdk.ch
+  source: ms
+  user-create-defaults:
+    active_until: '2050-01-01T00:00:00Z'
+    password_sign_in_enabled: false
+  user-update-defaults:
+    active_until: '2050-01-01T00:00:00Z'
+  user-disable-properties:
+    active_until: '1970-01-01T00:00:00Z'
+    email: NULL
+    password_sign_in_enabled: false
+
+madek:
+  base-url: http://localhost:8886
+  token: '{{entra_sync_api_token}}'
+
+ms:
+  base-groups: []
+  client-id: 3686645d-a1c0-494d-b1a0-ab03ff2a0654
+  client-secret: '{{entra_sync_client_secret}}'
+  group-attributes-custom-mapping:
+    institutional_id: {fn: '#(some-> % :extension_143cc78a116f4a148c2f5d50ce969b53_extensionAttribute3 str)'}
+  group-request-additional-properties:
+    - extension_143cc78a116f4a148c2f5d50ce969b53_extensionAttribute3
+  user-attributes-custom-mapping:
+    institutional_id: {fn: '#(some-> % :onPremisesExtensionAttributes :extensionAttribute12 str)'}
+  user-request-additional-properties:
+    - onPremisesExtensionAttributes
+  tenant-id: eff1ebf7-73e5-4e3d-befd-52d69e759214
+
+
+repl:
+  enabled: true
+  bind: localhost
+  port-file: .nrepl-port
