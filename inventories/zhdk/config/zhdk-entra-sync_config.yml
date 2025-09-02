@@ -2,10 +2,14 @@ core:
   group-create-defaults: {}
   group-filter-blacklist-regexes:
     - 'App_.*'
-    - 'Verteilerliste.*'
     - 'Webadmin'
   group-filter-whitelist-regex: .*
   group-update-defaults: {}
+  group-all-users-group:
+    institutional_id: 'all-users-synced-from-zhdk-ch'
+    institution: 'zhdk.ch'
+    name: 'ZHdK (Zürcher Hochschule der Künste)'
+    type: 'InstitutionalGroup'
   institution: zhdk.ch
   source: ms
   user-create-defaults:
@@ -16,6 +20,7 @@ core:
   user-disable-properties:
     active_until: '1970-01-01T00:00:00Z'
     email: NULL
+    login: NULL
     password_sign_in_enabled: false
 
 madek:
@@ -32,8 +37,10 @@ ms:
     - extension_143cc78a116f4a148c2f5d50ce969b53_extensionAttribute3
   user-attributes-custom-mapping:
     institutional_id: {fn: '#(some-> % :onPremisesExtensionAttributes :extensionAttribute12 str)'}
+    login: {fn: '#(some-> % :onPremisesSamAccountName str)'}
   user-request-additional-properties:
     - onPremisesExtensionAttributes
+    - onPremisesSamAccountName
   tenant-id: eff1ebf7-73e5-4e3d-befd-52d69e759214
 
 

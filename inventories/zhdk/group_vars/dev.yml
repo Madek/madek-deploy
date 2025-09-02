@@ -1,1 +1,14 @@
 madek_external_hostname: '{{inventory_hostname}}.madek.rubydev.zhdk.ch'
+
+
+###############################################################################
+### sync config and secrets ###################################################
+###############################################################################
+
+madek_zapi_sync_api_token: '{{zhdk_sync_api_token}}'
+madek_zapi_sync_secret: '{{zapi_sync_test_key}}'
+
+entra_sync_api_token: '{{zhdk_sync_api_token}}'
+entra_sync_client_secret: '{{entra_sync_test_client_secret}}'
+
+
