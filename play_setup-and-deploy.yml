@@ -40,6 +40,8 @@
       tags: [admin-webapp]
     - role: ../webapp/deploy/roles/deploy
       tags: [webapp]
+    - role: ../webapp/deploy/roles/sitemap
+      tags: [sitemap]
     - role: ../auth/deploy/roles/deploy
       tags:  [auth]
     - role: service-mail
