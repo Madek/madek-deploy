@@ -47,6 +47,11 @@
     mode: 0644
 
 - template:
+    src: sitemap.conf
+    dest: /etc/apache2/madek/conf.d/madek_910_sitemap.conf
+    mode: 0644
+
+- template:
     src: main.conf
     dest: /etc/apache2/madek/conf.d/madek_100_main.conf
     mode: 0644
