@@ -38,10 +38,10 @@
       tags: [datalayer]
     - role: service-admin-webapp
       tags: [admin-webapp]
-    - role: ../webapp/deploy/roles/deploy
-      tags: [webapp]
     - role: ../webapp/deploy/roles/sitemap
       tags: [sitemap]
+    - role: ../webapp/deploy/roles/deploy
+      tags: [webapp]
     - role: ../auth/deploy/roles/deploy
       tags:  [auth]
     - role: service-mail
