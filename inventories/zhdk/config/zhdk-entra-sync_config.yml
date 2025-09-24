@@ -1,9 +1,12 @@
 core:
   group-create-defaults: {}
-  group-filter-blacklist-regexes:
+  group-filter-name-blacklist-regexes:
     - 'App_.*'
     - 'Webadmin'
-  group-filter-whitelist-regex: .*
+  group-filter-name-whitelist-regex: .*
+  group-filter-institutional-id-blacklist-regexes:
+    - '^\\\\filer\\.*$'
+  group-filter-institutional-id-whitelist-regex: '^.*'
   group-update-defaults: {}
   group-all-users-group:
     institutional_id: 'all-users-synced-from-zhdk-ch'
@@ -22,6 +25,7 @@ core:
     email: NULL
     login: NULL
     password_sign_in_enabled: false
+  groups-keep-orphans: true
 
 madek:
   base-url: http://localhost:8886
