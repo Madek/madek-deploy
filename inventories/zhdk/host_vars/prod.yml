@@ -130,6 +130,10 @@ madek_tmp_dir: /opt/madekdata/tmp
 db_backups_enabled: True
 restore_structure_and_data: False
 
+db_backup_service_custom_extend: |
+  # Notify monitoring system, note: this must be a single line without line breaks!
+  ExecStart=curl -X POST http://10.158.0.30:5050/74CEB0CD-F039-406A-9337-51953ED8F569 -H "Content-Type: application/json" -d '{"prtg": {"result": [ { "channel": "Success", "value": 1, "customUnit": "bool" } ]}}'
+
 
 ###############################################################################
 ### transcoding settings ######################################################
