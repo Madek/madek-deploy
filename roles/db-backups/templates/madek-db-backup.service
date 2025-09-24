@@ -1,13 +1,13 @@
 [Unit]
 Description=Madek Daily Backup
 
-BindsTo=madek-datalayer.service
-After=madek-datalayer.service
-PartOf=madek-datalayer.service
-
 [Service]
 SyslogIdentifier=madek-db-backup
 Type=oneshot
 EnvironmentFile=/etc/madek/config.env
 WorkingDirectory=/madek
 ExecStart=/madek/bin/madek-db-backup
+
+{% if db_backup_service_custom_extend is defined and db_backup_service_custom_extend %}
+{{ db_backup_service_custom_extend }}
+{% endif %}

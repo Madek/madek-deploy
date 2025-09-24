@@ -2,6 +2,10 @@ db_backups_enabled: False
 db_backups_dir: /var/local/madek/backups
 madek_db_backup_keep_days: 7
 
+# replace the fowllowing line with some custom settings which will be included at the end 
+# a likely usecase is to notify a monitoring system with an additional `ExecStart` command
+db_backup_service_custom_extend: False
+
 db_backups_enabled: True
 db_backups_dir: /tmp
 
