@@ -199,7 +199,7 @@ madek_webapp_embeds:
 madek_run_delete_soft_deleted_resources_on: "*-*-* 03:00:00"
 madek_run_produce_daily_emails_on: "*-*-* 03:00:00"
 madek_run_produce_weekly_emails_on: "*-*-* 03:00:00"
-madek_run_sitemap_refresh_on: "*-*-* 03:00:00"
+madek_run_produce_daily_sitemap_on: "*-*-* 03:00:00"
 madek_run_tasks_randomized_delay_max_seconds: 3600
 
 ################################################################################
