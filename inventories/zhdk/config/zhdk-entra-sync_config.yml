@@ -23,7 +23,6 @@ core:
   user-disable-properties:
     active_until: '1970-01-01T00:00:00Z'
     email: NULL
-    login: NULL
     password_sign_in_enabled: false
   groups-keep-orphans: true
 
@@ -37,11 +36,34 @@ ms:
   client-secret: '{{entra_sync_client_secret}}'
   group-attributes-custom-mapping:
     institutional_id: {fn: '#(some-> % :extension_143cc78a116f4a148c2f5d50ce969b53_extensionAttribute3 str)'}
+    name: 
+      fn: |
+        (fn [group]
+          (let [attribute1 (some-> group :extension_143cc78a116f4a148c2f5d50ce969b53_extensionAttribute1 str)
+                displayName (some-> group :displayName str)]
+            (or attribute1 displayName)))
+    institutional_name: {fn: '#(some-> % :onPremisesSamAccountName str)'}
   group-request-additional-properties:
+    - extension_143cc78a116f4a148c2f5d50ce969b53_extensionAttribute1
     - extension_143cc78a116f4a148c2f5d50ce969b53_extensionAttribute3
+    - onPremisesSamAccountName
   user-attributes-custom-mapping:
     institutional_id: {fn: '#(some-> % :onPremisesExtensionAttributes :extensionAttribute12 str)'}
-    login: {fn: '#(some-> % :onPremisesSamAccountName str)'}
+    login:
+       fn: |
+        (fn [user]
+          (require '[madek.sync.utils.base32-crockford :as base32 refer [encode-num]])
+          (let [sam (some-> user :onPremisesSamAccountName str)
+                evento-id (some-> user :onPremisesExtensionAttributes :extensionAttribute12 str)]
+            (if-let [num (some-> evento-id (Integer/parseInt) (rem (Math/pow 32 3)) (int))]
+              (str sam "_"  (madek.sync.utils.base32-crockford/encode-num num))
+              (str sam))))
+  users-raw-filter:
+    fn: |
+      (fn [u]
+              (let [ext-attr1 (get-in u [:onPremisesExtensionAttributes :extensionAttribute1])]
+              (not (contains? #{"diverse" "deaktiviert" "externe" nil} ext-attr1))))
+      
   user-request-additional-properties:
     - onPremisesExtensionAttributes
     - onPremisesSamAccountName
@@ -49,6 +71,6 @@ ms:
 
 
 repl:
-  enabled: true
+  enabled: false
   bind: localhost
   port-file: .nrepl-port
