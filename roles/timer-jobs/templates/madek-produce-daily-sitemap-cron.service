@@ -13,4 +13,5 @@ Environment=RAILS_LOG_LEVEL=WARN
 Environment=RAILS_ENV=production
 Environment=RAILS_SERVE_STATIC_FILES=Yes
 Environment=SECRET_KEY_BASE={{secret_key_base}}
+Environment=madek_webapp_sitemap_target={{ madek_webapp_sitemap_target | default(madek_webapp_dir ~ '/public/sitemaps') }}
 ExecStart={{madek_webapp_ruby_dir}}/bin/ruby -S bundle exec rake sitemap:refresh:no_ping

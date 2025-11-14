@@ -3,6 +3,7 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
     ansible_ssh_user: root
+    madek_webapp_sitemap_target: "/var/www/madek/sitemaps"
   pre_tasks:
     - name: install system python
       raw: apt install -y python3
@@ -50,11 +51,13 @@
       tags:  [api-v2]
     - role: timer-jobs
       tags:  [timer-jobs]
+      madek_webapp_sitemap_target: "/var/www/madek/sitemaps"
     - role: webstats
       tags: [webstats]
     - role: reverse-proxy-madek
       tags: [reverse-proxy-madek]
     - role: ../webapp/deploy/roles/sitemap
       tags: [sitemap]
+      madek_webapp_sitemap_target: "/var/www/madek/sitemaps"
     - role: db-backups
       tags: [db-backups]
