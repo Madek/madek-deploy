@@ -1,5 +1,6 @@
 core:
-  group-create-defaults: {}
+  group-create-defaults: 
+    type: 'InstitutionalGroup'
   group-filter-name-blacklist-regexes:
     - 'App_.*'
     - 'Webadmin'
@@ -7,7 +8,8 @@ core:
   group-filter-institutional-id-blacklist-regexes:
     - '^\\\\filer\\.*$'
   group-filter-institutional-id-whitelist-regex: '^.*'
-  group-update-defaults: {}
+  group-update-defaults:
+    type: 'InstitutionalGroup'
   group-all-users-group:
     institutional_id: 'all-users-synced-from-zhdk-ch'
     institution: 'zhdk.ch'
