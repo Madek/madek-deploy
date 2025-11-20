@@ -11,6 +11,8 @@ restrict_access_via_basic_auth: false
 ### reverse proxy #############################################################
 ###############################################################################
 
+cf_redirect_enabled: false
+
 madek_virtual_hosts:
 
   - hostname: "{{madek_external_hostname}}"
@@ -19,6 +21,8 @@ madek_virtual_hosts:
     ssl_certificate_key_file: /etc/ssl/localcerts/zhdk-madek-test.ruby.zhdk.ch.key
     force_redirect_to_https: yes
     custom_config: |
+
+        {% if cf_redirect_enabled %}
 
         RewriteEngine On
 
@@ -61,6 +65,7 @@ madek_virtual_hosts:
 
         ### redirect to www.medienarchiv-cf-test.org <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
+        {% endif %}
 
   - hostname: "cftest.madek.zhdk.ch"
     ip: "*"
@@ -71,6 +76,8 @@ madek_virtual_hosts:
 
         RewriteEngine On
 
+        {% if cf_redirect_enabled %}
+
 
         ### redirect to www.medienarchiv-cf-test.org >>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -111,7 +118,7 @@ madek_virtual_hosts:
 
         ### redirect to www.medienarchiv-cf-test.org <<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-
+        {% endif %}
 
   - hostname: "www.medienarchiv-cf-test.org"
     ip: "*"
@@ -121,6 +128,8 @@ madek_virtual_hosts:
     custom_config: |
 
         RewriteEngine On
+
+        {% if cf_redirect_enabled %}
 
         # static test IP:
         RewriteCond expr "-R '213.144.130.166/32'" [OR]
@@ -158,6 +167,7 @@ madek_virtual_hosts:
 
         RewriteRule ^(.*)$ https://cftest.madek.zhdk.ch$1 [R=308,L]
 
+        {% endif %}
 
 ###############################################################################
 ### sync config and secrets ###################################################
