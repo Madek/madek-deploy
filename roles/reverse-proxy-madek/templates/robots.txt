@@ -4,11 +4,34 @@ Disallow: /     # forbid crawling entire site
 {% else %}
 Disallow: /oembed*
 Disallow: /auth/*
-Disallow: /entries/*/export
+Disallow: /*/browse*
 Disallow: /*/embedded*
-Disallow: /people/*?*
-Disallow: /vocabulary/keyword/*?*
-Disallow: /*?*list%5Bfilter%5D=*
+Disallow: /people/*
+Disallow: /vocabulary/*
+Disallow: /*/relations
+Disallow: /*/relations/*
+Disallow: /explore/*
+
+Disallow: /entries/*/browse*
+Disallow: /entries/*/export
+Disallow: /entries
+Allow: /entries/*
+
+Disallow: /sets/*/browse*
+Disallow: /sets/*/export
+Disallow: /sets
+Allow: /sets/*
+
+Disallow: /*?*type=*
+Disallow: /*?*list*=*
+Disallow: /*?*search=*
+Disallow: /*?*order=*
+Disallow: /*?*show_filter=*
+Disallow: /*?*page=*
+Disallow: /*?*accordion=*
+Disallow: /*?*permissions=*
+Disallow: /*?*meta_data=*
+
 Disallow: /api/*
 Allow: /api/docs/*
 {% endif %}
