@@ -19,9 +19,9 @@
   lineinfile:
     path: /etc/awstats/awstats.conf
     regexp: '^LogFile='
-    line: LogFile="/var/log/apache2/madek_{{inventory_hostname}}_access.log"
+    line: LogFile="/usr/share/awstats/tools/logresolvemerge.pl {% for vh in madek_virtual_hosts %}/var/log/apache2/{{ vh.hostname}}_https.log {% endfor %}|"
 
-- name: set LogFile in /etc/awstats/awstats.conf
+- name: set LogFormat in /etc/awstats/awstats.conf
   lineinfile:
     path: /etc/awstats/awstats.conf
     regexp: '^LogFormat'
