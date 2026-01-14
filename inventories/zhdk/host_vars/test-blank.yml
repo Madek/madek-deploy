@@ -179,6 +179,3 @@ madek_webapp_html_extra_head_start: |
 # create a default admin on this box
 admin_login: admin
 admin_password: "{{test_blank.admin_password}}"
-
-restrict_access_via_basic_auth: false
-

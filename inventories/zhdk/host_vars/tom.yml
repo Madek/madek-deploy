@@ -1,7 +1,5 @@
 # https://intern.zhdk.ch/?agw/admin
 
-restrict_access_via_basic_auth: false
-
 madek_virtual_hosts:
 
   - hostname: "{{madek_external_hostname}}"

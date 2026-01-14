@@ -3,7 +3,6 @@
 ################################################################################
 
 madek_master_secret: "{{test.madek_master_secret}}"
-restrict_access_via_basic_auth: false
 
 # https?://((mfa|nimaai|tom|uvb|manuel)\.madek\.rubydev\.zhdk\.ch|(test|test-blank|staging)\.madek\.zhdk\.ch|https://www\.medienarchiv-cf-test\.org|localhost.*)
 
