@@ -24,6 +24,8 @@ madek_virtual_hosts:
 reverse_proxy_custom_config: |
 
   ProxyPass /zhdk-agw  http://localhost:3333/zhdk-agw    nocanon retry=0
+  ProxyPass /ext-auth/ms-oidc/zhdk http://localhost:3434/ext-auth/ms-oidc/zhdk  nocanon retry=1
+
 
 
 
@@ -110,10 +112,23 @@ madek_webapp_html_extra_head_end: |
   </style>
 
 
+##############################################################################
+### services ##################################################################
+###############################################################################
+
+api_v2: True
+
+
 
 ###############################################################################
-###  zhdk config ##############################################################
+###  other zhdk config ########################################################
 ###############################################################################
+
+
+# run some preparaory tasks for entra sync
+# we can remove this entirely after medeinarchiv.zhdk.ch is fully migrated to entra
+zhdk_prepare_entra_sync: true
+
 
 
 # there is one reference of this in the webapp (apart from the now retiered awg engine)
@@ -147,5 +162,3 @@ madek_block_useragents:
   - PiplBot
   - SemrushBot
   - seo4ajax
-
-

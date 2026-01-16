@@ -1,0 +1,24 @@
+port: '{{app_port}}'
+external_base_url: 'https://{{madek_external_hostname}}'
+name: 'zhdk'
+madek_auth_id: 'ms-oidc-zhdk'
+
+private_key: |
+  {{ ms_oidc_auth_private_key | indent(2) }}
+
+public_key: |
+  -----BEGIN PUBLIC KEY-----
+  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEcg66hmSoeuoif2wzGfrzsy9ZnCky
+  nxGXKJy0J4Bx7EDDSqazHnTWRI1OxKUloOrfUrGvW0FHFRA6DiRMFmEYUw==
+  -----END PUBLIC KEY-----
+
+madek_public_key: |
+  -----BEGIN PUBLIC KEY-----
+  MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE8aO63V0hx8H5lBmowPIN648lNFdW
+  x8bX4/gUquyy7/XcdrS5HRRIr2lVWqmUdGgoV7ip+TVqfzvt5CGOUkCLDQ==
+  -----END PUBLIC KEY-----
+
+tenant: eff1ebf7-73e5-4e3d-befd-52d69e759214
+client_id: '{{ms_oidc_client_id}}'
+email_attribute: 'email'
+institutional_id_attribute: 'evento_id'

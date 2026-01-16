@@ -34,7 +34,7 @@ madek:
 
 ms:
   base-groups: []
-  client-id: 3686645d-a1c0-494d-b1a0-ab03ff2a0654
+  client-id: '{{entra_sync_client_id}}' 
   client-secret: '{{entra_sync_client_secret}}'
   group-attributes-custom-mapping:
     institutional_id: {fn: '#(some-> % :extension_143cc78a116f4a148c2f5d50ce969b53_extensionAttribute3 str)'}

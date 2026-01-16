@@ -176,4 +176,8 @@ webstats_passwords_set:
 madek_zapi_sync_api_token: '{{zhdk_sync_api_token}}'
 madek_zapi_sync_secret: '{{zapi_sync_prod_key}}'
 
+entra_sync_api_token: '{{zhdk_sync_api_token}}'
+entra_sync_client_id: '{{entra_ms_graph_prod_client_id}}'
+entra_sync_client_secret: '{{entra_ms_graph_prod_client_secret}}'
 
+ms_oidc_client_id: '{{entra_ms_graph_prod_client_id}}'
