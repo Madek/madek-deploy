@@ -26,7 +26,7 @@
       tags: [postgresql]
     - role: apache-httpd
     - role: reverse-proxy-maintenance
-      tags: [reverse-proxy-maintenance, maintenance]
+      tags: [reverse-proxy, reverse-proxy-maintenance, maintenance]
     - role: madek-user
     - role: server-dirs
       tags: [server-dirs]
@@ -55,7 +55,7 @@
     - role: webstats
       tags: [webstats]
     - role: reverse-proxy-madek
-      tags: [reverse-proxy-madek]
+      tags: [reverse-proxy, reverse-proxy-madek]
     - role: ../webapp/deploy/roles/sitemap
       tags: [sitemap]
       madek_webapp_sitemap_target: "/var/www/madek/sitemaps"

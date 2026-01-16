@@ -1,11 +1,11 @@
-- include: install.yml
+- import_tasks: install.yml
 
 - name: clean if enabled
-  include: clean_slate.yml
+  import_tasks: clean_slate.yml
   when: reverse_proxy_clean_slate
 
 - name: log permissions
-  include: log_permissions.yml
+  import_tasks: log_permissions.yml
 
 - file:
     path: /etc/apache2/madek/conf.d

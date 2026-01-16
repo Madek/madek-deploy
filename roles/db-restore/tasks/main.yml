@@ -32,7 +32,7 @@
     --port 5415 --exit-on-error --single-transaction -x -O
     -d madek '{{restore_structure_and_data_file}}'
   register: restore
-  when: restore_structure_and_data
+  when: restore_structure_and_data | bool
   changed_when: not ( restore.stdout is match("") )
   tags: [restore_structure_and_data]
   async: 3600
