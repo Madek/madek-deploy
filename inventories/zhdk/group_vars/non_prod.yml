@@ -88,3 +88,6 @@ webstats_passwords_set:
 
 
 madek_feature_toggle_admin_sql_reports: "on my own risk"
+
+
+ms_oidc_client_id: '{{entra_ms_graph_test_client_id}}'
