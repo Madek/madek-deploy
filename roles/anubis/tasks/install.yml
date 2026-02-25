@@ -1,0 +1,36 @@
+- name: get dpkg architecture
+  command: dpkg --print-architecture
+  register: dpkg_arch
+  changed_when: false
+
+- name: check installed anubis version
+  shell: dpkg-query -W -f='${Version}' anubis 2>/dev/null || echo "not-installed"
+  register: anubis_installed_version
+  changed_when: false
+  failed_when: false
+
+- name: download anubis deb package
+  get_url:
+    url: "https://github.com/TecharoHQ/anubis/releases/download/v{{ anubis_version }}/anubis_{{ anubis_version }}_{{ dpkg_arch.stdout }}.deb"
+    dest: "/tmp/anubis_{{ anubis_version }}_{{ dpkg_arch.stdout }}.deb"
+    mode: '0644'
+  when: anubis_installed_version.stdout != anubis_version
+
+- name: install anubis deb package
+  apt:
+    deb: "/tmp/anubis_{{ anubis_version }}_{{ dpkg_arch.stdout }}.deb"
+    state: present
+  when: anubis_installed_version.stdout != anubis_version
+
+- name: clean up downloaded deb
+  file:
+    path: "/tmp/anubis_{{ anubis_version }}_{{ dpkg_arch.stdout }}.deb"
+    state: absent
+
+- name: create anubis data directory
+  file:
+    path: /var/lib/anubis
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'

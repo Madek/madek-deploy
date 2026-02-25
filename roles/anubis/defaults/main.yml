@@ -1,0 +1,56 @@
+###############################################################################
+# Anubis - Web AI Firewall
+# https://anubis.techaro.lol/
+###############################################################################
+
+# Set to true to enable Anubis bot protection in front of the webapp
+anubis_enabled: false
+
+# Version of Anubis to install (without the 'v' prefix)
+anubis_version: "1.25.0"
+
+# Port Anubis listens on (bound to 127.0.0.1 only)
+anubis_port: 8923
+
+# Port for Prometheus metrics (bound to 127.0.0.1 only)
+anubis_metrics_port: 9090
+
+# Proof-of-work difficulty (number of leading zeros required)
+anubis_difficulty: 4
+
+# The upstream service Anubis protects (the Madek webapp)
+anubis_target: "http://localhost:{{ madek_webapp_port }}"
+
+# Cookie domain for the Anubis challenge pass cookie.
+# Leave empty to use the request hostname. Set to your base domain
+# (e.g., "zhdk.ch") if you have multiple subdomains.
+anubis_cookie_domain: ""
+
+# How long the challenge pass cookie is valid
+anubis_cookie_expiration_time: "168h"
+
+# Whether Anubis should serve its own robots.txt
+# (Madek already serves one, so this defaults to false)
+anubis_serve_robots_txt: false
+
+# Enable Open Graph tag passthrough so social media previews work
+# without requiring the PoW challenge
+anubis_og_passthrough: true
+
+# Log level: DEBUG, INFO, WARN, ERROR
+anubis_slog_level: "INFO"
+
+# Deterministic signing key derived from madek_master_secret.
+# Override this if you need a specific key.
+anubis_ed25519_key: "{{ ['anubis', madek_master_secret] | join() | hash('sha256') }}"
+
+# Additional environment variables for the Anubis service (dict of KEY: value)
+anubis_extra_env: {}
+
+# Additional bot policy rules appended to the policy file.
+# Each entry is a dict with at minimum 'name', 'action', and a matcher.
+# Example:
+#   - name: my-custom-rule
+#     user_agent_regex: "MyBot"
+#     action: DENY
+anubis_extra_bot_policies: []

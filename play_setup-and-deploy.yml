@@ -54,6 +54,8 @@
       madek_webapp_sitemap_target: "/var/www/madek/sitemaps"
     - role: webstats
       tags: [webstats]
+    - role: anubis
+      tags: [anubis, reverse-proxy]
     - role: reverse-proxy-madek
       tags: [reverse-proxy, reverse-proxy-madek]
     - role: ../webapp/deploy/roles/sitemap

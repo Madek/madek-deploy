@@ -1,0 +1,14 @@
+- name: stop anubis service
+  service:
+    name: anubis@madek
+    state: stopped
+    enabled: no
+  failed_when: false
+
+- name: remove anubis config files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /etc/anubis/madek.env
+    - /etc/anubis/madek.botPolicies.yaml

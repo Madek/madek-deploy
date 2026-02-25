@@ -1,0 +1,13 @@
+- include_tasks: install.yml
+  when: anubis_enabled
+
+- include_tasks: configure.yml
+  when: anubis_enabled
+
+- include_tasks: service.yml
+  when: anubis_enabled
+
+- include_tasks: reverse-proxy.yml
+
+- include_tasks: disable.yml
+  when: not anubis_enabled

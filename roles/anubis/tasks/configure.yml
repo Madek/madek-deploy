@@ -1,0 +1,19 @@
+- name: create anubis config directory
+  file:
+    path: /etc/anubis
+    state: directory
+    mode: '0755'
+
+- name: deploy anubis environment config
+  template:
+    src: madek.env
+    dest: /etc/anubis/madek.env
+    mode: '0640'
+  register: anubis_env_config
+
+- name: deploy anubis bot policies
+  template:
+    src: botPolicies.yaml
+    dest: /etc/anubis/madek.botPolicies.yaml
+    mode: '0644'
+  register: anubis_bot_policies

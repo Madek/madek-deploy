@@ -1,0 +1,125 @@
+# Managed with ansible - Anubis bot policies for Madek
+# https://anubis.techaro.lol/docs/admin/policies/
+
+bots:
+  # Deny pathological bots
+  - import: (data)/bots/_deny-pathological.yaml
+  - import: (data)/bots/aggressive-brazilian-scrapers.yaml
+
+  # Aggressively block AI/LLM related bots
+  - import: (data)/meta/ai-block-aggressive.yaml
+
+  # Allow known good crawlers (Google, Bing, DuckDuckGo, Internet Archive, etc.)
+  - import: (data)/crawlers/_allow-good.yaml
+
+  # Challenge Firefox AI previews
+  - import: (data)/clients/x-firefox-ai.yaml
+
+  # Allow common routes (well-known, favicon, robots.txt)
+  - import: (data)/common/keep-internet-working.yaml
+
+  # Madek-specific: block aggressive bots (from madek_block_useragents)
+{% for useragent in madek_block_useragents %}
+  - name: "madek-block-{{ useragent | lower | regex_replace('[^a-z0-9]', '-') }}"
+    user_agent_regex: "{{ useragent }}"
+    action: DENY
+{% endfor %}
+
+{% if anubis_extra_bot_policies | length > 0 %}
+  # Additional custom bot policies
+{% for policy in anubis_extra_bot_policies %}
+  - name: "{{ policy.name }}"
+{% if policy.user_agent_regex is defined %}
+    user_agent_regex: "{{ policy.user_agent_regex }}"
+{% endif %}
+{% if policy.path_regex is defined %}
+    path_regex: "{{ policy.path_regex }}"
+{% endif %}
+{% if policy.remote_addresses is defined %}
+    remote_addresses: {{ policy.remote_addresses | to_json }}
+{% endif %}
+    action: {{ policy.action }}
+{% if policy.challenge is defined %}
+    challenge:
+      algorithm: {{ policy.challenge.algorithm | default('fast') }}
+      difficulty: {{ policy.challenge.difficulty | default(anubis_difficulty) }}
+{% endif %}
+{% endfor %}
+{% endif %}
+
+  # Countries with aggressive scrapers - adds weight
+  - name: countries-with-aggressive-scrapers
+    action: WEIGH
+    geoip:
+      countries:
+        - BR
+        - CN
+    weight:
+      adjust: 10
+
+  # Generic browser catchall - challenge browsers
+  - name: generic-browser
+    user_agent_regex: >-
+      Mozilla|Opera
+    action: WEIGH
+    weight:
+      adjust: 10
+
+# Open Graph passthrough for social media previews
+openGraph:
+  enabled: {{ anubis_og_passthrough | bool | lower }}
+  considerHost: false
+  ttl: 24h
+
+# Return HTTP 200 to challenged/denied clients (load-bearing for scrapers)
+status_codes:
+  CHALLENGE: 200
+  DENY: 200
+
+# In-memory storage (default). For persistent storage, override with bbolt:
+#   store:
+#     backend: bbolt
+#     parameters:
+#       path: /var/lib/anubis/madek.bdb
+store:
+  backend: memory
+  parameters: {}
+
+# Weight thresholds (default Anubis configuration)
+thresholds:
+  - name: minimal-suspicion
+    expression: weight <= 0
+    action: ALLOW
+  - name: mild-suspicion
+    expression:
+      all:
+        - weight > 0
+        - weight < 10
+    action: CHALLENGE
+    challenge:
+      algorithm: metarefresh
+      difficulty: 1
+  - name: moderate-suspicion
+    expression:
+      all:
+        - weight >= 10
+        - weight < 20
+    action: CHALLENGE
+    challenge:
+      algorithm: fast
+      difficulty: 2
+  - name: mild-proof-of-work
+    expression:
+      all:
+        - weight >= 20
+        - weight < 30
+    action: CHALLENGE
+    challenge:
+      algorithm: fast
+      difficulty: 4
+  - name: extreme-suspicion
+    expression: weight >= 30
+    action: CHALLENGE
+    challenge:
+      algorithm: fast
+      difficulty: 6

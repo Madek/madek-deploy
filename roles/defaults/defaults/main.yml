@@ -68,6 +68,20 @@ madek_block_useragents:
 
 
 ###############################################################################
+### anubis - web AI firewall ##################################################
+###############################################################################
+
+# Anubis (https://anubis.techaro.lol/) filters bot traffic using PoW challenges.
+# It sits between Apache and the Madek webapp. API, admin, and auth paths
+# bypass Anubis and are proxied directly.
+anubis_enabled: false
+anubis_version: "1.25.0"
+anubis_port: 8923
+anubis_difficulty: 4
+anubis_og_passthrough: true
+
+
+###############################################################################
 ### webstats ###################################################################
 ###############################################################################
 
