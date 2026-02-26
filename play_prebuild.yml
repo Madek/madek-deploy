@@ -1,0 +1,74 @@
+###############################################################################
+# Prebuild all Madek service artifacts
+#
+# Runs all build steps locally so that cached artifacts are ready
+# before a deploy. Each service caches its build artifact in
+# BUILDCACHE_TMPDIR (defaults to $TMPDIR or /tmp).
+#
+# Usage:
+#   ./bin/ansible-playbook play_prebuild.yml
+#
+# To build only specific services use tags:
+#   ./bin/ansible-playbook play_prebuild.yml --tags api,webapp
+#
+###############################################################################
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+
+    - name: prebuild admin-webapp
+      shell: |
+        #!/usr/bin/env bash
+        set -euo pipefail
+        {{ playbook_dir }}/../admin-webapp/bin/build
+      args:
+        executable: /bin/bash
+      tags: [admin-webapp]
+
+    - name: prebuild webapp
+      shell: |
+        #!/usr/bin/env bash
+        set -euo pipefail
+        {{ playbook_dir }}/../webapp/bin/build
+      args:
+        executable: /bin/bash
+      tags: [webapp]
+
+    - name: prebuild auth
+      shell: |
+        #!/usr/bin/env bash
+        set -euo pipefail
+        {{ playbook_dir }}/../auth/bin/build
+      args:
+        executable: /bin/bash
+      tags: [auth]
+
+    - name: prebuild api
+      shell: |
+        #!/usr/bin/env bash
+        set -euo pipefail
+        {{ playbook_dir }}/../api/bin/build
+      args:
+        executable: /bin/bash
+      tags: [api]
+
+    - name: prebuild api-v2
+      shell: |
+        #!/usr/bin/env bash
+        set -euo pipefail
+        {{ playbook_dir }}/../api-v2/bin/build
+      args:
+        executable: /bin/bash
+      tags: [api-v2]
+
+    - name: prebuild mail
+      shell: |
+        #!/usr/bin/env bash
+        set -euo pipefail
+        {{ playbook_dir }}/../mail/bin/build
+      args:
+        executable: /bin/bash
+      tags: [mail, service-mail]

@@ -1,3 +1,6 @@
+- import_playbook: play_prebuild.yml
+  tags: [prebuild]
+
 - hosts: madek
   gather_facts: False
   vars:
@@ -7,8 +10,6 @@
   pre_tasks:
     - name: install system python
       raw: apt install -y python3
-
-# TODO ReverseProxy like in Leihs
 
 - hosts: madek
   roles:
@@ -43,15 +44,12 @@
       tags: [webapp]
     - role: ../auth/deploy/roles/deploy
       tags:  [auth]
-    - role: service-mail
+    - role: ../mail/deploy/roles/deploy
       tags:  [service-mail]
     - role: ../api/deploy/roles/install
       tags:  [api]
     - role: ../api-v2/deploy/roles/deploy
       tags:  [api-v2]
-    - role: timer-jobs
-      tags:  [timer-jobs]
-      madek_webapp_sitemap_target: "/var/www/madek/sitemaps"
     - role: webstats
       tags: [webstats]
     - role: anubis
@@ -61,5 +59,11 @@
     - role: ../webapp/deploy/roles/sitemap
       tags: [sitemap]
       madek_webapp_sitemap_target: "/var/www/madek/sitemaps"
+    - role: ../webapp/deploy/roles/delete-soft-deleted-resources
+      tags: [delete-soft-deleted-resources]
+    - role: ../webapp/deploy/roles/daily-emails
+      tags: [daily-emails]
+    - role: ../webapp/deploy/roles/weekly-emails
+      tags: [weekly-emails]
     - role: db-backups
       tags: [db-backups]

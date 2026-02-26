@@ -171,6 +171,28 @@ webstats_passwords_set:
 zapi_sync_prtg_url: 'http://10.158.0.30:5050/CDCBB05A-528E-4B21-8F03-29B8B79CF7FF'
 ldap_sync_prtg_url: 'http://10.158.0.30:5050/8931171C-EEAB-401F-91AB-05BFD482CE8F'
 entra_sync_prtg_url: 'http://10.158.0.30:5050/8D000725-E8F8-4A20-8FAF-6E1893391E9C'
+
+
+delete_soft_deleted_resources_custom_extend: |
+  # Notify monitoring system, note: this must be a single line without line breaks!
+  ExecStart=curl -X POST http://10.158.0.30:5050/32FC2BAF-7136-41F4-AB9B-420D34285A8C -H "Content-Type: application/json" -d '{"prtg": {"result": [ { "channel": "Success", "value": 1, "customUnit": "bool" } ]}}'
+
+produce_daily_emails_custom_extend: |
+  # Notify monitoring system, note: this must be a single line without line breaks!
+  ExecStart=curl -X POST http://10.158.0.30:5050/D5119980-04DF-49F2-AD41-6E0DBEE66C1F -H "Content-Type: application/json" -d '{"prtg": {"result": [ { "channel": "Success", "value": 1, "customUnit": "bool" } ]}}'
+
+produce_weekly_emails_custom_extend: |
+  # Notify monitoring system, note: this must be a single line without line breaks!
+  ExecStart=curl -X POST http://10.158.0.30:5050/9654343F-35A5-4D70-A2BC-9CAABDCB0E37 -H "Content-Type: application/json" -d '{"prtg": {"result": [ { "channel": "Success", "value": 1, "customUnit": "bool" } ]}}'
+
+produce_daily_sitemap_custom_extend: |
+  # Notify monitoring system, note: this must be a single line without line breaks!
+  ExecStart=curl -X POST http://10.158.0.30:5050/CB4E0D6B-FE87-42B7-B3DF-0F5EAB393021 -H "Content-Type: application/json" -d '{"prtg": {"result": [ { "channel": "Success", "value": 1, "customUnit": "bool" } ]}}'
+
+
+
+
+
 ###############################################################################
 ### sync config and secrets ###################################################
 ###############################################################################
