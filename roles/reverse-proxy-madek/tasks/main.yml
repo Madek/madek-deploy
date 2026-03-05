@@ -48,8 +48,13 @@
 
 - template:
     src: custom.conf
-    dest: /etc/apache2/madek/conf.d/madek_900_custom.conf
+    dest: /etc/apache2/madek/conf.d/madek_500_custom.conf
     mode: 0644
+
+- name: Remove old custom.conf with 900 prefix
+  file:
+    path: /etc/apache2/madek/conf.d/madek_900_custom.conf
+    state: absent
 
 - template:
     src: main.conf
