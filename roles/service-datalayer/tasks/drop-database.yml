@@ -2,6 +2,6 @@
   postgresql_db:
     name: '{{database.name}}'
     state: absent
-    port: '{{database.port}}'
+    login_port: '{{database.port}}'
     login_user: root
     force: true

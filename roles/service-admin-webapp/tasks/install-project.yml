@@ -9,7 +9,7 @@
     state: directory
     owner: "{{madek_admin_webapp_user}}"
     recurse: yes
-  name: create empty {{admin_webapp_dir}}
+  name: create empty {{madek_admin_webapp_dir}}
 
 - unarchive:
     src: "{{role_path}}/../../../admin-webapp/madek-admin-webapp.tar.gz"

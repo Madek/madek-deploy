@@ -13,7 +13,7 @@
   postgresql_db:
     name: '{{database.name}}'
     state: absent
-    port: '{{database.port}}'
+    login_port: '{{database.port}}'
     login_user: root
 
 - name: Create DB
@@ -21,7 +21,7 @@
     name: '{{database.name}}'
     state: present
     owner: '{{database.user}}'
-    port: '{{database.port}}'
+    login_port: '{{database.port}}'
     login_user: root
 
 - name: Restore structure and data

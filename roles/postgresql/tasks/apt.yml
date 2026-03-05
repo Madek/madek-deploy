@@ -1,10 +1,29 @@
-- name: Add pgdg apt key
-  apt_key:
-    id: ACCC4CF8
-    url: http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc
-  tags: [internet]
+- name: Ensure python3-debian is installed (required by deb822_repository)
+  apt:
+    pkg: python3-debian
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Remove old-style pgdg apt source list (replaced by deb822 format)
+  file:
+    path: /etc/apt/sources.list.d/apt_postgresql_org_pub_repos_apt.list
+    state: absent
+  register: old_pgdg_repo_removed
 
 - name: Add pgdg apt repository
-  apt_repository:
-    repo: deb http://apt.postgresql.org/pub/repos/apt/ {{ansible_distribution_release}}-pgdg main
+  deb822_repository:
+    name: pgdg
+    types: deb
+    uris: https://apt.postgresql.org/pub/repos/apt
+    suites: "{{ ansible_facts['distribution_release'] }}-pgdg"
+    components: main
+    signed_by: https://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc
+  register: pgdg_repo
+  tags: [internet]
+
+- name: Update apt cache after adding pgdg repository
+  apt:
+    update_cache: yes
+  when: pgdg_repo.changed
   tags: [internet]

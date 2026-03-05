@@ -7,7 +7,6 @@
       - libpq-dev
     state: present
     update_cache: yes
-    cache_valid_time: 3600
   async: 300
   poll: 1
 

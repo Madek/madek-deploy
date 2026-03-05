@@ -6,7 +6,6 @@
     asdf current ruby | awk '{print $2}'
   args:
     chdir: "{{madek_datalayer_dir}}"
-  args:
     executable: /bin/bash
   become: yes
   become_user: "{{madek_datalayer_user}}"

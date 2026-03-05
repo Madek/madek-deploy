@@ -1,11 +1,14 @@
 - name: fail os check
+  vars:
+    min_ubuntu_version: "22.04"
+    min_debian_version: "11"
   fail:
     msg: >
-      The supported operating systems are Ubuntu >= 20.04  and Debian >= 10
+      The supported operating systems are Ubuntu >= {{ min_ubuntu_version }} and Debian >= {{ min_debian_version }}
   when: >
     not
-    (((ansible_distribution == "Ubuntu") and (ansible_distribution_version is version('20.04', '>=')))
+    (((ansible_facts['distribution'] == "Ubuntu") and (ansible_facts['distribution_version'] is version(min_ubuntu_version, '>=')))
     or
-    ((ansible_distribution == "Debian") and (ansible_distribution_version is version('10', '>='))))
+    ((ansible_facts['distribution'] == "Debian") and (ansible_facts['distribution_version'] is version(min_debian_version, '>='))))
 
 

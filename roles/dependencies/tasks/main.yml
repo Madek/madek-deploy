@@ -10,28 +10,80 @@
     update_cache: yes
     cache_valid_time: 3600
 
-- name: fix imagemagick configuration to allow PDF preview generation
+- name: Check for ImageMagick 6 policy file
+  stat:
+    path: /etc/ImageMagick-6/policy.xml
+  register: imagemagick6_policy
+
+- name: Check for ImageMagick 7 policy file
+  stat:
+    path: /etc/ImageMagick-7/policy.xml
+  register: imagemagick7_policy
+
+- name: fix imagemagick 6 configuration to allow PDF preview generation
   lineinfile:
     path: /etc/ImageMagick-6/policy.xml
     state: present
     search_string: '<policy domain="coder" rights="none" pattern="PDF" />'
     line: '  <policy domain="coder" rights="read | write" pattern="PDF" />'
     insertafter: 'ghostscript format types'
+  when: imagemagick6_policy.stat.exists
 
-- name: Install OpenJDK 11 on Debian 10
+- name: fix imagemagick 7 configuration to allow PDF preview generation
+  lineinfile:
+    path: /etc/ImageMagick-7/policy.xml
+    state: present
+    line: '    <policy domain="coder" rights="read|write" pattern="PDF" />'
+    insertafter: 'pattern="\{GIF,JPEG,PNG,WEBP\}"'
+  when: imagemagick7_policy.stat.exists
+
+- name: Check if openjdk-21-jdk is available
+  shell: apt-cache show openjdk-21-jdk > /dev/null 2>&1
+  register: openjdk21_available
+  changed_when: false
+  failed_when: false
+
+- name: Add Adoptium GPG key and repository (when JDK 21 not natively available)
+  when: openjdk21_available.rc != 0
+  block:
+    - name: Ensure python3-debian is installed
+      apt:
+        pkg: python3-debian
+        state: present
+
+    - name: Add Adoptium apt repository
+      deb822_repository:
+        name: adoptium
+        types: deb
+        uris: https://packages.adoptium.net/artifactory/deb
+        suites: "{{ ansible_facts['distribution_release'] }}"
+        components: main
+        signed_by: https://packages.adoptium.net/artifactory/api/gpg/key/public
+      tags: [internet]
+
+    - name: Update apt cache after adding Adoptium repository
+      apt:
+        update_cache: yes
+
+- name: Install OpenJDK 21
   apt:
     pkg:
-      - openjdk-11-jdk
+      - "{{ 'temurin-21-jdk' if openjdk21_available.rc != 0 else 'openjdk-21-jdk' }}"
     state: latest
     update_cache: yes
     cache_valid_time: 3600
-  when: (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "10")
 
-- name: Install OpenJDK 17 on all other than Debian 10
-  apt:
-    pkg:
-      - openjdk-17-jdk
-    state: latest
-    update_cache: yes
-    cache_valid_time: 3600
-  when: not (ansible_facts['distribution'] == "Debian" and ansible_facts['distribution_major_version'] == "10")
+- name: Determine JDK 21 install path
+  shell: dirname $(dirname $(update-alternatives --list java | grep -E '21'))
+  register: jdk21_home
+  changed_when: false
+
+- name: Set OpenJDK 21 as default java
+  community.general.alternatives:
+    name: java
+    path: "{{ jdk21_home.stdout }}/bin/java"
+
+- name: Set OpenJDK 21 as default javac
+  community.general.alternatives:
+    name: javac
+    path: "{{ jdk21_home.stdout }}/bin/javac"
