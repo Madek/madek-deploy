@@ -36,7 +36,7 @@
     - role: server-config
       tags: [server-config]
     # todo check db backup on deploy
-    - role: service-datalayer
+    - role: ../datalayer/deploy/roles/deploy
       tags: [datalayer]
     - role: ../admin-webapp/deploy/roles/deploy
       tags: [admin-webapp]

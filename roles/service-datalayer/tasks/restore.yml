@@ -1,3 +1,0 @@
-- name: load db-restore roles
-  include_role:
-    name: db-restore
