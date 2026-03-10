@@ -38,7 +38,7 @@
     # todo check db backup on deploy
     - role: service-datalayer
       tags: [datalayer]
-    - role: service-admin-webapp
+    - role: ../admin-webapp/deploy/roles/deploy
       tags: [admin-webapp]
     - role: ../webapp/deploy/roles/deploy
       tags: [webapp]
