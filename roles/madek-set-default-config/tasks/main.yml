@@ -4,7 +4,9 @@
   shell: |
     #!/usr/bin/env bash
     set -euo pipefail
-    source ~/.asdf/asdf.sh
+    if command -v mise &>/dev/null; then
+      eval "$(mise activate bash)"
+    fi
     cd {{madek_webapp_dir}}
     export RAILS_ENV={{rails_env}}
     export SECRET_KEY_BASE_DUMMY=1

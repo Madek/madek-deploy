@@ -4,3 +4,4 @@
 - import_tasks: unmonitor.yml
 - import_tasks: stop-and-remove-services.yml
 - import_tasks: apache.yml
+- import_tasks: asdf.yml

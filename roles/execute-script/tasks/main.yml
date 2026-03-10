@@ -28,7 +28,9 @@
 - shell: |
     #!/bin/bash
     set -euo pipefail
-    source ~/.asdf/asdf.sh
+    if command -v mise &>/dev/null; then
+      eval "$(mise activate bash)"
+    fi
 
     cd {{madek_webapp_dir}}
 

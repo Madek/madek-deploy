@@ -31,8 +31,6 @@
     - role: madek-user
     - role: server-dirs
       tags: [server-dirs]
-    - role: asdf
-      asdf_user: '{{madek_user}}'
     - role: server-config
       tags: [server-config]
     # todo check db backup on deploy

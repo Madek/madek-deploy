@@ -1,0 +1,27 @@
+- name: find home directories with .asdf
+  find:
+    paths: /home
+    patterns: '.asdf'
+    file_type: directory
+    hidden: yes
+    recurse: no
+    depth: 2
+  register: asdf_dirs
+
+- name: remove .asdf directories
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ asdf_dirs.files }}"
+  loop_control:
+    label: "{{ item.path }}"
+  when: asdf_dirs.files | length > 0
+
+- name: remove asdf lines from .bashrc files
+  lineinfile:
+    path: "{{ item }}/.bashrc"
+    regexp: 'asdf'
+    state: absent
+  with_fileglob:
+    - /home/*
+  failed_when: false
