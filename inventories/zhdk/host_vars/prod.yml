@@ -22,7 +22,7 @@ madek_virtual_hosts:
         RewriteEngine On
 
 
-        ### redirect to zhdk.medienarchiv.ch >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+        ### redirect and redirect exceptions to zhdk.medienarchiv.ch >>>>>>>>>>>
 
         # zhdk server network:
         RewriteCond expr "! -R '195.176.247.0/24'"
@@ -33,6 +33,9 @@ madek_virtual_hosts:
         RewriteCond %{REMOTE_ADDR} !=185.17.69.91
         RewriteCond %{REMOTE_ADDR} !=185.17.69.92
         RewriteCond %{REMOTE_ADDR} !=91.199.98.56
+
+        # Musem Gestaltung, eGuide: 
+        RewriteCond %{REMOTE_ADDR} != 83.228.246.17
 
         # static test IP:
         RewriteCond %{REMOTE_ADDR} !=213.144.130.166
