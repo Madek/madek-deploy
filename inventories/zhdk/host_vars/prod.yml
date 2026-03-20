@@ -35,7 +35,7 @@ madek_virtual_hosts:
         RewriteCond %{REMOTE_ADDR} !=91.199.98.56
 
         # Musem Gestaltung, eGuide: 
-        RewriteCond %{REMOTE_ADDR} != 83.228.246.17
+        RewriteCond %{REMOTE_ADDR} !=83.228.246.17
 
         # static test IP:
         RewriteCond %{REMOTE_ADDR} !=213.144.130.166
@@ -44,20 +44,6 @@ madek_virtual_hosts:
         # video encoding via Zencoder:
         RewriteCond "%{REQUEST_URI}?%{QUERY_STRING}" !^/files/([a-fA-F0-9\-]+)\?access_token=([a-fA-F0-9\-]+)$
         RewriteCond "%{REQUEST_URI}"  !^/zencoder_jobs/(.*)$
-
-        # do not redirect googlebot IPs:
-        {% set googlebot_data = lookup('url', 'https://developers.google.com/search/apis/ipranges/googlebot.json', split_lines=False) | from_json %}
-        {% set googlebot_ips = googlebot_data.prefixes | selectattr('ipv4Prefix', 'defined') | map(attribute='ipv4Prefix') | list + googlebot_data.prefixes | selectattr('ipv6Prefix', 'defined') | map(attribute='ipv6Prefix') | list %}
-        {% for ip in googlebot_ips %}
-        RewriteCond expr "! -R '{{ ip }}'"
-        {% endfor %}
-
-        # do not redirect bingbot IPs:
-        {% set bingbot_data = lookup('url', 'https://www.bing.com/toolbox/bingbot.json', split_lines=False) | from_json %}
-        {% set bingbot_ips = bingbot_data.prefixes | selectattr('ipv4Prefix', 'defined') | map(attribute='ipv4Prefix') | list + bingbot_data.prefixes | selectattr('ipv6Prefix', 'defined') | map(attribute='ipv6Prefix') | list %}
-        {% for ip in bingbot_ips %}
-        RewriteCond expr "! -R '{{ ip }}'"
-        {% endfor %}
 
         # Rewrite to CF zhdk.medienarchiv.ch :
         RewriteRule ^(.*)$ https://zhdk.medienarchiv.ch$1 [R=307,L]
@@ -83,24 +69,8 @@ madek_virtual_hosts:
         # zhdk internal network:
         RewriteCond expr "-R '10.0.0.0/8'" [OR]
 
-        # EXPERIMENTAL TO BE TESTED:
         # zhdk external IP for HTTP
         RewriteCond expr "-R '195.176.29.132/32'" [OR]
-
-
-        # force googlebot IPs to use medienarchiv.zhdk.ch:
-        {% set googlebot_data = lookup('url', 'https://developers.google.com/search/apis/ipranges/googlebot.json', split_lines=False) | from_json %}
-        {% set googlebot_ips = googlebot_data.prefixes | selectattr('ipv4Prefix', 'defined') | map(attribute='ipv4Prefix') | list + googlebot_data.prefixes | selectattr('ipv6Prefix', 'defined') | map(attribute='ipv6Prefix') | list %}
-        {% for ip in googlebot_ips %}
-        RewriteCond expr "-R '{{ ip }}'" [OR]
-        {% endfor %}
-
-        # force bingbot IPs to use medienarchiv.zhdk.ch:
-        {% set bingbot_data = lookup('url', 'https://www.bing.com/toolbox/bingbot.json', split_lines=False) | from_json %}
-        {% set bingbot_ips = bingbot_data.prefixes | selectattr('ipv4Prefix', 'defined') | map(attribute='ipv4Prefix') | list + bingbot_data.prefixes | selectattr('ipv6Prefix', 'defined') | map(attribute='ipv6Prefix') | list %}
-        {% for ip in bingbot_ips %}
-        RewriteCond expr "-R '{{ ip }}'" [OR]
-        {% endfor %}
 
 
         # DO NOT REMOVE THIS CONDITION AND KEEP IT AS LAST CONDITION!
