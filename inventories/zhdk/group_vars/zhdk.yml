@@ -162,3 +162,18 @@ madek_block_useragents:
   - PiplBot
   - SemrushBot
   - seo4ajax
+
+
+### exceptions for machines should bypass Anubis entirely (trusted IPs, etc.) - see botPolicies.yaml
+
+anubis_bypass_ips:
+  - "195.176.247.0/24"   # zhdk server network
+  - "10.0.0.0/8"         # zhdk internal network
+  - "195.176.29.132/32"  # zhdk external IP for HTTP
+  - "185.17.69.82/32"    # snowflake
+  - "185.17.69.91/32"    # snowflake
+  - "185.17.69.92/32"    # snowflake
+  - "91.199.98.56/32"    # snowflake
+  - "83.228.246.17/32"   # Museum Gestaltung, eGuide
+  - "213.144.130.166/32" # static test IP
+  - "2001:1620:9a6::/48" # zhdk IPv6

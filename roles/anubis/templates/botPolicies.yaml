@@ -2,6 +2,14 @@
 # https://anubis.techaro.lol/docs/admin/policies/
 
 bots:
+{% if anubis_bypass_ips | default([]) %}
+  # Trusted IPs/ranges - allow directly without any PoW challenge.
+  # Must come first so deny/block rules don't fire for trusted sources.
+  - name: trusted-ips-bypass
+    remote_addresses: {{ anubis_bypass_ips | to_json }}
+    action: ALLOW
+
+{% endif %}
   # Deny pathological bots
   - import: (data)/bots/_deny-pathological.yaml
   - import: (data)/bots/aggressive-brazilian-scrapers.yaml

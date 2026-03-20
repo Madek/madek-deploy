@@ -47,6 +47,10 @@ anubis_ed25519_key: "{{ ['anubis', madek_master_secret] | join() | hash('sha256'
 # Additional environment variables for the Anubis service (dict of KEY: value)
 anubis_extra_env: {}
 
+# IP addresses and CIDR ranges that bypass Anubis entirely (action: ALLOW).
+# Use for trusted internal networks, crawlers with known static IPs, etc.
+anubis_bypass_ips: []
+
 # Additional bot policy rules appended to the policy file.
 # Each entry is a dict with at minimum 'name', 'action', and a matcher.
 # Example:
