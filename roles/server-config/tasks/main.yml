@@ -11,6 +11,25 @@
     dest: "/etc/madek/pg.env"
     mode: 0755
 
+
+- name: debug ruby environment
+  shell: |
+    echo "=== which ruby ==="
+    which ruby || echo "ruby not found in PATH"
+    echo "=== ruby version ==="
+    ruby --version || echo "ruby not executable"
+    echo "=== asdf current ruby ==="
+    asdf current ruby || echo "asdf current ruby failed"
+    echo "=== asdf list ruby ==="
+    asdf list ruby || echo "asdf list ruby failed"
+    echo "=== mise list ruby (if available) ==="
+    mise list ruby || echo "mise not available or no ruby versions"
+    echo "=== PATH ==="
+    echo $PATH
+  delegate_to: localhost
+  ignore_errors: true
+
+
 - name: create releases.yml and deploy-info.yml
   shell:
     cmd: |
