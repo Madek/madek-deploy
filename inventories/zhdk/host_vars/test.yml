@@ -184,7 +184,7 @@ entra_sync_client_secret: '{{entra_ms_graph_test_client_secret}}'
 ###############################################################################
 
 madek_run_produce_daily_emails_on: "*-*-* 15:00:00"
-madek_run_produce_weekly_emails_on: "*-*-* 15:00:00"
+madek_run_produce_weekly_emails_on: "Mon *-*-* 15:00:00"
 
 
 

@@ -37,4 +37,4 @@ ms_oidc_client_id: '{{entra_ms_graph_staging_client_id}}'
 ###############################################################################
 
 madek_run_produce_daily_emails_on: "*-*-* 15:00:00"
-madek_run_produce_weekly_emails_on: "*-*-* 15:00:00"
+madek_run_produce_weekly_emails_on: "Mon *-*-* 15:00:00"
