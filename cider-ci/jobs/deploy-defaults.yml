@@ -46,7 +46,7 @@ context:
             cd deploy
             echo $(pwd)
 
-            time ./bin/deploy \
+            time ./bin/deploy -vvv \
               --inventory inventories/zhdk/hosts.yml \
               --limit $LIMIT_HOST \
               --extra-vars "{\"drop_database\": ${DROP_DATABASE}}" \
