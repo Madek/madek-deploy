@@ -14,18 +14,72 @@
 
 - name: debug ruby environment
   shell: |
+    set +e
+    RUBY_SHIM_PATH="$(command -v ruby 2>/dev/null || true)"
+    RUBY_INSTALL_BIN="$HOME/.asdf/installs/ruby/3.3.8/bin/ruby"
+
+    echo "=== whoami / pwd / home ==="
+    whoami || true
+    pwd || true
+    echo "HOME=${HOME:-<unset>}"
+    echo "=== asdf env vars ==="
+    env | sort | rg '^ASDF_' || echo "no ASDF_* variables set"
     echo "=== which ruby ==="
     which ruby || echo "ruby not found in PATH"
+    echo "=== type -a ruby ==="
+    type -a ruby || echo "type -a ruby failed"
+    echo "=== command -V ruby ==="
+    command -V ruby || echo "command -V ruby failed"
+    echo "=== ruby shim realpath ==="
+    readlink -f "$RUBY_SHIM_PATH" || echo "readlink -f failed for ruby shim"
+    echo "=== ruby shim metadata ==="
+    ls -l "$HOME/.asdf/shims/ruby" || echo "ruby shim file missing"
+    echo "=== ruby shim contents (first 80 lines) ==="
+    sed -n '1,80p' "$HOME/.asdf/shims/ruby" || echo "could not read ruby shim file"
     echo "=== ruby version ==="
     ruby --version || echo "ruby not executable"
+    echo "=== asdf which ruby ==="
+    asdf which ruby || echo "asdf which ruby failed"
     echo "=== asdf current ruby ==="
     asdf current ruby || echo "asdf current ruby failed"
     echo "=== asdf list ruby ==="
     asdf list ruby || echo "asdf list ruby failed"
+    echo "=== asdf where ruby 3.3.8 ==="
+    asdf where ruby 3.3.8 || echo "asdf where ruby 3.3.8 failed"
+    echo "=== asdf info ==="
+    asdf info || echo "asdf info failed or unsupported"
+    echo "=== direct ruby binary metadata ==="
+    ls -l "$RUBY_INSTALL_BIN" || echo "ruby binary missing at expected install path"
+    echo "=== direct ruby binary version ==="
+    "$RUBY_INSTALL_BIN" -v || echo "direct ruby binary not executable"
+    echo "=== ruby binary dependencies (ldd) ==="
+    if command -v ldd >/dev/null 2>&1; then
+      ldd "$RUBY_INSTALL_BIN" || echo "ldd failed for ruby binary"
+    else
+      echo "ldd not available on this host"
+    fi
     echo "=== mise list ruby (if available) ==="
     mise list ruby || echo "mise not available or no ruby versions"
     echo "=== PATH ==="
     echo $PATH
+    echo "=== done ruby diagnostics ==="
+  delegate_to: localhost
+  ignore_errors: true
+
+- name: ruby preflight in same delegate shell context
+  shell:
+    cmd: |
+      #/usr/bin/env bash
+      set -eux
+      PROJECT_ROOT="{{role_path}}/../../.."
+      source "$PROJECT_ROOT/bin/env/ruby-setup"
+      cd "$PROJECT_ROOT"
+      echo "PREFLIGHT command -v ruby: $(command -v ruby || true)"
+      echo "PREFLIGHT asdf current ruby:"
+      asdf current ruby || true
+      ruby -v
+  args:
+    executable: /bin/bash
   delegate_to: localhost
   ignore_errors: true
 
