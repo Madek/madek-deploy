@@ -34,7 +34,7 @@
   shell:
     cmd: |
       #/usr/bin/env bash
-      set -euo pipefail
+      set -eux
       {{role_path}}/../../../bin/create-releases-and-deploy-info
   args:
     executable: /bin/bash
