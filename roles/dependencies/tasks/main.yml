@@ -74,7 +74,7 @@
     cache_valid_time: 3600
 
 - name: Determine JDK 21 install path
-  shell: dirname $(dirname $(update-alternatives --list java | grep -E '21'))
+  shell: dirname $(dirname $(update-alternatives --list java | grep -E '21' | head -1))
   register: jdk21_home
   changed_when: false
 

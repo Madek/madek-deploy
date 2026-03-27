@@ -1,0 +1,20 @@
+environment_variables:
+  CONTAINER_NAME: madek-deploy-test-{{CIDER_CI_TRIAL_ID}}
+  LOCAL_CACHE_DIR: "/tmp/madek-build-cache"
+
+git_options:
+  submodules:
+    include_match: ^.*$
+
+scripts:
+  test:
+    start_when:
+      upgraded to trixie:
+        script_key: upgrade-container
+
+include:
+  - container-test/cider-ci/task-components/bundle.yml
+  - container-test/cider-ci/task-components/container.yml
+  - container-test/cider-ci/task-components/deploy-to-container.yml
+  - container-test/cider-ci/task-components/upgrade-bookworm-to-trixie.yml
+  - container-test/cider-ci/task-components/test-container.yml

@@ -1,0 +1,19 @@
+scripts:
+  upgrade-container:
+    timeout: 1 hour
+    start_when:
+      deployed to container:
+        script_key: deploy-to-container
+    body: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+
+      CONTAINER_IP=$(incus list --format=json ${CONTAINER_NAME} | jq -r ".[].state.network.eth0.addresses | .[0].address")
+
+      cd deploy
+      bin/ansible-playbook \
+        -v \
+        -i container-test/inventory/hosts \
+        -e "ansible_ssh_host=${CONTAINER_IP}" \
+        -e="${EXTRA_ANSIBLE_VARS_JSON:-}" \
+            upgrade_bookworm_to_trixie_play.yml

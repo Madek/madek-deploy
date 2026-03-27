@@ -1,0 +1,204 @@
+###############################################################################
+# Upgrade a Madek host from Debian bookworm (12) to trixie (13)
+#
+# This play:
+#   1. Stops all madek services
+#   2. Removes mise-installed rubies and vendor/bundle gems
+#   3. Fully updates bookworm before switching, then reboots if needed
+#   4. Rewrites APT sources bookworm → trixie and runs dist-upgrade
+#   5. Reboots into trixie
+#   6. Reinstalls madek (play_setup-and-deploy.yml)
+#
+# Guard: only runs on bookworm hosts. Run against a single host at a time.
+###############################################################################
+
+- hosts: madek
+  roles:
+    - role: defaults
+      tags: [always]
+
+- name: Pre-flight check — only run on bookworm
+  hosts: madek
+  tasks:
+    - name: Abort if host is not running Debian bookworm
+      fail:
+        msg: "This play only runs on Debian bookworm (12). This host is: {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_release'] }}"
+      when: ansible_facts['distribution'] != 'Debian' or ansible_facts['distribution_release'] != 'bookworm'
+
+- name: Stop all madek services
+  hosts: madek
+  tasks:
+    - name: stop monit
+      service:
+        name: monit
+        state: stopped
+      failed_when: false
+
+    - name: stop all madek services
+      service:
+        name: madek-{{item}}
+        enabled: no
+        state: stopped
+      with_items:
+        - admin-webapp
+        - api
+        - api-v2
+        - auth
+        - datalayer
+        - mail
+        - webapp
+      failed_when: false
+
+    - name: kill all remaining processes of the madek users
+      shell: pkill -u {{item}}
+      with_items:
+        - madek
+        - madek-auth
+      failed_when: false
+
+- name: Remove mise-installed rubies and vendor gems
+  hosts: madek
+  tasks:
+    - name: Remove mise-installed ruby for madek user
+      file:
+        path: /home/madek/.local/share/mise
+        state: absent
+
+    - name: Remove vendor/bundle for webapp
+      file:
+        path: /madek/server/webapp/vendor/bundle
+        state: absent
+
+    - name: Remove vendor/bundle for admin-webapp
+      file:
+        path: /madek/server/admin-webapp/vendor/bundle
+        state: absent
+
+    - name: Remove vendor/bundle for datalayer
+      file:
+        path: /madek/server/datalayer/vendor/bundle
+        state: absent
+
+- name: Fully update bookworm before switching to trixie
+  hosts: madek
+  tasks:
+    - name: Detect current GRUB boot disk
+      shell: |
+        grub-probe --target=disk /boot 2>/dev/null || grub-probe --target=disk / 2>/dev/null
+      register: grub_boot_disk
+      changed_when: false
+      failed_when: false
+
+    - name: Pre-seed grub-pc install device to avoid interactive prompt
+      shell: |
+        echo "grub-pc grub-pc/install_devices multiselect {{ grub_boot_disk.stdout }}" | debconf-set-selections
+      when: grub_boot_disk.stdout != ''
+
+    - name: apt clean
+      apt:
+        clean: yes
+
+    - name: apt dist-upgrade on bookworm
+      apt:
+        upgrade: dist
+        update_cache: yes
+        autoremove: yes
+        dpkg_options: 'force-confdef,force-confold'
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+        NEEDRESTART_MODE: a
+
+    - name: Check if reboot required after bookworm update
+      stat:
+        path: /run/reboot-required
+        get_checksum: no
+      register: reboot_required_file
+
+    - name: Reboot if bookworm update brought in new kernel
+      ansible.builtin.reboot:
+        reboot_timeout: 600
+      when: reboot_required_file.stat.exists
+
+- name: Upgrade APT sources from bookworm to trixie and run dist-upgrade
+  hosts: madek
+  tasks:
+    - name: Replace bookworm with trixie in /etc/apt/sources.list
+      replace:
+        path: /etc/apt/sources.list
+        regexp: '\bbookworm\b'
+        replace: trixie
+
+    - name: Find all 3rd-party repo files
+      find:
+        paths: /etc/apt/sources.list.d
+        patterns: '*'
+        recurse: no
+      register: third_party_repos
+
+    - name: Replace bookworm with trixie in 3rd-party repo files
+      replace:
+        path: "{{ item.path }}"
+        regexp: '\bbookworm\b'
+        replace: trixie
+      loop: "{{ third_party_repos.files }}"
+      loop_control:
+        label: "{{ item.path }}"
+
+    - name: Detect current GRUB boot disk
+      shell: |
+        grub-probe --target=disk /boot 2>/dev/null || grub-probe --target=disk / 2>/dev/null
+      register: grub_boot_disk
+      changed_when: false
+      failed_when: false
+
+    - name: Pre-seed grub-pc install device to avoid interactive prompt
+      shell: |
+        echo "grub-pc grub-pc/install_devices multiselect {{ grub_boot_disk.stdout }}" | debconf-set-selections
+      when: grub_boot_disk.stdout != ''
+
+    - name: apt dist-upgrade to trixie
+      apt:
+        upgrade: dist
+        update_cache: yes
+        autoremove: yes
+        dpkg_options: 'force-confdef,force-confold'
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+        NEEDRESTART_MODE: a
+
+    - name: Verify we are now on Debian 13
+      setup:
+        filter: ansible_distribution*
+
+    - name: Fail if upgrade to trixie did not succeed
+      assert:
+        that:
+          - ansible_facts['distribution_major_version'] == '13'
+        fail_msg: "Upgrade to Debian 13 failed — still on {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_release'] }}"
+
+    - name: Reboot into trixie
+      ansible.builtin.reboot:
+        reboot_timeout: 600
+
+- name: Remove Adoptium/Temurin JDK now that trixie ships OpenJDK 21 natively
+  hosts: madek
+  tasks:
+    - name: Remove temurin-21-jdk package
+      apt:
+        pkg: temurin-21-jdk
+        state: absent
+        autoremove: yes
+      failed_when: false
+
+    - name: Remove Adoptium apt repository file
+      file:
+        path: /etc/apt/sources.list.d/adoptium.sources
+        state: absent
+
+    - name: Remove Adoptium apt keyring
+      file:
+        path: /etc/apt/keyrings/adoptium.gpg
+        state: absent
+      failed_when: false
+
+- import_playbook: play_setup-and-deploy.yml
