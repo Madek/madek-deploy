@@ -20,5 +20,8 @@ madek_public_key: |
 
 tenant: eff1ebf7-73e5-4e3d-befd-52d69e759214
 client_id: '{{ms_oidc_client_id}}'
+{% if ms_oidc_client_secret is defined and ms_oidc_client_secret %}
+client_secret: '{{ms_oidc_client_secret}}'
+{% endif %}
 email_attribute: 'email'
 institutional_id_attribute: 'evento_id'
