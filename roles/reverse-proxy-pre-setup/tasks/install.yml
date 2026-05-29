@@ -3,6 +3,11 @@
     pkg:
     - apache2
     - libapache2-mod-xsendfile
+    # build deps for mod_maxminddb (no .deb in Debian main; built from source below)
+    - apache2-dev
+    - build-essential
+    - libmaxminddb-dev
+    - libmaxminddb0
     state: latest
     update_cache: yes
     cache_valid_time: 3600
@@ -13,6 +18,43 @@
   command: a2dissite 000-default
   args:
     removes: /etc/apache2/sites-enabled/000-default.conf
+
+# --- build mod_maxminddb from upstream source -------------------------------
+# Debian (bookworm/trixie) does not package the apache module, only the C lib.
+# Upstream releases: https://github.com/maxmind/mod_maxminddb/releases
+
+- name: fetch mod_maxminddb source tarball
+  get_url:
+    url: "https://github.com/maxmind/mod_maxminddb/releases/download/{{ mod_maxminddb_version }}/mod_maxminddb-{{ mod_maxminddb_version }}.tar.gz"
+    dest: "/usr/local/src/mod_maxminddb-{{ mod_maxminddb_version }}.tar.gz"
+    checksum: "sha256:{{ mod_maxminddb_sha256 }}"
+    mode: 0644
+  tags: [internet]
+
+- name: extract mod_maxminddb source
+  unarchive:
+    src: "/usr/local/src/mod_maxminddb-{{ mod_maxminddb_version }}.tar.gz"
+    dest: /usr/local/src
+    remote_src: yes
+    creates: "/usr/local/src/mod_maxminddb-{{ mod_maxminddb_version }}/configure"
+
+- name: build & install mod_maxminddb
+  shell: |
+    set -e
+    ./configure
+    make
+    install -m 0644 src/.libs/mod_maxminddb.so /usr/lib/apache2/modules/mod_maxminddb.so
+  args:
+    chdir: "/usr/local/src/mod_maxminddb-{{ mod_maxminddb_version }}"
+    creates: /usr/lib/apache2/modules/mod_maxminddb.so
+
+- name: write maxminddb apache module load file
+  copy:
+    content: "LoadModule maxminddb_module /usr/lib/apache2/modules/mod_maxminddb.so\n"
+    dest: /etc/apache2/mods-available/maxminddb.load
+    mode: 0644
+
+# ----------------------------------------------------------------------------
 
 - name: enable modules
   apache2_module:

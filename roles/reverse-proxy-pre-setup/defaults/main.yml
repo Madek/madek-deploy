@@ -1,5 +1,10 @@
 include: "{{playbook_dir}}/defaults.yml"
 
+# mod_maxminddb is not packaged for Debian; built from source in install.yml.
+# Upstream releases: https://github.com/maxmind/mod_maxminddb/releases
+mod_maxminddb_version: "1.3.0"
+mod_maxminddb_sha256: "877d3a36fa4bbcf807468c00b8cfedd7e16fa4039c5d465b5490bbdb243ad5cd"
+
 apache2_modules:
   - cache
   - cache_disk
@@ -7,6 +12,7 @@ apache2_modules:
   - cgid
   - expires
   - headers
+  - maxminddb
   - proxy
   - proxy_http
   - remoteip

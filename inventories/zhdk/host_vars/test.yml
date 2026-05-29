@@ -12,6 +12,11 @@ madek_master_secret: "{{test.madek_master_secret}}"
 
 cf_redirect_enabled: false
 
+# Geo whitelisting: only allow D-A-CH + LI. See reverse-proxy-madek role
+# defaults for caveats (VPN/CGNAT/cloud false positives, etc.).
+geo_whitelist_enabled: true
+geo_whitelist_countries: "{{ geo_whitelist_dach }}"
+
 madek_virtual_hosts:
 
   - hostname: "{{madek_external_hostname}}"

@@ -1,0 +1,47 @@
+#!/bin/bash
+# Managed with ansible
+#
+# Fetch the latest DB-IP Lite "Country" mmdb (CC BY 4.0, no account required)
+# from https://db-ip.com/db/download/ip-to-country-lite and atomically install
+# it. Reloads apache so mod_maxminddb picks up the new file.
+
+set -euo pipefail
+
+DEST="{{ geo_whitelist_db_path }}"
+DEST_DIR="$(dirname "$DEST")"
+mkdir -p "$DEST_DIR"
+
+# Skip if our copy is younger than 25 days (DB-IP refreshes monthly).
+if [[ -f "$DEST" ]] && [[ -n "$(find "$DEST" -mtime -25 -print 2>/dev/null)" ]]; then
+    echo "DB-IP Lite Country db at $DEST is up to date; nothing to do."
+    exit 0
+fi
+
+TMP="$(mktemp --suffix=.mmdb.gz)"
+trap 'rm -f "$TMP" "${TMP%.gz}"' EXIT
+
+# Try the current month and walk back; the new month's file usually appears
+# in the first few days but is not always available on day 1.
+for offset in 0 1 2; do
+    YM="$(date -u -d "$(date -u +%Y-%m-01) -${offset} month" +%Y-%m)"
+    URL="https://download.db-ip.com/free/dbip-country-lite-${YM}.mmdb.gz"
+    echo "Trying $URL"
+    if curl -fsSL --retry 3 --connect-timeout 15 -o "$TMP" "$URL"; then
+        gunzip -f "$TMP"
+        # Sanity check: file must be non-trivially sized (current db is ~3 MB).
+        if [[ ! -s "${TMP%.gz}" ]] || [[ "$(stat -c%s "${TMP%.gz}")" -lt 500000 ]]; then
+            echo "Downloaded file looks too small, aborting." >&2
+            exit 2
+        fi
+        install -m 0644 "${TMP%.gz}" "$DEST"
+        echo "Installed $DEST from ${URL}"
+        # Graceful reload so mod_maxminddb re-mmaps the new file.
+        if systemctl is-active --quiet apache2; then
+            systemctl reload apache2 || true
+        fi
+        exit 0
+    fi
+done
+
+echo "Failed to download DB-IP Lite Country db for the last 3 months." >&2
+exit 1

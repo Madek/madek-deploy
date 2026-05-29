@@ -4,3 +4,62 @@ reverse_proxy_ip_hash_seed: Null
 reverse_proxy_use_x_forwarded_for: false
 reverse_proxy_enable_cors: true
 reverse_proxy_desired_seo_bots: []
+
+# ---------------------------------------------------------------------------
+# Geo whitelisting via DB-IP Lite Country (mod_maxminddb)
+# ---------------------------------------------------------------------------
+# Off by default. Turn on temporarily during abusive traffic spikes (which
+# have repeatedly approached DDoS levels) to keep service available for the
+# primary user base. Country mapping is ~99% accurate; legitimate users on
+# VPNs, mobile CGNAT or foreign cloud egress IPs may be blocked. This is
+# accepted as a degraded-operation trade-off; do not enable for normal
+# operation. Whitelisted countries are denied a response (HTTP 403);
+# loopback / RFC1918 / IPv6 ULA are always allowed (for local probes).
+#
+# Predefined country groups (use by reference, or set your own list):
+#   geo_whitelist_dach:        D-A-CH + Liechtenstein
+#   geo_whitelist_eu27:        EU member states
+#   geo_whitelist_eu_eea_uk_ch: EU + EEA + UK + CH (broadest "western Europe")
+geo_whitelist_enabled: false
+geo_whitelist_countries: "{{ geo_whitelist_dach }}"
+
+geo_whitelist_dach:
+  - DE
+  - AT
+  - CH
+  - LI
+geo_whitelist_eu27:
+  - AT
+  - BE
+  - BG
+  - HR
+  - CY
+  - CZ
+  - DK
+  - EE
+  - FI
+  - FR
+  - DE
+  - GR
+  - HU
+  - IE
+  - IT
+  - LV
+  - LT
+  - LU
+  - MT
+  - NL
+  - PL
+  - PT
+  - RO
+  - SK
+  - SI
+  - ES
+  - SE
+geo_whitelist_eu_eea_uk_ch: "{{ geo_whitelist_eu27 + ['IS', 'LI', 'NO', 'GB', 'CH'] }}"
+
+geo_whitelist_db_dir: /var/lib/GeoIP
+geo_whitelist_db_path: /var/lib/GeoIP/dbip-country-lite.mmdb
+# Refresh the local mmdb at most every N days (DB-IP publishes monthly).
+geo_whitelist_db_refresh_on: "Mon *-*-* 04:17:00"
+geo_whitelist_db_refresh_randomized_delay_seconds: 7200

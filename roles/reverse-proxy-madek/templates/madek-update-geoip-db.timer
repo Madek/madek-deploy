@@ -1,0 +1,10 @@
+[Unit]
+Description=Madek update DB-IP Lite Country geo-ip database (timer)
+
+[Timer]
+OnCalendar={{ geo_whitelist_db_refresh_on }}
+RandomizedDelaySec={{ geo_whitelist_db_refresh_randomized_delay_seconds }}
+Persistent=true
+
+[Install]
+WantedBy=timers.target

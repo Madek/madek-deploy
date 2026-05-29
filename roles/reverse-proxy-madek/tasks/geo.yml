@@ -1,0 +1,51 @@
+- name: geo-ip database directory
+  file:
+    path: "{{ geo_whitelist_db_dir }}"
+    state: directory
+    mode: 0755
+
+- name: ensure /madek/bin exists
+  file:
+    path: /madek/bin
+    state: directory
+    mode: 0755
+
+- name: install geo-ip update script
+  template:
+    src: madek-update-geoip-db
+    dest: /madek/bin/madek-update-geoip-db
+    mode: 0755
+
+- name: install geo-ip update service
+  template:
+    src: madek-update-geoip-db.service
+    dest: /etc/systemd/system/madek-update-geoip-db.service
+    mode: 0644
+
+- name: install geo-ip update timer
+  template:
+    src: madek-update-geoip-db.timer
+    dest: /etc/systemd/system/madek-update-geoip-db.timer
+    mode: 0644
+
+- name: reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: enable & start geo-ip update timer
+  systemd:
+    name: madek-update-geoip-db.timer
+    enabled: yes
+    state: started
+
+# Seed the db on first install so the apache config has something to load.
+- name: seed geo-ip database on first install
+  command: /madek/bin/madek-update-geoip-db
+  args:
+    creates: "{{ geo_whitelist_db_path }}"
+
+- name: install geo apache configuration
+  template:
+    src: geo.conf
+    dest: /etc/apache2/madek/conf.d/madek_200_geo.conf
+    mode: 0644

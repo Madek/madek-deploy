@@ -1,0 +1,9 @@
+[Unit]
+Description=Madek update DB-IP Lite Country geo-ip database
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+SyslogIdentifier=madek-update-geoip-db
+ExecStart=/madek/bin/madek-update-geoip-db

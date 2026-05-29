@@ -103,6 +103,56 @@ following example:
 See the examples.
 
 
+### Geo Whitelisting (Reverse Proxy)
+
+The reverse-proxy role can restrict access by client country via Apache's
+`mod_maxminddb` against the [DB-IP Lite Country] database (CC BY 4.0, no
+account / API key required, refreshed monthly). This is intended as an
+emergency lever during abusive traffic spikes that have repeatedly
+approached DDoS levels — it keeps the service available for the primary
+user base while shedding traffic from regions where load is misbehaving.
+
+**Caveats — please read before enabling.** Country-level IP mapping is only
+~99% accurate. Legitimate users on VPNs, Tor, mobile CGNAT or foreign cloud
+egress will be misclassified and locked out. Unknown / unmapped IPs are
+denied as well. This is **not** a security boundary; do not enable for
+normal operation. Loopback, RFC1918 and IPv6 ULA addresses are always
+allowed so local health checks and internal probes keep working.
+
+`mod_maxminddb` is not packaged for Debian, so the `reverse-proxy-pre-setup`
+role builds it once from the pinned upstream release tarball
+(`mod_maxminddb_version`, `mod_maxminddb_sha256` in that role's defaults).
+The mmdb file is fetched and refreshed by a systemd timer
+(`madek-update-geoip-db.timer`).
+
+Configuration (defaults from `roles/reverse-proxy-madek/defaults/main.yml`):
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `geo_whitelist_enabled` | `false` | Master switch. When `false` the mmdb is still installed and `MM_COUNTRY_CODE` env vars are set (useful for logging) but no requests are blocked. |
+| `geo_whitelist_countries` | `"{{ geo_whitelist_dach }}"` | List of ISO 3166-1 alpha-2 country codes that are allowed through. |
+| `geo_whitelist_dach` | `[DE, AT, CH, LI]` | Predefined group: D-A-CH + Liechtenstein. |
+| `geo_whitelist_eu27` | EU member states | Predefined group. |
+| `geo_whitelist_eu_eea_uk_ch` | EU + EEA + UK + CH | Predefined group ("broad western Europe"). |
+| `geo_whitelist_db_path` | `/var/lib/GeoIP/dbip-country-lite.mmdb` | Where the mmdb is installed. |
+| `geo_whitelist_db_refresh_on` | `Mon *-*-* 04:17:00` | systemd `OnCalendar` for the refresh timer (DB-IP publishes monthly). |
+| `geo_whitelist_db_refresh_randomized_delay_seconds` | `7200` | Random jitter for the timer. |
+
+Example — enable on a single host (e.g. inventory `host_vars/test.yml`):
+
+    geo_whitelist_enabled: true
+    geo_whitelist_countries: "{{ geo_whitelist_dach }}"
+
+To apply, deploy the reverse-proxy role:
+
+    bin/ansible-playbook -i $MY_INVENTORY play_setup-and-deploy.yml -t reverse-proxy
+
+To turn it off, set `geo_whitelist_enabled: false` and re-run the same
+command. Blocked requests receive HTTP 403.
+
+  [DB-IP Lite Country]: https://db-ip.com/db/download/ip-to-country-lite
+
+
 Importing Data
 ---------------
 
