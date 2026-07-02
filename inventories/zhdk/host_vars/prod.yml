@@ -123,6 +123,9 @@ zencoder_private_mode: True
 
 madek_webapp_puma_worker_killer_enabled: false
 
+# Allow multipart uploads up to ~900 GB (value in bytes; 900 GiB)
+webapp_rack_multipart_parser_bytesize_limit: 966367641600
+
 madek_webapp_html_extra_body_start: |
   <!-- Piwik Image Tracker-->
   <img src="https://analytics.zhdk.ch/piwik.php?idsite=174&rec=1" style="border:0;position:fixed;top:0;left:0" alt="">
