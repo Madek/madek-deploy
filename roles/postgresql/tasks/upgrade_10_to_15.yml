@@ -45,8 +45,13 @@
 
 - name: create database
   shell: >
-    /usr/lib/postgresql/15/bin/createdb 
-    --port 5415 madek
+    /usr/lib/postgresql/15/bin/createdb
+    --port 5415
+    --locale-provider=icu
+    --icu-locale={{ icu_locale | default('de-CH') }}
+    --encoding=UTF8
+    --template=template0
+    madek
 
 - name: restore schema
   shell: >
