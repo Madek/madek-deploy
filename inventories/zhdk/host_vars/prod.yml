@@ -37,6 +37,12 @@ madek_virtual_hosts:
         # Musem Gestaltung, eGuide: 
         RewriteCond %{REMOTE_ADDR} !=83.228.246.17
 
+        # collaeb.org oEmbed:
+        RewriteCond %{REMOTE_ADDR} !=80.74.150.2
+
+        # Museum eGuide oEmbed:
+        RewriteCond %{REMOTE_ADDR} !=128.140.91.196
+
         # static test IP:
         RewriteCond %{REMOTE_ADDR} !=213.144.130.166
         RewriteCond expr "! -R '2001:1620:9a6::/48'"
