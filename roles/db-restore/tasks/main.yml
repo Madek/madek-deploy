@@ -23,6 +23,10 @@
     owner: '{{database.user}}'
     login_port: '{{database.port}}'
     login_user: root
+    template: template0
+    encoding: UTF8
+    locale_provider: icu
+    icu_locale: de-CH
 
 - name: Restore structure and data
   become: true
