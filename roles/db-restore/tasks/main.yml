@@ -27,6 +27,8 @@
     encoding: UTF8
     locale_provider: icu
     icu_locale: de-CH
+    lc_collate: de_CH.UTF-8
+    lc_ctype: de_CH.UTF-8
 
 - name: Restore structure and data
   become: true
