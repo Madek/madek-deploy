@@ -1,7 +1,7 @@
 - name: fail os check
   vars:
     min_ubuntu_version: "22.04"
-    min_debian_version: "11"
+    min_debian_version: "12"
   fail:
     msg: >
       The supported operating systems are Ubuntu >= {{ min_ubuntu_version }} and Debian >= {{ min_debian_version }}
