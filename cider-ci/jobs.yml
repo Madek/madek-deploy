@@ -104,7 +104,7 @@
   include: cider-ci/jobs/deploy-defaults.yml
   name: "Deploy to test-blank with db-reset!"
   description: |
-    Deploy to test-blank without touching the DB (for development).
+    Deploy to test-blank with DB reset and first-time setup (for development).
     Note that previews etc won't work, but UPLOADING does!
   context:
     tasks:

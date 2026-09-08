@@ -21,7 +21,10 @@
         person: admin_person,
         password_sign_in_enabled: true
 
-      Admin.find_or_create_by user_id: admin_user.id
+      admin = Admin.find_or_create_by! user_id: admin_user.id
+      AdminPermission::KEYS.each do |key|
+        AdminPermission.find_or_create_by! admin: admin, permission_key: key
+      end
     RUBY
   args:
     executable: /bin/bash
