@@ -1,65 +1,81 @@
-- copy:
-    src: "{{import_file_path}}"
-    dest: /tmp/madek-import
-  when: import_file_path is defined
-  name: copy import file
+- name: Delete {{tmp_script_path}} directory if it exists
+  file:
+    path: "{{tmp_script_path}}"
+    state: absent
 
-- file:
-    path: /tmp/madek-scripts
+- name: Create {{tmp_script_path}} directory
+  file:
+    path: "{{tmp_script_path}}"
     state: directory
-  name: created /tmp/madek-scripts directory
 
-- copy:
-    src: "{{role_path}}/shared"
-    dest: /tmp/madek-scripts/shared/
-  name: copy shared script files
+- block:
+    - copy:
+        src: "{{import_file_path}}"
+        dest: "{{tmp_import_file_path}}"
+      when: import_file_path is defined
+      name: copy import file
 
-- copy:
-    src: "{{script_file_path}}"
-    dest: /tmp/madek-scripts/script.rb
-  name: copy script file
+    - copy:
+        src: "{{role_path}}/shared"
+        dest: "{{tmp_script_path}}"
+      name: copy shared script files
 
-- file:
-    path: "{{logfile_path}}"
-    state: touch
-    owner: "{{madek_user}}"
-  name: create log file
+    - copy:
+        src: "{{script_file_path}}"
+        dest: "{{tmp_script_path}}/script.rb"
+      name: copy script file
 
-- shell: |
-    #!/bin/bash
-    set -euo pipefail
-    if command -v mise &>/dev/null; then
-      eval "$(mise activate bash)"
-    fi
+    - file:
+        path: "{{logfile_path}}"
+        state: touch
+        owner: "{{madek_user}}"
+      name: create log file
 
-    cd {{madek_webapp_dir}}
+    - shell: |
+        #!/bin/bash
+        set -euo pipefail
+        if command -v mise &>/dev/null; then
+          eval "$(mise activate bash)"
+        fi
 
-    export RAILS_ENV=production
-    export IMPORT_FILE=/tmp/madek-import
-    export SECRET_KEY_BASE={{secret_key_base}}
+        cd {{madek_webapp_dir}}
 
-    bundle install > /dev/null
-    bundle exec rails runner /tmp/madek-scripts/script.rb
+        export RAILS_ENV=production
+        export IMPORT_FILE={{tmp_import_file_path}}
+        export SECRET_KEY_BASE={{secret_key_base}}
+        export DRY_RUN={{ dry_run | bool | lower }}
 
-  args:
-    executable: /bin/bash
-  become: yes
-  become_user: "{{madek_user}}"
-  register: result
-  name: run rails script
+        bundle install > /dev/null
+        bundle exec rails runner {{tmp_script_path}}/script.rb
 
-- debug:
-    var: result.stdout_lines
-  name: debug result.stdout_lines
+      args:
+        executable: /bin/bash
+      become: yes
+      become_user: "{{madek_user}}"
+      register: result
+      name: run rails script
 
-- copy:
-    content: "{{ result.stdout }}"
-    dest: "{{logfile_path}}"
-  name: write result.stdout to log file
+    - debug:
+        var: result.stdout_lines
+      name: debug result.stdout_lines
 
-- fetch:
-    src: "{{logfile_path}}"
-    dest: "{{playbook_dir}}/tmp/log/{{inventory_hostname}}/{{logfile_name}}"
-    fail_on_missing: yes
-    flat: yes
-  name: fetch log file
+    - copy:
+        content: "{{ result.stdout }}"
+        dest: "{{logfile_path}}"
+      name: write result.stdout to log file
+
+    - fetch:
+        src: "{{logfile_path}}"
+        dest: "{{playbook_dir}}/tmp/log/{{inventory_hostname}}/{{logfile_name}}"
+        fail_on_missing: yes
+        flat: yes
+      name: fetch log file
+
+  always:
+    - name: Delete {{tmp_script_path}} directory and import file
+      file:
+        path: "{{item}}"
+        state: absent
+      loop:
+        - "{{tmp_script_path}}"
+        - "{{tmp_import_file_path}}"

@@ -3,6 +3,7 @@ set -euo pipefail
 
 TARGET=${TARGET:-""}
 SCRIPT=${SCRIPT:-""}
+DRY_RUN=${DRY_RUN:-"false"}
 
 if [[ -z "$TARGET" ]]; then
   echo "TARGET must be set to test, staging or prod."
@@ -16,10 +17,16 @@ else
   SCRIPT="$(realpath $SCRIPT)"
 fi
 
+if [[ "$DRY_RUN" != "true" && "$DRY_RUN" != "false" ]]; then
+  echo "DRY_RUN must be true or false."
+  exit 1
+fi
+
 INVENTORY=$(realpath ./inventories/zhdk/hosts.yml)
 
 echo "TARGET: $TARGET"
 echo "SCRIPT: $SCRIPT"
+echo "DRY_RUN: $DRY_RUN"
 echo "INVENTORY: $INVENTORY"
 echo ""
 
@@ -35,6 +42,7 @@ fi
   -i $INVENTORY \
   -l $TARGET \
   -e "script_file=$SCRIPT" \
+  -e "dry_run=$DRY_RUN"
 
 echo "DONE. See log output at ./tmp/log/$TARGET."
 

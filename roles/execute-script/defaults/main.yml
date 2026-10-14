@@ -1,6 +1,10 @@
 # NOTE: those vars need to be set. they are listed here for reference but its recommended to define them on the command line,
 # example: $ bin/ansible-playbook -i ../zhdk-inventory/test-hosts execute-script_play.yml -e 'script_file=/tmp/myscript.rb'
 import_file_path: "{{ import_file }}"
-logfile_name: "madek-script.{{ansible_date_time.iso8601_basic_short}}.log.txt"
+logfile_name: "madek-script.{{ansible_facts['date_time']['iso8601_basic_short']}}.log.txt"
 logfile_path: "/tmp/{{logfile_name}}"
 script_file_path: "{{ script_file | mandatory }}"
+# exported as DRY_RUN for the script; scripts must honor it themselves
+dry_run: false
+tmp_script_path: /tmp/madek-scripts
+tmp_import_file_path: /tmp/madek-import
