@@ -88,6 +88,84 @@ zencoder_video_output_formats:
       height: 1080,
       skip: { min_size: "775x580" },
     }
+  hls_360:
+    {
+      type: "segmented",
+      format: "m4f",
+      streaming_delivery_format: "hls",
+      byte_range_segmenting: true,
+      segment_seconds: 6,
+      max_hls_protocol_version: 7,
+      video_codec: "h264",
+      h264_profile: "high",
+      height: 360,
+      max_frame_rate: 30,
+      video_bitrate: 800,
+      decoder_bitrate_cap: 1200,
+      decoder_buffer_size: 3200,
+      audio_codec: "aac",
+      audio_bitrate: 128,
+      audio_sample_rate: 48000,
+      fixed_keyframe_interval: true,
+      keyframe_rate: 0.5,
+      generate_keyframe_manifest: true,
+    }
+  hls_720:
+    {
+      type: "segmented",
+      format: "m4f",
+      streaming_delivery_format: "hls",
+      byte_range_segmenting: true,
+      segment_seconds: 6,
+      max_hls_protocol_version: 7,
+      video_codec: "h264",
+      h264_profile: "high",
+      height: 720,
+      video_bitrate: 3000,
+      decoder_bitrate_cap: 4500,
+      decoder_buffer_size: 12000,
+      audio_codec: "aac",
+      audio_bitrate: 128,
+      audio_sample_rate: 48000,
+      fixed_keyframe_interval: true,
+      keyframe_rate: 0.5,
+      generate_keyframe_manifest: true,
+      skip: { min_size: "775x580" },
+    }
+  hls_1080:
+    {
+      type: "segmented",
+      format: "m4f",
+      streaming_delivery_format: "hls",
+      byte_range_segmenting: true,
+      segment_seconds: 6,
+      max_hls_protocol_version: 7,
+      video_codec: "h264",
+      h264_profile: "high",
+      height: 1080,
+      video_bitrate: 6000,
+      decoder_bitrate_cap: 9000,
+      decoder_buffer_size: 24000,
+      audio_codec: "aac",
+      audio_bitrate: 128,
+      audio_sample_rate: 48000,
+      fixed_keyframe_interval: true,
+      keyframe_rate: 0.5,
+      generate_keyframe_manifest: true,
+      skip: { min_size: "1280x720" },
+    }
+  hls:
+    {
+      type: "playlist",
+      hls_protocol_version: 7,
+      allow_skipped_sources: true,
+      streams:
+        [
+          { source: "hls_360", path: "360.m3u8" },
+          { source: "hls_720", path: "720.m3u8" },
+          { source: "hls_1080", path: "1080.m3u8" },
+        ],
+    }
 
 zencoder_audio_output_formats:
   vorbis: { format: "ogg", audio_codec: "vorbis", skip_video: true }
