@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'activesupport', '~> 8.1.0'
+gem 'activesupport', '~> 8.1.4.1'
+gem 'nokogiri', '>= 1.19.5'
+gem 'rack', '~> 3.2.8'
 gem 'addressable', '>= 2.9.0'
 gem 'capybara'
 gem 'faker'
