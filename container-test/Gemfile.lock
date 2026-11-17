@@ -159,7 +159,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (~> 8.1, >= 8.1.4.1)
+  activesupport (~> 8.1.4, >= 8.1.4.1)
   capybara
   faker
   faraday
