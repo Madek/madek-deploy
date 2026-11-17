@@ -159,15 +159,14 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (~> 8.1.4.1)
-  addressable (>= 2.9.1)
+  activesupport (~> 8.1, >= 8.1.4.1)
   capybara
   faker
   faraday
   git
   hyperkit
+  json (< 3)
   json_roa-client (>= 1.0.0, < 2.0.0)
-  nokogiri (>= 1.19.5)
   poltergeist
   pry
   rack (~> 3.2.8)
